@@ -15,16 +15,6 @@ machine.
 The project release line is **4.3.1**. The installable Python package is
 **`veyra-core` 2.99.0**.
 
-## Public project
-
-Veyra is developed in public at
-[`Justsomebuddy/veyra`](https://github.com/Justsomebuddy/veyra). Repository
-history, source, proofs, tests, and documentation should be treated as public
-the moment they are committed. Changes must keep claims, implementation,
-registries, and documentation synchronized and must pass the relevant checks
-before a normal push. See [`CONTRIBUTING.md`](CONTRIBUTING.md) for the required
-commit and review discipline.
-
 ## Central idea
 
 Veyra begins with distinctions and the stable residues they leave, rather than
