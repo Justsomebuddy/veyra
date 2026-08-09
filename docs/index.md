@@ -19,6 +19,7 @@ P1. `150_constructive_observer_doctrine_p1.md` — philosophy-first
 P2. `151_veyra_philosophical_kernel_p2.md` — observer/formation/silence/infinity synthesis; P2-S validates schemas, not ontology.
 P3. `154_six_closure_principles.md` — six independent closure principles for ontology, semantics, construction, foundation, and provenance.
 PX. `156_omegaa_semantic_authority_ladder.md` — conceptual map for the isolated, unfinished Omega-A experiment; not stable Core or a checker release.
+POG. `157_endogenous_arithmetic_observer_p3og.md` — P3-OG design debt ledger and bounded internal-candidate pressure slice; no formation or role theorem.
 2. `01_primitives.md` — core words and axioms.
 3. `03_point_segment.md` — point and segment analogues.
 4. `02_number_theory.md` — first arithmetic layer.
@@ -113,7 +114,7 @@ PX. `156_omegaa_semantic_authority_ladder.md` — conceptual map for the isolate
 108–127. `108_formal_export_prep_x7.md` through `127_native_observer_echo_core_r11.md` — formal/quantum seeds and R7–R11; doc 109 records all nineteen X8 rows, newest only four closed A004–A006/C002 fixtures.
 133. `133_shadow_effect_system_r12.md` — R12.1 bridge capabilities, evidence separation, observer brands, and non-promotional audit registry.
 134–142. `134_intrinsic_vam_sidecar_ir_r12_2.md` through `142_crest_braid_derived_path_invariant_r16.md` — explicitly bounded R12 exact-image closure, exact-premise R13 guarded promotion, repaired/re-reviewed R14 bounded synthesis, then R16 finite observer descent/residual/synergy with an abstract Lean partition and derived crest braid; K6–K8 are closed, only K0 remains, and R16 has no novelty/R8-promotion claim.
-143–155. Bounded S7/Q11/VAM/R16/G4/I1, P0/P1/P2, PΩ1/PΩ2, P3-C1/C2.2, P3-N1/N2/N3/N4/T/A1b, the prime-power closure audit, six relative closure principles, and their candidate no-cast modal kernel. ΩG's philosophy interface is documented; N0/N5, higher C2.3, generic completion, and absolute infinity remain OPEN.
+143–157. Bounded S7/Q11/VAM/R16/G4/I1, P0/P1/P2, PΩ1/PΩ2, P3-C1/C2.2, P3-N1/N2/N3/N4/T/A1b, the prime-power closure audit, six relative closure principles, their candidate no-cast modal kernel, Omega-A's semantic-authority boundary, and an internal-candidate P3-OG nonce-free all-candidate machine-pressure slice. P3-OG has no history/formation/role theorem or N0/HAP promotion; N0/N5, higher C2.3, generic completion, and absolute infinity remain OPEN.
 72. `../THEOREMS.md` — formal registry.
 73. `../NOTATION.md` — notation catalog.
 ## Research discipline

@@ -66,7 +66,7 @@ nor a witness that the surrounding doctrine is globally consistent.
 
 | Obligation | Released exact component | What is still missing for the prime-power model |
 |---|---|---|
-| Ontic observer actualization | E4/HAP establishes one token in one finite supplied history | N0's arithmetic HAP is pending; P3-OG requires criterion-blind seed selection and endogenous boundary/removal, which stateless `rho_n` lacks; physical/preformal birth stays outside |
+| Ontic observer actualization | E4/HAP establishes one token in one finite supplied history | N0's arithmetic HAP is pending; internal-candidate P3-OG has only nonce-free all-candidate machine pressure and still lacks historical blind/one-shot selection, formation/first closure, typed post-formation ablation, exact arithmetic provenance and a role theorem; physical/preformal birth stays outside |
 | Translation and refinement | P3-N2 releases exact observer-shaped `rho_n`/`reduce_mn` maps, strict separators, and a symbolic thin `Natᵒᵖ` network | N2 admits no observer role/token; N0 and generic-order/inverse questions remain open |
 | Positive construction | C4/SFP releases one finite scope-relative presentation | an arithmetic-specific SFP must bind construction, support, persistence, and survival for this exact vertical package |
 | Confluence and coherence | P3-C1 releases finite generated joinability; P3-C2.1/C2.2 releases finite total-setoid commuting transport; N2 proves all finite canonical reduction paths equal in one thin tower | genuine higher-cell C2.3 still requires a source-bound higher-cell universe; carry/normalization confluence and generic Church–Rosser do not follow |

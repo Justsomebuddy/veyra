@@ -1,5 +1,7 @@
 # Changelog
 ## [Unreleased]
+### Added
+- Added an isolated, nonce-free P3-OG all-candidate machine-pressure research slice with bounded deterministic selection metadata, retained-residue/transition sensitivity, native maintenance-credit decay, a synthetic pre-coupling maintenance control, hostile-safe replay validation, and focused adversarial tests. Focused `53/53`, max 31-bit-prime/depth-16/64-candidate/64-step run plus fresh replay, Ruff, pycompile, hygiene, diff, and independent math/implementation GO pass. This is `INTERNAL_RESEARCH_CANDIDATE` evidence only: historical blind/one-shot selection, formation/first closure, typed post-formation ablation, exact N1/N2/P3-T provenance, observer role, N0/HAP lift, formal theorem, physical/object/infinity claims, root export, certificate, and current-tree full verification remain absent or `OPEN`.
 ### Changed
 - Began the core package-layout migration by moving finite-builder codec and digest implementations under `src.core.construction.finite_builder`; the former flat paths remain lazy module aliases with standard parent-package imports and legacy pickle/logging provenance, while internal consumers use the canonical paths. Codec bytes, digest domains, resource limits, and finite-construction semantics are unchanged. Synchronized the documentation index and public maintenance instructions with `CONTRIBUTING.md`, removing stale `MODULE_LOG.md` requirements from the published tree.
 ## [4.3.1] 2026-08-09 — Publication-ready public root
@@ -293,8 +295,6 @@
 - Documented Q5 in `docs/114_quantum_qec_echo_q5.md` and marked the QEC observer-indexed echo TODO complete.
 - Verification: full `make verify` passed (`pytest` green, certificates `52/52`, Sage smoke ok, doctest `41/41`, hygiene clean).
 ## [2.90.2] 2026-07-07 — Formal export style hygiene
-- Wrapped long formal-export X8 boundary/import/certificate lines without semantic changes.
-- Compacted older `src/core/MODULE_LOG.md` tail entries so module documentation stays below the 300 LOC limit.
-- Verification: targeted `tests/test_formal_export_completion.py tests/test_certify.py` passed (`5/5`); whitespace diff check clean.
+- Wrapped long formal-export X8 boundary/import/certificate lines without semantic changes and compacted the older `src/core/MODULE_LOG.md` tail under the 300 LOC limit; targeted formal-export/certificate tests passed `5/5` and the whitespace diff was clean.
 ## [2.90.1] 2026-07-07 — Formal export geometry completion
 - Added checked Lean artifact `THM_G001_pythagorean_3_4_5` in `proofs/lean/VeyraGeometry.lean`; extended `formal_export_completion_x8` to 2 completed and 17 prep-ready candidates; marked the finite-only geometry/algebra TODO complete without claiming full geometry formalization. Full `make verify` passed (`pytest` green, certificates `51/51`, Sage smoke ok, doctest `41/41`, hygiene clean).
