@@ -58,7 +58,7 @@ soundness, consistency, external truth, objecthood, or completed infinity.
 ## Conceptual map
 
 The non-release conceptual ladder is documented in
-[`../../docs/156_omegaa_semantic_authority_ladder.md`](../../docs/156_omegaa_semantic_authority_ladder.md).
+[`../../docs/concepts/omegaa_semantic_authority_ladder.md`](../../docs/concepts/omegaa_semantic_authority_ladder.md).
 It separates representation, preparation, inert state, calculus, quotation,
 execution, interpretation, soundness, and adoption instead of treating them as
 one automatic promotion.
