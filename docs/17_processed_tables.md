@@ -51,5 +51,5 @@ A table row may support a conjecture, refute a careless claim, or suggest a bett
 
 Whenever a generated table changes because definitions changed, update:
 
-- `MODULE_LOG.md`,
+- `CHANGELOG.md` when behavior or interpretation is user-visible,
 - relevant docs or theorem registry if meanings changed.

@@ -5,8 +5,8 @@ from __future__ import annotations
 from hashlib import sha256
 import logging
 
-from .finite_builder_codec import _decode_builder, _decode_recurrence
-from .finite_builder_digest import _trace_digest
+from .construction.finite_builder.codec import _decode_builder, _decode_recurrence
+from .construction.finite_builder.digest import _trace_digest
 from .finite_builder_types import (
     ConstructionSourceBinding, ReplayArtifact, ReplayStatus,
 )

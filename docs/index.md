@@ -82,7 +82,7 @@ PX. `156_omegaa_semantic_authority_ladder.md` — conceptual map for the isolate
 66. `66_compression_algebra.md` — compression algebra and native factor search.
 67. `67_proof_discipline.md` — proof rule/span/domain/model/export discipline.
 68. `68_veyra_surprise.md` — observer-gap surprise witnesses.
-69. `69_package_boundary.md` — research-lab vs future Sage-extension boundary.
+69. `69_package_boundary.md` — Sage boundary plus incremental compatibility-preserving core package-layout migration.
 70. `70_curriculum_core_language_v08.md` — school topic coverage/gap matrix after Core Language v0.8.
 71. `71_calculus_depth.md` — polynomial-shadow calculus-depth seed.
 72. `72_vectors_matrices_seed.md` — vector/matrix action, determinant, and eigen-shadow seed.
@@ -133,7 +133,7 @@ No metaphysical claim is accepted as mathematics until it becomes a definition, 
 
 - `docs/63_veyra_full_mathematics_roadmap.md` — north-star goals, active sprints, non-goals, and acceptance rules for growing Veyra into a full new mathematics.
 - `docs/reference/veyra_sage_api.md` — public `veyra_sage.all` API index, checked against `__all__`.
-- `docs/69_package_boundary.md` — package boundary: research lab now, Sage extension later.
+- `docs/69_package_boundary.md` — Sage boundary and incremental compatibility-preserving core package-layout migration.
 - `docs/70_curriculum_core_language_v08.md` — topic-level school replacement ledger after Core Language v0.8.
 - `docs/71_calculus_depth.md` — executable polynomial-shadow seed for the `calculus-depth` row.
 - `docs/72_vectors_matrices_seed.md` — executable seed for the `vectors-matrices` row.
@@ -179,7 +179,7 @@ No metaphysical claim is accepted as mathematics until it becomes a definition, 
 - `docs/66_compression_algebra.md` — closes Sprint B with edit drift, compression trees, factor hits, and cost-strategy comparison.
 - `docs/67_proof_discipline.md` — closes Sprint F with proof rule/span coverage, semantic domains, primitive model notes, and stable-export gates.
 - `docs/68_veyra_surprise.md` — seed observer-gap surprise: exact-cycle surface vs edit-lift hidden structure.
-- `docs/69_package_boundary.md` — Sage lab package-boundary decision and API-promotion rule.
+- `docs/69_package_boundary.md` — Sage boundary, API-promotion rule, and incremental core package-layout migration.
 - `docs/70_curriculum_core_language_v08.md` — native/shadow/example/counterexample topic matrix and remaining gaps.
 - `docs/71_calculus_depth.md` — local linearization, derivative-rule cards, and integral coherence.
 - `docs/72_vectors_matrices_seed.md` — matrix-vector action, determinant product, and eigen-candidate cards.

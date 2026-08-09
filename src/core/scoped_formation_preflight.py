@@ -8,7 +8,7 @@ import logging
 from .confluence_aggregate_digest import catalog_canonical_bytes
 from .confluence_aggregate_preflight import total_catalog_charge
 from .observer_relation_preflight import encoded_request_bytes, request_cost, snapshot_request
-from .finite_builder_codec import _decode_builder
+from .construction.finite_builder.codec import _decode_builder
 from .finite_builder_validation import _builder_shape
 from .scoped_formation_codec import ScopedFormationValidationError, canonical_bytes, digest
 from .scoped_formation_g4 import g4_response_check_count

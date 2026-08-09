@@ -5,11 +5,13 @@ from __future__ import annotations
 import logging
 from typing import NoReturn
 
-from .finite_builder_codec import (
+from .construction.finite_builder.codec import (
     FiniteBuilderCodecError, _canonical_builder_bytes,
     _canonical_recurrence_bytes, _decode_builder, _decode_recurrence,
 )
-from .finite_builder_digest import _program_digest, _seed_digest, _source_digest
+from .construction.finite_builder.digest import (
+    _program_digest, _seed_digest, _source_digest,
+)
 from .finite_builder_types import (
     ConstructionSourceBinding, FiniteBuilderExpr, FiniteBuilderProgram,
     FiniteRecurrenceSeed, PulseStep, SeedRef,

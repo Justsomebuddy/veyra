@@ -57,6 +57,35 @@ Do not split a separate Sage extension yet.  Keep one repository while the mathe
 - public API additions become mostly additive;
 - generated notebooks are consumed outside this repository.
 
+## Core package layout migration
+
+The core engine is being reorganized in small compatibility-preserving slices
+instead of one repository-wide move.  The first canonical construction package
+is:
+
+```text
+src/core/construction/
+└── finite_builder/
+    ├── codec.py
+    └── digest.py
+```
+
+Internal P1-B and scoped-formation consumers import these canonical modules.
+The former flat modules, `src.core.finite_builder_codec` and
+`src.core.finite_builder_digest`, remain lazy compatibility aliases: importing
+a legacy path installs its alias through the ordinary import machinery, and old
+and new imports then resolve to the same module object with a valid parent
+package attribute.  Functions, the codec exception, and loggers retain their
+legacy module provenance for pickling, instrumentation, and log routing.  This
+preserves existing imports while giving new code a cognitively local package
+boundary.  The move changes no codec bytes, digest domains, resource limits, or
+finite-construction semantics.
+
+Further layout changes must follow the same bounded process: move one coherent
+cluster, retain explicit compatibility imports, verify old/new object identity,
+update only known consumers, and run focused semantic and hygiene checks before
+starting another cluster.
+
 ## Maintenance checklist
 
 When changing `veyra_sage/` public surface:
@@ -65,4 +94,4 @@ When changing `veyra_sage/` public surface:
 - update `docs/reference/veyra_sage_api.md`;
 - run `PYTHONPATH=. python3 -m pytest -q tests/test_veyra_sage_api_index.py`;
 - if the change is conceptual, update `THEOREMS.md` and `NOTATION.md`;
-- update `veyra_sage/MODULE_LOG.md` and project `MODULE_LOG.md`.
+- follow `CONTRIBUTING.md` and update `CHANGELOG.md` plus relevant public documentation when behavior or meaning changes.

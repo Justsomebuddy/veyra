@@ -1,4 +1,7 @@
 # Changelog
+## [Unreleased]
+### Changed
+- Began the core package-layout migration by moving finite-builder codec and digest implementations under `src.core.construction.finite_builder`; the former flat paths remain lazy module aliases with standard parent-package imports and legacy pickle/logging provenance, while internal consumers use the canonical paths. Codec bytes, digest domains, resource limits, and finite-construction semantics are unchanged. Synchronized the documentation index and public maintenance instructions with `CONTRIBUTING.md`, removing stale `MODULE_LOG.md` requirements from the published tree.
 ## [4.3.1] 2026-08-09 — Publication-ready public root
 - Consolidated a portable clean-history tree for the dedicated `Justsomebuddy/veyra` repository with public controls, reproducible gates, corrected cache-ignore probes, and an explicit cautious commit/push/documentation policy; removed private paths, credentials, local automation metadata, generated artifacts, and retired cryptographic research; reconciled theorem/Lean evidence, notation, links, and status language without promotion; restored Omega-A only as an isolated experiment outside the stable package/default verification, with unfinished checker, soundness, and authority boundaries explicit.
 ## [4.3.0] 2026-08-08 — P3-N3/N4 local realization and scoped equality
@@ -294,7 +297,4 @@
 - Compacted older `src/core/MODULE_LOG.md` tail entries so module documentation stays below the 300 LOC limit.
 - Verification: targeted `tests/test_formal_export_completion.py tests/test_certify.py` passed (`5/5`); whitespace diff check clean.
 ## [2.90.1] 2026-07-07 — Formal export geometry completion
-- Added `proofs/lean/VeyraGeometry.lean`: checked Lean artifact for the finite `pythagorean-separation` stable-card candidate (`THM_G001_pythagorean_3_4_5`).
-- Extended `src/core/formal_export_completion.py` and `formal_export_completion_x8`: 2 completed candidates, 17 remaining prep-ready candidates, zero overclaims.
-- Marked the non-quantum geometry/algebra formal-export TODO complete while preserving that this is only a finite 3-4-5 theorem-card artifact, not full geometry formalization.
-- Verification: full `make verify` passed (`pytest` green, certificates `51/51`, Sage smoke ok, doctest `41/41`, hygiene clean).
+- Added checked Lean artifact `THM_G001_pythagorean_3_4_5` in `proofs/lean/VeyraGeometry.lean`; extended `formal_export_completion_x8` to 2 completed and 17 prep-ready candidates; marked the finite-only geometry/algebra TODO complete without claiming full geometry formalization. Full `make verify` passed (`pytest` green, certificates `51/51`, Sage smoke ok, doctest `41/41`, hygiene clean).
