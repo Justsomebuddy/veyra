@@ -2,7 +2,11 @@
 from __future__ import annotations
 
 from hashlib import sha256
-import fcntl
+from .paths import PROJECT_ROOT
+try:
+    import fcntl
+except ImportError:                      # non-POSIX host: locking fails closed below
+    fcntl = None
 import logging
 import os
 from pathlib import Path
@@ -38,7 +42,7 @@ from .proof_elaboration_toolchain import (
 )
 
 logger = logging.getLogger(__name__)
-PROJECT_ROOT = Path(__file__).resolve().parents[2]
+PROJECT_ROOT = PROJECT_ROOT
 BUILD_DIR = PROJECT_ROOT / "data" / "tmp" / "r11-lean"
 LEAN_TOOLCHAIN = "leanprover/lean4:v4.30.0-rc2"
 LEAN_VERSION = "4.30.0-rc2"
@@ -239,6 +243,8 @@ def compile_snapshot(
     lean_sources = {name: sources[name] for name, _ in _SNAPSHOT_NAME_ROWS}
     try:
         with (snapshot.root.parent / ".materialize.lock").open("a+b") as lock:
+            if fcntl is None:
+                raise ValueError("posix-file-lock-unsupported")
             fcntl.flock(lock.fileno(), fcntl.LOCK_EX)
             _runtime_identity()
             verify_observer_snapshot(snapshot, lean_sources)

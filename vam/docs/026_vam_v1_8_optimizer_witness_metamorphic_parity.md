@@ -8,7 +8,7 @@
 v1.8 adds two regression surfaces around the conservative optimizer:
 
 1. `vam/src/optimizer_witness.py` builds a deterministic witness ledger for one optimizer run.
-2. `tests/test_vam_native_optimizer_metamorphic.py` checks native VAM0/VAMD optimizer behavior under small metamorphic perturbations.
+2. `tests/vam/test_vam_native_optimizer_metamorphic.py` checks native VAM0/VAMD optimizer behavior under small metamorphic perturbations.
 
 The goal is operational confidence: if a future optimizer change alters the bounded evidence, tests should fail before the change is treated as accepted VAM semantics.
 

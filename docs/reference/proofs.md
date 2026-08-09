@@ -10,7 +10,7 @@ an explicit non-claim boundary.
 
 ## Checked bridges
 
-- Formal bridge entry point: `src/core/formal_bridge.py`.
+- Formal bridge entry point: `src/core/formal/bridge.py`.
 - Lean files include `proofs/lean/VeyraEcho.lean`, theorem-card files, R7–R13 files, and `VeyraOptimizer.lean`.
 - `THM-F001`: for every observer `o` and object `x`, `echo(o,x,x)`.
 - `THM-F002`: `(n * k + 1) % n = 1 % n`, the product-plus-one arithmetic shadow now used by finite native Mode-length Euclid rows.

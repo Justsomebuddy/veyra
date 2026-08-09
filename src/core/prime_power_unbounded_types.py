@@ -5,8 +5,8 @@ from __future__ import annotations
 from dataclasses import dataclass
 from enum import Enum
 from .prime_power_unbounded_common import freeze_layout
-from .padic_completion_types import PadicCompletionPackage
-from .padic_family_introduction_types import N1IntroductionPackage
+from .padic.completion.types import PadicCompletionPackage
+from .padic.family_introduction.types import N1IntroductionPackage
 
 N6_NONCLAIMS = (
     "completed-infinity-without-exact-receipt",

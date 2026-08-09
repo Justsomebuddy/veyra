@@ -33,7 +33,7 @@ def main() -> int:
         stage(1, 3, "Running certificate suite")
         certs = certificate_suite()
         for cert in certs:
-            status = "PASS" if cert.passed else "FAIL"
+            status = "PASS" if cert.passed else "SKIP" if not cert.available else "FAIL"
             print(f"{status} {cert.name} level={cert.level} method={cert.method} detail={cert.detail}")
 
         stage(2, 3, "Building summary")
@@ -41,8 +41,18 @@ def main() -> int:
         print(json.dumps(summary, ensure_ascii=False, sort_keys=True))
 
         stage(3, 3, "Done")
-        ok = summary["passed"] == summary["total"]
-        print(f"[done] certificates={summary['total']} passed={summary['passed']} errors={0 if ok else 1}")
+        unavailable = tuple(
+            cert.name for cert in certs if not cert.passed and not cert.available
+        )
+        failed = tuple(
+            cert.name for cert in certs if not cert.passed and cert.available
+        )
+        if unavailable:
+            print(f"[note] {len(unavailable)} certificates need an absent toolchain: "
+                  f"{', '.join(unavailable)}")
+        ok = not failed
+        print(f"[done] certificates={summary['total']} passed={summary['passed']} "
+              f"failed={len(failed)} unavailable={len(unavailable)}")
         logger.debug("main exit ok=%s", ok)
         return 0 if ok else 1
     except Exception as exc:

@@ -76,7 +76,7 @@ VAM v0.7 does not:
 Focused tests:
 
 ```bash
-PYTHONPATH=. pytest -q tests/test_vam_diagnostics.py tests/test_vam_theorem.py
+PYTHONPATH=. pytest -q tests/vam/test_vam_diagnostics.py tests/vam/test_vam_theorem.py
 ```
 
 Global certificate hook:

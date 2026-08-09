@@ -37,7 +37,7 @@ Only `vam0-ref-v1` is accepted. `f4-strict` and any other profile must be reject
 
 ## Python oracle test
 
-`tests/test_vam_native_scaffold.py` checks frame validation and CRC rejection. `tests/test_vam_native_executor.py` compares Rust execution reports with the Python `canonical_report()` oracle across the named golden fixture corpus. Native tests skip if Rust/Cargo is unavailable.
+`tests/vam/test_vam_native_scaffold.py` checks frame validation and CRC rejection. `tests/vam/test_vam_native_executor.py` compares Rust execution reports with the Python `canonical_report()` oracle across the named golden fixture corpus. Native tests skip if Rust/Cargo is unavailable.
 
 ## Non-claims
 

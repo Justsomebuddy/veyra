@@ -8,31 +8,31 @@ Part of the public [Theorem and Definition Registry](../../THEOREMS.md).
 
 | ID | Name | Location | Dependencies |
 |---|---|---|---|
-| DEF-001 | Rez | `docs/01_primitives.md` | — |
-| DEF-002 | Nod | `docs/01_primitives.md` | DEF-001 |
-| DEF-003 | Tact | `docs/01_primitives.md` | DEF-002 |
-| DEF-004 | Breath | `docs/01_primitives.md` | DEF-002, DEF-003 |
-| DEF-005 | Mode | `docs/01_primitives.md` | DEF-004 |
-| DEF-006 | Echo-equivalence | `docs/01_primitives.md` | tests TBD |
-| DEF-007 | Stitch | `docs/01_primitives.md` | DEF-004 |
-| DEF-008 | Veyra addition | `docs/02_number_theory.md` | DEF-005, DEF-007 |
-| DEF-009 | Veyra multiplication/weave | `docs/02_number_theory.md` | DEF-005 |
-| DEF-010 | Silent mode | `docs/02_number_theory.md` | DEF-005 |
-| DEF-011 | First mode | `docs/02_number_theory.md` | DEF-003, DEF-005 |
-| DEF-012 | Resonance/divisibility | `docs/02_number_theory.md` | DEF-005, DEF-007 |
-| DEF-013 | Phase congruence | `docs/02_number_theory.md` | DEF-012 |
+| DEF-001 | Rez | `docs/concepts/primitives.md` | — |
+| DEF-002 | Nod | `docs/concepts/primitives.md` | DEF-001 |
+| DEF-003 | Tact | `docs/concepts/primitives.md` | DEF-002 |
+| DEF-004 | Breath | `docs/concepts/primitives.md` | DEF-002, DEF-003 |
+| DEF-005 | Mode | `docs/concepts/primitives.md` | DEF-004 |
+| DEF-006 | Echo-equivalence | `docs/concepts/primitives.md` | tests TBD |
+| DEF-007 | Stitch | `docs/concepts/primitives.md` | DEF-004 |
+| DEF-008 | Veyra addition | `docs/concepts/number_theory.md` | DEF-005, DEF-007 |
+| DEF-009 | Veyra multiplication/weave | `docs/concepts/number_theory.md` | DEF-005 |
+| DEF-010 | Silent mode | `docs/concepts/number_theory.md` | DEF-005 |
+| DEF-011 | First mode | `docs/concepts/number_theory.md` | DEF-003, DEF-005 |
+| DEF-012 | Resonance/divisibility | `docs/concepts/number_theory.md` | DEF-005, DEF-007 |
+| DEF-013 | Phase congruence | `docs/concepts/number_theory.md` | DEF-012 |
 
 ## Axioms
 
 | ID | Name | Location | Status |
 |---|---|---|---|
-| AX-001 | Residue | `docs/01_primitives.md` | seed axiom |
-| AX-002 | Directed tether | `docs/01_primitives.md` | seed axiom |
-| AX-003 | Empty breath | `docs/01_primitives.md` | seed axiom |
-| AX-004 | Stitch | `docs/01_primitives.md` | seed axiom |
-| AX-005 | Echo associativity | `docs/01_primitives.md` | seed axiom |
-| AX-006 | Closure | `docs/01_primitives.md` | seed axiom |
-| AX-007 | One-tact seed | `docs/01_primitives.md` | Core-0 only |
+| AX-001 | Residue | `docs/concepts/primitives.md` | seed axiom |
+| AX-002 | Directed tether | `docs/concepts/primitives.md` | seed axiom |
+| AX-003 | Empty breath | `docs/concepts/primitives.md` | seed axiom |
+| AX-004 | Stitch | `docs/concepts/primitives.md` | seed axiom |
+| AX-005 | Echo associativity | `docs/concepts/primitives.md` | seed axiom |
+| AX-006 | Closure | `docs/concepts/primitives.md` | seed axiom |
+| AX-007 | One-tact seed | `docs/concepts/primitives.md` | Core-0 only |
 
 ## Lemmas / Theorems
 
@@ -55,9 +55,9 @@ Part of the public [Theorem and Definition Registry](../../THEOREMS.md).
 
 | ID | Name | Location | Dependencies |
 |---|---|---|---|
-| DEF-014 | Test family | `docs/06_echo_tests.md` | DEF-006 |
-| DEF-015 | Test-indexed echo-equivalence | `docs/06_echo_tests.md` | DEF-014 |
-| DEF-016 | Ordered primitive mode | `docs/07_mode_enumeration.md`, `src/core/modes.py` | DEF-005, DEF-015 |
+| DEF-014 | Test family | `docs/concepts/echo_tests.md` | DEF-006 |
+| DEF-015 | Test-indexed echo-equivalence | `docs/concepts/echo_tests.md` | DEF-014 |
+| DEF-016 | Ordered primitive mode | `docs/concepts/mode_enumeration.md`, `src/core/numbers/modes.py` | DEF-005, DEF-015 |
 
 ## Lemmas added in 0.2.0
 
@@ -70,15 +70,15 @@ Part of the public [Theorem and Definition Registry](../../THEOREMS.md).
 
 | ID | Name | Location | Dependencies |
 |---|---|---|---|
-| DEF-017 | Substitution weave | `docs/08_weave_and_n_shadow.md`, `src/core/modes.py` | DEF-005, DEF-007 |
-| DEF-018 | Length-weave | `docs/08_weave_and_n_shadow.md`, `src/core/modes.py` | DEF-017 |
-| DEF-019 | Natural shadow map | `docs/08_weave_and_n_shadow.md`, `proofs/latex/veyra-core.tex` | DEF-011 |
+| DEF-017 | Substitution weave | `docs/concepts/weave_and_n_shadow.md`, `src/core/numbers/modes.py` | DEF-005, DEF-007 |
+| DEF-018 | Length-weave | `docs/concepts/weave_and_n_shadow.md`, `src/core/numbers/modes.py` | DEF-017 |
+| DEF-019 | Natural shadow map | `docs/concepts/weave_and_n_shadow.md`, `proofs/latex/veyra-core.tex` | DEF-011 |
 
 ## Status update 0.3.0
 
 | ID | Previous | Current | Evidence |
 |---|---|---|---|
-| W-001 | proof planned | proved in external shadow draft | `docs/08_weave_and_n_shadow.md`, `proofs/latex/veyra-core.tex`, `tests/test_modes.py` |
+| W-001 | proof planned | proved in external shadow draft | `docs/concepts/weave_and_n_shadow.md`, `proofs/latex/veyra-core.tex`, `tests/numbers/test_modes.py` |
 | THM-001 | conjectured theorem | theorem in external shadow model | `proofs/latex/veyra-core.tex` |
 | THM-002 | conjectured theorem | theorem in external shadow model | `proofs/latex/veyra-core.tex` |
 | THM-003 | conjectured theorem | theorem for length-weave in external shadow model | `proofs/latex/veyra-core.tex` |
@@ -87,28 +87,28 @@ Part of the public [Theorem and Definition Registry](../../THEOREMS.md).
 
 | ID | Name | Location | Dependencies |
 |---|---|---|---|
-| DEF-020 | Schema compatibility | `docs/09_multitact_counterexamples.md`, `src/core/counterexamples.py` | DEF-014, DEF-015, DEF-017 |
+| DEF-020 | Schema compatibility | `docs/concepts/multitact_counterexamples.md`, `src/core/numbers/counterexamples.py` | DEF-014, DEF-015, DEF-017 |
 
 ## Counterexamples added in 0.4.0
 
 | ID | Claim refuted | Witness | Location | Status |
 |---|---|---|---|---|
-| CE-001 | Length echo is full identity | `ab ≈_{T_len} aa` but split by `T_bag` | `docs/09_multitact_counterexamples.md` | verified by tests |
-| CE-002 | Bag echo is full identity | `ab ≈_{T_bag} ba` but split by `T_word` | `docs/09_multitact_counterexamples.md` | verified by tests |
-| CE-003 | Cyclic and ordered identity coincide | `ab ≈_{T_cycle} ba` but split by `T_word` | `docs/09_multitact_counterexamples.md` | documented |
-| CE-004 | Stitch is absolutely commutative | `a⊙b=ab`, `b⊙a=ba`, split by `T_word` | `docs/09_multitact_counterexamples.md` | verified by tests |
-| CE-005 | Symbol-sensitive weave respects length echo | `ab≈_{T_len}aa`, but `σ(ab)=xyy`, `σ(aa)=xx` | `docs/09_multitact_counterexamples.md` | verified by tests |
+| CE-001 | Length echo is full identity | `ab ≈_{T_len} aa` but split by `T_bag` | `docs/concepts/multitact_counterexamples.md` | verified by tests |
+| CE-002 | Bag echo is full identity | `ab ≈_{T_bag} ba` but split by `T_word` | `docs/concepts/multitact_counterexamples.md` | verified by tests |
+| CE-003 | Cyclic and ordered identity coincide | `ab ≈_{T_cycle} ba` but split by `T_word` | `docs/concepts/multitact_counterexamples.md` | documented |
+| CE-004 | Stitch is absolutely commutative | `a⊙b=ab`, `b⊙a=ba`, split by `T_word` | `docs/concepts/multitact_counterexamples.md` | verified by tests |
+| CE-005 | Symbol-sensitive weave respects length echo | `ab≈_{T_len}aa`, but `σ(ab)=xyy`, `σ(aa)=xx` | `docs/concepts/multitact_counterexamples.md` | verified by tests |
 
 ## Definitions added in 0.5.0
 
 | ID | Name | Location | Dependencies |
 |---|---|---|---|
-| DEF-021 | Unary schema compatibility | `docs/10_schema_compatibility.md`, `src/core/compatibility.py` | DEF-014, DEF-015 |
-| DEF-022 | Binary schema compatibility | `docs/10_schema_compatibility.md`, `src/core/compatibility.py` | DEF-014, DEF-015 |
-| DEF-023 | Numeric-prime mode | `docs/11_prime_variants.md`, `src/core/primes.py` | THM-001 |
-| DEF-024 | Ordered primitive rhythm | `docs/11_prime_variants.md`, `src/core/primes.py` | DEF-016 |
-| DEF-025 | Cyclic primitive rhythm | `docs/11_prime_variants.md`, `src/core/primes.py` | DEF-014, DEF-016 |
-| DEF-026 | Resonance-prime mode | `docs/11_prime_variants.md`, `src/core/primes.py` | DEF-012 |
+| DEF-021 | Unary schema compatibility | `docs/concepts/schema_compatibility.md`, `src/core/kernel/compatibility.py` | DEF-014, DEF-015 |
+| DEF-022 | Binary schema compatibility | `docs/concepts/schema_compatibility.md`, `src/core/kernel/compatibility.py` | DEF-014, DEF-015 |
+| DEF-023 | Numeric-prime mode | `docs/concepts/prime_variants.md`, `src/core/numbers/primes.py` | THM-001 |
+| DEF-024 | Ordered primitive rhythm | `docs/concepts/prime_variants.md`, `src/core/numbers/primes.py` | DEF-016 |
+| DEF-025 | Cyclic primitive rhythm | `docs/concepts/prime_variants.md`, `src/core/numbers/primes.py` | DEF-014, DEF-016 |
+| DEF-026 | Resonance-prime mode | `docs/concepts/prime_variants.md`, `src/core/numbers/primes.py` | DEF-012 |
 
 ## Propositions added in 0.5.0
 
@@ -121,8 +121,8 @@ Part of the public [Theorem and Definition Registry](../../THEOREMS.md).
 
 | ID | Name | Location | Dependencies |
 |---|---|---|---|
-| DEF-027 | Cyclic representative | `docs/12_cyclic_weave.md`, `src/core/weave.py` | DEF-014, DEF-015 |
-| DEF-028 | Cyclic weave | `docs/12_cyclic_weave.md`, `src/core/weave.py` | DEF-017, DEF-027 |
+| DEF-027 | Cyclic representative | `docs/concepts/cyclic_weave.md`, `src/core/numbers/weave.py` | DEF-014, DEF-015 |
+| DEF-028 | Cyclic weave | `docs/concepts/cyclic_weave.md`, `src/core/numbers/weave.py` | DEF-017, DEF-027 |
 
 ## Propositions added in 0.6.0
 
@@ -136,9 +136,9 @@ Part of the public [Theorem and Definition Registry](../../THEOREMS.md).
 
 | ID | Name | Location | Dependencies |
 |---|---|---|---|
-| DEF-029 | Phase offset | `docs/13_phase_resonance.md`, `src/core/resonance.py` | DEF-005, DEF-012 |
-| DEF-030 | Cyclic resonance | `docs/13_phase_resonance.md`, `src/core/resonance.py` | DEF-029 |
-| DEF-031 | Resonance obstruction | `docs/13_phase_resonance.md`, `src/core/resonance.py` | DEF-030 |
+| DEF-029 | Phase offset | `docs/concepts/phase_resonance.md`, `src/core/numbers/resonance.py` | DEF-005, DEF-012 |
+| DEF-030 | Cyclic resonance | `docs/concepts/phase_resonance.md`, `src/core/numbers/resonance.py` | DEF-029 |
+| DEF-031 | Resonance obstruction | `docs/concepts/phase_resonance.md`, `src/core/numbers/resonance.py` | DEF-030 |
 
 ## Propositions added in 0.7.0
 
@@ -151,9 +151,9 @@ Part of the public [Theorem and Definition Registry](../../THEOREMS.md).
 
 | ID | Name | Location | Dependencies |
 |---|---|---|---|
-| DEF-032 | Defect | `docs/14_approximate_resonance.md`, `src/core/approx_resonance.py` | DEF-005 |
-| DEF-033 | Defect count | `docs/14_approximate_resonance.md`, `src/core/approx_resonance.py` | DEF-032 |
-| DEF-034 | Approximate cyclic resonance | `docs/14_approximate_resonance.md`, `src/core/approx_resonance.py` | DEF-030, DEF-033 |
+| DEF-032 | Defect | `docs/concepts/approximate_resonance.md`, `src/core/numbers/approx_resonance.py` | DEF-005 |
+| DEF-033 | Defect count | `docs/concepts/approximate_resonance.md`, `src/core/numbers/approx_resonance.py` | DEF-032 |
+| DEF-034 | Approximate cyclic resonance | `docs/concepts/approximate_resonance.md`, `src/core/numbers/approx_resonance.py` | DEF-030, DEF-033 |
 
 ## Propositions added in 0.8.0
 
@@ -166,8 +166,8 @@ Part of the public [Theorem and Definition Registry](../../THEOREMS.md).
 
 | ID | Name | Location | Dependencies |
 |---|---|---|---|
-| DEF-035 | Resonance spectrum | `docs/15_resonance_spectrum.md`, `src/core/spectrum.py` | DEF-034 |
-| DEF-036 | Spectrum rank | `docs/15_resonance_spectrum.md`, `src/core/spectrum.py` | DEF-035 |
+| DEF-035 | Resonance spectrum | `docs/concepts/resonance_spectrum.md`, `src/core/numbers/spectrum.py` | DEF-034 |
+| DEF-036 | Spectrum rank | `docs/concepts/resonance_spectrum.md`, `src/core/numbers/spectrum.py` | DEF-035 |
 
 ## Propositions added in 0.9.0
 
@@ -180,9 +180,9 @@ Part of the public [Theorem and Definition Registry](../../THEOREMS.md).
 
 | ID | Name | Location | Dependencies |
 |---|---|---|---|
-| DEF-037 | Explanation cost | `docs/16_compression_score.md`, `src/core/compression.py` | DEF-035, DEF-036 |
-| DEF-038 | Compression saving | `docs/16_compression_score.md`, `src/core/compression.py` | DEF-037 |
-| DEF-039 | Compression ratio | `docs/16_compression_score.md`, `src/core/compression.py` | DEF-038 |
+| DEF-037 | Explanation cost | `docs/concepts/compression_score.md`, `src/core/numbers/compression.py` | DEF-035, DEF-036 |
+| DEF-038 | Compression saving | `docs/concepts/compression_score.md`, `src/core/numbers/compression.py` | DEF-037 |
+| DEF-039 | Compression ratio | `docs/concepts/compression_score.md`, `src/core/numbers/compression.py` | DEF-038 |
 
 ## Propositions added in 1.0.0
 
@@ -195,7 +195,7 @@ Part of the public [Theorem and Definition Registry](../../THEOREMS.md).
 
 | ID | Name | Location | Dependencies |
 |---|---|---|---|
-| DEF-040 | Processed table artifact | `docs/17_processed_tables.md`, `src/core/tables.py` | DEF-035, DEF-037 |
+| DEF-040 | Processed table artifact | `docs/concepts/processed_tables.md`, `src/core/registry/tables.py` | DEF-035, DEF-037 |
 
 ## Reproducible artifacts added in 1.1.0
 
@@ -219,9 +219,9 @@ Part of the public [Theorem and Definition Registry](../../THEOREMS.md).
 
 | ID | Name | Location | Dependencies |
 |---|---|---|---|
-| DEF-041 | Weighted defect cost map | `docs/18_weighted_defects.md`, `src/core/weighted_resonance.py` | DEF-032 |
-| DEF-042 | Weighted defect | `docs/18_weighted_defects.md`, `src/core/weighted_resonance.py` | DEF-041 |
-| DEF-043 | Weighted approximate cyclic resonance | `docs/18_weighted_defects.md`, `src/core/weighted_resonance.py` | DEF-034, DEF-041 |
+| DEF-041 | Weighted defect cost map | `docs/concepts/weighted_defects.md`, `src/core/numbers/weighted_resonance.py` | DEF-032 |
+| DEF-042 | Weighted defect | `docs/concepts/weighted_defects.md`, `src/core/numbers/weighted_resonance.py` | DEF-041 |
+| DEF-043 | Weighted approximate cyclic resonance | `docs/concepts/weighted_defects.md`, `src/core/numbers/weighted_resonance.py` | DEF-034, DEF-041 |
 
 ## Propositions added in 1.3.0
 

@@ -2,7 +2,7 @@
 
 **Generated/verified:** 2026-07-29
 **Source of truth:** `veyra_sage/all.py::__all__`
-**Stability:** research-lab API. Names below are public for current notebooks, tests, and examples; package-extension stability is governed by `docs/69_package_boundary.md`.
+**Stability:** research-lab API. Names below are public for current notebooks, tests, and examples; package-extension stability is governed by `docs/concepts/package_boundary.md`.
 
 ## How to import
 
@@ -125,13 +125,13 @@ The table is intentionally machine-readable: tests parse the first column and co
 ## API count
 
 - Public symbols: 93
-- Governing tests: `tests/test_veyra_sage_api_index.py`
-- Boundary document: `docs/69_package_boundary.md`
+- Governing tests: `tests/sage/test_veyra_sage_api_index.py`
+- Boundary document: `docs/concepts/package_boundary.md`
 
 ## Maintenance rule
 
 Whenever `veyra_sage/all.py::__all__` changes, update this file in the same commit and run:
 
 ```bash
-PYTHONPATH=. python3 -m pytest -q tests/test_veyra_sage_api_index.py
+PYTHONPATH=. python3 -m pytest -q tests/sage/test_veyra_sage_api_index.py
 ```

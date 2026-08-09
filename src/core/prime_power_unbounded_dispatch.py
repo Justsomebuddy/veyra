@@ -8,10 +8,10 @@ import os
 import stat
 from typing import cast
 
-from .padic_completion_common import PadicCompletionValidationError
-from .padic_completion_package import snapshot_package as snapshot_pomega2
-from .padic_family_introduction_common import PadicFamilyIntroductionValidationError
-from .padic_family_introduction_package import snapshot_package as snapshot_n1
+from .padic.completion.common import PadicCompletionValidationError
+from .padic.completion.package import snapshot_package as snapshot_pomega2
+from .padic.family_introduction.common import PadicFamilyIntroductionValidationError
+from .padic.family_introduction.package import snapshot_package as snapshot_n1
 from .prime_power_unbounded_common import digest, exact_digest, exact_shape, reject
 from .prime_power_unbounded_capture import _open_project_root
 from .prime_power_unbounded_preflight import preflight_e_request

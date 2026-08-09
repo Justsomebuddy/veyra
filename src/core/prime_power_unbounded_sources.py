@@ -5,14 +5,14 @@ from __future__ import annotations
 import logging
 from typing import cast
 
-from .padic_completion_formal import (
+from .padic.completion.formal import (
     ARTIFACT_PATH as _P2_PATH,
     ARTIFACT_SHA256 as _P2_SHA,
     ELAN_SHA256,
     LEAN_BINARY_SHA256,
     LEAN_VERSION,
 )
-from .padic_family_introduction_sources import (
+from .padic.family_introduction.sources import (
     ARTIFACT_PATH as _N1_PATH,
     ARTIFACT_SHA256 as _N1_SHA,
     TOOLCHAIN_ID as _TOOLCHAIN_ID,

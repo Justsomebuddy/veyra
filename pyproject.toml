@@ -26,6 +26,9 @@ dev = [
   "ruff>=0.12",
 ]
 
+[tool.setuptools.package-data]
+"src.core" = ["legacy_modules.json"]
+
 [tool.setuptools.packages.find]
 include = ["src*", "veyra_sage*", "vam*"]
 exclude = ["tests*", "scripts*", "docs*", "notebooks*", "experimental*"]
@@ -34,6 +37,10 @@ exclude = ["tests*", "scripts*", "docs*", "notebooks*", "experimental*"]
 testpaths = ["tests"]
 pythonpath = ["."]
 addopts = "-q"
+markers = [
+  "requires_lean: needs the pinned Lean toolchain; deselect with -m 'not requires_lean'",
+  "requires_linux: needs Linux-only kernel interfaces (inotify, prlimit)",
+]
 
 [tool.ruff]
 line-length = 120

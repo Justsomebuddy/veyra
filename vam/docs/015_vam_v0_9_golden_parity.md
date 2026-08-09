@@ -5,7 +5,7 @@
 VAM v0.9 tightens the v0.8 execution contract with a fixture corpus and stronger parity checks:
 
 - `vam/src/fixtures.py` defines named golden fixture programs and canonical reports.
-- `tests/test_vam_native_executor.py` runs the Rust executor over the fixture report surface.
+- `tests/vam/test_vam_native_executor.py` runs the Rust executor over the fixture report surface.
 - `vam/native/src/lib.rs` has native unit tests for frame parsing, success JSON, and executor error surfacing.
 - `vam/src/equivalence.py` adds `report-fingerprint` checks over canonical reports.
 - `vam/src/obligation.py` adds a transport-only gate for obligation batches.
@@ -56,7 +56,7 @@ The check is still conservative execution evidence. It is not global program equ
 Focused checks:
 
 ```bash
-PYTHONPATH=. pytest -q tests/test_vam_fixtures.py tests/test_vam_native_executor.py tests/test_vam_equivalence.py tests/test_vam_obligation.py tests/test_certify.py
+PYTHONPATH=. pytest -q tests/vam/test_vam_fixtures.py tests/vam/test_vam_native_executor.py tests/vam/test_vam_equivalence.py tests/vam/test_vam_obligation.py tests/shadows/test_certify.py
 cargo fmt --manifest-path vam/native/Cargo.toml --check
 cargo test --manifest-path vam/native/Cargo.toml
 ```

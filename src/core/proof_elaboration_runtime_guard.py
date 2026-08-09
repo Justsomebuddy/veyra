@@ -1,14 +1,20 @@
-"""Linux inotify plus pre/post Merkle guard for R10 Lean subprocesses."""
+"""Linux inotify plus pre/post Merkle guard for R10 Lean subprocesses.
+
+Binding is lazy: the module imports on hosts without inotify, and the guard then
+fails closed at call time instead of running Lean without watch coverage.
+"""
 from __future__ import annotations
 
 import ctypes
 from dataclasses import dataclass
+from functools import lru_cache
 import logging
 import os
 from pathlib import Path
 import stat
 import struct
 import subprocess
+import sys
 from typing import Mapping
 
 from .proof_elaboration_toolchain import (
@@ -16,11 +22,30 @@ from .proof_elaboration_toolchain import (
 )
 
 logger = logging.getLogger(__name__)
-_LIBC = ctypes.CDLL(None, use_errno=True)
-_LIBC.inotify_init1.argtypes = [ctypes.c_int]
-_LIBC.inotify_init1.restype = ctypes.c_int
-_LIBC.inotify_add_watch.argtypes = [ctypes.c_int, ctypes.c_char_p, ctypes.c_uint32]
-_LIBC.inotify_add_watch.restype = ctypes.c_int
+
+
+@lru_cache(maxsize=1)
+def _libc() -> ctypes.CDLL:
+    """Bind the inotify entry points, or reject the host fail-closed."""
+    library = ctypes.CDLL(None, use_errno=True)
+    try:
+        library.inotify_init1.argtypes, library.inotify_init1.restype = [ctypes.c_int], ctypes.c_int
+        library.inotify_add_watch.argtypes = [ctypes.c_int, ctypes.c_char_p, ctypes.c_uint32]
+        library.inotify_add_watch.restype = ctypes.c_int
+    except AttributeError as exc:
+        logger.error("proof_elaboration_runtime_guard inotify unavailable os=%s", sys.platform)
+        raise ValueError("r10-runtime-watch-platform-unsupported") from exc
+    return library
+
+
+def inotify_supported() -> bool:
+    """Report whether this host can open the R10 runtime watch."""
+    try:
+        return bool(_libc())
+    except ValueError:
+        return False
+
+
 _IN_NONBLOCK = os.O_NONBLOCK
 _IN_CLOEXEC = os.O_CLOEXEC
 _EVENT = struct.Struct("iIII")
@@ -100,7 +125,8 @@ def _watch_specs(closures: tuple[ProtectedClosure, ...]) -> dict[Path, tuple[int
 
 def _open_watch(closures: tuple[ProtectedClosure, ...]) -> RuntimeWatch:
     logger.debug("proof_elaboration_runtime_guard._open_watch entry closures=%d", len(closures))
-    fd = _LIBC.inotify_init1(_IN_NONBLOCK | _IN_CLOEXEC)
+    library = _libc()
+    fd = library.inotify_init1(_IN_NONBLOCK | _IN_CLOEXEC)
     if fd < 0:
         error = ctypes.get_errno()
         logger.error("proof_elaboration_runtime_guard inotify_init1 errno=%d", error)
@@ -108,7 +134,7 @@ def _open_watch(closures: tuple[ProtectedClosure, ...]) -> RuntimeWatch:
     watched: list[tuple[int, Path, bool]] = []
     try:
         for path, (mask, is_directory) in sorted(_watch_specs(closures).items(), key=lambda row: str(row[0])):
-            wd = _LIBC.inotify_add_watch(fd, os.fsencode(path), mask)
+            wd = library.inotify_add_watch(fd, os.fsencode(path), mask)
             if wd < 0:
                 error = ctypes.get_errno()
                 logger.error("proof_elaboration_runtime_guard add_watch path=%s errno=%d", path, error)

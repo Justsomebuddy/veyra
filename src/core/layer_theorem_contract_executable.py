@@ -1,15 +1,23 @@
-"""Canonical executable-content binding for theorem-promotion handlers."""
+"""Canonical executable-content binding for theorem-promotion handlers.
+
+A handler is bound by the source text that defines it, not by the compiled code
+object.  Source is what a reviewer reads and what a tamper would have to change;
+bytecode additionally encodes the compiler that produced it, which would pin the
+project to one CPython build and make the digest unreproducible on any other.
+"""
 from __future__ import annotations
 
 from collections.abc import Callable
+import inspect
 import logging
+import textwrap
 from types import CodeType, FunctionType
 from typing import cast
 
 from .proof_core_codec import canonical_json, digest_data
 
 logger = logging.getLogger(__name__)
-HANDLER_EXECUTABLE_DOMAIN = "veyra-layer-theorem-handler-executable-v1"
+HANDLER_EXECUTABLE_DOMAIN = "veyra-layer-theorem-handler-executable-v2"
 
 
 def _constant_data(value: object) -> object:
@@ -56,7 +64,7 @@ def _constant_data(value: object) -> object:
 
 
 def _code_data(code: CodeType) -> dict[str, object]:
-    """Return line/path-independent executable semantics for one code object."""
+    """Return the interpreter-independent signature of one code object."""
     logger.debug(
         "layer_theorem_contract_executable._code_data entry name=%s",
         code.co_name,
@@ -67,23 +75,29 @@ def _code_data(code: CodeType) -> dict[str, object]:
         "argcount": code.co_argcount,
         "posonlyargcount": code.co_posonlyargcount,
         "kwonlyargcount": code.co_kwonlyargcount,
-        "nlocals": code.co_nlocals,
-        "stacksize": code.co_stacksize,
-        "flags": code.co_flags,
-        "bytecode": code.co_code.hex(),
-        "constants": [_constant_data(item) for item in code.co_consts],
-        "names": code.co_names,
-        "varnames": code.co_varnames,
-        "freevars": code.co_freevars,
-        "cellvars": code.co_cellvars,
-        "exceptiontable": code.co_exceptiontable.hex(),
     }
     logger.debug(
-        "layer_theorem_contract_executable._code_data exit name=%s bytes=%d",
+        "layer_theorem_contract_executable._code_data exit name=%s",
         code.co_name,
-        len(code.co_code),
     )
     return result
+
+
+def _source_text(function: FunctionType) -> str:
+    """Return the exact defining source of one handler, without its indent."""
+    logger.debug(
+        "layer_theorem_contract_executable._source_text entry function=%s",
+        function.__qualname__,
+    )
+    try:
+        source = inspect.getsource(function)
+    except (OSError, TypeError) as exc:
+        logger.error(
+            "layer_theorem_contract_executable source unavailable function=%s",
+            function.__qualname__,
+        )
+        raise ValueError("theorem-handler-source-unavailable") from exc
+    return textwrap.dedent(source).replace("\r\n", "\n").rstrip() + "\n"
 
 
 def _function_data(function: Callable[..., object]) -> dict[str, object]:
@@ -102,7 +116,8 @@ def _function_data(function: Callable[..., object]) -> dict[str, object]:
     result = {
         "module": exact_function.__module__,
         "qualname": exact_function.__qualname__,
-        "code": _code_data(exact_function.__code__),
+        "signature": _code_data(exact_function.__code__),
+        "source": _source_text(exact_function),
         "defaults": _constant_data(exact_function.__defaults__),
         "kwdefaults": (
             None

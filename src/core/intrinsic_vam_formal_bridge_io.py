@@ -27,9 +27,10 @@ from .proof_elaboration_toolchain import (
     TOOLCHAIN_ROOT,
     lean_runtime_digest,
 )
+from .paths import PROJECT_ROOT
 
 logger = logging.getLogger(__name__)
-PROJECT_ROOT = Path(__file__).resolve().parents[2]
+PROJECT_ROOT = PROJECT_ROOT
 BUILD_DIR = PROJECT_ROOT / "data" / "tmp" / "r12-5-lean"
 LEAN_TOOLCHAIN = "leanprover/lean4:v4.30.0-rc2"
 LEAN_VERSION = "4.30.0-rc2"

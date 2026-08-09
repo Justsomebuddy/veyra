@@ -4,10 +4,10 @@ from __future__ import annotations
 
 import logging
 
-from .padic_completion_runtime import padic_completion_judgment
-from .padic_completion_types import PadicCompletionJudgment
-from .padic_family_introduction_runtime import introduce_integer_residue_family
-from .padic_family_introduction_types import N1FamilyJudgment
+from .padic.completion.runtime import padic_completion_judgment
+from .padic.completion.types import PadicCompletionJudgment
+from .padic.family_introduction.runtime import introduce_integer_residue_family
+from .padic.family_introduction.types import N1FamilyJudgment
 from .prime_power_unbounded_common import sha
 from .prime_power_unbounded_formal import (
     N6ECompileOutcome,

@@ -5,12 +5,12 @@ from __future__ import annotations
 from enum import Enum
 import logging
 
-from .padic_completion_types import (
+from .padic.completion.types import (
     PadicCompletionLedger, PadicCompletionLedgerRow, PadicCompletionPackage,
     PadicCompletionPolicy, PadicCompletionTheoremSource, PadicTowerDoctrine,
     PrimeSource,
 )
-from .padic_family_introduction_types import (
+from .padic.family_introduction.types import (
     IntegerSource, N1AssumptionLedger, N1IntroductionPackage, N1Policy,
     N1TheoremSource,
 )

@@ -1,6 +1,6 @@
 # VAM v2.4 — Optimizer pre/postcondition witnesses
 
-**Status:** accepted executable witness evidence for `vam/src/optimizer_prepost.py` and `tests/test_vam_optimizer_prepost.py`  
+**Status:** accepted executable witness evidence for `vam/src/optimizer_prepost.py` and `tests/vam/test_vam_optimizer_prepost.py`  
 **Boundary:** executable pre/post witness evidence only; not a whole-pass proof, not whole-optimizer correctness, not global semantic equivalence, not speed/native performance, not VAMD emission.
 
 ## Purpose
@@ -12,7 +12,7 @@ This is a bridge between proof artifacts and executable regression evidence. It 
 ## Artifacts
 
 - Module: `vam/src/optimizer_prepost.py`
-- Test: `tests/test_vam_optimizer_prepost.py`
+- Test: `tests/vam/test_vam_optimizer_prepost.py`
 - Boundary field: `optimizer-prepost-witness`
 - Claim field: `executable-prepost-witness-not-proof`
 

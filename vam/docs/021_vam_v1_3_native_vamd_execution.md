@@ -20,7 +20,7 @@ claim, proof-assistant bridge, GPU backend, or FPGA backend.
 - `native/src/json.rs` owns JSON rendering helpers, keeping `lib.rs` small and
   avoiding hardcoded `magic:"VAM0"` for dense frames.
 - `native/src/dense.rs` now returns a `FrameReport` with `magic:"VAMD"`.
-- `tests/test_vam_native_vamd_executor.py` compares Rust CLI reports against
+- `tests/vam/test_vam_native_vamd_executor.py` compares Rust CLI reports against
   the Python oracle: `decode_dense -> execute -> canonical_report`.
 
 ## CLI contract

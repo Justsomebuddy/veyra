@@ -41,7 +41,7 @@ Optimized VAMD frame emission requires a later, separately specified contract co
 
 ## Generated parity corpus
 
-`tests/test_vam_native_optimizer_generated.py` is a bounded regression corpus for comparing native and Python behavior on selected shapes.
+`tests/vam/test_vam_native_optimizer_generated.py` is a bounded regression corpus for comparing native and Python behavior on selected shapes.
 
 It may cover cases such as:
 

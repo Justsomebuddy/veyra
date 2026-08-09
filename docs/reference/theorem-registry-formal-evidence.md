@@ -179,8 +179,8 @@ or imported-module dependencies, and its source location. A dependency entry of
 
 | ID family | Status | Dependencies | Evidence | Exact boundary |
 |---|---|---|---|---|
-| `THM-001`–`THM-003` | `CONJECTURE` | `AX-007`, `LEM-001`, then preceding theorem | `docs/08_weave_and_n_shadow.md` | Natural/addition/multiplication shadows; not foundations of ordinary arithmetic. |
-| `THM-F003` | `EXECUTABLE_EVIDENCE` | native `Mode`/`Breath` length observer | `src/core/native_number_theorems.py`; focused tests | Finite prime-period Fermat rows only; no Lean theorem. |
+| `THM-001`–`THM-003` | `CONJECTURE` | `AX-007`, `LEM-001`, then preceding theorem | `docs/concepts/weave_and_n_shadow.md` | Natural/addition/multiplication shadows; not foundations of ordinary arithmetic. |
+| `THM-F003` | `EXECUTABLE_EVIDENCE` | native `Mode`/`Breath` length observer | `src/core/numbers/native_number_theorems.py`; focused tests | Finite prime-period Fermat rows only; no Lean theorem. |
 | X8 fixed cards (`THM_A001`–`A006`, `B001`, `C001`–`C002`, `G001`–`G005`, `P001`–`P003`, `S001`–`S002`) | `FORMALLY_PROVED` | fixed literal fixtures | corresponding `Veyra{Algebra,Combinatorics,Cyclic,Geometry,Probability,Statistics}.lean` | The exact numerals/samples only; no general analysis, geometry, probability or statistics theorem. |
 | `THM-D2-001`–`005` | `EXECUTABLE_EVIDENCE` with formal auxiliary lemmas | exact five-inference catalog | `src/core/productivity_counterpressure*.py`; `VeyraProductivityCounterpressure.lean` | Refutes only the five exact implications; no generator nonexistence. |
 | `THM-D3-001`–`011` | `FORMALLY_PROVED` | exact periodic-family ledger | `VeyraAllDepthFamily.lean`; focused certificate tests | One periodic compatible family; no completed carrier or generic introduction rule. |

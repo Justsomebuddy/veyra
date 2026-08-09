@@ -2,7 +2,10 @@
 from __future__ import annotations
 
 from hashlib import sha256
-import fcntl
+try:
+    import fcntl
+except ImportError:                      # non-POSIX host: locking fails closed below
+    fcntl = None
 import logging
 from pathlib import Path
 import stat
@@ -139,6 +142,8 @@ def compile_snapshot(
     lean_sources = {name: sources[name] for name, _ in _SNAPSHOT_NAME_ROWS}
     try:
         with (snapshot.root.parent / ".materialize.lock").open("a+b") as lock:
+            if fcntl is None:
+                raise ValueError("posix-file-lock-unsupported")
             fcntl.flock(lock.fileno(), fcntl.LOCK_EX)
             _runtime_identity()
             verify_intrinsic_observer_echo_snapshot(snapshot, lean_sources)

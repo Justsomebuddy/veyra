@@ -152,7 +152,7 @@ _INTRINSIC_OBSERVER_ECHO_CONTRACT = LayerTheoremContract(
     theorem_verifier=verify_r13_contract,
     bridge_provider=intrinsic_observer_echo_contract_bridge_report,
     bridge_verifier=verify_r13_bridge,
-    executable_digest="ee12d603d86b0a1387bcba3e9c6a76fbba983940908e5ec07a0b5d856a9d5673",
+    executable_digest="e7fe34ae5ecc812359fde0e7ddfef7565b4e18b79e06668c77743c53df0c82a0",
 )
 THEOREM_CONTRACTS = build_theorem_contract_registry(
     (_INTRINSIC_CONTRACT, _INTRINSIC_OBSERVER_ECHO_CONTRACT),

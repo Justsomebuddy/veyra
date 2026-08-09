@@ -4,8 +4,8 @@ from __future__ import annotations
 
 import logging
 
-from ...finite_builder_types import FiniteBuilderExpr, PulseStep, SeedRef
-from ...positive_ontology_validation import (
+from .types import FiniteBuilderExpr, PulseStep, SeedRef
+from ...ontology.validation import (
     PositiveOntologyValidationError, snapshot_recurrence,
 )
 from ...proof_core_types import CoreTerm, Pulse, Silence

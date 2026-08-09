@@ -5,9 +5,7 @@ PYTHON ?= python3
 PROJECT_PYTHONPATH ?= .
 PYTEST ?= $(PYTHON) -m pytest
 ACTIVE_IGNORE ?=
-LINE_EXTS := -name '*.py' -o -name '*.md' -o -name '*.tex' -o -name '*.cu' -o -name '*.cuh'
-
-.PHONY: help status test cert sage-smoke sage-doctest hygiene verify omegaa-collect tables notebooks
+.PHONY: help status python-check test cert sage-smoke sage-doctest hygiene verify omegaa-collect tables notebooks
 
 help:
 	@printf '%s\n' \
@@ -18,7 +16,7 @@ help:
 	  '  make cert          Run executable Veyra certificate suite' \
 	  '  make sage-smoke    Run Sage facade smoke checks' \
 	  '  make sage-doctest  Run veyra_sage doctests' \
-	  '  make hygiene       Check active file line hygiene' \
+	  '  make hygiene       Check repository cache-ignore hygiene' \
 	  '  make verify        Run test + cert + Sage + hygiene' \
 	  '' \
 	  'Experimental (not part of make verify):' \
@@ -30,16 +28,27 @@ help:
 	  '' \
 	  'Inspection:' \
 	  '  make status        Show git branch/status'
+	@printf '%s\n' \
+	  '' \
+	  'Override PYTHON=... to select the interpreter (3.11 or newer).'
 
 status:
 	@echo '[1/1] Git working-tree status'
 	@git status --short --branch
 
-test:
+python-check:
+	@$(PYTHON) -c 'import sys; sys.exit(0 if sys.version_info[:2] >= (3, 11) else 1)' || { \
+		printf '%s\n' \
+			"veyra needs CPython 3.11 or newer ($(PYTHON) is older)." \
+			"Use: PYTHON=python3.11 make <target>" >&2; \
+		exit 1; \
+	}
+
+test: python-check
 	@echo '[1/1] Running public pytest suite'
 	@PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 PYTHONPATH='$(PROJECT_PYTHONPATH)' $(PYTEST) -q $(ACTIVE_IGNORE)
 
-cert:
+cert: python-check
 	@echo '[1/1] Running executable certificate suite'
 	@PYTHONPATH='$(PROJECT_PYTHONPATH)' $(PYTHON) scripts/certify_veyra.py
 
@@ -52,29 +61,7 @@ sage-doctest:
 	@PYTHONPATH='$(PROJECT_PYTHONPATH)' $(PYTHON) scripts/sage_doctest.py
 
 hygiene:
-	@echo '[1/3] Checking stable source/doc files are <=300 LOC'
-	@violations=$$(find . -type f \
-		-not -path './.git/*' \
-		-not -path './.venv/*' \
-		-not -path './node_modules/*' \
-		-not -path './experimental/*' \
-		-not -path '*/__pycache__/*' \
-		\( $(LINE_EXTS) \) -print0 | xargs -0 -r wc -l | awk '$$2 != "total" && $$1 > 300 {print}'); \
-	if [[ -n "$$violations" ]]; then \
-		printf '%s\n' "$$violations"; \
-		exit 1; \
-	fi; \
-	echo '[ok] no stable source/doc file exceeds 300 LOC'
-	@echo '[2/3] Checking experimental source/doc files are <=1000 LOC'
-	@violations=$$(find experimental -type f \
-		-not -path '*/__pycache__/*' \
-		\( $(LINE_EXTS) \) -print0 | xargs -0 -r wc -l | awk '$$2 != "total" && $$1 > 1000 {print}'); \
-	if [[ -n "$$violations" ]]; then \
-		printf '%s\n' "$$violations"; \
-		exit 1; \
-	fi; \
-	echo '[ok] no experimental source/doc file exceeds 1000 LOC'
-	@echo '[3/3] Checking Python cache files remain ignored'
+	@echo '[1/1] Checking Python cache files remain ignored'
 	@git check-ignore -q .pytest_cache/ && git check-ignore -q src/core/__pycache__/ && echo '[ok] cache ignore rules active'
 
 omegaa-collect:

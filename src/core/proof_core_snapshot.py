@@ -2,7 +2,10 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-import fcntl
+try:
+    import fcntl
+except ImportError:                      # non-POSIX host: locking fails closed below
+    fcntl = None
 import logging
 import os
 from pathlib import Path
@@ -77,6 +80,8 @@ def materialize_lean_snapshot(
         snapshot_parent.mkdir(parents=True, exist_ok=True)
         lock_path = snapshot_parent / ".materialize.lock"
         with lock_path.open("a+b") as lock:
+            if fcntl is None:
+                raise ValueError("posix-file-lock-unsupported")
             fcntl.flock(lock.fileno(), fcntl.LOCK_EX)
             root = snapshot_parent / key
             if not root.exists():

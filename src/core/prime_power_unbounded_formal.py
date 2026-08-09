@@ -8,7 +8,7 @@ import re
 import shutil
 import tempfile
 import time
-from .padic_completion_formal import ELAN_SHA256, LEAN_BINARY_SHA256, LEAN_VERSION
+from .padic.completion.formal import ELAN_SHA256, LEAN_BINARY_SHA256, LEAN_VERSION
 from .prime_power_unbounded_common import digest, reject, sha
 from .prime_power_unbounded_capture import capture_fixed_source, project_tmp_path
 from .prime_power_unbounded_execution_continuity import (
@@ -24,9 +24,9 @@ from .prime_power_unbounded_types import (
     N6TheoremSourceV1,
 )
 from .prime_power_unbounded_sources import snapshot_policy, snapshot_theorem_source
-from .stream_completion_formal_attestation import ToolchainContract, attest_toolchain
-from .stream_completion_formal_process import FormalPhaseReceipt, capture_phase
-from .stream_completion_types import FormalExecutionFailureKind
+from .construction.stream_completion.formal_attestation import ToolchainContract, attest_toolchain
+from .construction.stream_completion.formal_process import FormalPhaseReceipt, capture_phase
+from .construction.stream_completion.types import FormalExecutionFailureKind
 logger = logging.getLogger(__name__)
 EXTERNAL_RUNTIME_TCB_BOUNDARIES = (
     "lean-owned-dynamic-shared-objects",

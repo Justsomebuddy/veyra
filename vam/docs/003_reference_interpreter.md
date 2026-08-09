@@ -17,7 +17,7 @@ The first executable VAM layer is deliberately small:
 - `vam/src/model.py` — instruction, object, trace, state dataclasses.
 - `vam/src/interpreter.py` — reference executor.
 - `vam/src/report.py` — deterministic `vam0-ref-v1` canonical reports.
-- `tests/test_vam_reference.py` and `tests/test_vam_report.py` — round-trip, execution, obstruction, and report checks.
+- `tests/vam/test_vam_reference.py` and `tests/vam/test_vam_report.py` — round-trip, execution, obstruction, and report checks.
 
 ## Semantics boundary
 

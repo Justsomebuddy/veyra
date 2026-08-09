@@ -2,16 +2,16 @@
 
 ## Purpose
 
-The active axiom reference now follows `docs/103_foundational_kernel_f1_f3.md`. It is a minimal executable kernel, not a completed foundation.
+The active axiom reference now follows `docs/concepts/foundational_kernel_f1_f3.md`. It is a minimal executable kernel, not a completed foundation.
 
 ## Ontology boundary
 
 These `AX-*` rows are **operational semantics**: typed construction and response
 rules used by the executable kernel. They are not metaphysical axioms and do
 not prove that their primitives are constituents of reality. The canonical
-provisional ontological doctrine is `../149_positive_ontology_p0.md`; the nine
+provisional ontological doctrine is `../../concepts/positive_ontology_p0.md`; the nine
 mixed Essence policy rows remain separately documented in
-`../64_veyra_essence_core.md`.
+`../../log/veyra_essence_core.md`.
 
 ## Kernel axioms
 
@@ -28,7 +28,7 @@ mixed Essence policy rows remain separately documented in
 
 ## Executable API
 
-- `src.core.axiom_kernel.unified_axiom_kernel()` returns the axiom rows.
+- `src.core.kernel.axiom_kernel.unified_axiom_kernel()` returns the axiom rows.
 - `axiom_witness_rows()` checks each witness through Core Language inference.
 - `layer_axiom_dependencies()` names the kernel axioms used by each current executable layer.
 - `axiom_kernel_report()` reports readiness plus `kernel-native` versus `shadow-dependent` derivation boundaries.

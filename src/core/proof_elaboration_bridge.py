@@ -24,9 +24,10 @@ from .proof_elaboration_canonical import (
 from .proof_elaboration_manifest import EXPECTED_R10_TCB_DIGESTS, TCB_SCHEMA
 from .proof_elaboration_snapshot import SNAPSHOT_NAMES
 from .proof_surface_codec import surface_program_data
+from .paths import PROJECT_ROOT
 
 logger = logging.getLogger(__name__)
-PROJECT_ROOT = Path(__file__).resolve().parents[2]
+PROJECT_ROOT = PROJECT_ROOT
 LEAN_DIR = PROJECT_ROOT / "proofs" / "lean"
 THEOREM_IDS = tuple(f"THM-R10-{index:03d}" for index in range(1, 6))
 PLACEHOLDER = re.compile(r"\b(?:sorryAx|sorry|admit|axiom|unsafe)\b")

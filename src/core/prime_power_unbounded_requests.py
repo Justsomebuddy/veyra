@@ -5,8 +5,8 @@ from __future__ import annotations
 import logging
 from typing import TYPE_CHECKING, cast
 
-from .padic_completion_types import PadicCompletionPackage
-from .padic_family_introduction_types import N1IntroductionPackage
+from .padic.completion.types import PadicCompletionPackage
+from .padic.family_introduction.types import N1IntroductionPackage
 from .prime_power_unbounded_common import digest, exact_digest, exact_shape, exact_text, reject, sha
 from .prime_power_unbounded_dispatch import dispatch_e_request
 from .prime_power_unbounded_sources import (

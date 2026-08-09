@@ -80,8 +80,8 @@ A `safe` result is bounded execution evidence for the tested programs, not a glo
 Focused checks:
 
 ```bash
-PYTHONPATH=. pytest -q tests/test_vam_report.py tests/test_vam_obligation.py tests/test_vam_highlevel.py \
-  tests/test_vam_shell.py tests/test_vam_equivalence.py tests/test_vam_native_executor.py
+PYTHONPATH=. pytest -q tests/vam/test_vam_report.py tests/vam/test_vam_obligation.py tests/vam/test_vam_highlevel.py \
+  tests/vam/test_vam_shell.py tests/vam/test_vam_equivalence.py tests/vam/test_vam_native_executor.py
 cargo test --manifest-path vam/native/Cargo.toml
 ```
 

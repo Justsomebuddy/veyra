@@ -9,7 +9,7 @@ It is still a reference contract, not a speed claim and not a proof assistant.
 - `vam/src/shell.py` now emits a deterministic non-certificate shell carrier.
 - `vam/src/fixtures.py` now covers current obstruction surfaces and malformed VAM0 decoder boundaries.
 - `vam/src/optimizer.py` now has a conservative `compress-idempotent` pass.
-- `tests/test_vam_native_boundaries.py` checks native CLI frame/error JSON shape.
+- `tests/vam/test_vam_native_boundaries.py` checks native CLI frame/error JSON shape.
 - `vam_reference_v1` now requires expanded fixture coverage, shell blocked-carrier behavior, and finite theorem-case transport.
 
 ## Finite theorem cases

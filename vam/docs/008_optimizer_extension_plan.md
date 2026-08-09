@@ -133,8 +133,8 @@ Add tests before enabling each rewrite:
 Recommended commands:
 
 ```bash
-PYTHONPATH=. pytest tests/test_vam_reference.py -q
-PYTHONPATH=. pytest tests/test_certify.py tests/test_core_language.py -q
+PYTHONPATH=. pytest tests/vam/test_vam_reference.py -q
+PYTHONPATH=. pytest tests/shadows/test_certify.py tests/language/test_core_language.py -q
 ```
 
 Add a focused `test_vam_optimizer_compression.py` once the first compression

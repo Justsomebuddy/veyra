@@ -5,9 +5,9 @@ from dataclasses import dataclass
 import logging
 
 from .intrinsic_mode_transport import recurrence_digest, recurrence_equal
-from .modes import Mode as WordMode
+from .numbers.modes import Mode as WordMode
 from .proof_core_types import CoreTerm, Pulse, Silence
-from .resonance import cyclic_resonates_inside, phase_offsets
+from .numbers.resonance import cyclic_resonates_inside, phase_offsets
 
 logger = logging.getLogger(__name__)
 BOUNDARY = (

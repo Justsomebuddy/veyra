@@ -6,7 +6,11 @@ from enum import Enum
 import logging
 import os
 from pathlib import Path
-import resource
+from .paths import PROJECT_ROOT
+try:
+    import resource
+except ImportError:                   # non-POSIX host: limits fail closed below
+    resource = None
 import selectors
 import signal
 import subprocess
@@ -97,6 +101,8 @@ def apply_verified_limits_v2(pid: int, address_space: int) -> bool:
     """Apply and independently read back exact pre-GO AS/core limits."""
     logger.debug("apply_verified_limits_v2 entry pid=%d as=%d", pid, address_space)
     try:
+        if resource is None:
+            raise ValueError("posix-resource-limits-unsupported")
         resource.prlimit(pid, resource.RLIMIT_AS, (address_space, address_space))
         resource.prlimit(pid, resource.RLIMIT_CORE, (0, 0))
         actual_as = resource.prlimit(pid, resource.RLIMIT_AS)
@@ -221,7 +227,7 @@ def run_fixed_child_v2(
     try:
         control_r, control_w = pipe()
         result_r, result_w = pipe()
-        project_root = str(Path(__file__).resolve().parents[2])
+        project_root = str(PROJECT_ROOT)
         entry_path = str(Path(__file__).resolve().with_name(kind.value))
         env = {
             "LANG": "C.UTF-8",

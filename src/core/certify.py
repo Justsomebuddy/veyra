@@ -2,137 +2,211 @@
 from __future__ import annotations
 from fractions import Fraction
 import logging
-from .balance import balance_from_int, stitch_balance
-from .certify_benchmark_evidence import certify_benchmark_evidence_r15
-from .certify_calculus import certify_calculus_depth
-from .certify_classical_benchmarks import certify_classical_benchmark_f5
-from .certify_category import certify_category_like_translation
-from .certify_convergence import certify_convergence_algebra
-from .certify_deduction_chain import certify_deduction_chain_f6
-from .certify_foundational import certify_foundational_repair_f1_f3
-from .certify_proof_core import certify_proof_carrying_core_r7
-from .certify_theorem_contracts import certify_theorem_promotion_contract_r8
-from .certify_intrinsic_mode import certify_intrinsic_mode_transport_r9
-from .certify_intrinsic_observer_echo import certify_intrinsic_observer_echo_r13
-from .certify_observer_synthesis_v2 import certify_observer_synthesis_v2_r14
-from .certify_observer_descent import certify_observer_descent_r16
-from .certify_intrinsic_vam import certify_intrinsic_vam_r12
+from collections.abc import Callable
+from .shadows.balance import balance_from_int, stitch_balance
+from .certificates.benchmark_evidence import certify_benchmark_evidence_r15
+from .certificates.calculus import certify_calculus_depth
+from .certificates.classical_benchmarks import certify_classical_benchmark_f5
+from .certificates.category import certify_category_like_translation
+from .certificates.convergence import certify_convergence_algebra
+from .certificates.deduction_chain import certify_deduction_chain_f6
+from .certificates.foundational import certify_foundational_repair_f1_f3
+from .certificates.proof_core import certify_proof_carrying_core_r7
+from .certificates.theorem_contracts import certify_theorem_promotion_contract_r8
+from .certificates.intrinsic_mode import certify_intrinsic_mode_transport_r9
+from .certificates.intrinsic_observer_echo import certify_intrinsic_observer_echo_r13
+from .certificates.observer_synthesis_v2 import certify_observer_synthesis_v2_r14
+from .certificates.observer_descent import certify_observer_descent_r16
+from .certificates.intrinsic_vam import certify_intrinsic_vam_r12
 from .certify_proof_elaboration import certify_proof_elaboration_r10
 from .certify_observer_core import certify_observer_core_r11
-from .certify_formal_completion import certify_formal_export_completion_x8
-from .certify_formal_export import certify_formal_export_prep_x7
-from .certify_geometry_visuals import certify_geometry_visual_regression_x6
-from .certify_likelihood import certify_likelihood_geometry_x5
-from .certify_surprise_separation import certify_surprise_separation_s1
-from .certify_surprise_search import certify_surprise_search_s3
-from .certify_surprise_kwise import certify_surprise_kwise_s5
-from .certify_surprise_corpus import certify_surprise_corpus_s7
-from .certify_surprise_debruijn import certify_surprise_debruijn_s6
-from .certify_observer_gap_topology import certify_observer_gap_topology_s7
-from .certify_observer_patch_atlas import certify_observer_patch_atlas_g4
-from .certify_infinity_i1 import certify_observer_infinity_i1
-from .certify_positive_ontology import certify_positive_ontology_p0
-from .certify_observer_morphism import certify_observer_morphism_p1a
-from .certify_finite_construction import certify_finite_construction_p1b
-from .certify_confluence import certify_confluence_p1c1
-from .certify_confluence_aggregate import certify_confluence_aggregate_p1c2
-from .certify_productivity import certify_productivity_p1d1
-from .certify_observer_genesis import certify_observer_genesis_p1e1
-from .certify_observer_relations import certify_observer_relations_p1a2
-from .certify_productivity_counterpressure import certify_productivity_counterpressure
-from .certify_release_bundle import certify_d3_pomega_p2s_bundle
-from .certify_translated_confluence import certify_translated_confluence_p1c3
-from .certify_phase_equations import certify_phase_equation_normal_forms
-from .certify_quantum_baselines import certify_quantum_baseline_q3
-from .certify_quantum_gates import certify_quantum_gate_identity_q6
-from .certify_quantum_obstructions import certify_quantum_error_obstruction_q7
-from .certify_quantum_qft import certify_quantum_qft_period_q8
-from .certify_quantum_compression import certify_quantum_circuit_compression_q9
-from .certify_quantum_qec import certify_quantum_qec_echo_q5
-from .certify_quantum_stabilizer import certify_quantum_stabilizer_q2
-from .certify_quantum_topology import certify_quantum_topology_q4
-from .certify_quantum_veyra import certify_quantum_veyra_q1
-from .certify_quantum_surprise import certify_quantum_surprise_q10
-from .certify_quantum_tensor import certify_quantum_tensor_q11
-from .certify_real_analysis import certify_real_analysis_structure
-from .certify_scale_memory import certify_scale_memory_log
-from .certify_science import certify_model_diagnostics, certify_science_domain_certificates
-from .certify_topology import certify_topology_echo_x4
-from .certify_veyra_magic import certify_veyra_magic_m1
-from .certify_vam import certify_vam_reference_v1
-from .certify_weighted_measure import certify_weighted_echo_measure
-from .certify_linear_algebra import certify_linear_algebra_seed
-from .certify_native_number import certify_native_number_theory, certify_native_resonance_number
-from .certify_native_number_theorems import certify_native_fermat_phase_n2, certify_native_number_theorem_n1
-from .certify_native_runtime import certify_native_runtime_f4
-from .certify_statistics import certify_statistics_inference
-from .certify_statistics_concentration import certify_statistics_concentration_likelihood
-from .certify_trigonometry import certify_trigonometry_identities
-from .certify_transcendental import certify_transcendental_limit
+from .certificates.formal_completion import certify_formal_export_completion_x8
+from .certificates.formal_export import certify_formal_export_prep_x7
+from .certificates.geometry_visuals import certify_geometry_visual_regression_x6
+from .certificates.likelihood import certify_likelihood_geometry_x5
+from .certificates.surprise_separation import certify_surprise_separation_s1
+from .certificates.surprise_search import certify_surprise_search_s3
+from .certificates.surprise_kwise import certify_surprise_kwise_s5
+from .certificates.surprise_corpus import certify_surprise_corpus_s7
+from .certificates.surprise_debruijn import certify_surprise_debruijn_s6
+from .certificates.observer_gap_topology import certify_observer_gap_topology_s7
+from .certificates.observer_patch_atlas import certify_observer_patch_atlas_g4
+from .certificates.infinity_i1 import certify_observer_infinity_i1
+from .certificates.positive_ontology import certify_positive_ontology_p0
+from .certificates.observer_morphism import certify_observer_morphism_p1a
+from .certificates.finite_construction import certify_finite_construction_p1b
+from .certificates.confluence import certify_confluence_p1c1
+from .certificates.confluence_aggregate import certify_confluence_aggregate_p1c2
+from .certificates.productivity import certify_productivity_p1d1
+from .certificates.observer_genesis import certify_observer_genesis_p1e1
+from .certificates.observer_relations import certify_observer_relations_p1a2
+from .certificates.productivity_counterpressure import certify_productivity_counterpressure
+from .certificates.release_bundle import certify_d3_pomega_p2s_bundle
+from .certificates.translated_confluence import certify_translated_confluence_p1c3
+from .certificates.phase_equations import certify_phase_equation_normal_forms
+from .certificates.quantum_baselines import certify_quantum_baseline_q3
+from .certificates.quantum_gates import certify_quantum_gate_identity_q6
+from .certificates.quantum_obstructions import certify_quantum_error_obstruction_q7
+from .certificates.quantum_qft import certify_quantum_qft_period_q8
+from .certificates.quantum_compression import certify_quantum_circuit_compression_q9
+from .certificates.quantum_qec import certify_quantum_qec_echo_q5
+from .certificates.quantum_stabilizer import certify_quantum_stabilizer_q2
+from .certificates.quantum_topology import certify_quantum_topology_q4
+from .certificates.quantum_veyra import certify_quantum_veyra_q1
+from .certificates.quantum_surprise import certify_quantum_surprise_q10
+from .certificates.quantum_tensor import certify_quantum_tensor_q11
+from .certificates.real_analysis import certify_real_analysis_structure
+from .certificates.scale_memory import certify_scale_memory_log
+from .certificates.science import certify_model_diagnostics, certify_science_domain_certificates
+from .certificates.topology import certify_topology_echo_x4
+from .certificates.veyra_magic import certify_veyra_magic_m1
+from .certificates.vam import certify_vam_reference_v1
+from .certificates.weighted_measure import certify_weighted_echo_measure
+from .certificates.linear_algebra import certify_linear_algebra_seed
+from .certificates.native_number import certify_native_number_theory, certify_native_resonance_number
+from .certificates.native_number_theorems import certify_native_fermat_phase_n2, certify_native_number_theorem_n1
+from .certificates.native_runtime import certify_native_runtime_f4
+from .certificates.statistics import certify_statistics_inference
+from .certificates.statistics_concentration import certify_statistics_concentration_likelihood
+from .certificates.trigonometry import certify_trigonometry_identities
+from .certificates.transcendental import certify_transcendental_limit
 from .certify_types import Certificate
-from .certify_readiness import certify_essence_core, certify_proof_discipline
-from .compression_algebra import compare_cost_strategies, compression_algebra_checklist, edit_resonance_profile, hierarchical_compression_tree, polynomial_factor_search
-from .equation import LinearEquation, LinearForm, solve_linear
+from .certificates.readiness import certify_essence_core, certify_proof_discipline
+from .numbers.compression_algebra import compare_cost_strategies, compression_algebra_checklist, edit_resonance_profile, hierarchical_compression_tree, polynomial_factor_search
+from .shadows.equation import LinearEquation, LinearForm, solve_linear
 from .language import core_language_checklist, interpret_veyra
-from .language_coverage import coverage_language_checklist, language_coverage_report, missed_language_coverage_rules
-from .language_span import parse_veyra_spanned, span_language_checklist
-from .language_span_coverage import missed_span_diagnostic_rules, span_diagnostic_coverage_checklist, span_diagnostic_coverage_report
-from .language_proof import proof_language_checklist, proof_summary, trace_veyra_proof
-from .language_fuzz import generated_language_mutation_report, generated_mutation_language_checklist, language_mutation_report, mutation_language_checklist, property_fuzz_language_checklist, property_language_fuzz_report
-from .modes import Mode, echo_equivalent
-from .order import RatioInterval, compare_ratios, interval_contains
-from .polynomial import eval_polynomial, multiply_polynomials, polynomial_from_ints
-from .ratio import add_ratios_raw, ratio_from_ints, ratio_shadow
-from .resonance import resonance_profile
-from .tact_similarity import aura_cost_map
-from .weighted_resonance import weighted_resonance_profile
+from .language.coverage import coverage_language_checklist, language_coverage_report, missed_language_coverage_rules
+from .language.span import parse_veyra_spanned, span_language_checklist
+from .language.span_coverage import missed_span_diagnostic_rules, span_diagnostic_coverage_checklist, span_diagnostic_coverage_report
+from .language.proof import proof_language_checklist, proof_summary, trace_veyra_proof
+from .language.fuzz import generated_language_mutation_report, generated_mutation_language_checklist, language_mutation_report, mutation_language_checklist, property_fuzz_language_checklist, property_language_fuzz_report
+from .numbers.modes import Mode, echo_equivalent
+from .shadows.order import RatioInterval, compare_ratios, interval_contains
+from .shadows.polynomial import eval_polynomial, multiply_polynomials, polynomial_from_ints
+from .shadows.ratio import add_ratios_raw, ratio_from_ints, ratio_shadow
+from .numbers.resonance import resonance_profile
+from .numbers.tact_similarity import aura_cost_map
+from .numbers.weighted_resonance import weighted_resonance_profile
 logger = logging.getLogger(__name__)
+def _evaluate(factory: Callable[[], object]) -> tuple[Certificate, ...]:
+    """Run one factory; a raised error becomes a failed item, not a dead suite."""
+    logger.debug("_evaluate entry factory=%s", factory.__name__)
+    try:
+        produced = factory()
+    except Exception as exc:
+        logger.error("_evaluate factory=%s unavailable=%s", factory.__name__, exc)
+        return (Certificate(
+            factory.__name__.removeprefix("certify_"),
+            "executable certificate",
+            False,
+            f"unavailable={type(exc).__name__}: {exc}",
+            0,
+            available=False,
+        ),)
+    if isinstance(produced, Certificate):
+        return (produced,)
+    return tuple(produced)
+
+
+def certificate_factories() -> tuple[Callable[[], object], ...]:
+    """Every registered certificate factory, in report order."""
+    return (
+        certify_echo,
+        certify_resonance,
+        certify_native_resonance_number,
+        certify_native_number_theory,
+        certify_native_number_theorem_n1,
+        certify_native_fermat_phase_n2,
+        certify_topology_echo_x4,
+        certify_observer_patch_atlas_g4,
+        certify_observer_infinity_i1,
+        certify_positive_ontology_p0,
+        certify_observer_morphism_p1a,
+        certify_observer_relations_p1a2,
+        certify_finite_construction_p1b,
+        certify_confluence_p1c1,
+        certify_confluence_aggregate_p1c2,
+        certify_translated_confluence_p1c3,
+        certify_productivity_p1d1,
+        certify_productivity_counterpressure,
+        certify_d3_pomega_p2s_bundle,
+        certify_observer_genesis_p1e1,
+        certify_geometry_visual_regression_x6,
+        certify_formal_export_prep_x7,
+        certify_formal_export_completion_x8,
+        certify_quantum_veyra_q1,
+        certify_quantum_stabilizer_q2,
+        certify_quantum_topology_q4,
+        certify_quantum_qec_echo_q5,
+        certify_quantum_gate_identity_q6,
+        certify_quantum_error_obstruction_q7,
+        certify_quantum_qft_period_q8,
+        certify_quantum_circuit_compression_q9,
+        certify_quantum_surprise_q10,
+        certify_quantum_tensor_q11,
+        certify_quantum_baseline_q3,
+        certify_aura_weighted,
+        certify_balance,
+        certify_ratio,
+        certify_order,
+        certify_equation,
+        certify_polynomial,
+        certify_category_like_translation,
+        certify_calculus_depth,
+        certify_trigonometry_identities,
+        certify_phase_equation_normal_forms,
+        certify_linear_algebra_seed,
+        certify_statistics_inference,
+        certify_statistics_concentration_likelihood,
+        certify_likelihood_geometry_x5,
+        certify_surprise_separation_s1,
+        certify_surprise_search_s3,
+        certify_surprise_kwise_s5,
+        certify_surprise_debruijn_s6,
+        certify_surprise_corpus_s7,
+        certify_observer_gap_topology_s7,
+        certify_veyra_magic_m1,
+        certify_vam_reference_v1,
+        certify_foundational_repair_f1_f3,
+        certify_proof_carrying_core_r7,
+        certify_theorem_promotion_contract_r8,
+        certify_intrinsic_mode_transport_r9,
+        certify_proof_elaboration_r10,
+        certify_observer_core_r11,
+        certify_intrinsic_vam_r12,
+        certify_intrinsic_observer_echo_r13,
+        certify_observer_synthesis_v2_r14,
+        certify_observer_descent_r16,
+        certify_native_runtime_f4,
+        certify_classical_benchmark_f5,
+        certify_benchmark_evidence_r15,
+        certify_deduction_chain_f6,
+        certify_transcendental_limit,
+        certify_convergence_algebra,
+        certify_real_analysis_structure,
+        certify_weighted_echo_measure,
+        certify_science_domain_certificates,
+        certify_model_diagnostics,
+        certify_scale_memory_log,
+        certify_compression_algebra,
+        certify_language,
+        certify_language_spans,
+        certify_language_span_diagnostics,
+        certify_language_proofs,
+        certify_language_mutations,
+        certify_language_generated_mutations,
+        certify_language_property_fuzz,
+        certify_language_coverage,
+        certify_proof_discipline,
+        certify_essence_core,
+    )
+
+
 def certificate_suite() -> list[Certificate]:
-    """Run core Veyra workability certificates."""
-    logger.debug("certificate_suite entry")
-    certs = [certify_echo(), certify_resonance(), certify_native_resonance_number(), certify_native_number_theory(),
-        certify_native_number_theorem_n1(), certify_native_fermat_phase_n2(), certify_topology_echo_x4(), certify_observer_patch_atlas_g4(), certify_observer_infinity_i1(), certify_positive_ontology_p0(), certify_observer_morphism_p1a(), certify_observer_relations_p1a2(), certify_finite_construction_p1b(), certify_confluence_p1c1(), certify_confluence_aggregate_p1c2(), certify_translated_confluence_p1c3(), certify_productivity_p1d1(), certify_productivity_counterpressure(), *certify_d3_pomega_p2s_bundle(), certify_observer_genesis_p1e1(),
-        certify_geometry_visual_regression_x6(), certify_formal_export_prep_x7(), certify_formal_export_completion_x8(),
-        certify_quantum_veyra_q1(), certify_quantum_stabilizer_q2(), certify_quantum_topology_q4(),
-        certify_quantum_qec_echo_q5(), certify_quantum_gate_identity_q6(),
-        certify_quantum_error_obstruction_q7(), certify_quantum_qft_period_q8(), certify_quantum_circuit_compression_q9(), certify_quantum_surprise_q10(), certify_quantum_tensor_q11(),
-        certify_quantum_baseline_q3(),
-        certify_aura_weighted(),
-        certify_balance(),
-        certify_ratio(),
-        certify_order(),
-        certify_equation(),
-        certify_polynomial(),
-        certify_category_like_translation(),
-        certify_calculus_depth(),
-        certify_trigonometry_identities(),
-        certify_phase_equation_normal_forms(),
-        certify_linear_algebra_seed(),
-        certify_statistics_inference(),
-        certify_statistics_concentration_likelihood(),
-        certify_likelihood_geometry_x5(), certify_surprise_separation_s1(), certify_surprise_search_s3(), certify_surprise_kwise_s5(), certify_surprise_debruijn_s6(), certify_surprise_corpus_s7(), certify_observer_gap_topology_s7(), certify_veyra_magic_m1(), certify_vam_reference_v1(),
-        certify_foundational_repair_f1_f3(), certify_proof_carrying_core_r7(), certify_theorem_promotion_contract_r8(), certify_intrinsic_mode_transport_r9(), certify_proof_elaboration_r10(), certify_observer_core_r11(), certify_intrinsic_vam_r12(), certify_intrinsic_observer_echo_r13(), certify_observer_synthesis_v2_r14(), certify_observer_descent_r16(),
-        certify_native_runtime_f4(), certify_classical_benchmark_f5(), certify_benchmark_evidence_r15(),
-        certify_deduction_chain_f6(),
-        certify_transcendental_limit(),
-        certify_convergence_algebra(),
-        certify_real_analysis_structure(),
-        certify_weighted_echo_measure(),
-        certify_science_domain_certificates(),
-        certify_model_diagnostics(),
-        certify_scale_memory_log(),
-        certify_compression_algebra(),
-        certify_language(),
-        certify_language_spans(),
-        certify_language_span_diagnostics(),
-        certify_language_proofs(),
-        certify_language_mutations(),
-        certify_language_generated_mutations(),
-        certify_language_property_fuzz(),
-        certify_language_coverage(),
-        certify_proof_discipline(),
-        certify_essence_core(),
-    ]
+    """Run core Veyra workability certificates, isolating each factory."""
+    factories = certificate_factories()
+    logger.debug("certificate_suite entry factories=%d", len(factories))
+    certs = [cert for factory in factories for cert in _evaluate(factory)]
     logger.debug("certificate_suite exit count=%d passed=%d", len(certs), sum(c.passed for c in certs))
     return certs
 def certify_echo() -> Certificate:
@@ -292,8 +366,13 @@ def certify_language_coverage() -> Certificate:
     logger.debug("certify_language_coverage exit result=%r", result)
     return result
 def certificate_summary(certs: list[Certificate]) -> dict[str, object]:
-    """Return compact certificate summary."""
+    """Return compact certificate summary.
+
+    ``failed`` lists everything that did not pass; ``unavailable`` names the
+    subset that could not run at all, so a reader can tell a refuted claim from
+    an absent toolchain without parsing ``detail``.
+    """
     logger.debug("certificate_summary entry count=%d", len(certs))
-    result = {"total": len(certs), "passed": sum(item.passed for item in certs), "failed": [item.name for item in certs if not item.passed], "min_level": min((item.level for item in certs), default=0)}
+    result = {"total": len(certs), "passed": sum(item.passed for item in certs), "failed": [item.name for item in certs if not item.passed], "unavailable": [item.name for item in certs if not item.available], "min_level": min((item.level for item in certs), default=0)}
     logger.debug("certificate_summary exit result=%r", result)
     return result

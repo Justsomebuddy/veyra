@@ -11,9 +11,9 @@ Part of the public [Theorem and Definition Registry](../../THEOREMS.md).
 ## Definitions added in 1.5.0
 | ID | Name | Location | Dependencies |
 |---|---|---|---|
-| DEF-044 | Tact aura | `docs/19_tact_similarity.md`, `src/core/tact_similarity.py` | DEF-003, DEF-005 |
-| DEF-045 | Aura similarity | `docs/19_tact_similarity.md`, `src/core/tact_similarity.py` | DEF-044 |
-| DEF-046 | Aura-derived defect cost | `docs/19_tact_similarity.md`, `src/core/tact_similarity.py` | DEF-041, DEF-045 |
+| DEF-044 | Tact aura | `docs/concepts/tact_similarity.md`, `src/core/numbers/tact_similarity.py` | DEF-003, DEF-005 |
+| DEF-045 | Aura similarity | `docs/concepts/tact_similarity.md`, `src/core/numbers/tact_similarity.py` | DEF-044 |
+| DEF-046 | Aura-derived defect cost | `docs/concepts/tact_similarity.md`, `src/core/numbers/tact_similarity.py` | DEF-041, DEF-045 |
 ## Propositions added in 1.5.0
 | ID | Name | Statement | Uses | Status |
 |---|---|---|---|---|
@@ -25,10 +25,10 @@ Part of the public [Theorem and Definition Registry](../../THEOREMS.md).
 ## Definitions added in 1.6.0
 | ID | Name | Location | Dependencies |
 |---|---|---|---|
-| DEF-047 | Balance mode | `docs/21_balance_modes.md`, `src/core/balance.py` | DEF-005 |
-| DEF-048 | Opposite balance | `docs/21_balance_modes.md`, `src/core/balance.py` | DEF-047 |
-| DEF-049 | Ratio mode | `docs/22_ratio_modes.md`, `src/core/ratio.py` | DEF-047 |
-| DEF-050 | Canonical ratio shadow | `docs/22_ratio_modes.md`, `src/core/ratio.py` | DEF-049, THM-001 |
+| DEF-047 | Balance mode | `docs/concepts/balance_modes.md`, `src/core/shadows/balance.py` | DEF-005 |
+| DEF-048 | Opposite balance | `docs/concepts/balance_modes.md`, `src/core/shadows/balance.py` | DEF-047 |
+| DEF-049 | Ratio mode | `docs/concepts/ratio_modes.md`, `src/core/shadows/ratio.py` | DEF-047 |
+| DEF-050 | Canonical ratio shadow | `docs/concepts/ratio_modes.md`, `src/core/shadows/ratio.py` | DEF-049, THM-001 |
 ## Propositions added in 1.6.0
 | ID | Name | Statement | Uses | Status |
 |---|---|---|---|---|
@@ -37,10 +37,10 @@ Part of the public [Theorem and Definition Registry](../../THEOREMS.md).
 ## Definitions added in 1.7.0
 | ID | Name | Location | Dependencies |
 |---|---|---|---|
-| DEF-051 | Length dominance | `docs/23_order_magnitude.md`, `src/core/order.py` | DEF-047 |
-| DEF-052 | Balance magnitude | `docs/23_order_magnitude.md`, `src/core/order.py` | DEF-047, DEF-051 |
-| DEF-053 | Ratio dominance | `docs/23_order_magnitude.md`, `src/core/order.py` | DEF-049, DEF-050 |
-| DEF-054 | Ratio interval | `docs/23_order_magnitude.md`, `src/core/order.py` | DEF-053 |
+| DEF-051 | Length dominance | `docs/concepts/order_magnitude.md`, `src/core/shadows/order.py` | DEF-047 |
+| DEF-052 | Balance magnitude | `docs/concepts/order_magnitude.md`, `src/core/shadows/order.py` | DEF-047, DEF-051 |
+| DEF-053 | Ratio dominance | `docs/concepts/order_magnitude.md`, `src/core/shadows/order.py` | DEF-049, DEF-050 |
+| DEF-054 | Ratio interval | `docs/concepts/order_magnitude.md`, `src/core/shadows/order.py` | DEF-053 |
 ## Propositions added in 1.7.0
 | ID | Name | Statement | Uses | Status |
 |---|---|---|---|---|
@@ -49,9 +49,9 @@ Part of the public [Theorem and Definition Registry](../../THEOREMS.md).
 ## Definitions added in 1.8.0
 | ID | Name | Location | Dependencies |
 |---|---|---|---|
-| DEF-055 | Linear ratio form | `docs/24_linear_equations.md`, `src/core/equation.py` | DEF-049 |
-| DEF-056 | Linear constraint | `docs/24_linear_equations.md`, `src/core/equation.py` | DEF-055 |
-| DEF-057 | Equation obstruction | `docs/24_linear_equations.md`, `src/core/equation.py` | DEF-056 |
+| DEF-055 | Linear ratio form | `docs/concepts/linear_equations.md`, `src/core/shadows/equation.py` | DEF-049 |
+| DEF-056 | Linear constraint | `docs/concepts/linear_equations.md`, `src/core/shadows/equation.py` | DEF-055 |
+| DEF-057 | Equation obstruction | `docs/concepts/linear_equations.md`, `src/core/shadows/equation.py` | DEF-056 |
 ## Propositions added in 1.8.0
 | ID | Name | Statement | Uses | Status |
 |---|---|---|---|---|
@@ -59,7 +59,7 @@ Part of the public [Theorem and Definition Registry](../../THEOREMS.md).
 ## Definitions added in 1.9.0
 | ID | Name | Location | Dependencies |
 |---|---|---|---|
-| DEF-058 | Polynomial ratio form | `docs/25_polynomial_forms.md`, `src/core/polynomial.py` | DEF-049, DEF-055 |
+| DEF-058 | Polynomial ratio form | `docs/concepts/polynomial_forms.md`, `src/core/shadows/polynomial.py` | DEF-049, DEF-055 |
 ## Propositions added in 1.9.0
 | ID | Name | Statement | Uses | Status |
 |---|---|---|---|---|
@@ -67,7 +67,7 @@ Part of the public [Theorem and Definition Registry](../../THEOREMS.md).
 ## Definitions added in 2.0.0
 | ID | Name | Location | Dependencies |
 |---|---|---|---|
-| DEF-376 | Full realization certificate | `docs/26_full_realization_contract.md`, `src/core/certify.py` | DEF-015, DEF-030, DEF-046, DEF-047, DEF-049, DEF-053, DEF-056, DEF-058 |
+| DEF-376 | Full realization certificate | `docs/concepts/full_realization_contract.md`, `src/core/certify.py` | DEF-015, DEF-030, DEF-046, DEF-047, DEF-049, DEF-053, DEF-056, DEF-058 |
 ## Certification added in 2.0.0
 | Certificate | Method | Status |
 |---|---|---|
@@ -78,8 +78,8 @@ Part of the public [Theorem and Definition Registry](../../THEOREMS.md).
 ## Definitions added in 2.1.0
 | ID | Name | Location | Dependencies |
 |---|---|---|---|
-| DEF-377 | Raw ratio operation | `docs/27_native_ratio_lift.md`, `src/core/ratio.py` | DEF-047, DEF-049 |
-| DEF-378 | Native cross-scale addition | `docs/27_native_ratio_lift.md`, `src/core/ratio.py` | DEF-377 |
+| DEF-377 | Raw ratio operation | `docs/concepts/native_ratio_lift.md`, `src/core/shadows/ratio.py` | DEF-047, DEF-049 |
+| DEF-378 | Native cross-scale addition | `docs/concepts/native_ratio_lift.md`, `src/core/shadows/ratio.py` | DEF-377 |
 ## Certification updated in 2.1.0
 | Certificate | Previous | Current |
 |---|---|---|
