@@ -3,7 +3,7 @@
 build==1.4.0
 cryptography==46.0.6
 ipykernel==6.31.0
-jupyterlab==4.5.1
+jupyterlab==4.5.10
 pytest==9.0.2
 ruff==0.15.6
 setuptools==80.10.2
