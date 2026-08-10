@@ -218,10 +218,10 @@ Final reviewed bindings:
 
 - phase artifact: `2ae21b674aa54efd50630a6c764af47ed72ce973b9171fe8eea1a550f3c8cd1b`;
 - executable evidence: `f30763425eda0f400f65447a96f8030df29dc99ff837cf8d04d49759e33d5902`;
-- theorem artifact: `7a4f073017b5b7caedb3a43a13ff69c3d40f21bbf285a5985929f82f00aa9810`;
+- theorem artifact: `06531f09c4dddc7f04182a9ab5826623101351c3fa1066bf52717af1d2298e41`;
 - guarded snapshot/report: `bc8dc77c8debbe5efe03f0d0f05959033971c1b3eb96c33e7993e551603a5953`
   / `e3a57712afd6b55f521b86b50b9543ab6317b135c23d3f4ecc9b41d89ee74957`;
-- new R8 contract: `8f040540b28a3b249292371bbe13cd63d9a80f71d86cf44f27fa662f7d18ac7f`;
+- new R8 contract: `a2c8e00f8f5d35334a6a616121d2aee13e9bb2a547cedc121b2bb6482b140a4f`;
 - direct executable-handler pin: `ee12d603d86b0a1387bcba3e9c6a76fbba983940908e5ec07a0b5d856a9d5673`;
 - preserved old R7 contract: `484534000ee59a28d0d131b777dcc775d56d24b82c70797954ba82c8570a8eba`.
 

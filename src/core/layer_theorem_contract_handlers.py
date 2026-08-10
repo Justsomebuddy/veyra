@@ -48,7 +48,7 @@ R13_HANDLER_ID = "veyra.handler.intrinsic-observer-echo.r13.v1"
 R13_TRANSPORT_CARRIER = (
     "veyra.proof.r7-unit-weave.r9-image.r11-ready-echo.r12-lowering-image.r13.v1"
 )
-R13_TRUSTED_CONTRACT_DIGEST = "8f040540b28a3b249292371bbe13cd63d9a80f71d86cf44f27fa662f7d18ac7f"
+R13_TRUSTED_CONTRACT_DIGEST = "a2c8e00f8f5d35334a6a616121d2aee13e9bb2a547cedc121b2bb6482b140a4f"
 R13_TRUSTED_EXECUTABLE_DIGEST = "ee12d603d86b0a1387bcba3e9c6a76fbba983940908e5ec07a0b5d856a9d5673"
 EvidenceTuple = tuple[
     str, str, str, str, tuple[str, ...], tuple[str, ...], str,

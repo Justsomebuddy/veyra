@@ -40,7 +40,7 @@ PROOF_RULES = (
 )
 NATIVE_LAWS = ("weave-unit-right",)
 EXPECTED_STATEMENT_DIGEST = "9aa80350921552fdd569bb54474c9f51bd12baee1d3e154dfa40e2dba882a497"
-EXPECTED_ARTIFACT_DIGEST = "7a4f073017b5b7caedb3a43a13ff69c3d40f21bbf285a5985929f82f00aa9810"
+EXPECTED_ARTIFACT_DIGEST = "06531f09c4dddc7f04182a9ab5826623101351c3fa1066bf52717af1d2298e41"
 BOUNDARY = (
     "general only under explicit R12 bounds: observer nodes<=2048/depth<=128, "
     "recurrence tacts<=128, and transported echo outcome nodes<=4096/depth<=128; "
