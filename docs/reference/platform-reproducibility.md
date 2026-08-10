@@ -6,9 +6,9 @@ Veyra has two deliberately different support levels.
 
 | Surface | Linux | macOS | Windows |
 |---|---|---|---|
-| installable portable Python subset and finite semantics | supported on CPython 3.11; reviewed locally on 3.11.14 | intended on CPython 3.11.9; the OS workflow must pass before a verification claim | intended on CPython 3.11.9; the OS workflow must pass before a verification claim |
-| wheel/sdist build and isolated wheel import | supported | intended; workflow evidence required | intended; workflow evidence required |
-| VAM Rust crate | pinned Rust lane | intended; workflow evidence required | intended; workflow evidence required |
+| installable portable Python subset and finite semantics | supported on CPython 3.11; verified locally and in hosted CI on 3.11.14 | verified in hosted CI on CPython 3.11.9 | verified in hosted CI on CPython 3.11.9 |
+| wheel/sdist build and isolated wheel import | verified locally and in hosted CI | verified in hosted CI | verified in hosted CI |
+| VAM Rust crate | verified locally and in hosted CI with pinned Rust | verified in hosted CI with pinned Rust | verified in hosted CI with pinned Rust |
 | compiling all 42 Lean sources with `elan` | supported when the pinned toolchain is installed | expected where `elan` supplies the pinned toolchain | expected where `elan` supplies the pinned toolchain |
 | content-bound certificate renewal and guarded Lean execution | Linux x86_64 only | unsupported | unsupported |
 | R14 process/resource hardening | Linux/POSIX contract only | unsupported | unsupported |
@@ -25,8 +25,13 @@ all capability markers as defense in depth rather than dynamically skipping
 failures. The unfiltered complete lane still runs every test.
 
 The workflow in `.github/workflows/portable.yml` is the executable OS matrix.
-A workflow definition is not itself evidence that a hosted run passed; cite an
-exact successful run before claiming macOS or Windows verification.
+[GitHub Actions run `31362980690`](https://github.com/Justsomebuddy/veyra/actions/runs/31362980690)
+passed all seven jobs for exact commit
+`3c44de5045b40ae998b2464483525fc6c6e9cc13`: portable Python and native Rust
+on Linux, macOS, and Windows, plus the exact Rust 1.83.0 MSRV lane on Linux.
+This verifies only the portable/package/native surfaces named in the table; it
+does not extend the Linux-only Sage, Lean, certificate-renewal, or process
+hardening claims.
 
 ## Python version and capabilities
 
@@ -134,11 +139,11 @@ transitive or cross-platform bit-for-bit lock.
 The hosted workflow pins action commits, fixed runner labels, job timeouts, the
 exact Python tool list, Rust 1.95.0, and exact Rust 1.83.0 for declared-MSRV
 compatibility. Linux uses CPython 3.11.14; macOS and Windows use the newest
-setup-python patch available
-on all selected images, 3.11.9. No macOS or Windows success is claimed until an
-exact hosted run passes. Runner labels select OS families, not immutable image
-revisions; the concrete hosted image revision remains mutable workflow-run
-evidence.
+setup-python patch available on all selected images, 3.11.9. The exact hosted
+run cited above supplies the current cross-platform evidence. Runner labels
+select OS families, not immutable image revisions; the concrete hosted image
+revision remains mutable workflow-run evidence, so later runs must be evaluated
+independently rather than inheriting this result.
 
 The final diff-integrity stage checks unstaged changes, the staged index, and
 the current commit object. On a clean commit-bound run, the commit-object check
