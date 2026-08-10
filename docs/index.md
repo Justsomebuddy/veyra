@@ -19,6 +19,12 @@ P1. `150_constructive_observer_doctrine_p1.md` — philosophy-first
 P2. `151_veyra_philosophical_kernel_p2.md` — observer/formation/silence/infinity synthesis; P2-S validates schemas, not ontology.
 P3. `154_six_closure_principles.md` — six independent closure principles for ontology, semantics, construction, foundation, and provenance.
 PX. `156_omegaa_semantic_authority_ladder.md` — conceptual map for the isolated, unfinished Omega-A experiment; not stable Core or a checker release.
+OD. `157_certified_observer_discovery_mvp.md` through
+    `160_governed_observer_discovery_v3.md` — bounded categorical observer
+    search, its nonpromoting Phase-II claim tuple and fixed-winner replication,
+    plus the separate strict-v3 canonical transport, closed-worker, local
+    governance, and authenticated-root experiment; no causality, object
+    formation, theorem, strict syscall isolation, or production custody follows.
 2. `01_primitives.md` — core words and axioms.
 3. `03_point_segment.md` — point and segment analogues.
 4. `02_number_theory.md` — first arithmetic layer.
@@ -220,6 +226,16 @@ No metaphysical claim is accepted as mathematics until it becomes a definition, 
 - `docs/157_certified_observer_discovery_mvp.md` — bounded categorical
   train/holdout observer discovery with whole-catalog max-stat calibration,
   stability, named baselines, and explicit non-claims; not a theorem.
+- `docs/158_observer_discovery_ontology_phase_ii.md` — candidate ontology of
+  representation, presentation, observer status, relational simplicity,
+  witnesshood, and orthogonal execution/interpretation/ontology claim axes.
+- `docs/159_fixed_observer_confirmation.md` — exact-parent-replayed,
+  no-reranking replication of a frozen observer on a third declared test set;
+  logical in-process discipline only, not authenticated one-shot isolation.
+- `docs/160_governed_observer_discovery_v3.md` — separate strict-v3 canonical
+  representation/commuting-square checks, closed logical subprocess, local
+  burn-before-evaluation governance, and HMAC/optional-Ed25519 root-only audit
+  receipts; not a syscall sandbox, production custody, full replay, or theorem.
 ## Executable examples
 - `veyra_sage/examples.py` — Sage doctest examples.
 - `scripts/scale_memory_log_demo.py` — practical transition-depth recovery demo with progress output.
@@ -287,7 +303,14 @@ No metaphysical claim is accepted as mathematics until it becomes a definition, 
 - `tests/test_native_runtime.py`, `test_semantic_receipts.py`, `test_layer_{derivations,theorem_contracts}.py`, `test_intrinsic_*.py`, `test_proof_{surface,dependency,elaboration}*.py`, `test_observer_core_*.py`, `test_theorem_language.py` — native/R9–R11 transport, elaboration, typed observers, artifacts/bridges, containment, and promotion attacks.
 - `tests/test_classical_benchmarks.py`, `tests/test_native_number_theorems.py`, `tests/test_deduction_chain.py` — benchmark, `THM-F002`, N2 `THM-F003`, `THM-G001`, benchmark-verdict rules and deduction proof rows.
 - `tests/test_compression_algebra.py` — edit drift, compression tree, polynomial factors, and cost strategy comparison.
-- `tests/test_surprise.py`, `tests/test_observer_synthesis.py`, `tests/test_observer_synthesis_parity.py` — observer-gap witnesses and deterministic train/holdout synthesis.
+- `tests/test_surprise.py`, `tests/test_observer_synthesis.py`,
+  `tests/test_observer_synthesis_parity.py`, and
+  `tests/test_observer_discovery*.py` — observer-gap witnesses, deterministic
+  train/holdout synthesis, nonpromoting claim projection, and fixed-winner
+  replication on a third declared test set.
+- `tests/test_observer_discovery_v3*.py` and `tests/test_observer_v3_*.py` —
+  strict-v3 schema/transport/commuting-square, closed-worker, local-ledger,
+  burn-before-evaluation, and authenticated root-receipt pressure.
 - `tests/test_veyra_sage_essence.py`, `test_certify_intrinsic_vam.py`, `test_veyra_sage_intrinsic_vam.py`, `test_intrinsic_observer_echo_*.py` — Sage Essence, R12.6 integration, and R13 proof/promotion/Sage boundaries.
 - `tests/test_veyra_sage_calculus.py` — Sage-facing calculus-depth lab and notebook.
 - `tests/test_veyra_sage_trigonometry.py` — Sage-facing trigonometry identity lab and notebook.

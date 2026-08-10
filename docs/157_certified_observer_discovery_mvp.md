@@ -155,16 +155,18 @@ does not turn an unkeyed digest into authentication.
 - support for continuous/missing-data preprocessing;
 - a new Lean theorem.
 
-The current API is in-process and programmatic.  A later slice must add a
-schema-bound file adapter, physically separate train selection from holdout
-evaluation, introduce a final untouched test split, and validate target-leakage
-and preprocessing policies before this can be presented as an end-user
-scientific discovery tool.
+The current API is in-process and programmatic. The separate Phase-II module
+in `159_fixed_observer_confirmation.md` adds opt-in fixed-winner replication on
+a third caller-declared test set, but it still cannot prove that those labels
+were historically untouched. A later production slice must add a schema-bound
+adapter, physically separate selection from test evaluation, and validate
+target-leakage and preprocessing policies before this can be presented as an
+end-user scientific discovery tool.
 
-The in-process API is stateless and therefore cannot enforce one-shot holdout
-consumption. Reusing the same holdout for iterative research decisions is an
-unsupported protocol violation that a later isolated receipt ledger must
-prevent.
+The in-process APIs are stateless and therefore cannot enforce one-shot holdout
+or final-test consumption. Reusing either split for iterative research
+decisions is an unsupported protocol violation that a later isolated receipt
+ledger must prevent.
 
 BM-F009 remains a calibration precedent only: it proves a strict inclusion of
 one declared proper-marginal observer class after adding classical global

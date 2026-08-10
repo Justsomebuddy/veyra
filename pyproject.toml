@@ -31,6 +31,9 @@ dev = [
 tools = [
   "tqdm>=4.66,<5",
 ]
+signing = [
+  "cryptography>=45,<48",
+]
 notebooks = [
   "ipykernel>=6,<7",
   "jupyterlab>=4,<5",

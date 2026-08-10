@@ -51,6 +51,7 @@ Optional dependency groups are:
 
 - `dev`: build, Pytest, and Ruff;
 - `tools`: `tqdm` for repository verification scripts;
+- `signing`: optional `cryptography` backend for Ed25519 replay receipts;
 - `notebooks`: Jupyter kernel and lab tooling.
 
 `requirements/py311-tested.txt` pins the direct versions exercised by the

@@ -4,6 +4,7 @@ The module searches only the supplied typed R5 grammar.  It establishes
 association under a locked statistical protocol, never causality, semantic
 explanation, universal hidden-variable recovery, or an impossibility result.
 """
+
 from __future__ import annotations
 
 from collections import Counter, defaultdict
@@ -35,12 +36,11 @@ from .observer_discovery_protocol import (
     enumerate_observer_terms_bounded,
     snapshot_discovery_inputs,
 )
+from .observer_discovery_evidence import discovery_input_digests
 from .observer_discovery_validation import (
     bind_discovery_report,
     bind_discovery_train_evaluation,
-    discovery_grammar_data,
     discovery_grammar_receipt,
-    discovery_policy_data,
     discovery_policy_receipt,
 )
 from .observer_synthesis import (
@@ -87,6 +87,8 @@ _HARD_MAX_WORK_ITEMS = 10_000_000
 _HARD_MAX_RETAINED_OUTPUT_UNITS = 1_000_000
 _HARD_MAX_STRING_BYTES = 4096
 _HARD_MAX_ID_BYTES = 512
+
+
 class _DiscoveryBlocked(RuntimeError):
     """Internal fail-closed signal carrying a stable obstruction pair."""
 
@@ -111,7 +113,10 @@ def discover_observer(
     current_catalog_size = 0
     try:
         grammar, split, baselines, config = snapshot_discovery_inputs(
-            grammar, split, baselines, config,
+            grammar,
+            split,
+            baselines,
+            config,
         )
         _validate_config(config)
         registry = _registry(grammar)
@@ -144,17 +149,26 @@ def discover_observer(
             )
 
         stability = _bootstrap_stability(
-            winner, catalog, train_outputs, split.train, grammar, registry, config, digests.protocol,
+            winner,
+            catalog,
+            train_outputs,
+            split.train,
+            grammar,
+            registry,
+            config,
+            digests.protocol,
         )
         holdout_outputs = _evaluate_catalog(catalog, split.holdout, registry, config)
         holdout_targets = tuple(row.target for row in split.holdout)
         winner_index = next(
-            index for index, term in enumerate(catalog)
-            if observer_fingerprint(term) == winner.fingerprint
+            index for index, term in enumerate(catalog) if observer_fingerprint(term) == winner.fingerprint
         )
         holdout_information = _mutual_information(holdout_outputs[winner_index], holdout_targets)
         baseline_rows = _baseline_comparisons(
-            baselines, catalog, holdout_outputs, holdout_targets,
+            baselines,
+            catalog,
+            holdout_outputs,
+            holdout_targets,
         )
         best_baseline = max((row.information_bits for row in baseline_rows), default=0.0)
         observer_gap = holdout_information - best_baseline
@@ -167,7 +181,11 @@ def discover_observer(
             digests.protocol,
         )
         failures = _discovery_failures(
-            holdout_information, observer_gap, calibration, stability, config,
+            holdout_information,
+            observer_gap,
+            calibration,
+            stability,
+            config,
         )
         _assert_protocol_unchanged(digests, grammar, split, baselines, config, catalog)
         if failures:
@@ -243,6 +261,7 @@ def discover_observer(
         logger.debug("discover_observer exit status=%s", result.status)
         return result
 
+
 def _validate_config(config: DiscoveryConfig) -> None:
     logger.debug("_validate_config entry")
     numeric = (
@@ -280,10 +299,7 @@ def _validate_config(config: DiscoveryConfig) -> None:
     ):
         logger.error("_validate_config hard statistical or resource floor failed")
         raise _DiscoveryBlocked("invalid-config", "hard-statistical-or-resource-bound")
-    if (
-        config.permutation_count < HARD_MIN_PERMUTATIONS
-        or config.bootstrap_replicates < HARD_MIN_BOOTSTRAPS
-    ):
+    if config.permutation_count < HARD_MIN_PERMUTATIONS or config.bootstrap_replicates < HARD_MIN_BOOTSTRAPS:
         logger.error("_validate_config insufficient calibration count")
         raise _DiscoveryBlocked("insufficient-calibration", "hard-replicate-floor")
     required_resolution = ceil(1.0 / config.significance_alpha) - 1
@@ -294,6 +310,7 @@ def _validate_config(config: DiscoveryConfig) -> None:
         logger.error("_validate_config invalid seed")
         raise _DiscoveryBlocked("invalid-config", "random-seed")
     logger.debug("_validate_config exit")
+
 
 def _validate_split(split: DiscoverySplit) -> None:
     logger.debug("_validate_split entry")
@@ -321,6 +338,7 @@ def _validate_split(split: DiscoverySplit) -> None:
             logger.error("_validate_split leakage kind=%s count=%d", name, len(overlap))
             raise _DiscoveryBlocked("split-leakage", f"cross-split-{name}-overlap")
     logger.debug("_validate_split exit")
+
 
 def _validate_rows(name: str, rows: tuple[DiscoveryRow, ...]) -> None:
     logger.debug("_validate_rows entry split=%s count=%d", name, len(rows))
@@ -362,6 +380,7 @@ def _validate_rows(name: str, rows: tuple[DiscoveryRow, ...]) -> None:
         raise _DiscoveryBlocked("invalid-data", f"{name}-lineage-crosses-groups")
     logger.debug("_validate_rows exit split=%s groups=%d", name, len(group_targets))
 
+
 def _validate_canonical(value: Canonical) -> int:
     logger.debug("_validate_canonical entry type=%s", type(value).__name__)
     stack: list[tuple[Canonical, int]] = [(value, 0)]
@@ -399,6 +418,7 @@ def _validate_canonical(value: Canonical) -> int:
         raise _DiscoveryBlocked("invalid-data", f"noncanonical:{type(item).__name__}")
     logger.debug("_validate_canonical exit nodes=%d", nodes)
     return nodes + units
+
 
 def _registry(grammar: ObserverGrammar) -> dict[str, ObserverPrimitive]:
     logger.debug("_registry entry")
@@ -471,8 +491,7 @@ def _validate_evaluator_state(evaluator: object) -> None:
     code = getattr(evaluator, "__code__", None)
     namespace = getattr(evaluator, "__globals__", {})
     if code is not None and any(
-        name in namespace and not _immutable_semantic_state(namespace[name])
-        for name in code.co_names
+        name in namespace and not _immutable_semantic_state(namespace[name]) for name in code.co_names
     ):
         logger.error("_validate_evaluator_state mutable global dependency")
         raise _DiscoveryBlocked("untrusted-evaluator-state", "mutable-global")
@@ -516,17 +535,12 @@ def _validate_catalog(
     if not baseline_names:
         logger.error("_validate_catalog missing baseline")
         raise _DiscoveryBlocked("invalid-baseline", "at-least-one-named-baseline-required")
-    if len(set(baseline_names)) != len(baseline_names) or any(
-        not _bounded_text(name) for name in baseline_names
-    ):
+    if len(set(baseline_names)) != len(baseline_names) or any(not _bounded_text(name) for name in baseline_names):
         logger.error("_validate_catalog invalid baseline names")
         raise _DiscoveryBlocked("invalid-baseline", "names-must-be-unique")
     catalog_terms = {canonical_term(term) for term in catalog}
     for baseline in baselines:
-        if (
-            not _bounded_text(baseline.observer_class)
-            or not _bounded_text(baseline.boundary)
-        ):
+        if not _bounded_text(baseline.observer_class) or not _bounded_text(baseline.boundary):
             logger.error("_validate_catalog invalid baseline metadata")
             raise _DiscoveryBlocked("invalid-baseline", "metadata")
         try:
@@ -588,8 +602,7 @@ def _evaluate_catalog(
         for row_index, row in enumerate(rows):
             responses = tuple(evaluate_observer(term, row.features, registry) for _ in range(checks))
             response_units = tuple(
-                _validate_observer_value(response.value) if response.status == "ready" else 0
-                for response in responses
+                _validate_observer_value(response.value) if response.status == "ready" else 0 for response in responses
             )
             signatures = {
                 (
@@ -607,7 +620,8 @@ def _evaluate_catalog(
             if response.status != "ready":
                 logger.error("_evaluate_catalog evaluator failure row_index=%d", row_index)
                 raise _DiscoveryBlocked(
-                    "evaluator-failure", response.obstruction or f"row-index={row_index}",
+                    "evaluator-failure",
+                    response.obstruction or f"row-index={row_index}",
                 )
             retained_units += response_units[0]
             if retained_units > _HARD_MAX_RETAINED_OUTPUT_UNITS:
@@ -648,10 +662,12 @@ def _score_catalog(
         complexity = observer_term_cost(term, registry)
         objective = information - config.complexity_cost_per_unit * complexity
         scores.append(DiscoveryScore(term, observer_fingerprint(term), information, complexity, objective))
-    result = tuple(sorted(
-        scores,
-        key=lambda row: (-row.objective, -row.information_bits, row.complexity, row.fingerprint),
-    ))
+    result = tuple(
+        sorted(
+            scores,
+            key=lambda row: (-row.objective, -row.information_bits, row.complexity, row.fingerprint),
+        )
+    )
     if len(result) != len(catalog):
         logger.error("_score_catalog incomplete")
         raise _DiscoveryBlocked("catalog-cutoff", "scoring-incomplete")
@@ -660,7 +676,8 @@ def _score_catalog(
 
 
 def _mutual_information(
-    values: tuple[Canonical, ...], targets: tuple[str | int | bool, ...],
+    values: tuple[Canonical, ...],
+    targets: tuple[str | int | bool, ...],
 ) -> float:
     logger.debug("_mutual_information entry count=%d", len(values))
     if len(values) != len(targets) or not values:
@@ -773,7 +790,10 @@ def _baseline_comparisons(
     targets: tuple[str | int | bool, ...],
 ) -> tuple[BaselineComparison, ...]:
     logger.debug("_baseline_comparisons entry count=%d", len(baselines))
-    by_term = {canonical_term(term): (observer_fingerprint(term), values) for term, values in zip(catalog, outputs, strict=True)}
+    by_term = {
+        canonical_term(term): (observer_fingerprint(term), values)
+        for term, values in zip(catalog, outputs, strict=True)
+    }
     result = tuple(
         BaselineComparison(
             item.name,
@@ -828,61 +848,8 @@ def _digests(
     catalog: tuple[ObserverTerm, ...],
 ) -> DiscoveryDigests:
     logger.debug("_digests entry")
-    primitive_rows = [
-        {
-            "name": item.name,
-            "input_kind": item.input_kind,
-            "output_kind": item.output_kind,
-            "cost": item.cost,
-            "callable": callable_identity(item.evaluator, item.semantic_id),
-        }
-        for item in grammar.primitives
-    ]
-    catalog_rows = [canonical_term(term) for term in catalog]
-    protocol_material = digest_data(
-        {
-            "grammar_id": grammar.grammar_id,
-            "input_kind": grammar.input_kind,
-            "accepted_output_kinds": list(grammar.accepted_output_kinds),
-            "max_depth": grammar.max_depth,
-            "max_cost": grammar.max_cost,
-            "primitives": primitive_rows,
-            "baselines": [
-                {
-                    "name": row.name,
-                    "class": row.observer_class,
-                    "term": canonical_term(row.term),
-                    "boundary": row.boundary,
-                }
-                for row in baselines
-            ],
-        },
-        "veyra.observer-discovery.protocol-material.v1",
-    )
-    policy_digest = digest_data(
-        discovery_policy_data(discovery_policy_receipt(config)),
-        "veyra.observer-discovery.policy.v1",
-    )
-    grammar_digest = digest_data(
-        discovery_grammar_data(discovery_grammar_receipt(grammar)),
-        "veyra.observer-discovery.grammar.v1",
-    )
-    protocol = digest_data(
-        {"protocol_material": protocol_material, "policy": policy_digest, "grammar": grammar_digest},
-        "veyra.observer-discovery.protocol.v1",
-    )
-    result = DiscoveryDigests(
-        protocol=protocol,
-        protocol_material=protocol_material,
-        policy=policy_digest,
-        grammar=grammar_digest,
-        train_data=_rows_digest(split.train, "veyra.observer-discovery.train-data.v1"),
-        train_evaluation="",
-        holdout_data=_rows_digest(split.holdout, "veyra.observer-discovery.holdout-data.v1"),
-        catalog=digest_data(catalog_rows, "veyra.observer-discovery.catalog.v1"),
-        result="",
-    )
-    logger.debug("_digests exit protocol=%s", protocol[:12])
+    result = discovery_input_digests(grammar, split, baselines, config, catalog)
+    logger.debug("_digests exit protocol=%s", result.protocol[:12])
     return result
 
 
@@ -900,55 +867,6 @@ def _assert_protocol_unchanged(
         logger.error("_assert_protocol_unchanged mutation detected")
         raise _DiscoveryBlocked("protocol-mutation", "data-catalog-config-or-evaluator-changed")
     logger.debug("_assert_protocol_unchanged exit")
-
-
-def _rows_digest(rows: tuple[DiscoveryRow, ...], domain: str) -> str:
-    logger.debug("_rows_digest entry rows=%d", len(rows))
-    result = digest_data([_row_data(row) for row in rows], domain)
-    logger.debug("_rows_digest exit digest=%s", result[:12])
-    return result
-
-
-def _row_data(row: DiscoveryRow) -> dict[str, object]:
-    logger.debug("_row_data entry")
-    result = {
-        "row_id": row.row_id,
-        "source_id": row.source_id,
-        "content_id": row.content_id,
-        "group_id": row.group_id,
-        "features": _canonical_data(row.features),
-        "target": _target_data(row.target),
-    }
-    logger.debug("_row_data exit")
-    return result
-
-
-def _canonical_data(value: Canonical) -> object:
-    logger.debug("_canonical_data entry type=%s", type(value).__name__)
-    if value is None:
-        result: object = {"type": "none"}
-    elif type(value) is bool:
-        result = {"type": "bool", "value": value}
-    elif type(value) is int:
-        result = {"type": "int", "value": value}
-    elif type(value) is float:
-        result = {"type": "float", "value": value.hex()}
-    elif type(value) is str:
-        result = {"type": "str", "value": value}
-    elif type(value) is tuple:
-        result = {"type": "tuple", "value": [_canonical_data(item) for item in value]}
-    else:
-        logger.error("_canonical_data invalid type=%s", type(value).__name__)
-        raise _DiscoveryBlocked("invalid-data", f"noncanonical:{type(value).__name__}")
-    logger.debug("_canonical_data exit type=%s", type(value).__name__)
-    return result
-
-
-def _target_data(value: str | int | bool) -> object:
-    logger.debug("_target_data entry type=%s", type(value).__name__)
-    result = _canonical_data(value)
-    logger.debug("_target_data exit")
-    return result
 
 
 def _seed(protocol_digest: str, configured_seed: str, purpose: str) -> int:

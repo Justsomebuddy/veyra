@@ -54,7 +54,7 @@ def test_direct_tool_constraints_match_declared_extras():
         for row in (ROOT / "requirements/py311-tested.txt").read_text(encoding="utf-8").splitlines()
         if row and not row.startswith("#")
     }
-    assert {"build", "pytest", "ruff", "tqdm", "ipykernel", "jupyterlab"} <= declared
+    assert {"build", "cryptography", "pytest", "ruff", "tqdm", "ipykernel", "jupyterlab"} <= declared
     assert declared <= constraints
     assert {"setuptools", "wheel"} <= constraints
     ci = {
@@ -87,6 +87,14 @@ def test_wheel_package_discovery_is_explicit_and_bounded():
         "src.core",
         "src.core.construction",
         "src.core.construction.finite_builder",
+        "src.core.observer_discovery_v3",
+        "src.core.observer_discovery_v3.dsl",
+        "src.core.observer_discovery_v3.ledger",
+        "src.core.observer_discovery_v3.replay",
+        "src.core.observer_discovery_v3.schema",
+        "src.core.observer_discovery_v3.service",
+        "src.core.observer_discovery_v3.transport",
+        "src.core.observer_discovery_v3.worker",
         "vam",
         "vam.intrinsic",
         "vam.src",
@@ -105,6 +113,7 @@ def test_conda_direct_ranges_match_python_metadata():
         "ruff>=0.12,<1",
         "tqdm>=4.66,<5",
         "build>=1.2,<2",
+        "cryptography>=45,<48",
         "setuptools>=77,<81",
         "wheel>=0.45,<0.47",
         "ipykernel>=6,<7",

@@ -1,5 +1,36 @@
 # Changelog
 ## [Unreleased] — Changed
+- Added a separate strict Phase-III observer-discovery experiment under
+  `src.core.observer_discovery_v3` without changing or exporting it from the
+  Phase-I/II root APIs: bounded canonical three-way schemas; exact invertible
+  representation transports; finite frozen-observer commuting-square
+  verification/refutation; a closed `column`/`xor`/`pair` DSL; resource-bounded
+  logical-subprocess evaluation; a same-user cooperating-process local ledger;
+  per-store capability/test-root uniqueness; claim-first evaluation with a
+  precommitted worker-row root; and canonical roots-only `AUDIT_RECEIPT`
+  packages authenticated by shared-key HMAC or, with the `signing` extra,
+  optional Ed25519. The logical child is not a syscall sandbox, local state has
+  no anti-rollback/trusted-time/operator-non-bypass guarantee, key identity and
+  trust remain external, and audit receipts are not independently executable
+  replay. Finite commuting rows establish neither robustness nor causality,
+  explanation, or theoremhood. No certificate, theorem promotion, root export,
+  or release-version bump follows.
+- Added Phase-II observer-discovery semantics and replication: a deterministic
+  claim envelope keeps execution, interpretation, and ontology orthogonal and
+  fixes causality, semantic explanation, theoremhood, object formation, P0
+  admission, and historical novelty to nonclaims. A separate fixed-winner
+  confirmation protocol fully replays the exact upstream `FOUND` report,
+  switches to that trusted local replay before test evaluation, rechecks bound
+  callable semantics after evaluator callbacks, links the ordered baseline
+  family during parent-pinned validation,
+  rejects three-way lineage overlap, evaluates only the frozen observer and
+  exact named baselines on a third declared categorical test set, requires a
+  positive descriptive gap, applies group-aware fixed-family
+  global-independence max-stat calibration, and emits result receipts that are
+  independently checkable for local self-consistency. The p-value does not
+  establish inferential gap superiority.
+  This remains in-process, unauthenticated, and not one-shot enforced; it is
+  replication evidence, not certification of truth.
 - Added an experimental, dependency-free categorical observer-discovery layer
   over the finite R5 grammar: train-only complexity-penalized selection, a
   frozen holdout winner, whole-catalog max-statistic group permutations,

@@ -1,4 +1,5 @@
 """Construction-safe catalog enumeration and immutable discovery snapshots."""
+
 from __future__ import annotations
 
 import logging
@@ -41,6 +42,18 @@ class DiscoveryProtocolError(ValueError):
         self.detail = detail
         super().__init__(f"{reason}:{detail}")
         logger.debug("DiscoveryProtocolError exit reason=%s", reason)
+
+
+def snapshot_discovery_rows(rows: tuple[DiscoveryRow, ...]) -> tuple[DiscoveryRow, ...]:
+    """Detach one row tuple once under the ordinary single-split budgets."""
+    logger.debug("snapshot_discovery_rows entry")
+    if type(rows) is not tuple or len(rows) > _MAX_ROWS_PER_SPLIT or any(type(row) is not DiscoveryRow for row in rows):
+        logger.error("snapshot_discovery_rows invalid rows")
+        raise DiscoveryProtocolError("resource-limit", "snapshot-rows")
+    budget = [0, 0]
+    result = tuple(_row_copy(row, budget) for row in rows)
+    logger.debug("snapshot_discovery_rows exit count=%d", len(result))
+    return result
 
 
 def snapshot_discovery_inputs(
@@ -100,7 +113,10 @@ def snapshot_discovery_inputs(
     )
     baseline_copy = tuple(
         NamedBaseline(
-            row.name, row.observer_class, _term_copy(row.term, term_budget), row.boundary,
+            row.name,
+            row.observer_class,
+            _term_copy(row.term, term_budget),
+            row.boundary,
         )
         for row in baselines
     )
@@ -139,28 +155,30 @@ def enumerate_observer_terms_bounded(
             for primitive in registry.values():
                 if primitive.input_kind == child.output_kind:
                     proposal = ObserverTerm(
-                        "apply", primitive.output_kind, primitive.name, (child,),
+                        "apply",
+                        primitive.output_kind,
+                        primitive.name,
+                        (child,),
                     )
                     changed |= _retain(proposal, known, registry, grammar, construction_limit)
         for left_index, left in enumerate(current):
             for right in current[left_index:]:
                 proposal = ObserverTerm("pair", "pair", children=(left, right))
                 changed |= _retain(proposal, known, registry, grammar, construction_limit)
-    accepted = tuple(
-        term for term in known.values()
-        if term.output_kind in grammar.accepted_output_kinds
-    )
+    accepted = tuple(term for term in known.values() if term.output_kind in grammar.accepted_output_kinds)
     if len(accepted) > accepted_limit:
         logger.error("enumerate_observer_terms_bounded accepted cutoff count=%d", len(accepted))
         raise DiscoveryProtocolError("catalog-cutoff", "accepted-catalog-limit")
-    result = tuple(sorted(
-        accepted,
-        key=lambda term: (
-            observer_term_cost(term, registry),
-            _term_depth(term),
-            canonical_term(term),
-        ),
-    ))
+    result = tuple(
+        sorted(
+            accepted,
+            key=lambda term: (
+                observer_term_cost(term, registry),
+                _term_depth(term),
+                canonical_term(term),
+            ),
+        )
+    )
     logger.debug("enumerate_observer_terms_bounded exit count=%d", len(result))
     return result
 
@@ -210,8 +228,12 @@ def _row_copy(row: DiscoveryRow, total_budget: list[int]) -> DiscoveryRow:
 def _primitive_copy(item: ObserverPrimitive) -> ObserverPrimitive:
     logger.debug("_primitive_copy entry name=%s", item.name)
     result = ObserverPrimitive(
-        item.name, item.input_kind, item.output_kind, item.cost,
-        item.evaluator, item.semantic_id,
+        item.name,
+        item.input_kind,
+        item.output_kind,
+        item.cost,
+        item.evaluator,
+        item.semantic_id,
     )
     logger.debug("_primitive_copy exit name=%s", item.name)
     return result
@@ -255,10 +277,7 @@ def _term_copy(
         term.op,
         term.output_kind,
         term.primitive,
-        tuple(
-            _term_copy(child, total_budget, local_budget, active, depth + 1)
-            for child in term.children
-        ),
+        tuple(_term_copy(child, total_budget, local_budget, active, depth + 1) for child in term.children),
     )
     active.remove(identity)
     logger.debug("_term_copy exit op=%s", term.op)
@@ -281,10 +300,7 @@ def _canonical_copy(
     ):
         raise DiscoveryProtocolError("resource-limit", "snapshot-canonical-shape")
     if type(value) is tuple:
-        result = tuple(
-            _canonical_copy(item, total_budget, local_budget, depth + 1)
-            for item in value
-        )
+        result = tuple(_canonical_copy(item, total_budget, local_budget, depth + 1) for item in value)
     elif value is None or type(value) is bool:
         result = value
     elif type(value) is int:

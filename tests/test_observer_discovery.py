@@ -178,12 +178,18 @@ def test_records_are_frozen_and_repeated_categories_are_allowed_across_splits() 
 def test_protocol_data_catalog_and_result_digests_are_separate_and_bound() -> None:
     original = discover_observer(_grammar(), _split(), _baseline(), _config())
     config_changed = discover_observer(
-        _grammar(), _split(), _baseline(), _config(complexity_cost_per_unit=0.02),
+        _grammar(),
+        _split(),
+        _baseline(),
+        _config(complexity_cost_per_unit=0.02),
     )
     holdout = list(_split().holdout)
     holdout[0] = _replace_row(holdout[0], target=not bool(holdout[0].target))
     data_changed = discover_observer(
-        _grammar(), DiscoverySplit(_split().train, tuple(holdout)), _baseline(), _config(),
+        _grammar(),
+        DiscoverySplit(_split().train, tuple(holdout)),
+        _baseline(),
+        _config(),
     )
 
     assert len(set(original.digests.__dict__.values())) == 9
@@ -193,6 +199,19 @@ def test_protocol_data_catalog_and_result_digests_are_separate_and_bound() -> No
     assert config_changed.digests.train_data == original.digests.train_data
     assert data_changed.digests.holdout_data != original.digests.holdout_data
     assert data_changed.digests.result != original.digests.result
+
+
+def test_published_v1_evidence_roots_survive_helper_extraction_byte_for_byte() -> None:
+    """Golden roots were captured from published commit 7d52d37 before extraction."""
+    report = discover_observer(_grammar(), _split(), _baseline(), _config())
+
+    assert report.digests.protocol == "4f855aa895740214d05a4639e41680831afb156f50377cd35dbc46aad3127cf8"
+    assert report.digests.protocol_material == "ee32ec896c7217d2ad61da6c1c54167add0bd104ff548579d0437acdf0ce9df8"
+    assert report.digests.policy == "bc4f08ce4034c9b060497526d2036a8c6149471ea09861ee81b4b40669f42de1"
+    assert report.digests.grammar == "dee500be857da28b97a867f1073db5b961f0ce3fbfbce6dad8ee3ff7d3b9a2eb"
+    assert report.digests.train_data == "d2fe106a11f799799dc858860d81e7714d0f4bf8c56bcc7cd7a44616c6b42482"
+    assert report.digests.holdout_data == "269aa896611689829f07e6f189caa745b143ee517953d956bf727aa00e9c5cd8"
+    assert report.digests.catalog == "b87f3a1b802cc989b67cc17283674643550f9d56afb2448a4fc4dd888cc1781b"
 
 
 def test_holdout_calibration_uses_frozen_train_winner_not_holdout_best() -> None:
@@ -219,7 +238,10 @@ def test_holdout_calibration_uses_frozen_train_winner_not_holdout_best() -> None
 def test_null_train_data_returns_not_found_without_partial_winner() -> None:
     train = tuple(_replace_row(row, target=0) for row in _split().train)
     report = discover_observer(
-        _grammar(), DiscoverySplit(train, _split().holdout), _baseline(), _config(),
+        _grammar(),
+        DiscoverySplit(train, _split().holdout),
+        _baseline(),
+        _config(),
     )
 
     assert report.status == NOT_FOUND_WITHIN_BUDGET
@@ -229,7 +251,8 @@ def test_null_train_data_returns_not_found_without_partial_winner() -> None:
     assert report.policy is not None
     assert validate_discovery_report(report)
     assert validate_discovery_report(
-        report, expected_train_evaluation=report.digests.train_evaluation,
+        report,
+        expected_train_evaluation=report.digests.train_evaluation,
     )
     assert not validate_discovery_report(report, expected_train_evaluation="0" * 64)
 
@@ -241,7 +264,10 @@ def test_cross_split_identity_leakage_blocks_without_partial_winner(identity: st
     holdout[0] = _replace_row(holdout[0], **{identity: getattr(split.train[0], identity)})
 
     report = discover_observer(
-        _grammar(), DiscoverySplit(split.train, tuple(holdout)), _baseline(), _config(),
+        _grammar(),
+        DiscoverySplit(split.train, tuple(holdout)),
+        _baseline(),
+        _config(),
     )
 
     assert report.status == BLOCKED
@@ -256,7 +282,10 @@ def test_noncanonical_or_nonfinite_input_blocks(bad_features: object) -> None:
     train = list(split.train)
     train[0] = _replace_row(train[0], features=bad_features)
     report = discover_observer(
-        _grammar(), DiscoverySplit(tuple(train), split.holdout), _baseline(), _config(),
+        _grammar(),
+        DiscoverySplit(tuple(train), split.holdout),
+        _baseline(),
+        _config(),
     )
     assert report.status == BLOCKED
     assert report.winner is None
@@ -268,7 +297,10 @@ def test_one_target_per_group_is_required() -> None:
     train = list(split.train)
     train[1] = _replace_row(train[1], group_id=train[0].group_id)
     report = discover_observer(
-        _grammar(), DiscoverySplit(tuple(train), split.holdout), _baseline(), _config(),
+        _grammar(),
+        DiscoverySplit(tuple(train), split.holdout),
+        _baseline(),
+        _config(),
     )
     assert report.status == BLOCKED
     assert report.obstructions[0].detail == "train-one-target-per-group-required"
@@ -277,10 +309,16 @@ def test_one_target_per_group_is_required() -> None:
 def test_missing_baseline_catalog_cutoff_and_insufficient_calibration_block() -> None:
     missing = discover_observer(_grammar(), _split(), (), _config())
     cutoff = discover_observer(
-        _grammar(), _split(), _baseline(), _config(max_catalog_size=2),
+        _grammar(),
+        _split(),
+        _baseline(),
+        _config(max_catalog_size=2),
     )
     calibration = discover_observer(
-        _grammar(), _split(), _baseline(), _config(permutation_count=18),
+        _grammar(),
+        _split(),
+        _baseline(),
+        _config(permutation_count=18),
     )
 
     assert (missing.status, missing.obstructions[0].reason) == (BLOCKED, "invalid-baseline")
@@ -295,23 +333,39 @@ def test_missing_baseline_catalog_cutoff_and_insufficient_calibration_block() ->
 
 def test_hard_statistical_floors_cannot_be_disabled() -> None:
     weak_alpha = discover_observer(
-        _grammar(), _split(), _baseline(), _config(significance_alpha=0.99),
+        _grammar(),
+        _split(),
+        _baseline(),
+        _config(significance_alpha=0.99),
     )
     weak_stability = discover_observer(
-        _grammar(), _split(), _baseline(), _config(minimum_stability=0.0),
+        _grammar(),
+        _split(),
+        _baseline(),
+        _config(minimum_stability=0.0),
     )
     weak_bootstrap = discover_observer(
-        _grammar(), _split(), _baseline(), _config(bootstrap_replicates=1),
+        _grammar(),
+        _split(),
+        _baseline(),
+        _config(bootstrap_replicates=1),
     )
     assert {weak_alpha.status, weak_stability.status, weak_bootstrap.status} == {BLOCKED}
     assert [report.obstructions[0].reason for report in (weak_alpha, weak_stability, weak_bootstrap)] == [
-        "invalid-config", "invalid-config", "insufficient-calibration",
+        "invalid-config",
+        "invalid-config",
+        "insufficient-calibration",
     ]
 
 
 def test_grammar_and_statistical_work_are_preflight_bounded() -> None:
     deep = ObserverGrammar(
-        "too-deep", "input", ("scalar",), _grammar().primitives, 3, 1,
+        "too-deep",
+        "input",
+        ("scalar",),
+        _grammar().primitives,
+        3,
+        1,
     )
     grammar_report = discover_observer(deep, _split(), _baseline(), _config())
     work_report = discover_observer(
@@ -321,10 +375,12 @@ def test_grammar_and_statistical_work_are_preflight_bounded() -> None:
         _config(permutation_count=4095, bootstrap_replicates=1024),
     )
     assert (grammar_report.status, grammar_report.obstructions[0].reason) == (
-        BLOCKED, "resource-limit",
+        BLOCKED,
+        "resource-limit",
     )
     assert (work_report.status, work_report.obstructions[0].reason) == (
-        BLOCKED, "resource-limit",
+        BLOCKED,
+        "resource-limit",
     )
 
 
@@ -334,10 +390,14 @@ def test_lineage_cannot_cross_exchangeability_groups(identity: str) -> None:
     train = list(split.train)
     train[1] = _replace_row(train[1], **{identity: getattr(train[0], identity)})
     report = discover_observer(
-        _grammar(), DiscoverySplit(tuple(train), split.holdout), _baseline(), _config(),
+        _grammar(),
+        DiscoverySplit(tuple(train), split.holdout),
+        _baseline(),
+        _config(),
     )
     assert (report.status, report.obstructions[0].detail) == (
-        BLOCKED, "train-lineage-crosses-groups",
+        BLOCKED,
+        "train-lineage-crosses-groups",
     )
 
 
@@ -346,10 +406,14 @@ def test_unequal_exchangeability_group_sizes_block() -> None:
     train = list(split.train)
     train[1] = _replace_row(train[1], group_id=train[0].group_id, target=train[0].target)
     report = discover_observer(
-        _grammar(), DiscoverySplit(tuple(train), split.holdout), _baseline(), _config(),
+        _grammar(),
+        DiscoverySplit(tuple(train), split.holdout),
+        _baseline(),
+        _config(),
     )
     assert (report.status, report.obstructions[0].detail) == (
-        BLOCKED, "train-unequal-group-sizes",
+        BLOCKED,
+        "train-unequal-group-sizes",
     )
 
 
@@ -493,7 +557,10 @@ def test_logs_do_not_expose_record_lineage_identifiers(caplog: pytest.LogCapture
     split = _split()
     train = list(split.train)
     train[0] = _replace_row(
-        train[0], row_id=marker, source_id=marker, content_id=marker,
+        train[0],
+        row_id=marker,
+        source_id=marker,
+        content_id=marker,
     )
     with caplog.at_level("DEBUG"):
         discover_observer(_grammar(), DiscoverySplit(tuple(train), split.holdout), _baseline(), _config())
@@ -509,10 +576,17 @@ def test_logs_do_not_expose_record_lineage_identifiers(caplog: pytest.LogCapture
     ],
 )
 def test_evaluator_failure_and_noncanonical_result_block(
-    name: str, evaluator: object, expected: str,
+    name: str,
+    evaluator: object,
+    expected: str,
 ) -> None:
     primitive = ObserverPrimitive(
-        name, "input", "scalar", 1, evaluator, f"test:{name}:v1",  # type: ignore[arg-type]
+        name,
+        "input",
+        "scalar",
+        1,
+        evaluator,
+        f"test:{name}:v1",  # type: ignore[arg-type]
     )
     report = discover_observer(_grammar(primitive), _split(), _baseline(), _config())
     assert report.status == BLOCKED
@@ -544,7 +618,12 @@ def test_mutable_evaluator_closure_is_rejected_before_callbacks() -> None:
 
 def test_oversized_evaluator_semantic_identity_blocks_before_hashing() -> None:
     primitive = ObserverPrimitive(
-        "large-semantic-id", "input", "scalar", 1, constant_zero, "x" * 513,
+        "large-semantic-id",
+        "input",
+        "scalar",
+        1,
+        constant_zero,
+        "x" * 513,
     )
     report = discover_observer(_grammar(primitive), _split(), _baseline(), _config())
     assert (report.status, report.obstructions[0].reason) == (BLOCKED, "invalid-grammar")

@@ -14,6 +14,7 @@ this page explains why each dependency exists.
 | `setuptools>=77,<81` | build-system | wheel/sdist build | backend is `setuptools.build_meta` |
 | `wheel>=0.45,<0.47` | build-system | wheel build | tested direct version is recorded separately |
 | `build>=1.2,<2` | `dev` extra | offline PEP 517 package smoke | invoked as `python -m build --no-isolation` |
+| `cryptography>=45,<48` | `signing` extra | Ed25519 replay-receipt signing and public verification | lazily imported; not required for HMAC or other installed APIs |
 | `pytest>=8,<10` | `dev` extra | tests | plugin autoload is disabled in controlled gates |
 | `ruff>=0.12,<1` | `dev` extra | static lint | target version is Python 3.11 |
 | `tqdm>=4.66,<5` | `tools` extra | progress in Lean/hygiene scripts | not imported by the installed runtime API |
