@@ -144,6 +144,10 @@ This curated aggregate is not an inventory of every split implementation module.
 | `src.core.observer_synthesis_protocol` | Stable evaluator/config/grammar identities and ID-independent split-payload leakage guards. |
 | `src.core.observer_synthesis_types` | Grammar, case, evidence, fitted-observer, holdout, and obstruction datatypes. |
 | `src.core.observer_synthesis_parity` | Parity train/holdout witness and strict proper-marginal observer-class certificate. |
+| `src.core.observer_discovery` | Experimental finite-catalog categorical discovery with train-locked selection, group bootstrap, whole-catalog max-stat holdout calibration, named-baseline gaps, and fail-closed terminal states. |
+| `src.core.observer_discovery_protocol` | Construction-capped streamed R5 enumeration and occurrence-bounded detached input snapshots before evaluator callbacks. |
+| `src.core.observer_discovery_types` | Immutable rows, splits, published complete-config and structural-grammar receipts, scores, calibration, stability, Merkle-like component digests, obstruction, and terminal-report records for bounded observer discovery. |
+| `src.core.observer_discovery_validation` | Terminal status/policy validation, receipt-derived bounded-catalog membership and typed AST complexity, result-local train-objective and recomputed objective/gap invariants, optional trusted train-root pinning, bounded acyclic AST checks, and domain-separated digest replay without rerunning caller evaluators. |
 | `src.core.observer_synthesis_v2_pipeline` | Atomic five-trial-child plus one-receipt-child R14 finite evidence pipeline. |
 | `src.core.observer_descent_types` | Exact slotted R16 doctrine, transition, descent, balance, and finite crest-braid DTOs. |
 | `src.core.observer_descent_validation` | Bounded exact snapshots and closed schema IDs for R16 finite data. |

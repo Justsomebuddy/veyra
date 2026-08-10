@@ -217,6 +217,9 @@ No metaphysical claim is accepted as mathematics until it becomes a definition, 
   metaphysical proof, object/infinity constructor, or retroactive promotion source.
 - `docs/153_prime_power_model_closure.md` / `docs/154_six_closure_principles.md` — vertical audit and OAP/TTRP/SCAP/PSP/AAP/RCPΩ vocabulary; ΩG/N6 separate carrier/index/information/cardinality; open P3-CG states one source-bound PCAP lane whose exact conclusion requires dependency, stability, refinement, separation, conflict isolation, and doctrine usability without admitting an object.
 - `docs/155_veyra_modal_kernel.md` — candidate no-cast modalities and the ΩN→N6C path; philosophy, not a theorem.
+- `docs/157_certified_observer_discovery_mvp.md` — bounded categorical
+  train/holdout observer discovery with whole-catalog max-stat calibration,
+  stability, named baselines, and explicit non-claims; not a theorem.
 ## Executable examples
 - `veyra_sage/examples.py` — Sage doctest examples.
 - `scripts/scale_memory_log_demo.py` — practical transition-depth recovery demo with progress output.
