@@ -239,7 +239,8 @@ review closes with blocker/high/medium/low `0/0/0/0`.
 
 ## Modular implementation inventory
 
-Production is split so every active file remains at or below 300 lines:
+Production remains split into cohesive files within the repository's 1000-line
+target; the current implementation is still at or below 300 lines per file:
 
 - grammar/types/validation and positive budgets:
   `observer_synthesis_v2_{types,grammar,validation,budget,budget_validation}.py`;

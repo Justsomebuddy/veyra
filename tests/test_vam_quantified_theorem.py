@@ -7,6 +7,7 @@ from pathlib import Path
 
 import pytest
 
+from scripts.project_hygiene import line_limit
 from vam.src.quantified_theorem import (
     BOUNDARY,
     PROFILE,
@@ -250,7 +251,7 @@ def test_native_parity_is_executable_evidence_not_proof_grade():
     assert len(boundary.required_formal_gates) == 4
 
 
-def test_completion_files_remain_modular():
+def test_completion_files_remain_within_project_target():
     paths = (
         Path("vam/src/optimizer_completion.py"),
         Path("vam/src/quantified_theorem.py"),
@@ -259,4 +260,7 @@ def test_completion_files_remain_modular():
         Path("tests/test_vam_quantified_theorem.py"),
     )
 
-    assert all(len(path.read_text(encoding="utf-8").splitlines()) <= 300 for path in paths)
+    assert all(
+        len(path.read_text(encoding="utf-8").splitlines()) <= line_limit(path)
+        for path in paths
+    )

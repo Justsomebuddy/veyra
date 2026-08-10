@@ -106,8 +106,12 @@ reproducibility contract.
 - Preserve resource limits and fail-closed validation.
 - Add tests for normal, boundary, malformed, and hostile inputs.
 - Do not commit caches, generated binaries, credentials, or local paths.
-- Keep active source and documentation files within the project's 300-line
-  hygiene limit; split modules when needed.
+- Keep active source and documentation files at or below the project's
+  1000-line target and split modules when that improves cohesion and review.
+  A file may exceed 1000 lines only through an explicit path-bound hygiene
+  exception explaining why a split would reduce readability; no file may
+  exceed the absolute 2000-line maximum. Remove the exception when the file
+  returns to 1000 lines or fewer.
 
 ### Documentation
 

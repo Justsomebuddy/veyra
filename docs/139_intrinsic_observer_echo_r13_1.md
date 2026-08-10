@@ -203,7 +203,9 @@ legacy-VAM, or all-observer-totality claim is allowed.
 
 ## Implementation groups
 
-Keep every file at or below 300 lines:
+The original accepted slice kept every file at or below 300 lines. Current
+maintenance follows the repository's 1000-line target; a justified cohesive
+exception may not exceed the absolute 2000-line maximum:
 
 - theorem/artifact/Lean-render/effect modules;
 - one fail-closed R13 report/manifest/snapshot/compiler bridge family;

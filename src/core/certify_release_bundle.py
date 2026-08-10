@@ -1,4 +1,4 @@
-"""Recent release certificates kept outside the 300-line root registry."""
+"""Recent release certificates split from the root registry for cohesion."""
 
 from __future__ import annotations
 

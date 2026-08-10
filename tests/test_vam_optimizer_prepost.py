@@ -3,6 +3,7 @@ from pathlib import Path
 
 import pytest
 
+from scripts.project_hygiene import line_limit
 from vam.src.optimizer_prepost import (
     BOUNDARY,
     CLAIM,
@@ -119,7 +120,7 @@ def test_optimizer_prepost_overclaim_guard_rejects_out_of_boundary_text():
         assert_no_optimizer_prepost_overclaim_terms((payload,))
 
 
-def test_optimizer_prepost_module_stays_modular_under_300_loc():
+def test_optimizer_prepost_module_stays_within_project_target():
     path = Path("vam/src/optimizer_prepost.py")
 
-    assert len(path.read_text(encoding="utf-8").splitlines()) <= 300
+    assert len(path.read_text(encoding="utf-8").splitlines()) <= line_limit(path)

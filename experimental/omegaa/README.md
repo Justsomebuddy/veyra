@@ -27,8 +27,9 @@ This directory is deliberately separate from `src/core/`:
 - the stable root package does not import or export it;
 - the stable certificate registry does not include it;
 - default `make test` and `make verify` do not collect its tests;
-- stable source hygiene uses the 300-line limit, while this preserved research
-  snapshot has a separate 1000-line experimental limit.
+- source hygiene uses a 1000-line target throughout the repository; any
+  path-bound exception must explain why splitting would reduce readability and
+  remains subject to the absolute 2000-line maximum.
 
 The files under `src/core/` and `tests/` preserve the original research bytes.
 The two small namespace files only allow the preserved `src.core.*` imports to

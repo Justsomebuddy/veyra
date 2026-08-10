@@ -126,4 +126,5 @@ fields, duplicate corpus names, the VAMD obstruction, symbolic declarations,
 hostile/type-mismatched/oversized specialization, forged optimizer scan
 boundaries, malformed instructions, deterministic canonical text, direct Rust
 unit tests, and Python/Rust canonical/specialization parity. All files in this
-slice remain at or below 300 LOC.
+slice currently remain at or below 300 LOC and therefore within the shared
+1000-line target.

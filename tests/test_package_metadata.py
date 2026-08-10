@@ -6,11 +6,22 @@ import logging
 from pathlib import Path
 import re
 import tomllib
+from types import MappingProxyType
 
+import pytest
 from setuptools import find_packages
 
+import scripts.project_hygiene as hygiene
 from scripts.verify_portable import steps as portable_steps
-from scripts.project_hygiene import TEXT_NAMES, TEXT_SUFFIXES
+from scripts.project_hygiene import (
+    HARD_LINE_LIMIT,
+    LINE_LIMIT_EXCEPTIONS,
+    TARGET_LINE_LIMIT,
+    TEXT_NAMES,
+    TEXT_SUFFIXES,
+    line_limit,
+    line_limit_exception_errors,
+)
 
 logger = logging.getLogger(__name__)
 ROOT = Path(__file__).resolve().parents[1]
@@ -182,3 +193,112 @@ def test_hygiene_covers_every_maintained_source_and_configuration_format():
     } <= TEXT_SUFFIXES
     assert {"Makefile", "LICENSE"} <= TEXT_NAMES
     logger.debug("test hygiene format policy exit")
+
+
+def test_hygiene_uses_reviewed_target_and_hard_maximum() -> None:
+    """LOC exceptions must be explicit, justified, and never exceed 2000."""
+    logger.debug("test hygiene line-limit policy entry")
+    assert TARGET_LINE_LIMIT == 1000
+    assert HARD_LINE_LIMIT == 2000
+    assert line_limit(Path("src/core/example.py")) == TARGET_LINE_LIMIT
+    for identity, (limit, justification) in LINE_LIMIT_EXCEPTIONS.items():
+        assert identity == Path(identity).as_posix()
+        assert TARGET_LINE_LIMIT < limit <= HARD_LINE_LIMIT
+        assert justification.strip()
+    logger.debug(
+        "test hygiene line-limit policy exit exceptions=%d",
+        len(LINE_LIMIT_EXCEPTIONS),
+    )
+
+
+def test_hygiene_accepts_one_justified_bounded_exception(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """A cohesive path may exceed the target only through reviewed metadata."""
+    logger.debug("test hygiene valid exception entry")
+    monkeypatch.setattr(
+        hygiene,
+        "LINE_LIMIT_EXCEPTIONS",
+        MappingProxyType(
+            {
+                "src/core/cohesive_example.py": (
+                    1500,
+                    "splitting would separate the audited state machine from its invariants",
+                )
+            }
+        ),
+    )
+    assert hygiene.line_limit(Path("src/core/cohesive_example.py")) == 1500
+    logger.debug("test hygiene valid exception exit")
+
+
+@pytest.mark.parametrize(
+    ("limit", "justification"),
+    ((2001, "too large"), (1500, "")),
+)
+def test_hygiene_rejects_unbounded_or_unjustified_exceptions(
+    monkeypatch: pytest.MonkeyPatch,
+    limit: int,
+    justification: str,
+) -> None:
+    """The hard maximum and non-empty rationale are fail-closed constraints."""
+    logger.debug(
+        "test hygiene invalid exception entry limit=%d justification=%s",
+        limit,
+        bool(justification),
+    )
+    monkeypatch.setattr(
+        hygiene,
+        "LINE_LIMIT_EXCEPTIONS",
+        MappingProxyType({"src/core/invalid_example.py": (limit, justification)}),
+    )
+    with pytest.raises(RuntimeError, match="invalid-line-limit-exception"):
+        hygiene.line_limit(Path("src/core/invalid_example.py"))
+    logger.debug("test hygiene invalid exception exit")
+
+
+@pytest.mark.parametrize("identity", ("../escape.py", "/absolute.py", "src\\host.py"))
+def test_hygiene_rejects_non_repository_exception_identities(
+    monkeypatch: pytest.MonkeyPatch,
+    identity: str,
+) -> None:
+    """Exception identities must be normalized repository-relative POSIX paths."""
+    logger.debug("test hygiene invalid identity entry identity=%r", identity)
+    monkeypatch.setattr(
+        hygiene,
+        "LINE_LIMIT_EXCEPTIONS",
+        MappingProxyType({identity: (1500, "test rationale")}),
+    )
+    files = (hygiene.ROOT / "src/core/example.py",)
+    assert line_limit_exception_errors(files) == (f"invalid-line-limit-identity:{identity}",)
+    logger.debug("test hygiene invalid identity exit")
+
+
+def test_hygiene_rejects_stale_exception_paths(monkeypatch: pytest.MonkeyPatch) -> None:
+    """Every exception must name one file in the maintained hygiene inventory."""
+    logger.debug("test hygiene stale exception entry")
+    identity = "src/core/not_in_inventory.py"
+    monkeypatch.setattr(
+        hygiene,
+        "LINE_LIMIT_EXCEPTIONS",
+        MappingProxyType({identity: (1500, "test rationale")}),
+    )
+    files = (hygiene.ROOT / "src/core/example.py",)
+    assert line_limit_exception_errors(files) == (f"stale-line-limit-exception:{identity}",)
+    logger.debug("test hygiene stale exception exit")
+
+
+def test_hygiene_rejects_exception_after_file_returns_to_target(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """An exception is stale once its maintained file no longer exceeds 1000."""
+    logger.debug("test hygiene unneeded exception entry")
+    identity = "README.md"
+    monkeypatch.setattr(
+        hygiene,
+        "LINE_LIMIT_EXCEPTIONS",
+        MappingProxyType({identity: (1500, "test rationale")}),
+    )
+    files = (hygiene.ROOT / identity,)
+    assert line_limit_exception_errors(files) == (f"unneeded-line-limit-exception:{identity}",)
+    logger.debug("test hygiene unneeded exception exit")

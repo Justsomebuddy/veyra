@@ -1,5 +1,6 @@
 from pathlib import Path
 
+from scripts.project_hygiene import line_limit
 from src.core.certify_vam_optimizer import EXPECTED_LOCAL_LAWS, certify_vam_optimizer_gate
 from vam.src.optimizer_proof_catalog import (
     CHECKED_LOCAL_LAWS,
@@ -44,7 +45,7 @@ def test_optimizer_proof_catalog_binds_all_expected_symbols():
     assert missing_required_lean_symbols(lean_text) == ()
 
 
-def test_vam_cert_and_optimizer_proof_modules_stay_modular_under_300_loc():
+def test_vam_cert_and_optimizer_proof_modules_stay_within_project_target():
     paths = (
         "src/core/certify_vam.py",
         "src/core/certify_vam_optimizer.py",
@@ -54,4 +55,4 @@ def test_vam_cert_and_optimizer_proof_modules_stay_modular_under_300_loc():
 
     counts = {path: _loc(path) for path in paths}
 
-    assert all(count <= 300 for count in counts.values()), counts
+    assert all(count <= line_limit(Path(path)) for path, count in counts.items()), counts

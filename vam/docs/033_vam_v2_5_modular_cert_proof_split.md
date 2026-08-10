@@ -30,7 +30,7 @@ The acceptance checks are:
 
 1. `certify_vam_optimizer_gate()` reports a checked proof bridge and accepted pre/post witnesses;
 2. the catalog binds all required Lean theorem symbols from `proofs/lean/VeyraOptimizer.lean`;
-3. `src/core/certify_vam.py`, `src/core/certify_vam_optimizer.py`, `vam/src/optimizer_proofs.py`, and `vam/src/optimizer_proof_catalog.py` stay under 300 LOC;
+3. the original accepted split kept `src/core/certify_vam.py`, `src/core/certify_vam_optimizer.py`, `vam/src/optimizer_proofs.py`, and `vam/src/optimizer_proof_catalog.py` under 300 LOC; current maintenance applies the repository's 1000-line target and justified-exception ceiling;
 4. targeted optimizer/cert tests and full project verification pass.
 
 ## Non-claims

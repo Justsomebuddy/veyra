@@ -4,13 +4,15 @@
 from __future__ import annotations
 
 import argparse
+from collections.abc import Mapping
 from concurrent.futures import ThreadPoolExecutor
 import logging
 import os
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 import subprocess
 import sys
 import time
+from types import MappingProxyType
 
 from tqdm import tqdm
 
@@ -35,6 +37,11 @@ TEXT_SUFFIXES = {
 }
 TEXT_NAMES = {"LICENSE", "Makefile"}
 SKIP_PARTS = {".git", ".venv", "node_modules", "__pycache__"}
+TARGET_LINE_LIMIT = 1000
+HARD_LINE_LIMIT = 2000
+# Every exception is path-bound, reviewable, and must explain why a cohesive
+# split would reduce readability. Keep this empty unless such a case exists.
+LINE_LIMIT_EXCEPTIONS: Mapping[str, tuple[int, str]] = MappingProxyType({})
 
 
 def parse_args(argv: list[str]) -> argparse.Namespace:
@@ -92,15 +99,105 @@ def line_count(path: Path) -> tuple[Path, int]:
     return path, count
 
 
+def _valid_line_limit_identity(identity: object) -> bool:
+    """Return whether an exception key is normalized repository-relative POSIX."""
+    logger.debug("project_hygiene._valid_line_limit_identity entry type=%s", type(identity).__name__)
+    if not isinstance(identity, str):
+        logger.debug("project_hygiene._valid_line_limit_identity exit valid=false")
+        return False
+    normalized = PurePosixPath(identity)
+    result = not (
+        identity in {"", "."}
+        or "\\" in identity
+        or identity != normalized.as_posix()
+        or normalized.is_absolute()
+        or any(part in {"", ".", ".."} for part in normalized.parts)
+    )
+    logger.debug("project_hygiene._valid_line_limit_identity exit valid=%s", result)
+    return result
+
+
+def line_limit(relative: Path) -> int:
+    """Return the target limit or one explicitly justified bounded exception."""
+    identity = relative.as_posix()
+    logger.debug("project_hygiene.line_limit entry path=%s", identity)
+    if not _valid_line_limit_identity(identity):
+        logger.error("project_hygiene invalid line identity path=%r", identity)
+        raise RuntimeError(f"invalid-line-limit-identity:{identity}")
+    exception = LINE_LIMIT_EXCEPTIONS.get(identity)
+    if exception is None:
+        logger.debug(
+            "project_hygiene.line_limit exit path=%s limit=%d exception=false",
+            identity,
+            TARGET_LINE_LIMIT,
+        )
+        return TARGET_LINE_LIMIT
+    if (
+        not isinstance(exception, tuple)
+        or len(exception) != 2
+        or type(exception[0]) is not int
+        or not isinstance(exception[1], str)
+    ):
+        logger.error("project_hygiene invalid line exception shape path=%s", identity)
+        raise RuntimeError(f"invalid-line-limit-exception:{identity}")
+    limit, justification = exception
+    if not justification.strip() or not TARGET_LINE_LIMIT < limit <= HARD_LINE_LIMIT:
+        logger.error(
+            "project_hygiene invalid line exception path=%s limit=%d justification=%s",
+            identity,
+            limit,
+            bool(justification.strip()),
+        )
+        raise RuntimeError(f"invalid-line-limit-exception:{identity}")
+    logger.debug(
+        "project_hygiene.line_limit exit path=%s limit=%d exception=true",
+        identity,
+        limit,
+    )
+    return limit
+
+
+def line_limit_exception_errors(files: tuple[Path, ...]) -> tuple[str, ...]:
+    """Reject stale or malformed exception keys before checking file sizes."""
+    logger.debug(
+        "project_hygiene.line_limit_exception_errors entry files=%d exceptions=%d",
+        len(files),
+        len(LINE_LIMIT_EXCEPTIONS),
+    )
+    maintained = {path.relative_to(ROOT).as_posix(): path for path in files}
+    errors: list[str] = []
+    for identity in LINE_LIMIT_EXCEPTIONS:
+        if not _valid_line_limit_identity(identity):
+            errors.append(f"invalid-line-limit-identity:{identity}")
+            continue
+        try:
+            line_limit(Path(identity))
+        except RuntimeError as exc:
+            errors.append(str(exc))
+            continue
+        path = maintained.get(identity)
+        if path is None:
+            errors.append(f"stale-line-limit-exception:{identity}")
+            continue
+        if line_count(path)[1] <= TARGET_LINE_LIMIT:
+            errors.append(f"unneeded-line-limit-exception:{identity}")
+    result = tuple(errors)
+    logger.debug(
+        "project_hygiene.line_limit_exception_errors exit errors=%d",
+        len(result),
+    )
+    return result
+
+
 def line_violations(files: tuple[Path, ...], jobs: int) -> tuple[tuple[Path, int, int], ...]:
-    """Check stable and experimental limits with bounded parallel I/O."""
+    """Check the target and explicitly justified hard-bounded exceptions."""
     logger.debug("project_hygiene.line_violations entry files=%d jobs=%d", len(files), jobs)
     violations: list[tuple[Path, int, int]] = []
     with ThreadPoolExecutor(max_workers=jobs) as executor:
         rows = executor.map(line_count, files)
         for path, count in tqdm(rows, total=len(files), desc="Line hygiene", unit="file"):
             relative = path.relative_to(ROOT)
-            limit = 1000 if relative.parts and relative.parts[0] == "experimental" else 300
+            limit = line_limit(relative)
             if count > limit:
                 violations.append((relative, count, limit))
     result = tuple(violations)
@@ -134,18 +231,22 @@ def run(argv: list[str]) -> int:
     if not 1 <= args.jobs <= 32:
         raise SystemExit("--jobs must be between 1 and 32")
     started = time.perf_counter()
-    print("[1/3] Enumerating stable and experimental text files", flush=True)
+    print("[1/4] Enumerating stable and experimental text files", flush=True)
     files = tracked_text_files()
-    print(f"[2/3] Checking {len(files)} line-count limits", flush=True)
+    print("[2/4] Validating path-bound line-limit exceptions", flush=True)
+    exception_errors = line_limit_exception_errors(files)
+    print(f"[3/4] Checking {len(files)} line-count limits", flush=True)
     violations = line_violations(files, args.jobs)
-    print("[3/3] Checking generated-cache ignore rules", flush=True)
+    print("[4/4] Checking generated-cache ignore rules", flush=True)
     missing = cache_ignore_check()
+    for error in exception_errors:
+        print(f"[fail] {error}", file=sys.stderr)
     for path, count, limit in violations:
         print(f"[fail] {path.as_posix()}: {count} > {limit}", file=sys.stderr)
     for probe in missing:
         print(f"[fail] cache path is not ignored: {probe}", file=sys.stderr)
     elapsed = time.perf_counter() - started
-    errors = len(violations) + len(missing)
+    errors = len(exception_errors) + len(violations) + len(missing)
     print(
         f"[done] processed={len(files)} errors={errors} elapsed={elapsed:.2f}s "
         f"speed={len(files) / elapsed if elapsed else 0:.2f} file/s",
