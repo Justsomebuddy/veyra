@@ -5,12 +5,13 @@ from hashlib import sha256
 import logging
 import os
 from pathlib import Path
-import pwd
 import stat
+
+from .platform_posix import user_home
 
 logger = logging.getLogger(__name__)
 TOOLCHAIN_ROOT = (
-    Path(pwd.getpwuid(os.getuid()).pw_dir) / ".elan/toolchains"
+    user_home() / ".elan/toolchains"
     / "leanprover--lean4---v4.30.0-rc2"
 )
 LEAN_BINARY = TOOLCHAIN_ROOT / "bin/lean"

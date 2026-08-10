@@ -1,5 +1,10 @@
 # VAM Compression Optimizer Extension Plan
 
+> **Historical plan:** the bounded optimizer and native parity slices described
+> here were subsequently implemented through the versioned contracts recorded
+> in `018_native_optimizer_parity_contract.md` and `../native/README.md`.
+> Unchecked roadmap language below is not an active release checklist.
+
 ## Purpose
 
 Extend the conservative VAM optimizer with compression-specific rewrites while

@@ -6,7 +6,6 @@ from enum import Enum
 import logging
 import os
 from pathlib import Path
-import resource
 import selectors
 import signal
 import subprocess
@@ -14,8 +13,13 @@ import sys
 import time
 from typing import IO, Callable
 
+from src.platform_capabilities import CapabilityUnavailableError
+
 from .observer_synthesis_v2_budget import BudgetLimits
+from .platform_posix import apply_process_limits
 from .observer_synthesis_v2_worker_transport import send_go_and_request_v2
+
+from .paths import PROJECT_ROOT
 
 logger = logging.getLogger(__name__)
 
@@ -97,12 +101,9 @@ def apply_verified_limits_v2(pid: int, address_space: int) -> bool:
     """Apply and independently read back exact pre-GO AS/core limits."""
     logger.debug("apply_verified_limits_v2 entry pid=%d as=%d", pid, address_space)
     try:
-        resource.prlimit(pid, resource.RLIMIT_AS, (address_space, address_space))
-        resource.prlimit(pid, resource.RLIMIT_CORE, (0, 0))
-        actual_as = resource.prlimit(pid, resource.RLIMIT_AS)
-        actual_core = resource.prlimit(pid, resource.RLIMIT_CORE)
+        actual_as, actual_core = apply_process_limits(pid, address_space)
         result = actual_as == (address_space, address_space) and actual_core == (0, 0)
-    except (OSError, ValueError):
+    except (CapabilityUnavailableError, OSError, ValueError):
         logger.error("apply_verified_limits_v2 failed", exc_info=True)
         result = False
     logger.debug("apply_verified_limits_v2 exit result=%s", result)
@@ -221,7 +222,7 @@ def run_fixed_child_v2(
     try:
         control_r, control_w = pipe()
         result_r, result_w = pipe()
-        project_root = str(Path(__file__).resolve().parents[2])
+        project_root = str(PROJECT_ROOT)
         entry_path = str(Path(__file__).resolve().with_name(kind.value))
         env = {
             "LANG": "C.UTF-8",

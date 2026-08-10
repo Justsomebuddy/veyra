@@ -7,7 +7,7 @@ import logging
 
 from .construction.finite_builder.codec import _decode_builder, _decode_recurrence
 from .construction.finite_builder.digest import _trace_digest
-from .finite_builder_types import (
+from .construction.finite_builder.types import (
     ConstructionSourceBinding, ReplayArtifact, ReplayStatus,
 )
 from .finite_builder_validation import (

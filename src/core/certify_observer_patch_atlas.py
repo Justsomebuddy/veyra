@@ -17,6 +17,7 @@ from .observer_patch_atlas import (
     observer_patch_atlas,
     triangle_counterexample,
 )
+from .paths import repository_path
 
 logger = logging.getLogger(__name__)
 
@@ -109,8 +110,9 @@ def _observer_patch_lean_evidence_at(
     proof_path: Path, expected_sha256: str = G4_LEAN_SHA256
 ) -> ObserverPatchLeanEvidence:
     logger.debug("_observer_patch_lean_evidence_at entry path=%s", proof_path)
+    target = proof_path if proof_path.is_absolute() else repository_path(proof_path.as_posix())
     try:
-        payload = proof_path.read_bytes()
+        payload = target.read_bytes()
     except OSError as exc:
         logger.error("_observer_patch_lean_evidence_at read failed path=%s error=%s", proof_path, exc)
         return _blocked_evidence(proof_path, expected_sha256)
@@ -125,7 +127,7 @@ def _observer_patch_lean_evidence_at(
         return _blocked_evidence(proof_path, expected_sha256, actual, "matched")
     compiled = check_captured_lean_artifact(payload, expected_sha256)
     try:
-        after = proof_path.read_bytes()
+        after = target.read_bytes()
     except OSError as exc:
         logger.error("_observer_patch_lean_evidence_at reread failed path=%s error=%s", proof_path, exc)
         after = b""

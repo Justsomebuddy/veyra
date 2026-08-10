@@ -2,7 +2,6 @@
 from __future__ import annotations
 
 from hashlib import sha256
-import fcntl
 import logging
 from pathlib import Path
 import stat
@@ -24,6 +23,8 @@ from .intrinsic_observer_echo_formal_snapshot import (
 )
 from .proof_elaboration_runtime_guard import ProtectedClosure, guarded_lean_run
 from .proof_elaboration_toolchain import TOOLCHAIN_ROOT, paths_digest, records_digest
+
+from .platform_posix import exclusive_file_lock
 
 logger = logging.getLogger(__name__)
 STAGES = len(_SNAPSHOT_NAME_ROWS)
@@ -139,7 +140,7 @@ def compile_snapshot(
     lean_sources = {name: sources[name] for name, _ in _SNAPSHOT_NAME_ROWS}
     try:
         with (snapshot.root.parent / ".materialize.lock").open("a+b") as lock:
-            fcntl.flock(lock.fileno(), fcntl.LOCK_EX)
+            exclusive_file_lock(lock.fileno())
             _runtime_identity()
             verify_intrinsic_observer_echo_snapshot(snapshot, lean_sources)
             source_closure = _source_closure(snapshot, lean_sources)

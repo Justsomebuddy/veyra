@@ -1,11 +1,10 @@
 # 018 — Native optimizer parity contract
 
-This document is the gate for any future Rust/native VAM optimizer. It does not
-implement that optimizer. It defines what must be proven before native code may
-rewrite VAM programs instead of merely decoding/executing them.
-
-Native optimizer work is blocked until this contract has fixture coverage and a
-comparison harness against the Python reference optimizer in `vam/src/optimizer.py`.
+This document began as the gate for a future Rust/native VAM optimizer. The
+bounded v1.4–v2.9 implementation now exercises the listed passes and parity
+surfaces against `vam/src/optimizer.py`. It remains a contract and coverage
+record, not a proof of whole-optimizer correctness or exhaustive rejection
+coverage.
 
 ## Scope
 
@@ -13,7 +12,7 @@ The contract applies only to the current VAM reference profile:
 
 ```text
 profile: vam0-ref-v1
-input:   immutable VAM0 v1 frame bytes with compact UTF-8 JSON instruction table
+input:   immutable VAM0 v1 frames, plus VAMD at the decoded report-only boundary
 output:  deterministic optimizer parity report plus canonical execution report
 ```
 
@@ -30,7 +29,7 @@ disabled unless a test or caller explicitly requests optimizer parity mode.
 
 ### Accepted profile: `vam0-ref-v1`
 
-A native optimizer candidate may only consume programs that first pass the same
+A native optimizer may only consume programs that first pass the same
 VAM0 decoder boundary as the native executor:
 
 - magic/version/size/CRC are valid;
@@ -38,14 +37,19 @@ VAM0 decoder boundary as the native executor:
 - every opcode is known to `vam0-ref-v1`;
 - instruction argument arity and register spelling are decoded exactly as the
   Python path would decode them;
-- no dense opcode, binary IR shortcut, or host-specific object is introduced.
+- no host-specific object is introduced.
+
+VAMD is accepted only after its versioned dense decoder produces the same
+reviewed instruction/report boundary. Optimized-frame emission remains limited
+to VAM0 input and the exact `observer-alias-v1` emission slice; VAMD is
+report-only.
 
 ### Rejected profiles
 
 The optimizer must deterministically reject, without rewriting:
 
 - `f4-strict` until a separate arithmetic semantics spec exists;
-- dense-opcode payloads;
+- unversioned or malformed dense-opcode payloads;
 - GPU/FPGA/SIMD batch profiles;
 - programs whose decoder boundary would fail in Python or Rust execution parity;
 - any unversioned profile extension.
@@ -208,34 +212,37 @@ Parity harness failures must be classified as one of:
 
 This contract does not claim:
 
-- that a native optimizer exists today;
+- exhaustive equivalence for every possible VAM program;
 - speedup over Python;
 - dense opcode support;
 - GPU, FPGA, SIMD, or parallel optimizer readiness;
 - theorem-prover completeness;
 - `f4-strict` arithmetic semantics;
 - permission to add new rewrites;
-- proof of optimizer correctness beyond bounded fixture and canonical-report
-  parity against the Python reference.
+- proof of whole-optimizer correctness beyond bounded fixture,
+  witness/obligation/metamorphic, and canonical-report parity against the
+  Python reference;
+- optimized VAM0 emission from VAMD input.
 
 ## Checklist
 
-Before native optimizer implementation begins:
+Current bounded status (an unchecked item is a real remaining boundary):
 
-- [ ] `vam0-ref-v1` input profile is the only accepted optimizer profile.
-- [ ] Unsupported profiles reject before optimization.
-- [ ] Pass order is fixed: `observer-alias`, `compress-alias`,
+- [x] VAM0 is the artifact-emission profile; VAMD is accepted only at the
+      decoded semantic report boundary.
+- [x] Unsupported profiles reject before optimization.
+- [x] Pass order is fixed: `observer-alias`, `compress-alias`,
       `compress-idempotent`, `dead-shadow`.
-- [ ] Fixture corpus covers every accepted rewrite class.
-- [ ] Fixture corpus covers every Python rejection reason.
-- [ ] Optimizer audit rows are canonical and compared exactly.
-- [ ] Python optimized instruction rows and native optimized instruction rows are
+- [x] The bounded fixture corpus covers every accepted rewrite class.
+- [ ] Exhaustive named fixtures for every Python rejection reason remain OPEN.
+- [x] Optimizer audit rows are canonical and compared exactly in the bounded harness.
+- [x] Python optimized instruction rows and native optimized instruction rows are
       compared exactly.
-- [ ] Python optimized canonical report and native optimized execution report are
+- [x] Python optimized canonical report and native optimized execution report are
       compared over stable `vam0-ref-v1` fields.
-- [ ] Original-vs-optimized conservative equivalence summary is safe.
-- [ ] Obstruction rows and nested obstruction counts are preserved.
-- [ ] Certificate acceptance is preserved.
-- [ ] Repeated runs are byte-stable after canonical JSON serialization.
-- [ ] Failure taxonomy is emitted by the harness.
-- [ ] No speed, dense-opcode, hardware, or proof-assistant claim is made.
+- [x] Original-vs-optimized conservative equivalence is checked for accepted fixtures.
+- [x] Obstruction rows and nested obstruction counts are checked for preservation.
+- [x] Certificate acceptance is checked for preservation.
+- [x] Repeated bounded runs are byte-stable after canonical JSON serialization.
+- [ ] One exhaustive unified failure-taxonomy fixture matrix remains OPEN.
+- [x] No speed, hardware, exhaustive-optimizer, or whole-proof claim is made.

@@ -21,12 +21,12 @@ EXPECTED_R10_TCB_DIGESTS = MappingProxyType({
     "dependency_support": "e43cb633aca48b39c09e4d6c16b50813f3b86f2191d75db42b537357b0e26f5b",
     "elaboration_artifact": "bd47b716074a530f5d8813e482c4672960d910cd65504aeb16f1bfb29756af75",
     "lean_renderer": "b9ed623f2386ae62778ca230eef68e8a3f21e7c8c50ba353411fb4da96bc2ce3",
-    "bridge_snapshot": "1c83bfcf1c0d6fc1179e616decbcf7d36a0f9042da516233b343a3a23dc6b78f",
-    "bridge_io": "7c043b7f02dd75080a642afcb471ab2b29a22de02cc1c9c3d280d2886dd4f208",
-    "toolchain_runtime": "3829ce2283c46c09e4ff4ac0e5523771de511684c4337cad9e76397f012d8165",
-    "runtime_guard": "319ba5b80212d7c25912ebbf8023ebe09b41698684790db100df5801ec1c0993",
+    "bridge_snapshot": "1228c271ea5acee1ee13221d14ed24f5954ea0508e587fe2f4b6b568d3465b0d",
+    "bridge_io": "b6bd77b79432ba4686a05b4efac4a362a30cfac7cf5fe8099f25151c6bbee0c5",
+    "toolchain_runtime": "63db421d5e91caf2f2437f28d626989ff4eb5efc283897986e6bb29d86881a0f",
+    "runtime_guard": "56374cee0557bfe2590f231a9f8df7759a204cdba75cacfdb3b5b572ee874422",
     "reviewed_objects": "de1057ac81a4861cae44d0930078db842c58fb31651862aa7f8d27a945c6b601",
-    "bridge": "674fe515fd33dd5010631538f8d40d406281403cfd4bc931ed6e1dcd7014c00a",
+    "bridge": "3ffd654f81cfd6e09a2a640c09ef6bd4a1d15faf9f894659369e818681cf3e35",
     "certificate": "381a548f6c767870c4e3cc261f0df6ce0ee9028872fb88a44517fdc211446223",
     "proof_types": "871dad8b0e62c4abcc8b439ad603abe29b3d2ae028afab7f145ff4f3fdc1c821",
     "proof_substitution": "3b70ee2c5745b6a8791283babe743d124e70bab1364da6d4a994ecc05903a879",
@@ -45,7 +45,7 @@ EXPECTED_R10_TCB_DIGESTS = MappingProxyType({
     "lean_transport": "493e4662e295b526d5bb76b9ca528b834265142e91e0446e98af2b3b102fb16f",
     "lean_r9_export": "d9ac930c119f3126a858bf286bee32f4d5b9a3ac3fe8cb297316d9cc10dbcc26",
     "lean_elaboration": "ed24ec58377ef44b804444d5b330955c5f3601942d1740e5f23503f0ea121da5",
-    "lean_export": "7936f4fb8e30e1eb5ba3e7c1e8a5cbb961dec3b8c5ae9f35daadffb3d9dc1d20",
+    "lean_export": "5d92ed0a5d8fdcca2dd8245b937132854aed463fa4bb9332a0b958193fb0f14d",
 })
 MANIFEST_BOUNDARY = (
     "reviewed surface/R7/R9/Lean elaboration sources and deterministic intermediate "

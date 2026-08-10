@@ -27,6 +27,8 @@ from .prime_power_productive_bridge_types import (
 from .stream_completion_formal_attestation import ToolchainContract, attest_toolchain
 from .stream_completion_formal_process import FormalPhaseReceipt, capture_phase
 
+from .paths import TMP_DIR
+
 logger = logging.getLogger(__name__)
 ATTESTATION_DIGEST = digest("veyra.p3a1b.attestation.v1", (
     ("toolchain", TOOLCHAIN_ID.encode()), ("elan", ELAN_SHA256.encode()),
@@ -215,7 +217,7 @@ def compile_sources(captured: tuple[bytes, ...], timeout: int, max_output: int) 
     if attested.kind is not None:
         return CompileOutcome(_map_kind(attested.kind), bytes(output), tuple(codes), (),
                               attested.attestation_digest, tuple(receipts))
-    root = Path("data/tmp")
+    root = TMP_DIR
     root.mkdir(parents=True, exist_ok=True)
     with tempfile.TemporaryDirectory(prefix="p3a1b-", dir=root) as directory:
         private = Path(directory)
@@ -264,7 +266,7 @@ def compile_pressure_sources(captured: tuple[bytes, ...], timeout: int,
     if attested.kind is not None:
         return CompileOutcome(_map_kind(attested.kind), bytes(output), tuple(codes), (),
                               attested.attestation_digest, tuple(receipts))
-    root = Path("data/tmp")
+    root = TMP_DIR
     root.mkdir(parents=True, exist_ok=True)
     with tempfile.TemporaryDirectory(prefix="p3a1b-pressure-", dir=root) as directory:
         private = Path(directory)

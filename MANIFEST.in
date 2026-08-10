@@ -1,0 +1,16 @@
+include CHANGELOG.md CITATION.cff CODE_OF_CONDUCT.md CONTRIBUTING.md LICENSE
+include Makefile NOTATION.md README.md SECURITY.md THEOREMS.md environment.yml
+include pyproject.toml
+recursive-include .github *.yml
+recursive-include docs *.md
+recursive-include experimental *.md *.py *.ini
+recursive-include notebooks *.md
+recursive-include requirements *.txt
+recursive-include proofs *.md *.lean *.tex
+recursive-include scripts *.py
+recursive-include tests *.py
+recursive-include vam *.md *.py *.rs *.toml *.lock *.vmasm
+prune vam/native/target
+recursive-include data *.md *.json
+prune data/tmp
+global-exclude *.py[cod] __pycache__ .pytest_cache .mypy_cache .ruff_cache

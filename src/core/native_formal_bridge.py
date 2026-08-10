@@ -3,10 +3,12 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from functools import lru_cache
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 import logging
 import shutil
 import subprocess
+
+from .paths import repository_path
 
 logger = logging.getLogger(__name__)
 
@@ -25,12 +27,13 @@ class NativeFormalBridgeReport:
 def native_formal_bridge_report() -> NativeFormalBridgeReport:
     """Check the native constructor/evaluator semantics with Lean."""
     logger.debug("native_formal_bridge_report entry")
-    path = Path("proofs/lean/VeyraNativeSemantics.lean")
+    identity = PurePosixPath("proofs/lean/VeyraNativeSemantics.lean")
+    path = repository_path(identity)
     command = _lean_command()
     symbols = tuple(f"THM_R4_{index:03d}" for index in range(1, 8))
     if not command:
         logger.error("native_formal_bridge_report blocked lean-not-found")
-        return NativeFormalBridgeReport(str(path), "blocked", (), "strict native semantics", "Lean unavailable", "lean-not-found")
+        return NativeFormalBridgeReport(identity.as_posix(), "blocked", (), "strict native semantics", "Lean unavailable", "lean-not-found")
     missing = _missing_symbols(path, symbols)
     proc = subprocess.run(command + [str(path)], text=True, capture_output=True, check=False) if not missing else None
     status = "checked" if proc is not None and proc.returncode == 0 else "blocked"
@@ -38,7 +41,7 @@ def native_formal_bridge_report() -> NativeFormalBridgeReport:
     boundary = "general over labels and tact lists, including anchored silence, for the mirrored native constructor subset; not a proof of every shadow module"
     diagnostics = "missing-symbols:" + ",".join(missing) if missing else ((proc.stderr or proc.stdout).strip() if proc else "lean-not-run")
     scope = "Rez/Nod/Tact/Breath/Mode syntax, anchored silence, breath contiguity, closed mode formation, echo mismatch obstruction"
-    result = NativeFormalBridgeReport(str(path), status, theorem_ids, scope, boundary, diagnostics)
+    result = NativeFormalBridgeReport(identity.as_posix(), status, theorem_ids, scope, boundary, diagnostics)
     if status == "blocked": logger.error("native_formal_bridge_report blocked diagnostics=%s", diagnostics[-240:])
     logger.debug("native_formal_bridge_report exit status=%s", status); return result
 
@@ -47,7 +50,8 @@ def native_formal_bridge_report() -> NativeFormalBridgeReport:
 def intrinsic_arithmetic_lean_status() -> str:
     """Check the independent inductive recurrence arithmetic bridge."""
     logger.debug("intrinsic_arithmetic_lean_status entry")
-    command = _lean_command(); path = Path("proofs/lean/VeyraNativeArithmetic.lean")
+    command = _lean_command()
+    path = repository_path("proofs/lean/VeyraNativeArithmetic.lean")
     if not command:
         logger.error("intrinsic_arithmetic_lean_status blocked lean-not-found"); return "blocked"
     missing = _missing_symbols(path, ("THM_R3_001", "THM_R3_002"))

@@ -3,9 +3,9 @@ from types import MappingProxyType
 
 TCB_SCHEMA = "veyra-intrinsic-vam-formal-tcb-r12.5-v1"
 BRIDGE_ID = "veyra.lean.r12.5.intrinsic-vam-tcb.v1"
-EXPECTED_R11_BINDING = "ebacad7ae4334e1e2eb693e015d7417df266400ae18783cb1daa21218f649f30"
-EXPECTED_SNAPSHOT_DIGEST = "47a64ff02315f3ada0c848df61a567fa0b84af7feac693272b2563c0bfc2baad"
-EXPECTED_BINDING_DIGEST = "4eef290735f9ab795d4d4e43944ded065bf5318cd38df7af21ce398aa3605c86"
+EXPECTED_R11_BINDING = "d98318066dc015ca7d0d0be36d2b07b38d50c7715f4e2a494d70ff842262c53a"
+EXPECTED_SNAPSHOT_DIGEST = "deb6febdba37743a179f4952dbcd3cef18367510b75bc3075d7bc4b129d11d0f"
+EXPECTED_BINDING_DIGEST = "54454915f0d7a259fc72458711e9f2d0959d54b1878c7ad524e13c6f002948dc"
 EXPECTED_TOOLCHAIN_IDENTITY = (
     "Lean (version 4.30.0-rc2, x86_64-unknown-linux-gnu, commit "
     "3dc1a088b6d2d8eafe25a7cd7ec7b58d731bd7cc, Release)|"
@@ -24,11 +24,11 @@ EXPECTED_LEAN_RUNTIME = (
 _EXPECTED_R12_5_TCB_DIGEST_ROWS = (
     ("formal_effects", "65d30a244edae4ffc25bdbf12b3fb4f9af47fb393ab935f6a5de160ce4130208"),
     ("formal_report", "b8b38d10b5c765736c56d74a38ec60b0513b727043d2b227d358ba776da233dc"),
-    ("formal_snapshot", "17ce7272c1e538be08ab14ce4b647a64b7798e3e802b23e34ca63c8e2aedbf3f"),
-    ("formal_bridge_io", "7580e83cae86091ada700e473e5dac2bd827afc37bcb9e2d61e179dec986289d"),
-    ("formal_compile", "ba54c2a5798f06ebc70af548460c1c67b096230ce14926cd5c1a210dcdd72d84"),
+    ("formal_snapshot", "517761ca4e7c3a98b5107b9b20ec876d49d3b9ec2599cad5dfc4b9efd5806416"),
+    ("formal_bridge_io", "2fef36b6630964d79b40a2e2a55aee6373a849b986eb48870a32360501b8ae21"),
+    ("formal_compile", "70c1bd3498b109d6a082a37cdd07b94a692f60a849aff09121a375ee4fb33eb2"),
     ("formal_lean_render", "e63bb0313eb946cf8c150743769df8b27cea66a198616f8bce61f29e525ee093"),
-    ("formal_bridge_core", "3ec7a2459d9354dc9eab52cc75bea199c38f1e23d186a31d982514a996610eb8"),
+    ("formal_bridge_core", "e71724ca6479b4cbd9232f0589d100722c568406d4f1e8181eca77cba6ae758b"),
     ("formal_bridge", "69bbb72017aa8b3cec7829fe2089d656bf148e3d16e0f86ed377b965f50bed81"),
     ("effect_types", "85c0a8180a12e9e5b0cbe470764fd08b6d4b11e9b771e40d70d15e744d77ab49"),
     ("effects", "66cbaf142e67f5418e491fe3ff20c5eaec5d76326e749399e48eb87a43731862"),
@@ -38,8 +38,8 @@ _EXPECTED_R12_5_TCB_DIGEST_ROWS = (
     ("lowering_values", "dc0ab57796eede03d65928238e1696074a2ae308a09bc55670b287757467470d"),
     ("lowering_receipts", "0dee95590862295da9d48874b7f7e4e454d9041612e32ea62d76e16bef82b0b8"),
     ("lowering", "e19e89672d3700b3faf4f1771b2edbdc5fea26495778db42e1c3ca7de146607d"),
-    ("toolchain_runtime", "3829ce2283c46c09e4ff4ac0e5523771de511684c4337cad9e76397f012d8165"),
-    ("runtime_guard", "319ba5b80212d7c25912ebbf8023ebe09b41698684790db100df5801ec1c0993"),
+    ("toolchain_runtime", "63db421d5e91caf2f2437f28d626989ff4eb5efc283897986e6bb29d86881a0f"),
+    ("runtime_guard", "56374cee0557bfe2590f231a9f8df7759a204cdba75cacfdb3b5b572ee874422"),
     ("lean_arithmetic", "e85fa215ae8cba4901620f452efd008efb4787f3373154814d897d66a45373f3"),
     ("lean_semantics", "dc5ddc3b9a3f16c6c5fbbb988b737b806115122d8d2a3f705654e0ee63200a8b"),
     ("lean_intrinsic_runtime", "ec0df6b350054cdda45b043fc07581f817996ecbe8e3d24bdfc82bb44d7db121"),
@@ -49,7 +49,7 @@ _EXPECTED_R12_5_TCB_DIGEST_ROWS = (
     ("lean_observer_core", "fef5db4a94f40b7ba478c5e9d28c5680f736672d5caaea5ac97a823d3e2359d2"),
     ("lean_observer_proof", "7ef4905cc7923ee0c5d057abbada8c3f6b97c8e181b7d73fba0ad7c21653c1d2"),
     ("lean_intrinsic_vam", "770ab54aed74ed394162e249f034a87ff13609d037432a26d5e4bf0971a37e0d"),
-    ("lean_export", "4731f6d74a483d49c89a5c366720f1df8e77ddf4ccd2c62343a919bb6adc4d7f"),
+    ("lean_export", "39d32a2024680680a8940044dd8f925480c9f07371d548753f146734bdc908a4"),
 )
 EXPECTED_R12_5_TCB_DIGESTS = MappingProxyType(dict(_EXPECTED_R12_5_TCB_DIGEST_ROWS))
 

@@ -24,6 +24,8 @@ from .padic_local_realization_types import FormalFailureKind, N3Request, N4Reque
 from .stream_completion_formal_attestation import ToolchainContract, attest_toolchain
 from .stream_completion_formal_process import FormalPhaseReceipt, capture_phase
 
+from .paths import TMP_DIR
+
 logger = logging.getLogger(__name__)
 
 
@@ -180,7 +182,7 @@ def compile_sources(request: N3Request | N4Request, captured: tuple[bytes, ...])
         names.append("VeyraPadicAllDepthEquality.lean")
     names += ["PadicPrimeInstance.lean", "P3N34ConcreteInstance.lean"]
     try:
-        root = Path("data/tmp")
+        root = TMP_DIR
         root.mkdir(parents=True, exist_ok=True)
         with tempfile.TemporaryDirectory(prefix="p3n34-", dir=root) as directory:
             private = Path(directory)

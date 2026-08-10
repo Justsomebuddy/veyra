@@ -1,0 +1,15 @@
+# Exact Python tools and their direct transitives for the hosted CPython 3.11 lane.
+# Versions are pinned but hashes/platform runtime bytes are not; see the reproducibility docs.
+pip==26.0.1
+setuptools==80.10.2
+wheel==0.46.3
+build==1.4.0
+packaging==26.2
+pyproject_hooks==1.2.0
+pytest==9.0.2
+iniconfig==2.3.0
+pluggy==1.6.0
+Pygments==2.20.0
+ruff==0.15.6
+tqdm==4.67.1
+colorama==0.4.6

@@ -1,10 +1,16 @@
 # 009 — VAM Diagnostics and Source-Span Plan
 
+> **Historical plan:** `vam/src/diagnostics.py` now implements the bounded
+> span-aware diagnostic result and stable error-class surface. The broader
+> proposals below remain design history, not evidence of complete language or
+> compiler diagnostics.
+
 ## Scope
 
 Design the diagnostics layer for VAM Core lowering so compiler failures can point back to Core source spans without claiming semantic coverage that VAM has not implemented.
 
-This document is a plan only. It does not change compiler behavior.
+This document originally specified a plan; current behavior is defined by the
+implementation and tests, while unsupported forms remain explicit boundaries.
 
 ## Goals
 

@@ -224,8 +224,8 @@ enum J {
     O(BTreeMap<String, J>),
 }
 
-use crate::runtime::{Object, Value};
 use crate::json::compact_value_json;
+use crate::runtime::{Object, Value};
 
 #[rustfmt::skip]
 pub(crate) fn label_shadow(o: &Object) -> Value { match o.kind.as_str() { "Rez" | "Nod" | "Tact" => o.field("label").cloned().unwrap_or(Value::Str("unlabelled".into())), "Observer" => o.field("kind").cloned().unwrap_or(Value::Str("unlabelled".into())), _ => Value::Str("unlabelled".into()) } }
@@ -236,8 +236,10 @@ pub(crate) fn trace_shadow(o: &Object) -> String { match o.kind.as_str() { "Rez"
 #[rustfmt::skip]
 pub(crate) fn boundary_shadow(o: &Object) -> Value { match o.kind.as_str() { "Rez" => Value::List(vec![Value::Str("rez".into()), o.field("label").cloned().unwrap_or(Value::Str("".into()))]), "Nod" => Value::List(vec![Value::Str("nod".into()), Value::Str(nod_key(o))]), "Tact" => Value::List(vec![Value::Str("tact".into()), Value::Str(obj_field(o, "left").map(nod_key).unwrap_or_else(|| "unknown".into())), Value::Str(obj_field(o, "right").map(nod_key).unwrap_or_else(|| "unknown".into()))]), "Breath" => match list_field(o, "tacts") { Some(xs) if !xs.is_empty() => match (xs[0].as_obj(), xs[xs.len() - 1].as_obj()) { (Some(a), Some(b)) => Value::List(vec![Value::Str("breath".into()), Value::Str(obj_field(a, "left").map(nod_key).unwrap_or_else(|| "unknown".into())), Value::Str(obj_field(b, "right").map(nod_key).unwrap_or_else(|| "unknown".into()))]), _ => Value::Str("opaque".into()) }, _ => Value::Str("opaque".into()) }, "Mode" => Value::List(vec![Value::Str("mode".into()), obj_field(o, "breath").map(boundary_shadow).unwrap_or_else(|| Value::Str("opaque".into())), Value::Str("native-cycle".into())]), "Observer" => Value::List(vec![Value::Str("observer".into()), o.field("kind").cloned().unwrap_or(Value::Str("".into()))]), _ => Value::Str("opaque".into()) } }
 
+#[rustfmt::skip]
 fn nod_key(o: &Object) -> String { format!("{}:{}", obj_field(o, "rez").and_then(|r| r.field("label")).and_then(Value::as_str).unwrap_or("unknown"), o.field("label").and_then(Value::as_str).unwrap_or("unknown")) }
 
+#[rustfmt::skip]
 fn stable_native(o: &Object) -> Value { match o.kind.as_str() { "Rez" => Value::List(vec![Value::Str("rez".into()), o.field("label").cloned().unwrap_or(Value::Str("".into()))]), "Nod" => Value::List(vec![Value::Str("nod".into()), obj_field(o, "rez").map(stable_native).unwrap_or(Value::Null), o.field("label").cloned().unwrap_or(Value::Str("".into()))]), "Tact" => Value::List(vec![Value::Str("tact".into()), obj_field(o, "left").map(stable_native).unwrap_or(Value::Null), obj_field(o, "right").map(stable_native).unwrap_or(Value::Null), o.field("label").cloned().unwrap_or(Value::Str("".into()))]), "Breath" => Value::List(std::iter::once(Value::Str("breath".into())).chain(list_field(o, "tacts").into_iter().flatten().filter_map(Value::as_obj).map(stable_native)).collect()), "Mode" => Value::List(vec![Value::Str("mode".into()), obj_field(o, "breath").map(stable_native).unwrap_or(Value::Null), Value::Str("native-cycle".into())]), "Observer" => Value::List(vec![Value::Str("observer".into()), o.field("kind").cloned().unwrap_or(Value::Str("".into()))]), _ => Value::List(vec![Value::Str("unknown".into()), Value::Str(format!("{:?}", o))]) } }
 
 pub(crate) fn obstruction(claim: &str, witness: Value) -> Object {

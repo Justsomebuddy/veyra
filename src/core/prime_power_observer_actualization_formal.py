@@ -24,6 +24,8 @@ from .prime_power_observer_actualization_evidence_types import (
 from .prime_power_observer_actualization_types import FormalFailureKind, N0Source
 from .stream_completion_formal_process import capture_phase
 
+from .paths import PROJECT_ROOT, TMP_DIR
+
 logger = logging.getLogger(__name__)
 
 HARD_FILE_BYTES = 2 * 1024 * 1024
@@ -140,7 +142,7 @@ def _source_catalog(source):
     )
     if paths != allowlist:
         reject("n0-source-allowlist-drift")
-    root = Path(__file__).resolve().parents[2]
+    root = PROJECT_ROOT
     logger.debug("_source_catalog exit")
     return paths, expected, root
 
@@ -195,7 +197,7 @@ def compile_sources(captured, timeout: int, max_output: int) -> N0CompileOutcome
         "VeyraPrimePowerObserverActualization.lean",
     )
     output, codes, receipts, deadline = bytearray(), [], [], time.monotonic() + timeout
-    root = Path(__file__).resolve().parents[2] / "data" / "tmp"
+    root = TMP_DIR
     root.mkdir(parents=True, exist_ok=True)
     with tempfile.TemporaryDirectory(prefix="p3n0-", dir=root) as directory:
         private = Path(directory)

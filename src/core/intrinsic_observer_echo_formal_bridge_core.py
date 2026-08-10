@@ -54,8 +54,9 @@ from .observer_core_bridge_report import read_exact_regular_source
 from .shadow_effect_types import BridgeCapability, EvidenceClass, EvidenceScope
 from .shadow_effects import shadow_effect_registry_digest
 
+from .paths import PROJECT_ROOT
+
 logger = logging.getLogger(__name__)
-PROJECT_ROOT = Path(__file__).resolve().parents[2]
 LEAN_DIR = PROJECT_ROOT / "proofs" / "lean"
 PLACEHOLDER = re.compile(r"\b(?:sorryAx|sorry|admit|axiom|unsafe)\b")
 SOURCE_PATHS = MappingProxyType({

@@ -9,6 +9,8 @@ import logging
 import shutil
 import subprocess
 
+from .paths import repository_path
+
 from .observer_synthesis import fit_observer, score_observer, synthesize_observer
 from .observer_synthesis_types import (
     NamedBaseline, ObserverCase, ObserverGrammar, ObserverPrimitive,
@@ -190,7 +192,7 @@ def strict_observer_class_certificate() -> StrictObserverClassCertificate:
     inclusion = observer_class_includes(extended_class, baseline_class)
     winner_in = fitted.winner is not None and observer_class_membership(fitted.winner.term, extended_class)
     winner_out = fitted.winner is not None and not observer_class_membership(fitted.winner.term, baseline_class)
-    lean = _check_lean(Path("proofs/lean/VeyraObserverSynthesis.lean"))
+    lean = _check_lean(repository_path("proofs/lean/VeyraObserverSynthesis.lean"))
     fields = (inclusion, winner_text == EXPECTED_WINNER, winner_in, winner_out, baseline_train,
               baseline_holdout, named_blind, train_hit, holdout_hit, lean == "checked", synthesis.status == "validated")
     result = StrictObserverClassCertificate(

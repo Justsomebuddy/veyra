@@ -3,12 +3,12 @@ from types import MappingProxyType
 
 TCB_SCHEMA = "veyra-intrinsic-observer-echo-formal-tcb-r13.2-v1"
 BRIDGE_ID = "veyra.lean.r13.intrinsic-observer-echo-tcb.v1"
-EXPECTED_PHASE_ARTIFACT = "2ae21b674aa54efd50630a6c764af47ed72ce973b9171fe8eea1a550f3c8cd1b"
-EXPECTED_SOURCE_ELABORATION_BINDING = "d7d5d9c054560ba43731368d4d5e2b62b17516298c954a387d7d2ef63d6d67f4"
-EXPECTED_R11_BINDING = "ebacad7ae4334e1e2eb693e015d7417df266400ae18783cb1daa21218f649f30"
-EXPECTED_R12_BINDING = "4eef290735f9ab795d4d4e43944ded065bf5318cd38df7af21ce398aa3605c86"
-EXPECTED_SNAPSHOT_DIGEST = "563b17223875c412662d3f3ade3deaa562af1e4bef62aae52d644cfe4b0dfb71"
-EXPECTED_BINDING_DIGEST = "1ad34495eeeda428ddedb283d5b638327d5120eedbd9edb6a4c0095ba804bcaa"
+EXPECTED_PHASE_ARTIFACT = "7b013529908cf6f471200621e6a6ffdcbdf543ca284d1a5deefc6efe5f64adca"
+EXPECTED_SOURCE_ELABORATION_BINDING = "91305d57bbab7e49549780bb7d564ed01613ec66b375d2db7d80187761767d93"
+EXPECTED_R11_BINDING = "d98318066dc015ca7d0d0be36d2b07b38d50c7715f4e2a494d70ff842262c53a"
+EXPECTED_R12_BINDING = "54454915f0d7a259fc72458711e9f2d0959d54b1878c7ad524e13c6f002948dc"
+EXPECTED_SNAPSHOT_DIGEST = "a089eeb5833219edc12e93eb8ef7d9b699c6143159e12a92cd21eff2ad633867"
+EXPECTED_BINDING_DIGEST = "1d2f69c6b18fa4ac4647aacfa29956ca73bf7d9ad03c296a020d670cced3ea68"
 EXPECTED_TOOLCHAIN_IDENTITY = (
     "Lean (version 4.30.0-rc2, x86_64-unknown-linux-gnu, commit "
     "3dc1a088b6d2d8eafe25a7cd7ec7b58d731bd7cc, Release)|"
@@ -24,18 +24,18 @@ EXPECTED_LEAN_RUNTIME = (
     522231408,
 )
 _EXPECTED_R13_TCB_DIGEST_ROWS = (
-    ("evidence", "cdc24620025f79ac41a140d60db856ac7d02bd56554682006b8dcb28dfee6994"),
+    ("evidence", "ac99cf7603d19a4b5532b6e98cbd6f95e835cc3f4f9815c18b08486cd01aee35"),
     ("effects", "a1fe8c50c83a06ed5fc8a48ff1a93f7feb56d598145128e812dd316f4149a7cc"),
     ("formal_report", "d23c1cddb30b6a9d5dac579ffa85746614e4286ab218b065f29ac91c213c63b7"),
-    ("formal_snapshot", "3043b0858a73786d3db695364262e33893c50feb16cc9f483c62a579e6ae2a6b"),
-    ("formal_bridge_io", "50b6e660035c341792f8d7abb973cfd75855bd19ae5448f99f57022f78ec6686"),
-    ("formal_compile", "804a518aa591cee6d7d07dc5908e965062fae2662304ce656263a912d9c6caf1"),
+    ("formal_snapshot", "c67b90c280b68929c8e56079e6c30e8d7d9e1fcb179e68a75b3f0c64dc98927b"),
+    ("formal_bridge_io", "0773b604388b67f01e9cb52b685a273cbc542ab1437d781b34e2ad1bf22894cf"),
+    ("formal_compile", "fa3935d3171ea5ebd7485576fe7da1191664a0a390984a779eeb37c8ab158243"),
     ("formal_lean_render", "59e2c490d5edca44e518a66d50e8b7a6dd756fa7e05d27321b6220603c64378e"),
-    ("formal_bridge_core", "3643b23c6ae2f72f2174083417a713189f47bd5bf02d40a6841797bb04de6166"),
+    ("formal_bridge_core", "c3fe9fa064bbd44b11f0271097362b6f1e71a72aba12e7f3dddaadd49db44831"),
     ("formal_bridge", "e17166b37600efb85e5edac6daf8b3593bbb7e8611288858e25ce51c21a89bb2"),
-    ("phase_source", "505aca53c8908b6e0f1fde011a7bec928218eeb1844b271a03cdbdf7c304a301"),
-    ("toolchain_runtime", "3829ce2283c46c09e4ff4ac0e5523771de511684c4337cad9e76397f012d8165"),
-    ("runtime_guard", "319ba5b80212d7c25912ebbf8023ebe09b41698684790db100df5801ec1c0993"),
+    ("phase_source", "511b9b339dff47d3a480794df442f66d96627e2ce86a86ebd4f2253ffb21cfc3"),
+    ("toolchain_runtime", "63db421d5e91caf2f2437f28d626989ff4eb5efc283897986e6bb29d86881a0f"),
+    ("runtime_guard", "56374cee0557bfe2590f231a9f8df7759a204cdba75cacfdb3b5b572ee874422"),
     ("effect_types", "85c0a8180a12e9e5b0cbe470764fd08b6d4b11e9b771e40d70d15e744d77ab49"),
     ("effects_registry", "66cbaf142e67f5418e491fe3ff20c5eaec5d76326e749399e48eb87a43731862"),
     ("lean_arithmetic", "e85fa215ae8cba4901620f452efd008efb4787f3373154814d897d66a45373f3"),
@@ -48,7 +48,7 @@ _EXPECTED_R13_TCB_DIGEST_ROWS = (
     ("lean_observer_proof", "7ef4905cc7923ee0c5d057abbada8c3f6b97c8e181b7d73fba0ad7c21653c1d2"),
     ("lean_intrinsic_vam", "770ab54aed74ed394162e249f034a87ff13609d037432a26d5e4bf0971a37e0d"),
     ("lean_intrinsic_observer_echo", "d9b86a1de1f1ea558a60f730adb5587c64ae540730b72593f694d3f19ab91df0"),
-    ("lean_export", "16455484cbf1e0fa71ca31a09aecc7950f1fd92909f2d3abe8003587b2fb3416"),
+    ("lean_export", "75749c45da8cd4b5af89a218444d65efdf5de36100b1d07d73410c456a09e421"),
 )
 EXPECTED_R13_TCB_DIGESTS = MappingProxyType(dict(_EXPECTED_R13_TCB_DIGEST_ROWS))
 MANIFEST_BOUNDARY = (

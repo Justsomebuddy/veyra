@@ -69,3 +69,23 @@ This directory contains 42 Lean source modules. The table is exhaustive: status 
 2. New symbols must match `../../NOTATION.md`.
 3. A source file must not be described as a public theorem unless its public status is recorded in the theorem registry.
 4. A single bridge theorem does not imply a complete formalization of the surrounding prose theory.
+
+## Whole-source compilation
+
+Install `elan` and the exact reviewed toolchain, then compile the complete
+42-source local import graph from the repository root:
+
+```bash
+elan toolchain install leanprover/lean4:v4.30.0-rc2
+python scripts/check_lean_sources.py --jobs 8
+```
+
+The harness checks the exact Lean version, validates the 42-file inventory,
+builds dependency layers, and writes temporary `.olean` files only under the
+ignored `data/tmp/` tree. Independent modules in each layer compile in parallel.
+
+This portable source-compilation check is not the same contract as renewing a
+content-bound public certificate. Certificate renewal additionally binds exact
+source bytes, the reviewed Linux x86_64 Lean binary/runtime closure, and the
+Linux `inotify` guard; those hardened paths are intentionally unsupported on
+macOS and Windows.

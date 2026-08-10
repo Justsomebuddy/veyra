@@ -41,6 +41,8 @@ from vam.src import (
 from .certify_types import Certificate
 from .certify_vam_optimizer import certify_vam_optimizer_gate
 
+from .paths import PROJECT_ROOT
+
 logger = logging.getLogger(__name__)
 
 _CORE_ECHO = "echo(mode(breath(tact(nod:a,nod:b),tact(nod:b,nod:a))),mode(breath(tact(nod:b,nod:a),tact(nod:a,nod:b))),observer:length)"
@@ -66,8 +68,8 @@ def _accepted_clean(program) -> tuple[bool, int, bool]:
 def certify_vam_reference_v1() -> Certificate:
     """Certify assembly, VAM0, optimizer, Core lowering, and v0.8 carriers."""
     logger.debug("certify_vam_reference_v1 entry")
-    root = Path(__file__).resolve().parents[2]
-    source = (root / "vam/examples/minimal_echo.vmasm").read_text()
+    root = PROJECT_ROOT
+    source = (root / "vam/examples/minimal_echo.vmasm").read_text(encoding="utf-8")
     program = parse_vmasm(source)
     text_round_trip = parse_vmasm(disassemble(program))
     binary_round_trip = decode_vmbc(encode_vmbc(program))

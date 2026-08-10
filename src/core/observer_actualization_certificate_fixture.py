@@ -5,7 +5,7 @@ from __future__ import annotations
 from hashlib import sha256
 import logging
 
-from .finite_builder_types import PulseStep, SeedRef
+from .construction.finite_builder.types import PulseStep, SeedRef
 from .finite_construction import (
     construction_source_binding, finite_builder_program, finite_recurrence_seed,
 )

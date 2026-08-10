@@ -8,6 +8,7 @@ from pathlib import Path
 import shutil
 import struct
 import subprocess
+import sys
 import zlib
 
 import pytest
@@ -100,7 +101,9 @@ def vami_inspect() -> Path:
         text=True,
     )
     assert completed.returncode == 0, completed.stderr
-    binary = MANIFEST.parent / "target/debug/vami-inspect"
+    binary = MANIFEST.parent / "target" / "debug" / (
+        "vami-inspect.exe" if sys.platform == "win32" else "vami-inspect"
+    )
     assert binary.is_file()
     return binary
 

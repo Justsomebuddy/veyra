@@ -5,7 +5,6 @@ from hashlib import sha256
 import logging
 import os
 from pathlib import Path
-import pwd
 import re
 import subprocess
 from typing import Mapping
@@ -24,8 +23,11 @@ from .proof_core_codec import canonical_json
 from .proof_elaboration_runtime_guard import guarded_lean_run
 from .proof_elaboration_toolchain import LEAN_BINARY, TOOLCHAIN_ROOT, lean_runtime_digest
 
+from .paths import PROJECT_ROOT
+
+from .platform_posix import user_home
+
 logger = logging.getLogger(__name__)
-PROJECT_ROOT = Path(__file__).resolve().parents[2]
 BUILD_DIR = PROJECT_ROOT / "data" / "tmp" / "r13-lean"
 LEAN_TOOLCHAIN = "leanprover/lean4:v4.30.0-rc2"
 LEAN_VERSION = "4.30.0-rc2"
@@ -72,7 +74,7 @@ def _clean_env(lean_paths: tuple[Path, ...] = ()) -> dict[str, str]:
     """Create the closed compilation environment."""
     logger.debug("r13_bridge_io._clean_env entry paths=%d", len(lean_paths))
     result = {
-        "HOME": pwd.getpwuid(os.getuid()).pw_dir,
+        "HOME": str(user_home()),
         "PATH": "/usr/bin:/bin",
         "LANG": "C.UTF-8",
         "LC_ALL": "C.UTF-8",

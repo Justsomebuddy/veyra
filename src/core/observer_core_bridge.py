@@ -48,8 +48,9 @@ from .proof_elaboration_bridge import (
     proof_elaboration_bridge_report,
     verify_proof_elaboration_bridge_report,
 )
+from .paths import PROJECT_ROOT
+
 logger = logging.getLogger(__name__)
-PROJECT_ROOT = Path(__file__).resolve().parents[2]
 LEAN_DIR = PROJECT_ROOT / "proofs" / "lean"
 THEOREM_IDS = tuple(f"THM-R11-{index:03d}" for index in range(1, 7))
 PLACEHOLDER = re.compile(r"\b(?:sorryAx|sorry|admit|axiom|unsafe)\b")

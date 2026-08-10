@@ -13,7 +13,7 @@ Part of the public [Theorem and Definition Registry](../../THEOREMS.md).
 | DEF-003 | Tact | `docs/01_primitives.md` | DEF-002 |
 | DEF-004 | Breath | `docs/01_primitives.md` | DEF-002, DEF-003 |
 | DEF-005 | Mode | `docs/01_primitives.md` | DEF-004 |
-| DEF-006 | Echo-equivalence | `docs/01_primitives.md` | tests TBD |
+| DEF-006 | Echo-equivalence | `docs/01_primitives.md`, `src/core/modes.py`, `tests/test_modes.py` | DEF-005 |
 | DEF-007 | Stitch | `docs/01_primitives.md` | DEF-004 |
 | DEF-008 | Veyra addition | `docs/02_number_theory.md` | DEF-005, DEF-007 |
 | DEF-009 | Veyra multiplication/weave | `docs/02_number_theory.md` | DEF-005 |

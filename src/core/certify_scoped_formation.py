@@ -15,7 +15,7 @@ from .confluence_aggregate import (
     global_path_pair_requirement, local_critical_fork_requirement,
 )
 from .confluence_types import AlignmentPoint
-from .finite_builder_types import PulseStep, SeedRef
+from .construction.finite_builder.types import PulseStep, SeedRef
 from .finite_construction import (
     construction_source_binding, finite_builder_program, finite_recurrence_seed,
 )

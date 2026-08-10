@@ -5,7 +5,7 @@ from __future__ import annotations
 import logging
 from typing import NoReturn
 
-from .finite_builder_types import TargetIndependence
+from .construction.finite_builder.types import TargetIndependence
 from .productivity_digest import required_output_bytes
 from .productivity_runtime import construct_at_depth, restriction_judgment
 from .productivity_types import (

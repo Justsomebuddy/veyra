@@ -3,6 +3,7 @@ import os
 import shutil
 import struct
 import subprocess
+import sys
 import zlib
 from pathlib import Path
 
@@ -14,7 +15,9 @@ from vam.src.model import Instruction
 
 ROOT = Path(__file__).resolve().parents[1]
 NATIVE = ROOT / "vam" / "native"
-NATIVE_BIN = NATIVE / "target" / "debug" / "vam0-inspect"
+NATIVE_BIN = NATIVE / "target" / "debug" / (
+    "vam0-inspect.exe" if sys.platform == "win32" else "vam0-inspect"
+)
 HEADER = struct.Struct(">4sHII")
 
 

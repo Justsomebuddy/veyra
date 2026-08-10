@@ -2,11 +2,9 @@
 from __future__ import annotations
 
 from hashlib import sha256
-import fcntl
 import logging
 import os
 from pathlib import Path
-import pwd
 import re
 import stat
 import subprocess
@@ -37,8 +35,11 @@ from .proof_elaboration_toolchain import (
     records_digest,
 )
 
+from .paths import PROJECT_ROOT
+
+from .platform_posix import exclusive_file_lock, user_home
+
 logger = logging.getLogger(__name__)
-PROJECT_ROOT = Path(__file__).resolve().parents[2]
 BUILD_DIR = PROJECT_ROOT / "data" / "tmp" / "r11-lean"
 LEAN_TOOLCHAIN = "leanprover/lean4:v4.30.0-rc2"
 LEAN_VERSION = "4.30.0-rc2"
@@ -85,7 +86,7 @@ def lean_command() -> list[str]:
 def _clean_env(lean_paths: tuple[Path, ...] = ()) -> dict[str, str]:
     logger.debug("observer_core_bridge_io._clean_env entry paths=%d", len(lean_paths))
     result = {
-        "HOME": pwd.getpwuid(os.getuid()).pw_dir,
+        "HOME": str(user_home()),
         "PATH": "/usr/bin:/bin",
         "LANG": "C.UTF-8",
         "LC_ALL": "C.UTF-8",
@@ -239,7 +240,7 @@ def compile_snapshot(
     lean_sources = {name: sources[name] for name, _ in _SNAPSHOT_NAME_ROWS}
     try:
         with (snapshot.root.parent / ".materialize.lock").open("a+b") as lock:
-            fcntl.flock(lock.fileno(), fcntl.LOCK_EX)
+            exclusive_file_lock(lock.fileno())
             _runtime_identity()
             verify_observer_snapshot(snapshot, lean_sources)
             source_closure = _source_closure(snapshot, lean_sources)

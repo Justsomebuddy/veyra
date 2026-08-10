@@ -1,5 +1,10 @@
 # Gap to a Full School-Replacement Mathematics
 
+> **Historical gap snapshot:** this document records the Core 1.5.1 planning
+> baseline. Later bounded implementations do not turn its aspirational list
+> into a completion claim. Use `THEOREMS.md` and
+> `docs/102_foundational_gap_audit.md` for current status.
+
 ## 1. Current status
 
 Veyra Core 1.5.1 can model finite modes, echo tests, resonance, defects, weighted defects, derived tact similarity, spectra, compression, and counterexamples.

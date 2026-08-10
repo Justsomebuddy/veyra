@@ -55,9 +55,23 @@ an explicit public-impact review, backups, and post-rewrite clone validation.
 ```bash
 python3.11 -m venv .venv
 source .venv/bin/activate
-python -m pip install --upgrade pip
-python -m pip install -e '.[dev]'
+python -m pip install --no-deps -r requirements/ci-py311.txt
+python -m pip install --no-build-isolation --no-deps -e .
 ```
+
+On Windows PowerShell, create and activate the environment with:
+
+```powershell
+py -3.11 -m venv .venv
+.\.venv\Scripts\Activate.ps1
+python -m pip install --no-deps -r requirements/ci-py311.txt
+python -m pip install --no-build-isolation --no-deps -e .
+```
+
+Use a CPython 3.11 patch release for the portable surface; the complete
+hardened lane still requires CPython 3.11.14. The shell-neutral onboarding gate is
+`python scripts/verify_portable.py`; see
+`docs/reference/platform-reproducibility.md` for platform limitations.
 
 Run the onboarding checks:
 
@@ -68,7 +82,8 @@ python -m ruff check src tests
 ```
 
 Some proof and native checks additionally require the pinned Lean version,
-Rust, or SageMath. See `README.md` and `proofs/lean/README.md`.
+Rust, or SageMath. See `README.md`, `proofs/lean/README.md`, and the platform
+reproducibility contract.
 
 ## Contribution standards
 

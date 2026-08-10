@@ -1,0 +1,91 @@
+# Dependency inventory
+
+This inventory separates import-time requirements from development tools and
+external proof/native systems. Version ranges live in machine-readable files;
+this page explains why each dependency exists.
+
+## Python package
+
+| Dependency | Declaration | Required for | Notes |
+|---|---|---|---|
+| CPython `>=3.11,<3.12` | `pyproject.toml` | portable installed Python APIs | CI selects 3.11.14 on Linux and 3.11.9 on macOS/Windows because those patches are available on the selected runner labels |
+| CPython `==3.11.14` | hardened-lane capability | content-bound certificate renewal and complete Linux verification | reviewed certificate identities bind 3.11.14 code-object bytes |
+| Python standard library | source imports | `src`, `vam`, and fallback `veyra_sage` | no third-party mandatory runtime package |
+| `setuptools>=77,<81` | build-system | wheel/sdist build | backend is `setuptools.build_meta` |
+| `wheel>=0.45,<0.47` | build-system | wheel build | tested direct version is recorded separately |
+| `build>=1.2,<2` | `dev` extra | offline PEP 517 package smoke | invoked as `python -m build --no-isolation` |
+| `pytest>=8,<10` | `dev` extra | tests | plugin autoload is disabled in controlled gates |
+| `ruff>=0.12,<1` | `dev` extra | static lint | target version is Python 3.11 |
+| `tqdm>=4.66,<5` | `tools` extra | progress in Lean/hygiene scripts | not imported by the installed runtime API |
+| `ipykernel>=6,<7` | `notebooks` extra | notebook kernels | optional |
+| `jupyterlab>=4,<5` | `notebooks` extra | interactive notebooks | optional |
+| SageMath | external | Sage-native parents/facades | not installable as a normal PyPI dependency; pure-Python fallbacks are separately tested |
+
+The direct versions exercised by the maintained CPython 3.11.14 environment are
+in `requirements/py311-tested.txt`. The CI bootstrap and its direct transitive
+tools are exact in `requirements/ci-py311.txt`; that file installs pip,
+setuptools, wheel, build/PEP 517 helpers, Pytest and its direct dependencies,
+Ruff, tqdm, and the Windows `colorama` edge before the project is installed
+with build isolation and dependency resolution disabled. CI installs the list
+itself with `--no-deps`. It is an exact reviewed tool list, not a
+hash-locked or platform-byte lock. Build-system ranges and optional extras are
+the authoritative install metadata. `environment.yml` mirrors the direct conda
+surface but is a solver input, not a complete transitive lock.
+
+## Lean
+
+All 42 sources target `leanprover/lean4:v4.30.0-rc2`. Their non-local imports
+(`Init.GrindInstances.Ring.Fin`, `Lean.Elab.Tactic.Omega`, and `Std.Tactic`) are
+provided by that Lean distribution; the project does not declare a Lake or
+mathlib dependency. `elan` is the supported toolchain selector.
+
+Portable compilation and hardened certificate renewal are distinct. See
+`proofs/lean/README.md` and `platform-reproducibility.md`.
+
+## Rust
+
+`vam/native/Cargo.lock` contains only the local `vam-native` package: the crate
+has no crates.io dependencies. `rust-toolchain.toml` selects Rust 1.95.0 with
+the minimal profile for reproduced checks, while `Cargo.toml` declares locked
+MSRV 1.83. `rustfmt` is required for the formatting gate.
+
+Install the reproduced Rust lane with
+`rustup toolchain install 1.95.0 --profile minimal --component rustfmt`. The
+repository toolchain file records the same component set.
+
+## System commands
+
+| Command | Required where |
+|---|---|
+| `git` | source-checkout hygiene, package provenance snapshot, and contribution workflow |
+| GNU Make + Bash | convenience wrapper and complete Linux `make verify` lane only |
+| `elan` | whole-source Lean compilation |
+| `rustup` | installs/selects reproduced Rust 1.95.0 and exact 1.83.0 for the declared-MSRV compatibility job; the `+toolchain` syntax requires rustup proxies |
+| `cargo`, `rustc`, `rustfmt` | native VAM gate through the selected rustup toolchain |
+| `sage` | real-Sage smoke/doctest lane |
+
+The reviewed Linux lane uses pip 26.0.1, SageMath 10.7 on Python 3.11.14, and
+`elan` 4.2.1. They are recorded environment inputs rather than PyPI runtime
+dependencies. Other versions require new evidence before being described as a
+reproduced full lane.
+
+Portable CI uses fixed hosted runner labels and CPython 3.11.9 on macOS and
+Windows because setup-python does not provide 3.11.14 there. That matrix checks
+the portable package and selected capability-free tests; it does not renew the
+3.11.14-bound certificates or claim the complete Linux lane. Labels identify
+OS families; GitHub's concrete hosted image revision remains a mutable input
+recorded by each workflow run.
+
+Windows users do not need Make or Bash for the portable gate. Every portable
+entry point invokes subprocesses as argument arrays rather than shell strings.
+
+## Updating dependencies
+
+1. Change the bounded declaration in `pyproject.toml`, `environment.yml`, or the
+   relevant toolchain file.
+2. Refresh `requirements/py311-tested.txt` and `requirements/ci-py311.txt` only
+   with versions actually tested; keep the latter's direct transitives complete.
+3. Run `python scripts/package_smoke.py`, `python scripts/verify_portable.py`,
+   and the relevant Lean/Rust/Sage gate.
+4. Update this inventory and `CHANGELOG.md`; do not describe a resolver input as
+   a hash lock or an unexecuted OS workflow as a pass.

@@ -3,6 +3,7 @@
 
 from __future__ import annotations
 
+import argparse
 import logging
 import sys
 from pathlib import Path
@@ -75,10 +76,29 @@ def stage(index: int, total: int, message: str) -> None:
     logger.debug("stage exit")
 
 
-def main() -> int:
+def parse_args(argv: list[str]) -> argparse.Namespace:
+    """Parse the explicit real-Sage requirement."""
+    logger.debug("parse_args entry argc=%d", len(argv))
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "--require-sage",
+        action="store_true",
+        help="fail instead of using the documented pure-Python fallback",
+    )
+    result = parser.parse_args(argv)
+    logger.debug("parse_args exit require_sage=%s", result.require_sage)
+    return result
+
+
+def main(argv: list[str] | None = None) -> int:
     """Run Sage lab smoke."""
     logging.basicConfig(level=logging.INFO, format="%(levelname)s:%(name)s:%(message)s")
     logger.debug("main entry")
+    args = parse_args(sys.argv[1:] if argv is None else argv)
+    if args.require_sage and not SAGE_AVAILABLE:
+        logger.error("real SageMath required but unavailable")
+        print("[done] errors=1 error=real-sage-required", file=sys.stderr)
+        return 2
     stage(1, 4, "Constructing Veyra Sage parent")
     parent = VeyraModes("abc")
     part = parent("ab")

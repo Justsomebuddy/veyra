@@ -15,6 +15,8 @@ from .stream_completion_formal_process import capture_phase
 from .transport_coherence_common import digest, exact_digest, exact_shape, exact_text, reject
 from .transport_coherence_types import FormalFailureKind, TransportTheoremSource
 
+from .paths import TMP_DIR
+
 logger = logging.getLogger(__name__)
 FORMAL_VERSION = "p3-c2-formal-v1"
 ARTIFACT_PATH = "proofs/lean/VeyraTransportCoherence.lean"
@@ -130,7 +132,7 @@ def check_transport_theorems(source: TransportTheoremSource, timeout: int, max_o
     if attested.kind is not None or attested.lean_path is None:
         return _failure(_kind(attested.kind), bytes(output), phases)
     try:
-        root = Path("data/tmp")
+        root = TMP_DIR
         root.mkdir(parents=True, exist_ok=True)
         with tempfile.TemporaryDirectory(prefix="p3c2-lean-", dir=root) as directory:
             target = Path(directory) / "VeyraTransportCoherence.lean"

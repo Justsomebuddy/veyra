@@ -2,6 +2,7 @@
 name = "vam-native"
 version = "0.1.0"
 edition = "2021"
+rust-version = "1.83"
 description = "Minimal honest Rust VAM0 native backend scaffold"
 license = "MIT"
 default-run = "vam0-inspect"

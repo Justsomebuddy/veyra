@@ -23,6 +23,8 @@ from .stream_completion_types import (
     StreamCompletionTheoremSource,
 )
 
+from .paths import TMP_DIR
+
 logger = logging.getLogger(__name__)
 FORMAL_VERSION = "pomega1-formal-v1"
 ARTIFACT_PATH = "proofs/lean/VeyraStreamCompletion.lean"
@@ -235,7 +237,7 @@ def compile_captured_sources(
             attestation.kind, attestation.output, attestation.return_codes, (),
             attestation.attestation_digest, attestation.phase_receipts,
         )
-    root = Path("data/tmp")
+    root = TMP_DIR
     codes = list(attestation.return_codes)
     receipts = list(attestation.phase_receipts)
     combined = bytearray(attestation.output)

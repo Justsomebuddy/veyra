@@ -18,6 +18,8 @@ from .all_depth_family_ledger import FOUNDATION_ID, LEAN_TCB_DIGEST
 from .all_depth_family_types import FormalFamilySource
 from .formal_export_catalog import _strip_lean_comments
 
+from .paths import TMP_DIR
+
 logger = logging.getLogger(__name__)
 FORMAL_VERSION = "p1-d3-formal-v1"
 ARTIFACT_NAME = "proofs/lean/VeyraAllDepthFamily.lean"
@@ -141,7 +143,7 @@ def _compile_captured(payload: bytes, artifact_digest: str, toolchain: str, tcb:
     if elan is None:
         logger.error("_compile_captured elan unavailable")
         return False
-    root = Path("data/tmp")
+    root = TMP_DIR
     try:
         root.mkdir(parents=True, exist_ok=True)
         with tempfile.TemporaryDirectory(prefix="d3-lean-", dir=root) as directory:

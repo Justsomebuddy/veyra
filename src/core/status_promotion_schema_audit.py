@@ -8,7 +8,7 @@ import logging
 from .all_depth_family_types import AllDepthFamilyJudgment
 from .confluence_aggregate_types import FiniteConfluenceAggregate
 from .confluence_types import ForkConfluenceJudgment
-from .finite_builder_types import FiniteConstructionJudgment
+from .construction.finite_builder.types import FiniteConstructionJudgment
 from .observer_genesis_types import GenesisJudgment
 from .status_promotion_common import (
     exact_bool, exact_digest, exact_identifier, exact_shape, exact_tuple, reject,

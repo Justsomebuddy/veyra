@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import logging
 
-from .finite_builder_types import ConstructionSourceBinding
+from .construction.finite_builder.types import ConstructionSourceBinding
 from .observer_actualization_graph import ObserverActualizationValidationError
 from .observer_actualization_result_validation import validate_actualization_result
 from .observer_actualization_runtime import historical_actualization_judgment

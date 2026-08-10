@@ -41,7 +41,7 @@ def checked_bridge_rows() -> tuple[FormalExportPrepRow, ...]:
     """Return already checked tiny bridge rows; these are not new broad claims."""
     logger.debug("checked_bridge_rows entry")
     path = lean_echo_export_path()
-    text = path.read_text(errors="replace") if path.exists() else ""
+    text = path.read_text(encoding="utf-8", errors="replace") if path.exists() else ""
     lean_status = check_lean_echo_export(path).status
     rows = []
     for theorem_id, title, marker in (

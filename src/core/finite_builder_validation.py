@@ -12,7 +12,7 @@ from .construction.finite_builder.codec import (
 from .construction.finite_builder.digest import (
     _program_digest, _seed_digest, _source_digest,
 )
-from .finite_builder_types import (
+from .construction.finite_builder.types import (
     ConstructionSourceBinding, FiniteBuilderExpr, FiniteBuilderProgram,
     FiniteRecurrenceSeed, PulseStep, SeedRef,
 )

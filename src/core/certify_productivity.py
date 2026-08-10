@@ -5,7 +5,7 @@ from __future__ import annotations
 import logging
 
 from .certify_types import Certificate
-from .finite_builder_types import TargetIndependence
+from .construction.finite_builder.types import TargetIndependence
 from .infinity_prefix import prefix_alphabet
 from .productivity import (
     OUTPUT_ENCODING_ID, RESTRICTION_LAW_ID, TOTALITY_BASIS_ID,

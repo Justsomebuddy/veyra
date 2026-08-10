@@ -11,18 +11,15 @@ import struct
 import subprocess
 from typing import Mapping
 
+from src.platform_capabilities import Capability, require_capability
+
 from .proof_elaboration_toolchain import (
     RUNTIME_DOMAIN, TOOLCHAIN_ROOT, paths_digest, runtime_closure_paths,
 )
 
 logger = logging.getLogger(__name__)
-_LIBC = ctypes.CDLL(None, use_errno=True)
-_LIBC.inotify_init1.argtypes = [ctypes.c_int]
-_LIBC.inotify_init1.restype = ctypes.c_int
-_LIBC.inotify_add_watch.argtypes = [ctypes.c_int, ctypes.c_char_p, ctypes.c_uint32]
-_LIBC.inotify_add_watch.restype = ctypes.c_int
-_IN_NONBLOCK = os.O_NONBLOCK
-_IN_CLOEXEC = os.O_CLOEXEC
+_IN_NONBLOCK = getattr(os, "O_NONBLOCK", 0)
+_IN_CLOEXEC = getattr(os, "O_CLOEXEC", 0)
 _EVENT = struct.Struct("iIII")
 _FILE_MASK = (
     0x00000002  # IN_MODIFY
@@ -63,6 +60,19 @@ class RuntimeWatch:
     watched: tuple[tuple[int, Path, bool], ...]
 
 
+def _inotify_libc() -> ctypes.CDLL:
+    """Load and type the Linux inotify functions only when the lane is used."""
+    logger.debug("proof_elaboration_runtime_guard._inotify_libc entry")
+    require_capability(Capability.LINUX_HARDENING)
+    libc = ctypes.CDLL(None, use_errno=True)
+    libc.inotify_init1.argtypes = [ctypes.c_int]
+    libc.inotify_init1.restype = ctypes.c_int
+    libc.inotify_add_watch.argtypes = [ctypes.c_int, ctypes.c_char_p, ctypes.c_uint32]
+    libc.inotify_add_watch.restype = ctypes.c_int
+    logger.debug("proof_elaboration_runtime_guard._inotify_libc exit")
+    return libc
+
+
 def _watch_specs(closures: tuple[ProtectedClosure, ...]) -> dict[Path, tuple[int, bool]]:
     logger.debug("proof_elaboration_runtime_guard._watch_specs entry closures=%d", len(closures))
     specs: dict[Path, tuple[int, bool]] = {}
@@ -100,7 +110,8 @@ def _watch_specs(closures: tuple[ProtectedClosure, ...]) -> dict[Path, tuple[int
 
 def _open_watch(closures: tuple[ProtectedClosure, ...]) -> RuntimeWatch:
     logger.debug("proof_elaboration_runtime_guard._open_watch entry closures=%d", len(closures))
-    fd = _LIBC.inotify_init1(_IN_NONBLOCK | _IN_CLOEXEC)
+    libc = _inotify_libc()
+    fd = libc.inotify_init1(_IN_NONBLOCK | _IN_CLOEXEC)
     if fd < 0:
         error = ctypes.get_errno()
         logger.error("proof_elaboration_runtime_guard inotify_init1 errno=%d", error)
@@ -108,7 +119,7 @@ def _open_watch(closures: tuple[ProtectedClosure, ...]) -> RuntimeWatch:
     watched: list[tuple[int, Path, bool]] = []
     try:
         for path, (mask, is_directory) in sorted(_watch_specs(closures).items(), key=lambda row: str(row[0])):
-            wd = _LIBC.inotify_add_watch(fd, os.fsencode(path), mask)
+            wd = libc.inotify_add_watch(fd, os.fsencode(path), mask)
             if wd < 0:
                 error = ctypes.get_errno()
                 logger.error("proof_elaboration_runtime_guard add_watch path=%s errno=%d", path, error)

@@ -2,7 +2,6 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-import fcntl
 import logging
 import os
 from pathlib import Path
@@ -10,6 +9,8 @@ import re
 import shutil
 from typing import Mapping
 from uuid import uuid4
+
+from .platform_posix import exclusive_file_lock
 
 logger = logging.getLogger(__name__)
 SNAPSHOT_NAMES = {
@@ -77,7 +78,7 @@ def materialize_lean_snapshot(
         snapshot_parent.mkdir(parents=True, exist_ok=True)
         lock_path = snapshot_parent / ".materialize.lock"
         with lock_path.open("a+b") as lock:
-            fcntl.flock(lock.fileno(), fcntl.LOCK_EX)
+            exclusive_file_lock(lock.fileno())
             root = snapshot_parent / key
             if not root.exists():
                 _write_snapshot(root, sources)

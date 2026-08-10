@@ -2,12 +2,13 @@ name: veyra-core
 channels:
   - conda-forge
 dependencies:
-  - python>=3.11
-  - pytest>=8
-  - ruff>=0.12
-  - tqdm>=4.66
-  - ipykernel
-  - jupyterlab
+  - python>=3.11,<3.12
+  - pytest>=8,<10
+  - ruff>=0.12,<1
+  - tqdm>=4.66,<5
+  - build>=1.2,<2
+  - setuptools>=77,<81
+  - wheel>=0.45,<0.47
+  - ipykernel>=6,<7
+  - jupyterlab>=4,<5
   - pip
-  - pip:
-      - build

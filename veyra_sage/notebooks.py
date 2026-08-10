@@ -94,7 +94,7 @@ class VeyraNotebook:
         """Write markdown rendering and return path."""
         logger.debug("VeyraNotebook.write_markdown entry path=%s", path)
         target = Path(path)
-        target.write_text(self.to_markdown())
+        target.write_text(self.to_markdown(), encoding="utf-8", newline="\n")
         logger.debug("VeyraNotebook.write_markdown exit path=%s", target)
         return target
 
@@ -102,7 +102,11 @@ class VeyraNotebook:
         """Write ipynb JSON rendering and return path."""
         logger.debug("VeyraNotebook.write_ipynb entry path=%s", path)
         target = Path(path)
-        target.write_text(json.dumps(self.to_ipynb_dict(), ensure_ascii=False, indent=2) + "\n")
+        target.write_text(
+            json.dumps(self.to_ipynb_dict(), ensure_ascii=False, indent=2) + "\n",
+            encoding="utf-8",
+            newline="\n",
+        )
         logger.debug("VeyraNotebook.write_ipynb exit path=%s", target)
         return target
 

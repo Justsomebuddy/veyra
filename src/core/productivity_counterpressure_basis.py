@@ -17,6 +17,8 @@ from .productivity_counterpressure_common import exact_dataclass_shape, exact_di
 from .productivity_counterpressure_digest import basis_digest as make_basis_digest
 from .productivity_counterpressure_types import CounterpressureBasisSource, DerivationKind
 
+from .paths import TMP_DIR
+
 logger = logging.getLogger(__name__)
 BASIS_VERSION = "p1-d2-basis-v1"
 BASIS_ID = "p1-d2-nat-countermodels-v1"
@@ -165,7 +167,7 @@ def _compile_captured(payload: bytes, artifact_digest: str, toolchain: str, tcb:
     if elan is None:
         logger.error("_compile_captured elan unavailable")
         return False
-    root = Path("data/tmp")
+    root = TMP_DIR
     try:
         root.mkdir(parents=True, exist_ok=True)
         with tempfile.TemporaryDirectory(prefix="d2-lean-", dir=root) as directory:

@@ -20,8 +20,9 @@ from .proof_core_resonance import (
     verify_intrinsic_theorem_binding,
 )
 
+from .paths import PROJECT_ROOT
+
 logger = logging.getLogger(__name__)
-PROJECT_ROOT = Path(__file__).resolve().parents[2]
 LEAN_DIR = PROJECT_ROOT / "proofs" / "lean"
 BUILD_DIR = PROJECT_ROOT / "data" / "tmp" / "r7-lean"
 LEAN_TOOLCHAIN = "leanprover/lean4:v4.30.0-rc2"

@@ -1,7 +1,7 @@
 """Construction and fresh validation for finite P1-E4 source packages."""
 from __future__ import annotations
 import logging
-from .finite_builder_types import ConstructionSourceBinding
+from .construction.finite_builder.types import ConstructionSourceBinding
 from .observer_actualization_digest import (
     access_bytes, assumption_bytes, birth_core_digest, counterfactual_bytes,
     digest, event_bytes, history_digest, policy_digest, source_digest,

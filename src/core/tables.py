@@ -50,7 +50,11 @@ def write_json(path: Path, data: Any, rows: int) -> TableArtifact:
     """Write JSON data and return artifact metadata."""
     logger.debug("write_json entry path=%s rows=%d", path, rows)
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(data, ensure_ascii=False, separators=(",", ":")) + "\n", encoding="utf-8")
+    path.write_text(
+        json.dumps(data, ensure_ascii=False, separators=(",", ":")) + "\n",
+        encoding="utf-8",
+        newline="\n",
+    )
     result = TableArtifact(path.stem, path, rows)
     logger.debug("write_json exit result=%r", result)
     return result
@@ -253,7 +257,13 @@ def counterexample_data(alphabet: Iterable[str], max_len: int, limit: int) -> di
 def write_manifest(path: Path, params: dict[str, Any], artifacts: list[TableArtifact]) -> TableArtifact:
     """Write generation manifest."""
     logger.debug("write_manifest entry path=%s artifacts=%d", path, len(artifacts))
-    data = {"params": params, "artifacts": [{"kind": a.kind, "path": str(a.path), "rows": a.rows} for a in artifacts]}
+    data = {
+        "params": params,
+        "artifacts": [
+            {"kind": artifact.kind, "path": artifact.path.as_posix(), "rows": artifact.rows}
+            for artifact in artifacts
+        ],
+    }
     result = write_json(path, data, len(artifacts))
     logger.debug("write_manifest exit result=%r", result)
     return result

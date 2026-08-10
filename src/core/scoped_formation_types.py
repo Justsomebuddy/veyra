@@ -8,7 +8,7 @@ from typing import TypeAlias
 
 from .confluence_aggregate_types import FiniteConfluenceCatalogSource
 from .confluence_types import FiniteDiagramSource, ForkJoinPlan
-from .finite_builder_types import ConstructionSourceBinding
+from .construction.finite_builder.types import ConstructionSourceBinding
 from .observer_patch_validation import LocalObserverSection, ObserverPatchAtlas
 from .observer_relation_resource_types import RelationResourcePolicy
 from .observer_morphism_types import ObserverSourceBinding

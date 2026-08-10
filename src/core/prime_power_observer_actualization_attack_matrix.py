@@ -32,6 +32,8 @@ from .prime_power_observer_actualization_types import (
     BoundaryStatus, FailedBound, FormalFailureKind, N0AccessEdge, N0Event,
     N0FormalFailure, N0ResourceLimit, PremiseStatus,
 )
+from .paths import PROJECT_ROOT
+
 logger = logging.getLogger(__name__)
 
 @dataclass(frozen=True)
@@ -249,14 +251,14 @@ def run_attack_matrix(source, positive) -> tuple[AttackSubmission, ...]:
     out.append(_submission("A21", "suffix-birth-mutation-rehashed", "refuted",
                            audit_counterfactual_pair(source, strict, mutated_open)
                            is PremiseStatus.REFUTED))
-    root = Path(__file__).resolve().parents[2]
+    root = PROJECT_ROOT
     out.append(_submission("A22", "path-escape", "validation", _rejects(
         lambda: _capture_one(root, "../escape.lean", ARTIFACT_SHA256, 1024),
         "n0-source-path-escape")))
     with tempfile.TemporaryDirectory(prefix="p3n0-a22-", dir=root / "data" / "tmp") as directory:
         link = Path(directory) / "source.lean"
         link.symlink_to(root / ARTIFACT_PATH)
-        relative = str(link.relative_to(root))
+        relative = link.relative_to(root).as_posix()
         out.append(_submission("A22", "symlink", "validation", _rejects(
             lambda: _capture_one(root, relative, ARTIFACT_SHA256, 1024 * 1024),
             "n0-source-not-regular-file")))

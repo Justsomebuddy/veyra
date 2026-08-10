@@ -114,8 +114,10 @@ Start with:
 
 Requirements:
 
-- Python 3.11 or newer;
-- `make` for the provided command shortcuts;
+- CPython `>=3.11,<3.12` for the portable installed library;
+- CPython 3.11.14 exactly for content-bound certificate renewal and the
+  complete hardened Linux verification lane;
+- `make` only for the optional POSIX command shortcuts;
 - optional external components listed below for the broader proof and native
   checks.
 
@@ -124,8 +126,8 @@ git clone https://github.com/Justsomebuddy/veyra.git veyra
 cd veyra
 python3.11 -m venv .venv
 source .venv/bin/activate
-python -m pip install --upgrade pip
-python -m pip install -e '.[dev]'
+python -m pip install --no-deps -r requirements/ci-py311.txt
+python -m pip install --no-build-isolation --no-deps -e .
 ```
 
 Conda users can instead create the maintained environment:
@@ -139,11 +141,23 @@ python -m pip install -e .
 ### Optional proof and native components
 
 - Lean: `leanprover/lean4:v4.30.0-rc2` through `elan`;
-- Rust: a stable `cargo`/`rustc` installation for native VAM checks;
+- Rust: reproduced with `1.95.0` (declared crate MSRV `1.83`);
 - SageMath for Sage-specific interactive use.
 
-The exact Lean commands for published artifacts are listed in
+The exact portable whole-source Lean compilation command is listed in
 [`proofs/lean/README.md`](proofs/lean/README.md).
+Dependency groups, Windows setup, distribution contents, and the honest
+Linux/macOS/Windows boundary are specified in
+[`docs/reference/platform-reproducibility.md`](docs/reference/platform-reproducibility.md).
+The complete direct library/tool inventory is in
+[`docs/reference/dependencies.md`](docs/reference/dependencies.md).
+The wheel is the portable finite API subset; full certificate renewal requires
+an unpacked source distribution or source checkout and its external toolchains.
+Repository-owned artifacts retain normalized relative identities and resolve
+against the installed/source root only at I/O; lexical and symlink escapes are
+rejected. The optional root override is trusted operator input, not repository
+authentication. Invoking portable tools from another current working directory
+does not retarget proof or scratch data.
 
 ## Testing and reproducibility
 
@@ -153,11 +167,18 @@ Show available commands:
 make help
 ```
 
-Run a focused Python-only onboarding check:
+To exercise the portable lane on Linux and the intended macOS/Windows hosts
+without requiring GNU Make, run:
+
+```bash
+python scripts/verify_portable.py
+```
+
+Run a focused portable finite-semantics check:
 
 ```bash
 PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 \
-  python -m pytest -q tests/test_axiom_kernel.py tests/test_approx_resonance.py
+  python -m pytest -q tests/test_balance_ratio.py tests/test_modes.py
 ```
 
 Run the active test suite:
@@ -172,8 +193,9 @@ Run executable certificates:
 make cert
 ```
 
-Run the complete project pipeline only after the optional prerequisites are
-available. It can be substantially longer than the focused checks:
+Run the complete Linux source-checkout pipeline only after Lean, Rust, and
+SageMath backed by CPython 3.11.14 are available. It can be substantially longer than the
+focused checks and includes Linux-only hardened certificate paths:
 
 ```bash
 make verify

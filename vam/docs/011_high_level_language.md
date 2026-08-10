@@ -1,5 +1,10 @@
 # 011 — High-Level Veyra/VAM Language Sketch
 
+> **Design-history status:** the one-echo seed in `vam/src/highlevel.py` and the
+> bounded observer/process/claim subset in `vam/src/highlevel_v1.py` are
+> implemented. The broader syntax below remains a proposal, not an active
+> completion checklist.
+
 ## Purpose
 
 This document sketches a future high-level source language for Veyra programs

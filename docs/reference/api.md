@@ -70,7 +70,7 @@ This curated aggregate is not an inventory of every split implementation module.
 | `src.core.depth_packs` | Depth packs and Sage export adapters for Veyra school-core coverage. |
 | `src.core.equation` | Linear resonance constraints over Veyra ratio shadows. |
 | `src.core.essence` | Executable Essence/Core contract for Veyra. |
-| `src.core.formal_bridge` | Internal mini-kernel and Lean bridge for `THM-F001`. |
+| `src.core.formal_bridge`; internal `paths` / `platform_posix`; `src.platform_capabilities` | Mini-kernel and Lean bridge for `THM-F001`; validated-root artifact I/O; lazy real-host POSIX adapters; typed portable/hardened capability discovery. |
 | `src.core.formal_export_catalog` / `formal_export_evaluator` / `formal_export_completion` | X8 captured-byte/continuity bindings and all nineteen bounded rows across six Lean files; remaining metadata/wrappers append A004–A006/C002 while evaluator/public row identity/key order/checker patching remain compatible. |
 | `src.core.formal_export_prep` | X7 formal export-prep ledger: checked bridges plus stable-card candidates. |
 | `src.core.geometry` | Veyra geometry from anchored events and tremor corridors. |
@@ -189,7 +189,7 @@ This curated aggregate is not an inventory of every split implementation module.
 | `src.core.observer_relation_request` / `validation` / `preflight` | Exact source/scope/proposal construction, hostile validation, and all-bound precharge before R11/P1-A semantics. |
 | `src.core.observer_relation_replay` / `laws` / `translation` / `triangles` / `runtime` | Fresh stage replay, complete ordered pair laws, exact classification, raw P1-A/proposal triangle checks, loss separation, and judgment assembly. |
 | `src.core.observer_relation_result_validation` / `certify_observer_relations`; `certify_observer_network` | Fresh P1-A2/P3-T revalidation and separate L1 certificates; P3-T has 18 attacks/promotions 0 and proves no prime-power N2, universal observer order, ontic identity, or promotion. |
-| `src.core.finite_builder_types` | Exact P1-B `SeedRef`/`PulseStep`, seed/program/source/replay DTOs, formal-generability status, and closed nonclaim enums. |
+| `src.core.construction.finite_builder.codec` / `digest` / `types` | Canonical P1-B finite-builder codec, commitments, `SeedRef`/`PulseStep`, seed/program/source/replay DTOs, formal-generability status, and closed nonclaim enums. Legacy `src.core.finite_builder_*` paths remain identity-preserving compatibility aliases. |
 | `src.core.finite_builder_runtime` | Fresh target-free replay plus exact artifact revalidation; deterministic commitments with fresh stage identities. |
 | `src.core.finite_construction` | P1-B seed/program/source constructors, unital/associative closed-expression composition, replay-before-target formal-generability judgment, and judgment revalidation. |
 | `src.core.certify_finite_construction` | Provisional level-1 P1-B certificate surface; not ontic genesis, chronology, target independence, scoped formation, confluence, productivity, all-depth, or PΩ. |

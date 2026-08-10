@@ -4,10 +4,14 @@ SHELL := /bin/bash
 PYTHON ?= python3
 PROJECT_PYTHONPATH ?= .
 PYTEST ?= $(PYTHON) -m pytest
+SAGE ?= sage
+CARGO ?= $(shell command -v cargo 2>/dev/null || printf '%s' "$(HOME)/.cargo/bin/cargo")
+RUSTFMT_CARGO ?= $(CARGO) +1.95.0
+RUST_TEST_CARGO ?= $(CARGO) +1.95.0
+LEAN_JOBS ?= 8
 ACTIVE_IGNORE ?=
-LINE_EXTS := -name '*.py' -o -name '*.md' -o -name '*.tex' -o -name '*.cu' -o -name '*.cuh'
 
-.PHONY: help status test cert sage-smoke sage-doctest hygiene verify omegaa-collect tables notebooks
+.PHONY: help status lint test cert sage-smoke sage-required sage-doctest rust lean package-smoke portable hygiene diff-check verify omegaa-collect tables notebooks
 
 help:
 	@printf '%s\n' \
@@ -17,9 +21,15 @@ help:
 	  '  make test          Run the public pytest suite' \
 	  '  make cert          Run executable Veyra certificate suite' \
 	  '  make sage-smoke    Run Sage facade smoke checks' \
+	  '  make sage-required Run the facade through real SageMath' \
 	  '  make sage-doctest  Run veyra_sage doctests' \
+	  '  make rust          Run locked native formatting/tests' \
+	  '  make lean          Compile all 42 pinned Lean sources' \
+	  '  make package-smoke Build/install/inspect wheel and sdist' \
+	  '  make portable      Run the shell-neutral portable lane' \
 	  '  make hygiene       Check active file line hygiene' \
-	  '  make verify        Run test + cert + Sage + hygiene' \
+	  '  make diff-check    Check patch whitespace integrity' \
+	  '  make verify        Run the complete Linux source lane' \
 	  '' \
 	  'Experimental (not part of make verify):' \
 	  '  make omegaa-collect  Collect isolated Omega-A tests without running them' \
@@ -35,6 +45,10 @@ status:
 	@echo '[1/1] Git working-tree status'
 	@git status --short --branch
 
+lint:
+	@echo '[1/1] Running Ruff'
+	@$(PYTHON) -m ruff check src veyra_sage vam scripts tests
+
 test:
 	@echo '[1/1] Running public pytest suite'
 	@PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 PYTHONPATH='$(PROJECT_PYTHONPATH)' $(PYTEST) -q $(ACTIVE_IGNORE)
@@ -47,51 +61,72 @@ sage-smoke:
 	@echo '[1/1] Running Sage facade smoke checks'
 	@PYTHONPATH='$(PROJECT_PYTHONPATH)' $(PYTHON) scripts/sage_smoke.py
 
+sage-required:
+	@echo '[1/1] Running facade checks through real SageMath'
+	@PYTHONPATH='$(PROJECT_PYTHONPATH)' $(SAGE) -python scripts/sage_smoke.py --require-sage
+
 sage-doctest:
 	@echo '[1/1] Running veyra_sage doctests'
-	@PYTHONPATH='$(PROJECT_PYTHONPATH)' $(PYTHON) scripts/sage_doctest.py
+	@PYTHONPATH='$(PROJECT_PYTHONPATH)' $(SAGE) -python scripts/sage_doctest.py
+
+rust:
+	@echo '[1/2] Checking native Rust formatting'
+	@$(RUSTFMT_CARGO) --version | grep -q '^cargo 1\.95\.0 '
+	@cd vam/native && $(RUSTFMT_CARGO) fmt --all -- --check
+	@echo '[2/2] Running locked native Rust tests'
+	@cd vam/native && $(RUST_TEST_CARGO) test --locked
+
+lean:
+	@echo '[1/1] Compiling the complete pinned Lean source graph'
+	@$(PYTHON) scripts/check_lean_sources.py --jobs $(LEAN_JOBS)
+
+package-smoke:
+	@echo '[1/1] Building and inspecting Python distributions'
+	@$(PYTHON) scripts/package_smoke.py
+
+portable:
+	@echo '[1/1] Running portable source/package verification'
+	@$(PYTHON) scripts/verify_portable.py
 
 hygiene:
-	@echo '[1/3] Checking stable source/doc files are <=300 LOC'
-	@violations=$$(find . -type f \
-		-not -path './.git/*' \
-		-not -path './.venv/*' \
-		-not -path './node_modules/*' \
-		-not -path './experimental/*' \
-		-not -path '*/__pycache__/*' \
-		\( $(LINE_EXTS) \) -print0 | xargs -0 -r wc -l | awk '$$2 != "total" && $$1 > 300 {print}'); \
-	if [[ -n "$$violations" ]]; then \
-		printf '%s\n' "$$violations"; \
-		exit 1; \
-	fi; \
-	echo '[ok] no stable source/doc file exceeds 300 LOC'
-	@echo '[2/3] Checking experimental source/doc files are <=1000 LOC'
-	@violations=$$(find experimental -type f \
-		-not -path '*/__pycache__/*' \
-		\( $(LINE_EXTS) \) -print0 | xargs -0 -r wc -l | awk '$$2 != "total" && $$1 > 1000 {print}'); \
-	if [[ -n "$$violations" ]]; then \
-		printf '%s\n' "$$violations"; \
-		exit 1; \
-	fi; \
-	echo '[ok] no experimental source/doc file exceeds 1000 LOC'
-	@echo '[3/3] Checking Python cache files remain ignored'
-	@git check-ignore -q .pytest_cache/ && git check-ignore -q src/core/__pycache__/ && echo '[ok] cache ignore rules active'
+	@echo '[1/1] Running portable repository hygiene'
+	@$(PYTHON) scripts/project_hygiene.py
+
+diff-check:
+	@echo '[1/3] Checking working-tree whitespace integrity'
+	@git diff --check
+	@echo '[2/3] Checking staged whitespace integrity'
+	@git diff --cached --check
+	@echo '[3/3] Checking current commit whitespace integrity'
+	@git show --check --format= HEAD
 
 omegaa-collect:
 	@echo '[1/1] Collecting isolated Omega-A tests (experimental; not stable verification)'
 	@cd experimental/omegaa && PYTHONDONTWRITEBYTECODE=1 PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 PYTHONPATH=. $(PYTEST) -p no:cacheprovider --collect-only -q tests
 
 verify:
-	@echo '[1/5] Pytest'
+	@echo '[1/11] Ruff'
+	@$(MAKE) --no-print-directory lint
+	@echo '[2/11] Pytest'
 	@$(MAKE) --no-print-directory test
-	@echo '[2/5] Certificates'
+	@echo '[3/11] Certificates'
 	@$(MAKE) --no-print-directory cert
-	@echo '[3/5] Sage smoke'
-	@$(MAKE) --no-print-directory sage-smoke
-	@echo '[4/5] Sage doctest'
+	@echo '[4/11] Real Sage smoke'
+	@$(MAKE) --no-print-directory sage-required
+	@echo '[5/11] Sage doctest'
 	@$(MAKE) --no-print-directory sage-doctest
-	@echo '[5/5] Hygiene'
+	@echo '[6/11] Rust'
+	@$(MAKE) --no-print-directory rust
+	@echo '[7/11] Lean'
+	@$(MAKE) --no-print-directory lean
+	@echo '[8/11] Package smoke'
+	@$(MAKE) --no-print-directory package-smoke
+	@echo '[9/11] Portable lane'
+	@$(MAKE) --no-print-directory portable
+	@echo '[10/11] Hygiene'
 	@$(MAKE) --no-print-directory hygiene
+	@echo '[11/11] Diff check'
+	@$(MAKE) --no-print-directory diff-check
 	@echo '[done] Veyra verification complete'
 
 tables:

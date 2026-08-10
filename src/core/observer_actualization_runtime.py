@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import logging
 
-from .finite_builder_types import FormalGenerability
+from .construction.finite_builder.types import FormalGenerability
 from .finite_construction import finite_construction_judgment
 from .observer_actualization_audits import (
     assumption_sources_outside_past, efficacy_pressure, target_seal_breached,

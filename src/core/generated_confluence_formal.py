@@ -20,6 +20,8 @@ from .generated_confluence_types import (
 from .stream_completion_formal_attestation import ToolchainContract, attest_toolchain
 from .stream_completion_formal_process import FormalPhaseReceipt, capture_phase
 
+from .paths import TMP_DIR
+
 logger = logging.getLogger(__name__)
 FORMAL_VERSION = "p3-c1-formal-v2"
 ARTIFACT_PATH = "proofs/lean/VeyraGeneratedConfluence.lean"
@@ -125,7 +127,7 @@ def check_generated_confluence_theorem(
         reject(f"generated-formal-attestation-{None if attested.kind is None else attested.kind.value}")
     output = bytearray(attested.output)
     receipts = [_convert_phase(row) for row in attested.phase_receipts]
-    root = Path("data/tmp")
+    root = TMP_DIR
     try:
         root.mkdir(parents=True, exist_ok=True)
         with tempfile.TemporaryDirectory(prefix="p3c1-lean-", dir=root) as directory:

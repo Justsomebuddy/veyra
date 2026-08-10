@@ -29,6 +29,7 @@ from .padic_residue_tower import (
     prime_base,
 )
 from .padic_residue_types import PadicCompatibilityObstruction
+from .paths import repository_path
 
 logger = logging.getLogger(__name__)
 
@@ -127,8 +128,9 @@ def _observer_infinity_lean_evidence_at(
     proof_path: Path, expected_sha256: str = I1_LEAN_SHA256
 ) -> ObserverInfinityLeanEvidence:
     logger.debug("_observer_infinity_lean_evidence_at entry path=%s", proof_path)
+    target = proof_path if proof_path.is_absolute() else repository_path(proof_path.as_posix())
     try:
-        payload = proof_path.read_bytes()
+        payload = target.read_bytes()
     except OSError as exc:
         logger.error("_observer_infinity_lean_evidence_at read failed error=%s", exc)
         return _blocked_evidence(proof_path, expected_sha256)
@@ -147,7 +149,7 @@ def _observer_infinity_lean_evidence_at(
         return _blocked_evidence(proof_path, expected_sha256, actual, "matched")
     compiled = check_captured_lean_artifact(payload, expected_sha256)
     try:
-        after = proof_path.read_bytes()
+        after = target.read_bytes()
     except OSError as exc:
         logger.error("_observer_infinity_lean_evidence_at reread failed error=%s", exc)
         after = b""

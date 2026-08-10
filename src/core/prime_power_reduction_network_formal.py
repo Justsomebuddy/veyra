@@ -21,6 +21,8 @@ from .prime_power_reduction_network_types import FormalFailureKind
 from .stream_completion_formal_attestation import ToolchainContract, attest_toolchain
 from .stream_completion_formal_process import FormalPhaseReceipt, capture_phase
 
+from .paths import TMP_DIR
+
 logger = logging.getLogger(__name__)
 ATTESTATION_DIGEST = digest("veyra.p3n2.attestation.v1", (
     ("toolchain", TOOLCHAIN_ID.encode()), ("elan", ELAN_SHA256.encode()),
@@ -136,8 +138,8 @@ def compile_sources(captured, timeout: int, max_output: int) -> CompileOutcome:
     if attested.kind is not None:
         return CompileOutcome(_map_kind(attested.kind), bytes(output), tuple(codes), (),
                               attested.attestation_digest, tuple(receipts))
-    Path("data/tmp").mkdir(parents=True, exist_ok=True)
-    with tempfile.TemporaryDirectory(prefix="p3n2-", dir="data/tmp") as directory:
+    TMP_DIR.mkdir(parents=True, exist_ok=True)
+    with tempfile.TemporaryDirectory(prefix="p3n2-", dir=TMP_DIR) as directory:
         private = Path(directory)
         names = ("VeyraPadicCompletion.lean", "VeyraPadicFamilyIntroduction.lean",
                  "VeyraPrimePowerReductionNetwork.lean")

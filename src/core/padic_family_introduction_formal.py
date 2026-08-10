@@ -23,6 +23,8 @@ from .padic_family_introduction_types import N1ExecutionFailureKind, N1Introduct
 from .stream_completion_formal_attestation import ToolchainContract, attest_toolchain
 from .stream_completion_formal_process import FormalPhaseReceipt, capture_phase
 
+from .paths import TMP_DIR
+
 logger = logging.getLogger(__name__)
 EXPECTED_AXIOM_ROWS = (
     (THEOREM_IDS[0], ()), (THEOREM_IDS[1], ("propext",)),
@@ -187,7 +189,7 @@ def compile_sources(captured: tuple[bytes, bytes, bytes], timeout: int, max_outp
         return N1CompileOutcome(_kind(attested.kind), bytes(combined), tuple(codes), (),
                                 attested.attestation_digest, tuple(receipts))
     try:
-        root = Path("data/tmp")
+        root = TMP_DIR
         root.mkdir(parents=True, exist_ok=True)
         with tempfile.TemporaryDirectory(prefix="p3n1-", dir=root) as directory:
             private = Path(directory)

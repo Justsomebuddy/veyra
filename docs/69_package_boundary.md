@@ -67,19 +67,21 @@ is:
 src/core/construction/
 └── finite_builder/
     ├── codec.py
-    └── digest.py
+    ├── digest.py
+    └── types.py
 ```
 
 Internal P1-B and scoped-formation consumers import these canonical modules.
-The former flat modules, `src.core.finite_builder_codec` and
-`src.core.finite_builder_digest`, remain lazy compatibility aliases: importing
-a legacy path installs its alias through the ordinary import machinery, and old
-and new imports then resolve to the same module object with a valid parent
-package attribute.  Functions, the codec exception, and loggers retain their
-legacy module provenance for pickling, instrumentation, and log routing.  This
-preserves existing imports while giving new code a cognitively local package
-boundary.  The move changes no codec bytes, digest domains, resource limits, or
-finite-construction semantics.
+The former flat modules, `src.core.finite_builder_codec`,
+`src.core.finite_builder_digest`, and `src.core.finite_builder_types`, remain
+lazy compatibility aliases: importing a legacy path installs its alias through
+the ordinary import machinery, and old and new imports then resolve to the same
+module object with a valid parent-package attribute. Functions, the codec
+exception, loggers, dataclasses, and enums retain their legacy module provenance
+for pickling, instrumentation, and log routing. Root exports, DTO fields, and
+enum values remain unchanged. This preserves existing imports while giving new
+code a cognitively local package boundary. The move changes no codec bytes,
+digest domains, resource limits, or finite-construction semantics.
 
 Further layout changes must follow the same bounded process: move one coherent
 cluster, retain explicit compatibility imports, verify old/new object identity,

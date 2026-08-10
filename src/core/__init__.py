@@ -102,7 +102,7 @@ from .observer_morphism_runtime import translate_response
 from .observer_morphism_types import ComparisonDomain, InformationLoss, MorphismStatus, ObserverMorphismJudgment, ObserverSourceBinding, ProjectionStep, R11DomainProfile, ResponseTranslation
 from .observer_morphism_validation import ObserverMorphismValidationError
 from .finite_builder_runtime import FiniteBuilderReplayError, replay_finite_builder, snapshot_replay_artifact
-from .finite_builder_types import ConstructionSourceBinding, FiniteBuilderProgram, FiniteConstructionJudgment, FiniteRecurrenceSeed, FormalGenerability, OnticGenesis, PulseStep, ReplayArtifact, ReplayStatus, ScopedObjectFormation, SeedRef, TargetIndependence
+from .construction.finite_builder.types import ConstructionSourceBinding, FiniteBuilderProgram, FiniteConstructionJudgment, FiniteRecurrenceSeed, FormalGenerability, OnticGenesis, PulseStep, ReplayArtifact, ReplayStatus, ScopedObjectFormation, SeedRef, TargetIndependence
 from .finite_builder_validation import FiniteBuilderValidationError
 from .finite_construction import compose_finite_builder_expressions, construction_source_binding, finite_builder_program, finite_construction_judgment, finite_recurrence_seed, validate_finite_construction_judgment
 from .confluence import compose_diagram_paths, diagram_edge, diagram_path, direct_echo_transport, finite_diagram_source, fork_confluence_judgment, fork_join_plan, replay_diagram_path, swap_fork_join_plan

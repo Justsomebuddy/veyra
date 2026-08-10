@@ -12,7 +12,7 @@ from .confluence_aggregate_types import (
 )
 from .confluence_path import replay_diagram_path
 from .confluence_types import ConfluenceStatus
-from .finite_builder_types import FormalGenerability
+from .construction.finite_builder.types import FormalGenerability
 from .finite_construction import finite_construction_judgment
 from .observer_core_codec import decode_observer
 from .observer_core_semantics import echo, observe

@@ -6,7 +6,7 @@ from dataclasses import dataclass
 from enum import Enum
 from typing import TypeAlias
 
-from .finite_builder_types import TargetIndependence
+from .construction.finite_builder.types import TargetIndependence
 from .infinity_prefix_types import PrefixAlphabet
 
 

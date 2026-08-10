@@ -1,12 +1,17 @@
 # 019 — High-Level Language Next Slice
 
+> **Partially implemented design record:** `vam/src/highlevel_v1.py` implements
+> observer aliases plus one conservative process/claim block. The broader
+> theorem-card, reusable declaration, and module surface below remains future
+> work and is not a proof-strength claim.
+
 ## Purpose
 
-Define the next implementable high-level syntax slice after the current
+Record the design target around the bounded HL-1 helper that followed the
 one-echo seed in `vam/src/highlevel.py`.
 
-This is a proposal, not an implementation. The slice should make authoring
-less toy-like while preserving VAM's current evidence boundary:
+Implemented behavior is authoritative in `vam/src/highlevel_v1.py` and its
+tests; unimplemented sections below remain proposals under this evidence boundary:
 
 ```text
 parse/lower/transport != proof

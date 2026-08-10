@@ -27,6 +27,8 @@ from .formal_export_remaining_data import (
     REMAINING_FORMAL_EXPORT_ROWS,
 )
 
+from .paths import TMP_DIR, repository_path
+
 logger = logging.getLogger(__name__)
 _GEOMETRY_REEXPORTS = (
     SSS_TRIANGLE_ID, SSS_TRIANGLE_SYMBOL,
@@ -210,8 +212,9 @@ def formal_export_specs() -> tuple[FormalExportSpec, ...]:
 def read_bound_lean_artifact(spec: FormalExportSpec) -> tuple[bytes | None, bool]:
     """Read a Lean artifact and bind its entire byte content to the catalog digest."""
     logger.debug("read_bound_lean_artifact entry theorem=%s path=%s", spec.theorem_id, spec.proof_path)
+    target = spec.proof_path if spec.proof_path.is_absolute() else repository_path(spec.proof_path.as_posix())
     try:
-        payload = spec.proof_path.read_bytes()
+        payload = target.read_bytes()
     except OSError as exc:
         logger.error("read_bound_lean_artifact failed theorem=%s error=%s", spec.theorem_id, exc)
         logger.debug("read_bound_lean_artifact exit bytes=0 matched=False")
@@ -227,7 +230,7 @@ def read_bound_lean_artifact(spec: FormalExportSpec) -> tuple[bytes | None, bool
 def check_captured_lean_artifact(payload: bytes, digest: str) -> str:
     """Compile exact captured bytes from a private content-addressed temporary path."""
     logger.debug("check_captured_lean_artifact entry bytes=%d digest=%s", len(payload), digest)
-    temp_root = Path("data/tmp")
+    temp_root = TMP_DIR
     actual_digest = hashlib.sha256(payload).hexdigest()
     try:
         temp_root.mkdir(parents=True, exist_ok=True)

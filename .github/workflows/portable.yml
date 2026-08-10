@@ -1,0 +1,93 @@
+name: portable
+
+on:
+  push:
+  pull_request:
+
+concurrency:
+  group: portable-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  python:
+    name: Portable Python ${{ matrix.python }} / ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-24.04
+            python: "3.11.14"
+          - os: macos-14
+            python: "3.11.9"
+          - os: windows-2022
+            python: "3.11.9"
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@42375524e23c412d93fb67b49958b491fce71c38 # v5.4.0
+        with:
+          python-version: ${{ matrix.python }}
+          cache: pip
+          cache-dependency-path: requirements/ci-py311.txt
+      - name: Install exact hosted verification tools
+        run: python -m pip install --no-deps --requirement requirements/ci-py311.txt
+      - name: Install Veyra without an unreviewed isolated build environment
+        run: python -m pip install --no-build-isolation --no-deps -e .
+      - name: Portable verification
+        run: python scripts/verify_portable.py
+
+  rust:
+    name: Rust native / ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, macos-14, windows-2022]
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@42375524e23c412d93fb67b49958b491fce71c38 # v5.4.0
+        with:
+          python-version: "3.11.9"
+          cache: pip
+          cache-dependency-path: requirements/ci-py311.txt
+      - name: Install pinned Rust toolchain
+        run: rustup toolchain install 1.95.0 --profile minimal --component rustfmt
+      - run: cargo +1.95.0 fmt --all -- --check
+        working-directory: vam/native
+      - run: cargo +1.95.0 test --locked
+        working-directory: vam/native
+      - name: Install Python parity dependencies
+        run: >-
+          python -m pip install --no-deps --requirement requirements/ci-py311.txt
+          && python -m pip install --no-build-isolation --no-deps -e .
+      - name: Python/native boundary parity
+        env:
+          PYTEST_DISABLE_PLUGIN_AUTOLOAD: "1"
+          RUSTUP_TOOLCHAIN: "1.95.0"
+        run: >-
+          python -m pytest -q -p no:cacheprovider
+          tests/test_vam_native_boundaries.py
+          tests/test_vam_native_error_taxonomy.py
+          tests/test_vami_runtime_parity.py
+
+  rust-msrv:
+    name: Rust declared MSRV (exact 1.83.0)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - name: Install exact compiler for declared MSRV
+        run: rustup toolchain install 1.83.0 --profile minimal
+      - run: cargo +1.83.0 test --locked
+        working-directory: vam/native

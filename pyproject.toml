@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools>=77", "wheel"]
+requires = ["setuptools>=77,<81", "wheel>=0.45,<0.47"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -7,13 +7,16 @@ name = "veyra-core"
 version = "2.99.0"
 description = "Research software for finite observer semantics, recurrence, and exact proof-ledger experiments."
 readme = "README.md"
-requires-python = ">=3.11"
+requires-python = ">=3.11,<3.12"
 license = "MIT"
 authors = [{ name = "Veyra Research Contributors" }]
 keywords = ["mathematics", "foundations", "resonance", "formal-methods"]
-dependencies = [
-  "tqdm>=4.66",
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: Implementation :: CPython",
 ]
+dependencies = []
 
 [project.urls]
 Repository = "https://github.com/Justsomebuddy/veyra"
@@ -21,19 +24,42 @@ Issues = "https://github.com/Justsomebuddy/veyra/issues"
 
 [project.optional-dependencies]
 dev = [
-  "build>=1.2",
+  "build>=1.2,<2",
   "pytest>=8,<10",
-  "ruff>=0.12",
+  "ruff>=0.12,<1",
 ]
+tools = [
+  "tqdm>=4.66,<5",
+]
+notebooks = [
+  "ipykernel>=6,<7",
+  "jupyterlab>=4,<5",
+]
+
+[tool.setuptools]
+include-package-data = false
 
 [tool.setuptools.packages.find]
 include = ["src*", "veyra_sage*", "vam*"]
 exclude = ["tests*", "scripts*", "docs*", "notebooks*", "experimental*"]
+namespaces = false
+
+[tool.setuptools.package-data]
+vam = ["examples/*.vmasm"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 pythonpath = ["."]
-addopts = "-q"
+addopts = "-q --strict-markers"
+markers = [
+  "requires_posix_file_locks: exercises the host's real fcntl file-lock primitive",
+  "requires_symlinks: creates a real filesystem symlink for path-containment pressure",
+  "requires_linux_hardening: requires Linux x86_64, POSIX process primitives, and inotify",
+  "requires_lean_candidate: probes prerequisites but not full content attestation",
+  "requires_pinned_lean: test executes the content-attested Linux x86_64 Lean runtime lane",
+  "requires_real_sage: imports and executes through a real SageMath interpreter",
+  "requires_native_rust: executes through the selected Rust 1.95 toolchain",
+]
 
 [tool.ruff]
 line-length = 120

@@ -21,6 +21,8 @@ from .padic_completion_types import (
 from .stream_completion_formal_attestation import ToolchainContract, attest_toolchain
 from .stream_completion_formal_process import FormalPhaseReceipt, capture_phase
 
+from .paths import TMP_DIR
+
 logger = logging.getLogger(__name__)
 FORMAL_VERSION = "pomega2-formal-v1"
 ARTIFACT_PATH = "proofs/lean/VeyraPadicCompletion.lean"
@@ -243,7 +245,7 @@ def compile_captured_sources(
     codes = list(attested.return_codes)
     receipts = list(attested.phase_receipts)
     try:
-        root = Path("data/tmp")
+        root = TMP_DIR
         root.mkdir(parents=True, exist_ok=True)
         with tempfile.TemporaryDirectory(prefix="pomega2-", dir=root) as directory:
             private = Path(directory)

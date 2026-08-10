@@ -6,7 +6,7 @@ from dataclasses import dataclass
 from enum import Enum
 from typing import TypeAlias
 
-from .finite_builder_types import ConstructionSourceBinding
+from .construction.finite_builder.types import ConstructionSourceBinding
 from .observer_genesis_types import (
     OEPAdmissionRecord, ObserverGenesisDoctrine, ObserverGenesisSource,
     RecurrenceEvidence, WitnessScope,

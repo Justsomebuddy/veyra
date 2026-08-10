@@ -26,13 +26,15 @@ from .prime_power_observer_actualization_types import (
 )
 from .prime_power_reduction_network_types import FiniteRelation
 
+from .paths import PROJECT_ROOT
+
 logger = logging.getLogger(__name__)
 
 
 def _hash_seed_digests() -> tuple[str, str]:
     """Build the exact source in two bounded fresh hash-seed processes."""
     logger.debug("_hash_seed_digests entry")
-    root = Path(__file__).resolve().parents[2]
+    root = PROJECT_ROOT
     code = (
         "from src.core.prime_power_observer_actualization_sources import exact_n0_source;"
         "print(exact_n0_source().source_digest)"

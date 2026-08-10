@@ -224,7 +224,9 @@ def lean_euclid_bridge_ready() -> bool:
     """Return whether Lean checks the bridge file containing THM-F002."""
     logger.debug("lean_euclid_bridge_ready entry")
     path = lean_echo_export_path()
-    has_theorem = path.exists() and "THM_F002_euclid_escape_mod" in path.read_text(errors="replace")
+    has_theorem = path.exists() and "THM_F002_euclid_escape_mod" in path.read_text(
+        encoding="utf-8", errors="replace",
+    )
     checked = check_lean_echo_export(path).status == "checked"
     result = bool(has_theorem and checked)
     logger.debug("lean_euclid_bridge_ready exit result=%s", result)

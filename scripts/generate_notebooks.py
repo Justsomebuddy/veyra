@@ -67,7 +67,7 @@ def main() -> int:
         errors = 0
         verify_start = time.perf_counter()
         for index, path in enumerate(ipynb_files, 1):
-            data = json.loads(path.read_text())
+            data = json.loads(path.read_text(encoding="utf-8"))
             if data.get("nbformat") != 4 or "cells" not in data:
                 errors += 1
             progress(index, len(ipynb_files), verify_start, f"Verifying {path.name}")

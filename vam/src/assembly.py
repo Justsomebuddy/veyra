@@ -113,6 +113,6 @@ def disassemble(program: Iterable[Instruction]) -> str:
 def read_vmasm(path: str | Path) -> list[Instruction]:
     """Read and parse a `.vmasm` file."""
     logger.debug("read_vmasm entry path=%s", path)
-    program = parse_vmasm(Path(path).read_text())
+    program = parse_vmasm(Path(path).read_text(encoding="utf-8"))
     logger.debug("read_vmasm exit instructions=%d", len(program))
     return program

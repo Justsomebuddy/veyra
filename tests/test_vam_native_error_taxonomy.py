@@ -2,6 +2,7 @@ import json
 import os
 import shutil
 import subprocess
+import sys
 from pathlib import Path
 
 import pytest
@@ -12,7 +13,9 @@ from vam.src.model import Instruction
 
 ROOT = Path(__file__).resolve().parents[1]
 NATIVE = ROOT / "vam" / "native"
-NATIVE_BIN = NATIVE / "target" / "debug" / "vam0-inspect"
+NATIVE_BIN = NATIVE / "target" / "debug" / (
+    "vam0-inspect.exe" if sys.platform == "win32" else "vam0-inspect"
+)
 
 
 def native_command(*args: str) -> list[str]:

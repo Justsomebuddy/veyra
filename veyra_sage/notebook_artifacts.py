@@ -107,13 +107,26 @@ def write_current_notebook_artifacts(output_dir: str | Path = "notebooks/generat
         family_dir.mkdir(parents=True, exist_ok=True)
         ipynb_path = artifact.notebook.write_ipynb(family_dir / f"{artifact.name}.ipynb")
         markdown_path = artifact.notebook.write_markdown(family_dir / f"{artifact.name}.md") if include_markdown else None
-        row = artifact.as_dict() | {"ipynb": str(ipynb_path), "markdown": None if markdown_path is None else str(markdown_path)}
+        row = artifact.as_dict() | {
+            "ipynb": ipynb_path.as_posix(),
+            "markdown": None if markdown_path is None else markdown_path.as_posix(),
+        }
         rows.append(row)
         if progress is not None:
             progress(index, len(artifacts), artifact)
     summary = notebook_artifact_summary(artifacts)
-    manifest = {"format": "veyra-notebook-artifacts-v1", "output_dir": str(target), "include_markdown": include_markdown, **summary, "artifacts": rows}
+    manifest = {
+        "format": "veyra-notebook-artifacts-v1",
+        "output_dir": target.as_posix(),
+        "include_markdown": include_markdown,
+        **summary,
+        "artifacts": rows,
+    }
     manifest_path = target / "manifest.json"
-    manifest_path.write_text(json.dumps(manifest, ensure_ascii=False, sort_keys=True, separators=(",", ":")) + "\n")
+    manifest_path.write_text(
+        json.dumps(manifest, ensure_ascii=False, sort_keys=True, separators=(",", ":")) + "\n",
+        encoding="utf-8",
+        newline="\n",
+    )
     logger.debug("write_current_notebook_artifacts exit manifest=%s count=%d", manifest_path, len(rows))
     return manifest

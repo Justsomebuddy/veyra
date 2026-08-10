@@ -29,7 +29,9 @@ from vam.src import decode_dense, decode_vmbc, encode_dense, encode_vmbc, execut
 from vam.src.model import Instruction
 
 NATIVE = ROOT / "vam" / "native"
-DEFAULT_NATIVE_BIN = NATIVE / "target" / "debug" / "vam0-inspect"
+DEFAULT_NATIVE_BIN = NATIVE / "target" / "debug" / (
+    "vam0-inspect.exe" if sys.platform == "win32" else "vam0-inspect"
+)
 BOUNDARY = "local-timing-diagnostic-not-speedup-claim"
 logger = logging.getLogger(__name__)
 
@@ -233,7 +235,11 @@ def main(argv: Sequence[str] | None = None) -> int:
             rows.extend(benchmark_program(name, block_count, factory(block_count), args.repeats, native, temp_dir))
     payload = {"boundary": BOUNDARY, "rows": [asdict(item) for item in rows]}
     if args.json_out:
-        Path(args.json_out).write_text(json.dumps(payload, indent=2, sort_keys=True), encoding="utf-8")
+        Path(args.json_out).write_text(
+            json.dumps(payload, indent=2, sort_keys=True),
+            encoding="utf-8",
+            newline="\n",
+        )
     print("[3/3] summary", flush=True)
     for item in rows:
         print(f"{item.workload:20s} blocks={item.blocks:4d} instr={item.instructions:5d} {item.metric:16s} median={item.median_s:.6f}s ips={item.units_per_s:,.0f} {item.detail}", flush=True)

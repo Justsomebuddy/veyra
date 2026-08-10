@@ -28,7 +28,9 @@ from vam.src.fixtures import iter_valid_vam0_fixture_report_programs
 from vam.src.model import Instruction
 
 NATIVE = ROOT / "vam" / "native"
-DEFAULT_NATIVE_BIN = NATIVE / "target" / "debug" / "vam0-inspect"
+DEFAULT_NATIVE_BIN = NATIVE / "target" / "debug" / (
+    "vam0-inspect.exe" if sys.platform == "win32" else "vam0-inspect"
+)
 logger = logging.getLogger(__name__)
 
 

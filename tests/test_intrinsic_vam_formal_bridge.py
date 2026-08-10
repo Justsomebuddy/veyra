@@ -55,7 +55,7 @@ from src.core.shadow_effects import shadow_effect_registry_digest
 
 
 LOGGER = logging.getLogger(__name__)
-R11_BINDING = "ebacad7ae4334e1e2eb693e015d7417df266400ae18783cb1daa21218f649f30"
+R11_BINDING = "d98318066dc015ca7d0d0be36d2b07b38d50c7715f4e2a494d70ff842262c53a"
 SOURCE_NAMES = (*tuple(SOURCE_PATHS), "lean_export")
 OBJECT_NAMES = tuple(name for name, _ in _SNAPSHOT_NAME_ROWS[:-1])
 

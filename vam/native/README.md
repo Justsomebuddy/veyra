@@ -11,11 +11,22 @@ This directory contains a Rust crate with `vam0-inspect`. It validates VAM0/VAMD
 Run manually:
 
 ```bash
-source ~/.cargo/env
 cargo run --manifest-path vam/native/Cargo.toml -- <file.vam0|file.vamd>
 cargo run --manifest-path vam/native/Cargo.toml -- --optimize observer-alias-v1 <file.vam0>
 cargo run --manifest-path vam/native/Cargo.toml -- --optimize observer-alias-v1 <file.vamd>  # report-only boundary
 cargo run --manifest-path vam/native/Cargo.toml -- --optimize observer-alias-v1 --emit-optimized-vam0 out.vam0 <file.vam0>
+```
+
+`cargo` must be on `PATH`; no home-directory layout is assumed. The repository
+pins Rust `1.95.0` through `rust-toolchain.toml` for reproduced checks and
+declares `rust-version = "1.83"` as the crate MSRV. The compatibility lane
+selects exact Rust 1.83.0. Run the portable native gate on Linux, macOS, or
+Windows with:
+
+```bash
+cd vam/native
+cargo fmt --all -- --check
+cargo test --locked
 ```
 
 ## Current feasible path

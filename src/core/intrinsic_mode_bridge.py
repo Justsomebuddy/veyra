@@ -24,8 +24,9 @@ from .proof_core_bridge import (
 from .proof_core_codec import canonical_json
 from .proof_core_resonance import intrinsic_resonance_theorem
 
+from .paths import PROJECT_ROOT
+
 logger = logging.getLogger(__name__)
-PROJECT_ROOT = Path(__file__).resolve().parents[2]
 LEAN_DIR = PROJECT_ROOT / "proofs" / "lean"
 BUILD_DIR = PROJECT_ROOT / "data" / "tmp" / "r9-lean"
 LEAN_TOOLCHAIN = "leanprover/lean4:v4.30.0-rc2"

@@ -2,7 +2,6 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-import fcntl
 import logging
 import os
 from pathlib import Path
@@ -11,6 +10,8 @@ import shutil
 from types import MappingProxyType
 from typing import Mapping
 from uuid import uuid4
+
+from .platform_posix import exclusive_file_lock
 
 logger = logging.getLogger(__name__)
 SNAPSHOT_NAMES = MappingProxyType({
@@ -79,7 +80,7 @@ def materialize_intrinsic_snapshot(
     try:
         parent.mkdir(parents=True, exist_ok=True)
         with (parent / ".materialize.lock").open("a+b") as lock:
-            fcntl.flock(lock.fileno(), fcntl.LOCK_EX)
+            exclusive_file_lock(lock.fileno())
             root = parent / key
             if not root.exists():
                 _write(root, sources)

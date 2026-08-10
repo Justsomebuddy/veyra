@@ -5,6 +5,8 @@ from pathlib import Path
 import logging
 import shutil
 import subprocess
+
+from .paths import repository_path
 logger = logging.getLogger(__name__)
 
 @dataclass(frozen=True)
@@ -80,14 +82,15 @@ def lean_echo_export_path() -> Path:
 def check_lean_echo_export(path: Path | None = None) -> LeanCheckResult:
     """Run Lean on the first external proof bridge file."""
     logger.debug("check_lean_echo_export entry")
-    target = path or lean_echo_export_path()
+    identity = path or lean_echo_export_path()
+    target = identity if identity.is_absolute() else repository_path(identity.as_posix())
     command = _lean_command()
     if command is None:
-        result = LeanCheckResult(str(target), "blocked", "", "lean-not-found")
+        result = LeanCheckResult(identity.as_posix(), "blocked", "", "lean-not-found")
         logger.debug("check_lean_echo_export exit result=%r", result)
         return result
     proc = subprocess.run(command + [str(target)], text=True, capture_output=True, check=False)
-    result = LeanCheckResult(str(target), "checked" if proc.returncode == 0 else "blocked", proc.stdout.strip(), proc.stderr.strip())
+    result = LeanCheckResult(identity.as_posix(), "checked" if proc.returncode == 0 else "blocked", proc.stdout.strip(), proc.stderr.strip())
     logger.debug("check_lean_echo_export exit status=%s", result.status)
     return result
 
