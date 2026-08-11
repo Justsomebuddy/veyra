@@ -10,13 +10,13 @@ from .construction.finite_builder.codec import (
 from .construction.finite_builder.digest import (
     _program_digest, _seed_digest, _source_digest,
 )
-from .finite_builder_runtime import replay_finite_builder, snapshot_replay_artifact
+from .construction.finite_builder.runtime import replay_finite_builder, snapshot_replay_artifact
 from .construction.finite_builder.types import (
     ConstructionSourceBinding, FiniteBuilderExpr, FiniteBuilderProgram,
     FiniteConstructionJudgment, FiniteRecurrenceSeed, FormalGenerability,
     OnticGenesis, PulseStep, ScopedObjectFormation, TargetIndependence,
 )
-from .finite_builder_validation import (
+from .construction.finite_builder.validation import (
     FiniteBuilderValidationError, _builder_shape, _hex_digest, _identifier,
     _snapshot_builder_expr, _snapshot_doctrine, _snapshot_program,
     _snapshot_seed, _snapshot_source, _snapshot_target_stage,

@@ -5,7 +5,7 @@ from __future__ import annotations
 import logging
 
 from .certify_types import Certificate
-from .finite_builder_runtime import replay_finite_builder, snapshot_replay_artifact
+from .construction.finite_builder.runtime import replay_finite_builder, snapshot_replay_artifact
 from .construction.finite_builder.types import (
     FormalGenerability, OnticGenesis, PulseStep, ScopedObjectFormation,
     SeedRef, TargetIndependence,

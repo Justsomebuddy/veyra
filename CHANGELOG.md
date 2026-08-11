@@ -1,5 +1,18 @@
 # Changelog
 ## [Unreleased] — Changed
+- Completed one bounded, semantics-preserving package-layout wave by moving the
+  finite-builder validation and replay implementations beside their existing
+  canonical codec, digest, and types modules. The flat runtime/validation paths
+  remain physical identity-preserving aliases with legacy pickle, logger,
+  reload, root-export, and monkeypatch compatibility. Added static gates for
+  Git-custodied Core artifact paths, resolvable relative imports, valid
+  path-shaped inline Markdown links, and repository-shaped source citations; a
+  concise subject navigation page now complements the unchanged chronological
+  documentation paths. Unexpected
+  certificate exceptions are regression-tested to propagate and make the CLI
+  fail. This deliberately does not add catch-all “unavailable” conversion,
+  blanket platform skips, a global import hook, trust-root renewal, weakened
+  verification, or bulk source/test/document renames.
 - Added a separate strict Phase-III observer-discovery experiment under
   `src.core.observer_discovery_v3` without changing or exporting it from the
   Phase-I/II root APIs: bounded canonical three-way schemas; exact invertible

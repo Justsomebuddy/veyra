@@ -5,9 +5,12 @@ Veyra is a process-first mathematical seed. It starts from **distinction**, **re
 ## Documentation maintenance
 
 Notation changes must update `../NOTATION.md`; statement or proof-status changes
-must update `../THEOREMS.md`. Relative links and formal-source references are
-checked before publication.
+must update `../THEOREMS.md`. Path-shaped inline Markdown links and
+repository-shaped formal-source references are checked before publication.
 - `../THEOREMS.md` and `../NOTATION.md` link the complete bounded public registry modules.
+- Readers who prefer a short subject-oriented map can start with
+  [`reference/navigation.md`](reference/navigation.md); this chronological index
+  remains the exhaustive continuity record.
 
 ## Reading order
 

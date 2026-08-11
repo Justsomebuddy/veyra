@@ -102,11 +102,12 @@ snapshot-wide result.
 
 Start with:
 
-1. [`docs/00_manifesto.md`](docs/00_manifesto.md)
-2. [`docs/01_primitives.md`](docs/01_primitives.md)
-3. [`docs/04_discovery_report.md`](docs/04_discovery_report.md)
-4. [`docs/67_proof_discipline.md`](docs/67_proof_discipline.md)
-5. [`docs/102_foundational_gap_audit.md`](docs/102_foundational_gap_audit.md)
+1. [`docs/reference/navigation.md`](docs/reference/navigation.md) for a short
+   subject-oriented map;
+2. [`docs/00_manifesto.md`](docs/00_manifesto.md);
+3. [`docs/01_primitives.md`](docs/01_primitives.md);
+4. [`docs/67_proof_discipline.md`](docs/67_proof_discipline.md);
+5. [`docs/102_foundational_gap_audit.md`](docs/102_foundational_gap_audit.md).
 
 ## Installation
 
