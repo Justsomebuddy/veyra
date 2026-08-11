@@ -44,6 +44,7 @@ from causal discovery, universal superiority, and theorem promotion.
 ### Construction, transport, and completion
 
 - [Finite construction doctrine](../150_constructive_observer_doctrine_p1.md)
+- [Relative P1→R16 observer realization](../161_p1_r16_realization_contract.md)
 - [p-adic completion PΩ2](../152_padic_completion_pomega2.md)
 - [Prime-power model closure](../153_prime_power_model_closure.md)
 - [Package-layout migration policy](../69_package_boundary.md)

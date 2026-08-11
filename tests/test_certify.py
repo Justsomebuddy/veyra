@@ -23,7 +23,7 @@ def certs():
 
 def test_certificate_suite_all_passes_current_core(certs):
     summary = certificate_summary(certs)
-    assert summary["total"] == 100
+    assert summary["total"] == 101
     assert summary["failed"] == []
     assert summary["passed"] == summary["total"]
 
@@ -294,6 +294,11 @@ def test_certificate_items_name_veyra_methods(certs):
         item.detail for item in certs if item.name == "observer_descent_r16"
     )
     assert passed["observer_descent_r16"] is True
+    assert "context-relative" in methods["observer_realization_p1_r16"]
+    assert "exact-verification=pass" in next(
+        item.detail for item in certs if item.name == "observer_realization_p1_r16"
+    )
+    assert passed["observer_realization_p1_r16"] is True
     assert "native rez/nod/tact/breath/mode" in methods["native_runtime_f4"]
     assert "classical-vs-Veyra" in methods["classical_benchmark_f5"]
     assert "deduction-chain" in methods["deduction_chain_f6"]

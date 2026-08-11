@@ -208,5 +208,15 @@ Exact finite prefix/residue windows report first restriction obstructions; Lean 
 `prime_power_reduction_network*` binds exact arithmetic-derived finite reduction maps and strict integer-family separators to a captured symbolic thin `Natᵒᵖ` theory. `VeyraPrimePowerReductionNetwork.lean` proves reduction identity and composition, comparison-proof witness independence, equality of all canonical same-endpoint finite paths, the compatible-family observer square, and the two separator equations. The 37-row/54-edge ledger closes at `Classical.choice`, `propext`, and `Quot.sound`. No completion judgment, final PPCP theorem, C2 premise, inverse translation, generic observer network, ontic/objective identity, or promotion follows.
 ## DEF-683–704 / THM-P3N3-001–002 / THM-P3N4-001 — Exact local realization and scoped equality
 N3 realizes the exact N1 family in the exact PΩ2 carrier and proves every coordinate. N4 consumes an independently sourced all-depth premise plus PΩ2 joint separation and derives only ledger-relative scoped carrier equality. The Lean sources, public aliases, focused functional/adversarial/formal/public tests, and the release-bundle certificate are present in this publication; status is **FORMALLY_PROVED + PUBLICLY_VALIDATED**. This does not establish generic completion, topology, absolute identity, N5 adoption, or physical/foundation-independent infinity.
+## DEF-705–709 — Relative P1→R16 observer realization
+`RealizationContext` binds one external finite state-to-recurrence scope plus
+explicit totalization, cost, and join-closure policies; structured replay rows
+retain exact R11 `Ready|Blocked` payloads; normalized partitions and
+minimum-generator provenance derive one bounded R16 bottom/join completion;
+the ordered first representative records only a context-local section; and the
+terminal witness is accepted only after authoritative full R11 replay and exact
+R16 reconstruction. This is level-1 executable evidence, not a canonical map,
+echo embedding, functor, natural transformation, quotient transport, ready-only
+image theorem, Lean result, authentication, or promotion. See doc 161.
 ## THM-P3N6W-001–004 — Prime-power uniform late distinction — internal research candidate
 `VeyraPrimePowerInformation.lean` constructively packages, for each requested `k`, the zero/`p^(k+1)` carrier pair agreeing through `k` and separating at `k+1`. The four Lean declarations are checked formal source results, but this publication contains no release-bundle certificate or public export for the family. Status is **INTERNAL_RESEARCH_CANDIDATE**, not a released registry theorem. It establishes neither ΩN completed indexing, `InformationUnbounded`, cardinality nor uncountability.

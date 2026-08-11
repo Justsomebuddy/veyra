@@ -290,6 +290,11 @@ remain `NOT_ESTABLISHED`; P1-B alone yields no scoped object, while C4 is separa
 **P1-E1/E4:** E1 establishes one finite doctrine-relative OEP role; E4/HAP now establishes one token only relative to one supplied finite history after raw P1-B+E1 replay, strict parent-derived Past/Future, first lineage birth, target-sealed anti-circular strict-past closure, three mandatory counterfactuals, and same-token/lineage/scope efficacy. Its evidence is recorded under registry entry `92`; physical/preformal birth, consciousness, absolute or observer-independent actualization, and promotion remain unclaimed (E1, E4).
 **P3-C1:** strict-ranked TLGC now upgrades declared catalogs to every generated finite path pair of one exact relation, using only pure same-system paths and complete source-derived local peaks. Its formal declaration and counterpressure boundary are recorded under registry entry `93`. Transport coherence, C1/C3 provenance, unique normal forms, Church–Rosser, unbounded confluence, objecthood, infinity, and promotion remain separate obligations (contract).
 **PΩ1:** `PUBLICLY_VALIDATED`: `Stream(A)` exists only relative to its exact doctrine/ledger; its fifteen named Lean declarations and assumption boundary are recorded under registry entry `89`. This is not physical/metaphysical/foundation-independent infinity, D1/D3 promotion, generic completion/inverse limits, and does not entail the independently released PΩ2 instance (boundary, release).
+**P1→R16:** the separate [relative realization contract](161_p1_r16_realization_contract.md)
+now binds a finite state/input context, structured Ready/Blocked totalization,
+explicit costs, derived join completion, and authoritative all-row replay. It
+does not make R16 canonical from P1 or establish functoriality, quotient
+transport, an image theorem, or promotion.
 ## 13. Explicit non-claims
 P1 is not a theory of consciousness, a proof that observers physically emerge,
 a view from nowhere, universal refinement, global Church-Rosser confluence, a

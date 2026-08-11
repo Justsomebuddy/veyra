@@ -1,5 +1,20 @@
 # Changelog
 ## [Unreleased] — Changed
+- Added the explicit relative P1→R16 realization requested in issue #13. A
+  fingerprint-bound external context now declares the finite state/recurrence
+  scope, ordered observer costs, structured R11 totalization, and finite join
+  completion policy. The checker replays every canonical P1 program on every
+  bound input, retains full `Ready`/`Blocked` payloads, derives bottom and joins
+  with source-separated provenance, validates the unchanged R16 doctrine, and
+  rejects even digest-consistent supplied rows that do not match fresh replay.
+  Context-order class representatives are local witnesses only: no canonical
+  P1→R16 map, echo embedding, functoriality, quotient transport, ready-only
+  image theorem, authentication, Lean proof, novelty, or promotion is claimed.
+  Aggregate closure costs and non-UTF-8 carrier text also fail closed before
+  canonical encoding; the total source cost is context-bounded, expanded state
+  traversal and total replay payload are precharged, and equal-cost generator
+  ties follow declared source order. The witness is a deterministic typed value,
+  not a standalone portable wire artifact.
 - Closed the R16 target-admission ambiguity reported in issue #10. The public
   `observer_descent`, residual-chain, and per-row reduction boundaries now
   require an explicit keyword-only target doctrine, validate its full

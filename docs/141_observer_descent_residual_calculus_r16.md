@@ -223,7 +223,9 @@ Not established:
 - computational advantage;
 - historical novelty or revolutionary status;
 - R8 theorem-derived layer promotion.
-- a portable, authenticated target-membership receipt or P1-to-R16 bridge.
+- a self-contained authenticated target-membership or realization receipt. The
+  separate [P1→R16 contract](161_p1_r16_realization_contract.md) supplies one
+  bounded context-relative replay witness, not a canonical map or signature.
 
 The finite `Z/4` rows reduce exactly to best admitted lower approximation;
 residual is ordinary precision loss and the composition field is an abstraction
@@ -235,6 +237,7 @@ completeness gap. R16.6 therefore rejects novelty promotion. See
 - Derived path invariant: [doc 142](142_crest_braid_derived_path_invariant_r16.md)
 - Observer synthesis v2: [doc 140](140_observer_synthesis_v2_r14.md)
 - Native observer core: [doc 127](127_native_observer_echo_core_r11.md)
+- Relative P1 realization: [doc 161](161_p1_r16_realization_contract.md)
 - Definitions and theorems: [`../THEOREMS.md`](../THEOREMS.md)
 - Notation: [`../NOTATION.md`](../NOTATION.md)
 - API: [`reference/api.md`](reference/api.md)

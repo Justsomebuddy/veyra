@@ -16,6 +16,7 @@ from .certify_intrinsic_mode import certify_intrinsic_mode_transport_r9
 from .certify_intrinsic_observer_echo import certify_intrinsic_observer_echo_r13
 from .certify_observer_synthesis_v2 import certify_observer_synthesis_v2_r14
 from .certify_observer_descent import certify_observer_descent_r16
+from .certify_observer_realization import certify_observer_realization_p1_r16
 from .certify_intrinsic_vam import certify_intrinsic_vam_r12
 from .certify_proof_elaboration import certify_proof_elaboration_r10
 from .certify_observer_core import certify_observer_core_r11
@@ -111,7 +112,7 @@ def certificate_suite() -> list[Certificate]:
         certify_statistics_inference(),
         certify_statistics_concentration_likelihood(),
         certify_likelihood_geometry_x5(), certify_surprise_separation_s1(), certify_surprise_search_s3(), certify_surprise_kwise_s5(), certify_surprise_debruijn_s6(), certify_surprise_corpus_s7(), certify_observer_gap_topology_s7(), certify_veyra_magic_m1(), certify_vam_reference_v1(),
-        certify_foundational_repair_f1_f3(), certify_proof_carrying_core_r7(), certify_theorem_promotion_contract_r8(), certify_intrinsic_mode_transport_r9(), certify_proof_elaboration_r10(), certify_observer_core_r11(), certify_intrinsic_vam_r12(), certify_intrinsic_observer_echo_r13(), certify_observer_synthesis_v2_r14(), certify_observer_descent_r16(),
+        certify_foundational_repair_f1_f3(), certify_proof_carrying_core_r7(), certify_theorem_promotion_contract_r8(), certify_intrinsic_mode_transport_r9(), certify_proof_elaboration_r10(), certify_observer_core_r11(), certify_intrinsic_vam_r12(), certify_intrinsic_observer_echo_r13(), certify_observer_synthesis_v2_r14(), certify_observer_descent_r16(), certify_observer_realization_p1_r16(),
         certify_native_runtime_f4(), certify_classical_benchmark_f5(), certify_benchmark_evidence_r15(),
         certify_deduction_chain_f6(),
         certify_transcendental_limit(),

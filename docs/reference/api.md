@@ -167,6 +167,10 @@ This curated aggregate is not an inventory of every split implementation module.
 | `src.core.observer_descent_chain` | Target-doctrine-bound residual-chain precision-gap balance plus derived finite crest braid and response receipts. |
 | `src.core.observer_descent_examples` | Canonical `Z/4` parity/threshold/synergy/closed-braid witnesses. |
 | `src.core.observer_descent_reduction` | Target-doctrine-bound independent best-lower audit, 16/16 finite reduction, composition precision-gap accounting, and no-promotion status. |
+| `src.core.observer_realization_types` | Exact external context, structured replay, finite-closure provenance, and witness DTOs for the relative P1→R16 contract. |
+| `src.core.observer_realization_validation` | Exact-type, resource, context-digest, structured-payload, local-section, R16-doctrine, and witness-integrity gates. |
+| `src.core.observer_realization` | Authoritative all-row R11 replay, tagged totalization, bounded minimum-generator finite join completion, and exact witness verification; no canonical functor or quotient transport. |
+| `src.core.certify_observer_realization` | Level-1 blocked/ready finite realization certificate; not Lean, authentication, theoremhood, or promotion evidence. |
 | `src.core.observer_gap_topology` | Declared degree-factor observer class, exact topological-order counter, five-row S7 family, and `THM-S7-001` card. |
 | `src.core.observer_patch_atlas` | Finite observer patches, partition-valued local sections, generated echo closure, exact gluing criterion, and triangle obstruction. |
 | `src.core.observer_patch_validation` | Exact-type structural validation for canonical finite G4 patch/atlas/section values. |
