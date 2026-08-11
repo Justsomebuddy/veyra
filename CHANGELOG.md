@@ -1,5 +1,18 @@
 # Changelog
 ## [Unreleased] — Changed
+- Added a dependency-free Rust-native shadow of the closed R11/R14.1/R14.3b
+  observer-synthesis core under `vam_native::observer_synthesis`: typed
+  `Input`/`Tail`/`Crest`/ordered-`Pair` observers, byte-exact canonical
+  identities, the pinned 1,565-row grammar, finite recurrence semantics,
+  monotone counter budgets, and deterministic train-only CEGIS. The native
+  calibration reproduces the Python catalog and default-winner identities but
+  domain-separates its weaker counter-only trace binding instead of borrowing
+  Python's enforced worker-limit root. Opt-in `VEYRA_NATIVE_DEBUG` diagnostics
+  expose bounded static lifecycle/error labels without payloads. It remains an
+  opt-in library surface:
+  Python is still the oracle, no existing
+  backend dispatch changes, and no general synthesis, performance, theorem,
+  certificate, holdout, trial, receipt, or discovery claim follows.
 - Added a separate strict Phase-III observer-discovery experiment under
   `src.core.observer_discovery_v3` without changing or exporting it from the
   Phase-I/II root APIs: bounded canonical three-way schemas; exact invertible

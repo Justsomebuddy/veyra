@@ -7,6 +7,7 @@ mod intrinsic_support;
 mod intrinsic_tests;
 mod intrinsic_types;
 mod json;
+pub mod observer_synthesis;
 mod optimizer;
 mod payload;
 mod runtime;
