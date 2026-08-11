@@ -69,6 +69,7 @@ def test_residual_chain_balance_for_all_z4_shift_pairs(first, second, target_nam
         z4_shift(first, f"f-{first}"),
         z4_shift(second, f"g-{second}"),
         observer_by_name(doctrine, target_name),
+        target_doctrine=doctrine,
     )
     assert row.balanced is True
     assert row.pulled_second_residual.isdisjoint(row.first_residual)
@@ -123,7 +124,12 @@ def test_wrong_carrier_and_short_paths_are_obstructions():
     doctrine = z4_doctrine()
     wrong = FiniteTransition("wrong", (0, 1), Z4, ((0, 1), (1, 2)))
     with pytest.raises(ValueError, match="descent-source-carrier-mismatch"):
-        observer_descent(doctrine, wrong, observer_by_name(doctrine, "parity"))
+        observer_descent(
+            doctrine,
+            wrong,
+            observer_by_name(doctrine, "parity"),
+            target_doctrine=doctrine,
+        )
     with pytest.raises(ValueError, match="crest-path-too-short"):
         crest_braid(doctrine, (0,))
 
@@ -133,4 +139,7 @@ def test_r16_certificate_is_bounded_and_nonclaiming():
     assert certificate.passed is True
     assert certificate.level == 1
     assert "chains=64 balanced=64" in certificate.detail
+    assert "target-admission=exact-call-time" in certificate.detail
+    assert "clone=accepted attacks=4/4" in certificate.detail
+    assert "persistent-membership-receipt,p1-r16-bridge" in certificate.detail
     assert "not a novelty or universal-calculus claim" in certificate.method

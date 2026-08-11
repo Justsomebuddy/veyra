@@ -23,7 +23,7 @@ This curated aggregate is not an inventory of every split implementation module.
 | `src.core.certify_deduction_chain` | Executable deduction-chain proof-row certificate helper. |
 | `src.core.certify_likelihood` | Likelihood geometry certificate helper. |
 | `src.core.certify_observer_synthesis_v2` | R14 finite 5+1 observer-synthesis audit certificate; not theorem evidence or promotion. |
-| `src.core.certify_observer_descent` | R16 bounded finite doctrine/shift-chain certificate; not novelty, universality, or R8 promotion evidence. |
+| `src.core.certify_observer_descent` | R16 bounded finite doctrine/shift-chain certificate with an exact negative target-admission gate; not novelty, universality, or R8 promotion evidence. |
 | `src.core.certify_status_promotion` | P2-S level-1 schema meta-validation certificate; `promotions=0`, `ontology_claims=0`. |
 | `src.core.certify_surprise_search` | S3 bounded expanded-baseline surprise search certificate helper. |
 | `src.core.certify_surprise_debruijn` | S6 de Bruijn trail-adjacency surprise certificate helper. |
@@ -163,10 +163,10 @@ This curated aggregate is not an inventory of every split implementation module.
 | `src.core.observer_synthesis_v2_pipeline` | Atomic five-trial-child plus one-receipt-child R14 finite evidence pipeline. |
 | `src.core.observer_descent_types` | Exact slotted R16 doctrine, transition, descent, balance, and finite crest-braid DTOs. |
 | `src.core.observer_descent_validation` | Bounded exact snapshots and closed schema IDs for R16 finite data. |
-| `src.core.observer_descent` | Finite distinction/refinement, pullback, greatest admitted descent, residual, and transition composition. |
-| `src.core.observer_descent_chain` | Residual-chain synergy balance plus derived finite crest braid and response receipts. |
+| `src.core.observer_descent` | Ambient exact-total pullback plus target-doctrine-bound finite distinction/refinement, greatest admitted descent, residual, and transition composition. `observer_descent(..., target_doctrine=...)` requires exact canonical membership; raw pullback alone is not admission evidence. |
+| `src.core.observer_descent_chain` | Target-doctrine-bound residual-chain precision-gap balance plus derived finite crest braid and response receipts. |
 | `src.core.observer_descent_examples` | Canonical `Z/4` parity/threshold/synergy/closed-braid witnesses. |
-| `src.core.observer_descent_reduction` | Independent best-lower audit, 16/16 finite reduction, composition precision-gap accounting, and no-promotion status. |
+| `src.core.observer_descent_reduction` | Target-doctrine-bound independent best-lower audit, 16/16 finite reduction, composition precision-gap accounting, and no-promotion status. |
 | `src.core.observer_gap_topology` | Declared degree-factor observer class, exact topological-order counter, five-row S7 family, and `THM-S7-001` card. |
 | `src.core.observer_patch_atlas` | Finite observer patches, partition-valued local sections, generated echo closure, exact gluing criterion, and triangle obstruction. |
 | `src.core.observer_patch_validation` | Exact-type structural validation for canonical finite G4 patch/atlas/section values. |

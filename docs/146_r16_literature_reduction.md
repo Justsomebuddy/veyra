@@ -31,15 +31,20 @@ approximation and compares it with every existing `Z/4` descent:
 | composition rows | `64/64` balanced precision gaps |
 | promotion status | `reduced-no-novelty-promotion` |
 
-The existing R16 certificate now requires those reduction counts and the
-negative promotion status.
+The existing R16 certificate requires those reduction counts, the negative
+promotion status, and rejection of an exact-total target that is not a
+canonical member of its declared target doctrine. Reduction calls supply that
+doctrine explicitly through the required keyword-only `target_doctrine`
+boundary.
 
 ## Totality correction
 
 The earlier prose inferred total descent from finite bottom plus unique
 internal admitted joins. That inference is false: an admitted internal join
-can overshoot an external raw pullback. A checked five-state diamond leaves two
-incomparable maximal lower candidates and raises `descent-not-unique`.
+can overshoot a raw pullback admitted by a separate valid target doctrine. A
+checked five-state source diamond and two-element target doctrine leave two
+incomparable maximal lower candidates and raise `descent-not-unique` while the
+target still satisfies `q in O_Y`.
 
 Current descent is therefore partial and fail-closed. Totality requires an
 additional ambient-closure/right-adjoint hypothesis. The Lean partition spine

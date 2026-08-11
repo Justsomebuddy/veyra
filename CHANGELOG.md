@@ -1,5 +1,16 @@
 # Changelog
 ## [Unreleased] — Changed
+- Closed the R16 target-admission ambiguity reported in issue #10. The public
+  `observer_descent`, residual-chain, and per-row reduction boundaries now
+  require an explicit keyword-only target doctrine, validate its full
+  finite-doctrine contract and exact carrier, and admit the target only by
+  canonical `(name, responses, cost)` value. Detached exact DTO copies remain valid;
+  name-only, extensional-only, reordered, response-drifted, cost-drifted, and
+  external targets fail closed. `pullback_observer` remains the explicitly
+  ambient low-level operation and is not membership evidence. This is an
+  intentional public signature correction; callers must pass
+  `target_doctrine=...`, and any stable package release containing it requires
+  a major-version migration.
 - Completed one bounded, semantics-preserving package-layout wave by moving the
   finite-builder validation and replay implementations beside their existing
   canonical codec, digest, and types modules. The flat runtime/validation paths

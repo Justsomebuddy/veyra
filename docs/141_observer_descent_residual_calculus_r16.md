@@ -1,6 +1,7 @@
 # R16 — Observer-Descent Residual Calculus
 **Status:** finite partial kernel + checked conditional Lean partition; reduced research candidate
 **Date:** 2026-08-04
+**Contract clarified:** 2026-08-11
 **Primary API:** `src.core.observer_descent`
 
 ## Purpose
@@ -40,6 +41,23 @@ DTOs, tuple tables, and canonical scalar/tuple payloads. Dynamic callables,
 subclassed DTOs, hostile hash/equality payloads, Boolean-as-integer costs,
 missing slots, oversized carriers, and non-join doctrines fail closed.
 
+The executable doctrinal boundary mirrors the typing premise explicitly:
+
+```python
+observer_descent(O_X, F, q, target_doctrine=O_Y)
+```
+
+`O_X` and `O_Y` are both validated, `F.target` must exactly equal the ordered
+carrier of `O_Y`, and `(name, responses, cost)` for `q` must exactly match one
+admitted member. A detached DTO with the same canonical value is accepted;
+Python object identity, name-only matching, extensional equivalence, and
+carrier-totality alone are not admission evidence. Omitting `target_doctrine`
+fails closed. `residual_chain_balance` and the per-row
+`descent_reduces_to_best_lower` checker require the same keyword-only target
+binding; the fixed `z4_reduction_audit()` aggregate supplies its canonical
+doctrine internally. This is call-time validation, not a serialized or
+authenticated membership receipt and not a P1-to-R16 realization bridge.
+
 ## Pullback, descent, and residual
 
 For \(F:X\to Y\) and target observer \(q\in O_Y\), the raw pullback is
@@ -47,6 +65,11 @@ For \(F:X\to Y\) and target observer \(q\in O_Y\), the raw pullback is
 \[
 F^\sharp q=q\circ F.
 \]
+
+The lower-level `pullback_observer(F, q)` deliberately accepts any exact-total
+response table on `Y`; it establishes only the ambient pullback and never the
+premise `q in O_Y`. The public descent operation performs that separate
+admission check before using a detached validated value.
 
 It need not belong to the admitted observer language \(O_X\). The
 **observer descent** is its greatest admitted approximation:
@@ -67,10 +90,11 @@ R_F(q)=\Delta(F^\sharp q)\setminus\Delta(D_Fq).
 \]
 
 Internal join closure alone does **not** imply that the join of candidates
-remains below an arbitrary external pullback. A five-state admitted diamond
-`{bottom,a,b,top}` can omit an ambient partition `j`: both `a` and `b` lie
-below `j`, while admitted `top` overshoots it, leaving two maximal candidates.
-The implementation correctly raises `descent-not-unique`.
+remains below an arbitrary pullback admitted by a different target doctrine.
+A five-state source diamond `{bottom,a,b,top}` can omit a target-admitted
+partition `j`: both `a` and `b` lie below `j`, while source-admitted `top`
+overshoots it, leaving two maximal candidates. The implementation correctly
+raises `descent-not-unique` even though `j in O_Y` is validated.
 
 Consequently \(D_F(q)\) is partial under the current doctrine contract. It is
 unique exactly when the candidate set has a greatest element. Totality needs
@@ -80,8 +104,10 @@ retained only as a conditional statement under that stronger hypothesis.
 
 ## Composition and synergy
 
-For \(X\xrightarrow{F}Y\xrightarrow{G}Z\), staged descent can be weaker than
-direct descent. Define:
+For \(X\xrightarrow{F}Y\xrightarrow{G}Z\), with exact doctrines `O_X`, `O_Y`,
+and `O_Z` and target `q in O_Z`, staged descent can be weaker than direct
+descent. The chain API validates `q` against `O_Z`; its first staged descent
+uses the exact member selected from `O_Y`. Define:
 
 \[
 \boxed{
@@ -171,14 +197,16 @@ For successor \(F(x)=x+1\bmod4\):
   residual \(0\).
 
 The certificate exhausts all \(4\times4\times4=64\) pairs of cyclic shifts and
-target observers, plus 16 one-map descents. This is a bounded model check, not
-the proof of the general theorem.
+target observers, plus 16 one-map descents. It also accepts a detached exact
+member and rejects four non-admitted name/cost/order/response variants. This is
+a bounded model check, not the proof of the general theorem.
 
 ## Claim boundary
 
 Established:
 
 - exact finite doctrine validation;
+- exact call-time target-doctrine/carrier/value admission;
 - deterministic pullback plus fail-closed partial descent/residual computation;
 - exact five-state counterexample to unconditional descent totality;
 - conditional existence/uniqueness when the best admitted lower element exists;
@@ -195,6 +223,7 @@ Not established:
 - computational advantage;
 - historical novelty or revolutionary status;
 - R8 theorem-derived layer promotion.
+- a portable, authenticated target-membership receipt or P1-to-R16 bridge.
 
 The finite `Z/4` rows reduce exactly to best admitted lower approximation;
 residual is ordinary precision loss and the composition field is an abstraction

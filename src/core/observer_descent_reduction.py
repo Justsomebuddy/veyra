@@ -20,7 +20,11 @@ from .observer_descent_types import (
     FiniteTransition,
     StatePair,
 )
-from .observer_descent_validation import snapshot_doctrine, snapshot_observer
+from .observer_descent_validation import (
+    snapshot_doctrine,
+    snapshot_observer,
+    snapshot_transition,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -98,17 +102,29 @@ def descent_reduces_to_best_lower(
     doctrine: FiniteObserverDoctrine,
     transition: FiniteTransition,
     target: FiniteObserver,
+    *,
+    target_doctrine: FiniteObserverDoctrine,
 ) -> bool:
     """Check one VODC descent against an independently computed best lower row."""
+    transition_name, _, _, _ = snapshot_transition(transition)
+    target_doctrine_name, _, _ = snapshot_doctrine(target_doctrine)
+    target_name, _, _ = snapshot_observer(target)
     logger.debug(
-        "descent_reduces_to_best_lower entry transition=%s target=%s",
-        transition.name,
-        target.name,
+        "descent_reduces_to_best_lower entry transition=%s "
+        "target_doctrine=%s target=%s",
+        transition_name,
+        target_doctrine_name,
+        target_name,
+    )
+    descent = observer_descent(
+        doctrine,
+        transition,
+        target,
+        target_doctrine=target_doctrine,
     )
     raw_observer = pullback_observer(transition, target)
     concrete = distinction_set(raw_observer, doctrine.carrier)
     oracle = best_lower_approximation(doctrine, concrete)
-    descent = observer_descent(doctrine, transition, target)
     result = (
         descent.descended_observer == oracle.observer
         and descent.raw_distinctions == oracle.concrete
@@ -118,8 +134,8 @@ def descent_reduces_to_best_lower(
     if not result:
         logger.error(
             "descent_reduces_to_best_lower mismatch transition=%s target=%s",
-            transition.name,
-            target.name,
+            transition_name,
+            target_name,
         )
     logger.debug("descent_reduces_to_best_lower exit result=%s", result)
     return result
@@ -136,7 +152,12 @@ def z4_reduction_audit() -> ReductionAudit:
         "phase-pair",
     ))
     descent_rows = tuple(
-        descent_reduces_to_best_lower(doctrine, z4_shift(shift), observer)
+        descent_reduces_to_best_lower(
+            doctrine,
+            z4_shift(shift),
+            observer,
+            target_doctrine=doctrine,
+        )
         for shift in range(4)
         for observer in observers
     )
@@ -147,6 +168,7 @@ def z4_reduction_audit() -> ReductionAudit:
             z4_shift(first, f"first-{first}"),
             z4_shift(second, f"second-{second}"),
             observer,
+            target_doctrine=doctrine,
         )
         for first in range(4)
         for second in range(4)
