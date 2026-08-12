@@ -132,10 +132,19 @@ portable lane intentionally excludes content-bound certificate renewal,
 Sage-native checks, and Linux process hardening rather than reporting them as
 cross-platform passes.
 
-The reviewed Linux release environment currently records CPython 3.11.14,
-pip 26.0.1, SageMath 10.7, `elan` 4.2.1, Lean 4.30.0-rc2, and Rust 1.95.0.
-These tool versions do not convert the direct Python constraint file into a
-transitive or cross-platform bit-for-bit lock.
+The current security-reviewed portable Python tool lane records pip 26.1.2,
+setuptools 83.0.0, and pytest 9.0.3. The latest complete Linux proof lane also
+records CPython 3.11.14, SageMath 10.7, `elan` 4.2.1, Lean 4.30.0-rc2, and
+Rust 1.95.0. These tool versions do not convert the direct Python constraint
+file into a transitive or cross-platform bit-for-bit lock, and portable runs do
+not retroactively reproduce the complete proof lane.
+
+The optional signing lane uses cryptography 50.0.0. Its CPython macOS wheel is
+arm64-only; Intel macOS requires a separately verified source build with native
+prerequisites. Ordinary portable-package success does not establish that
+optional signing capability on every host architecture.
+The hosted Ubuntu lane separately installs the exact binary signing dependency
+and runs the canonical Ed25519 replay test; this is Linux evidence only.
 
 The hosted workflow pins action commits, fixed runner labels, job timeouts, the
 exact Python tool list, Rust 1.95.0, and exact Rust 1.83.0 for declared-MSRV

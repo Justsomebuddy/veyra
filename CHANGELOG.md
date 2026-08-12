@@ -1,5 +1,11 @@
 # Changelog
 ## [Unreleased] — Changed
+- Raised the security-reviewed Python tool and signing floors to pip 26.1.2,
+  setuptools 83.0.0, pytest 9.0.3, and cryptography 50.0.0 across exact
+  manifests, package metadata, the conda profile, documentation, and contract
+  tests. Hosted Ubuntu now executes the exact optional Ed25519 signing lane.
+  This closes the known advisories on the superseded pins; exact lists remain
+  reviewed inputs rather than hash/platform-byte locks.
 - Updated the exact Python 3.11 tested-environment pin from JupyterLab 4.5.1
   to the compatible 4.5.10 security-patch release; the declared optional
   runtime range remains `jupyterlab>=4,<5`.

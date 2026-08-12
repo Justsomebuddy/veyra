@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools>=77,<81", "wheel>=0.45,<0.47"]
+requires = ["setuptools>=83,<84", "wheel>=0.45,<0.47"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -25,14 +25,14 @@ Issues = "https://github.com/Justsomebuddy/veyra/issues"
 [project.optional-dependencies]
 dev = [
   "build>=1.2,<2",
-  "pytest>=8,<10",
+  "pytest>=9.0.3,<10",
   "ruff>=0.12,<1",
 ]
 tools = [
   "tqdm>=4.66,<5",
 ]
 signing = [
-  "cryptography>=45,<48",
+  "cryptography>=50,<51",
 ]
 notebooks = [
   "ipykernel>=6,<7",

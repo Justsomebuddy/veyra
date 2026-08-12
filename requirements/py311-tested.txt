@@ -1,11 +1,11 @@
 # Direct development-tool versions exercised for the Python 3.11 release lane.
 # This is an auditable input list, not a hash-locked transitive environment.
 build==1.4.0
-cryptography==46.0.6
+cryptography==50.0.0
 ipykernel==6.31.0
 jupyterlab==4.5.10
-pytest==9.0.2
+pytest==9.0.3
 ruff==0.15.6
-setuptools==80.10.2
+setuptools==83.0.0
 tqdm==4.67.1
 wheel==0.46.3

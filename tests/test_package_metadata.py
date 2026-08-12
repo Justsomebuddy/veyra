@@ -66,6 +66,43 @@ def test_direct_tool_constraints_match_declared_extras():
     logger.debug("test direct tool constraints exit")
 
 
+def test_security_reviewed_python_pins_match_declared_floors():
+    """Exact reviewed manifests cannot drift below the secure package floors."""
+    logger.debug("test security-reviewed Python pins entry")
+    ci_rows = {
+        name: version
+        for name, version in (
+            row.split("==", 1)
+            for row in (ROOT / "requirements/ci-py311.txt").read_text(encoding="utf-8").splitlines()
+            if row and not row.startswith("#")
+        )
+    }
+    tested_rows = {
+        name: version
+        for name, version in (
+            row.split("==", 1)
+            for row in (ROOT / "requirements/py311-tested.txt").read_text(encoding="utf-8").splitlines()
+            if row and not row.startswith("#")
+        )
+    }
+    assert {key: ci_rows[key] for key in ("pip", "setuptools", "pytest")} == {
+        "pip": "26.1.2",
+        "setuptools": "83.0.0",
+        "pytest": "9.0.3",
+    }
+    assert {key: tested_rows[key] for key in ("cryptography", "setuptools", "pytest")} == {
+        "cryptography": "50.0.0",
+        "setuptools": "83.0.0",
+        "pytest": "9.0.3",
+    }
+    metadata = tomllib.loads((ROOT / "pyproject.toml").read_text(encoding="utf-8"))
+    assert metadata["build-system"]["requires"][0] == "setuptools>=83,<84"
+    extras = metadata["project"]["optional-dependencies"]
+    assert "pytest>=9.0.3,<10" in extras["dev"]
+    assert extras["signing"] == ["cryptography>=50,<51"]
+    logger.debug("test security-reviewed Python pins exit")
+
+
 def test_rust_toolchain_and_msrv_are_explicit():
     """The native crate records both reproduced and minimum compiler versions."""
     logger.debug("test Rust toolchain metadata entry")
@@ -110,15 +147,16 @@ def test_conda_direct_ranges_match_python_metadata():
     environment = (ROOT / "environment.yml").read_text(encoding="utf-8")
     for requirement in (
         "python>=3.11,<3.12",
-        "pytest>=8,<10",
+        "pytest>=9.0.3,<10",
         "ruff>=0.12,<1",
         "tqdm>=4.66,<5",
         "build>=1.2,<2",
-        "cryptography>=45,<48",
-        "setuptools>=77,<81",
+        "cryptography>=50,<51",
+        "setuptools>=83,<84",
         "wheel>=0.45,<0.47",
         "ipykernel>=6,<7",
         "jupyterlab>=4,<5",
+        "pip>=26.1.2,<27",
     ):
         assert f"  - {requirement}" in environment
     logger.debug("test conda ranges exit")
@@ -157,6 +195,8 @@ def test_hosted_matrix_is_fixed_bounded_and_immutable():
         "requirements/ci-py311.txt",
         "persist-credentials: false",
         "pip install --no-deps --requirement requirements/ci-py311.txt",
+        "python -m pip install --only-binary=:all: cryptography==50.0.0",
+        "test_ed25519_signed_receipt_is_publicly_verifiable_and_canonical",
     ):
         assert row in workflow
     uses = re.findall(r"uses:\s+[^@\s]+@([^\s#]+)", workflow)

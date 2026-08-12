@@ -37,6 +37,12 @@ jobs:
           cache-dependency-path: requirements/ci-py311.txt
       - name: Install exact hosted verification tools
         run: python -m pip install --no-deps --requirement requirements/ci-py311.txt
+      - name: Verify exact optional signing dependency on Linux
+        if: runner.os == 'Linux'
+        run: >-
+          python -m pip install --only-binary=:all: cryptography==50.0.0
+          && python -m pytest -q -p no:cacheprovider
+          tests/test_observer_v3_replay.py::test_ed25519_signed_receipt_is_publicly_verifiable_and_canonical
       - name: Install Veyra without an unreviewed isolated build environment
         run: python -m pip install --no-build-isolation --no-deps -e .
       - name: Portable verification
