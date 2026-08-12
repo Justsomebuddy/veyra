@@ -46,3 +46,7 @@ complete registry; no local history is required.
   formation rules and assumption ledgers.
 - Candidate, executable, validated, and formally proved are distinct statuses;
   none is silently promoted into another.
+- DEF-710–716 adds a structural bridge/separation ledger and bounded G4
+  quotient-conflict classification. Its exhaustive `n≤3`/Sage evidence and two
+  digest-bound Lean helpers do not add registered theorem cards or imply a
+  general sheaf/descent, novelty, nonexpressibility, or superiority result.

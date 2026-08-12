@@ -37,6 +37,7 @@ mathematical theorem or a claim about physical reality.
 - [Observer-discovery ontology, phase II](../158_observer_discovery_ontology_phase_ii.md)
 - [Fixed-observer confirmation](../159_fixed_observer_confirmation.md)
 - [Governed observer discovery v3](../160_governed_observer_discovery_v3.md)
+- [Comparative bridge and separation ledger](../162_comparative_bridge_separation_ledger.md)
 
 This line distinguishes bounded search, evidence, confirmation, and governance
 from causal discovery, universal superiority, and theorem promotion.

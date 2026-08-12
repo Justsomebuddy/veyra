@@ -23,7 +23,7 @@ def certs():
 
 def test_certificate_suite_all_passes_current_core(certs):
     summary = certificate_summary(certs)
-    assert summary["total"] == 101
+    assert summary["total"] == 102
     assert summary["failed"] == []
     assert summary["passed"] == summary["total"]
 

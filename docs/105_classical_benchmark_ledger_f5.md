@@ -54,3 +54,10 @@ The ledger is a truth-maintenance device. It is useful even when Veyra is weaker
 - The current eighth row was added explicitly; there is no automated benchmark-row generator or proof-corpus discovery claim.
 - Add size/complexity fields only after the proof language is stable enough to count proof steps honestly.
 - Build nontrivial formal exports beyond `THM-F001` before claiming formal proof coverage.
+
+## Structural comparisons stay separate
+
+Issue #5's bridge/separation proposal is implemented in
+[`162_comparative_bridge_separation_ledger.md`](162_comparative_bridge_separation_ledger.md).
+It does not add `BM-F010`, change the eight F5 rows, or reuse F5 verdicts for
+analogy, reduction, or predicate separation.

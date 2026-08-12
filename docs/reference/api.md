@@ -174,7 +174,11 @@ This curated aggregate is not an inventory of every split implementation module.
 | `src.core.observer_gap_topology` | Declared degree-factor observer class, exact topological-order counter, five-row S7 family, and `THM-S7-001` card. |
 | `src.core.observer_patch_atlas` | Finite observer patches, partition-valued local sections, generated echo closure, exact gluing criterion, and triangle obstruction. |
 | `src.core.observer_patch_validation` | Exact-type structural validation for canonical finite G4 patch/atlas/section values. |
-| `src.core.certify_observer_patch_atlas` | Full-byte-digest-bound three-symbol Lean evidence and the finite G4 atlas certificate. |
+| `src.core.observer_patch_gluing_classification` / `observer_patch_gluing_types` | Bounded quotient-conflict graph, all exact-gluing classification, uniqueness verdict, and disjoint-singleton nonuniqueness witness; no general sheaf claim. |
+| `src.core.comparative_bridge_ledger` / `comparative_ledger_types` | Independent structural bridge statuses and three-row ledger; F5 remains the fixed eight-row result comparison. |
+| `src.core.structural_separation_ledger` | Predicate-separation statuses and the finite existence-versus-uniqueness witness; no expressivity or superiority claim. |
+| `src.core.certify_observer_patch_atlas` | Full-byte-digest-bound three registered symbols plus two nonpromoted Lean helpers and the finite G4 atlas certificate. |
+| `src.core.certify_comparative_ledgers` | Level-1 bridge/separation catalog and evidence-boundary certificate. |
 | `src.core.infinity_prefix_types` / `infinity_prefix_validation` / `infinity_prefix` | Exact finite prefix-window DTOs, fail-closed shape gates, periodic observations, coherence reports, and first restriction obstruction. |
 | `src.core.padic_residue_types` / `padic_residue_validation` / `padic_residue_tower` | Exact finite prime-power residue windows, canonical integer shadows, projections, first obstruction, and equal-shape coherent arithmetic. |
 | `src.core.certify_infinity_i1` | Full-byte-digest-bound `THM_I1_001..004` evidence plus `observer_infinity_i1`; no Sage/layer/R8 or inverse-limit-carrier effect. |

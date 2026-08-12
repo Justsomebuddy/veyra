@@ -31,6 +31,9 @@ OD. `157_certified_observer_discovery_mvp.md` through
 PR. `161_p1_r16_realization_contract.md` — explicit context-relative P1→R16
     realization with structured Ready/Blocked replay, derived finite join
     completion, authoritative checking, and no canonical-functor claim.
+CB. `162_comparative_bridge_separation_ledger.md` — a sibling structural
+    bridge/separation ledger, finite G4→EqRel amalgamation reduction,
+    quotient-conflict uniqueness classification, and independent Sage oracle.
 2. `01_primitives.md` — core words and axioms.
 3. `03_point_segment.md` — point and segment analogues.
 4. `02_number_theory.md` — first arithmetic layer.

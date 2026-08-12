@@ -124,6 +124,7 @@ The following table groups the stable notation introduced by `DEF-059` through
 | `DECLARE_FORALL`; `Spec∀`; `OptSkel`; `EmitVAMD?` | open VAM quantified schema/specialization, optimizer obligation skeleton, and fail-closed emission policy | DEF-437–445 |
 | `BestLower_A(c)`; `ReductionR16`; `BalMean(1,3,5)` | best admitted lower relation/R16 audit; fixed `(1,3,5)` mean balance | DEF-446 / `THM_S001_mean_balance_1_3_5` |
 | `P_i`; `E_i`; `E*`; `Obs_G4` | finite observer patch, local partition echo, generated equivalence closure, and within-patch contradiction set | DEF-447–453 / THM-G4-001–003 |
+| `Q=U/E*`; `Conf_G4(Q)`; `SafePart(Q)`; `CB-G4-001`; `SEP-G4-001` | generated-class quotient, within-patch conflict graph, conflict-independent quotient partitions, finite EqRel bridge row, and existence/uniqueness separation row | DEF-710–716 |
 | `Π_n`; `ρ_m^n`; `Stream(Π)`; `R_{p,k}`; `π_k`; `Obs_I1` | all-depth prefix views/restriction/recovered stream; finite prime-power residue shadows/projection/obstruction | DEF-454–461 / THM-I1-001–004 |
 | `x ~_O y`; `O_f ≼_S O_c`; `Class_S(f,c)`; `Tri_τ`; `Loss_S` | finite observer echo relation, preservation order, exact-scope classifier, response triangle, and structural-loss status | DEF-462–468 |
 | `CP_D2`; `Insuff_D2`; `CModel_D2`; `X_n={k∈N | n≤k}` | five-inference counterpressure catalog, disjoint insufficiency/countermodel outcomes, and shrinking natural tails | DEF-469–482 / THM-D2-001–005 |

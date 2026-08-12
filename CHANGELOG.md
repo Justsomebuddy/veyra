@@ -1,5 +1,17 @@
 # Changelog
 ## [Unreleased] — Changed
+- Implemented issue #5 as a sibling Comparative Bridge and Structural
+  Separation ledger without changing F5's fixed eight rows. The first exact
+  bridge reduces the declared finite G4 existence/effectivity problem to
+  matching-family amalgamation for `V ↦ EqRel(V)`; a bounded conflict graph on
+  `Q=U/E*` classifies every exact gluing and makes uniqueness equivalent to
+  completeness, conditional on existence. Disjoint singletons strictly
+  separate existence from uniqueness. An independent Python oracle plus real
+  Sage 10.7 `SetPartitions` reproduce all `1275` assignments through `n≤3`
+  (`491` gluable, `441` unique), and two digest-bound nonpromoted Lean helpers
+  cover pair-coverage uniqueness and the nonunique witness. This adds one
+  certificate row (102 total), not a general sheaf/descent/topology theorem,
+  novelty, nonexpressibility, or superiority claim.
 - Added the explicit relative P1→R16 realization requested in issue #13. A
   fingerprint-bound external context now declares the finite state/recurrence
   scope, ordered observer costs, structured R11 totalization, and finite join

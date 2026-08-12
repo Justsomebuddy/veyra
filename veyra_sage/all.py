@@ -23,6 +23,7 @@ from .likelihood_geometry import VeyraLikelihoodGeometryLab, build_likelihood_ge
 from .intrinsic_observer_echo import VeyraIntrinsicObserverEchoLab
 from .intrinsic_vam import VeyraIntrinsicVamLab
 from .observer_synthesis_v2 import VeyraObserverSynthesisV2Lab
+from .observer_patch_gluing import G4ExhaustiveRow, VeyraObserverPatchGluingLab, exhaustive_g4_row
 from .school import VeyraCurriculumNode, VeyraExportRow, VeyraSchoolCore, VeyraTheoremSpec
 from .statistics_inference import VeyraStatisticsInferenceLab, build_statistics_inference_notebook, statistics_inference_lab_summary
 from .topology_echo import VeyraTopologyLab, build_topology_echo_notebook, topology_echo_lab_summary
@@ -42,6 +43,7 @@ __all__ = [
     "VeyraTopologyLab", "build_topology_echo_notebook", "topology_echo_lab_summary",
     "VeyraLikelihoodGeometryLab", "build_likelihood_geometry_notebook", "likelihood_geometry_lab_summary",
     "VeyraIntrinsicObserverEchoLab", "VeyraIntrinsicVamLab", "VeyraObserverSynthesisV2Lab",
+    "G4ExhaustiveRow", "VeyraObserverPatchGluingLab", "exhaustive_g4_row",
     "SAGE_AVAILABLE",
     "VeyraBalanceElement",
     "VeyraBalanceParent",

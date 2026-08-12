@@ -218,5 +218,18 @@ terminal witness is accepted only after authoritative full R11 replay and exact
 R16 reconstruction. This is level-1 executable evidence, not a canonical map,
 echo embedding, functor, natural transformation, quotient transport, ready-only
 image theorem, Lean result, authentication, or promotion. See doc 161.
+## DEF-710–716 — Comparative bridge and finite G4 quotient-conflict classification
+The separate structural ledger assigns only `KNOWN_ANALOGUE`,
+`CANDIDATE_BRIDGE`, `REDUCED`, or `OPEN` to bridges and only
+`CANDIDATE_SEPARATION`, `STRICTLY_SEPARATED`, or `OPEN` to explicit predicate
+separations. `CB-G4-001` reduces one declared finite G4 exact-gluing existence
+problem to matching-family amalgamation for the set-valued presheaf
+`V ↦ EqRel(V)`. Conditional on existence, `Q=U/E*` carries the conflict graph;
+exact gluings correspond to conflict-independent partitions of `Q`, and
+uniqueness is equivalent to completeness. `SEP-G4-001` separates existence
+from uniqueness by disjoint singletons. This is executable/finite and uses two
+digest-bound nonpromoted Lean helpers; no new registered theorem card, general
+sheaf/descent/topology result, novelty, nonexpressibility, or superiority follows.
+See doc 162.
 ## THM-P3N6W-001–004 — Prime-power uniform late distinction — internal research candidate
 `VeyraPrimePowerInformation.lean` constructively packages, for each requested `k`, the zero/`p^(k+1)` carrier pair agreeing through `k` and separating at `k+1`. The four Lean declarations are checked formal source results, but this publication contains no release-bundle certificate or public export for the family. Status is **INTERNAL_RESEARCH_CANDIDATE**, not a released registry theorem. It establishes neither ΩN completed indexing, `InformationUnbounded`, cardinality nor uncountability.

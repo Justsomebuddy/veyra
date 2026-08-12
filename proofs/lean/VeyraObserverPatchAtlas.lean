@@ -136,8 +136,81 @@ theorem THM_G4_003_triangle_exact_gluing_impossible :
       (by simp [triangleOnPatch])).mp gac
   simp [triangleLocalEcho, triangleOnPatch] at localAC
 
+/- Digest-bound helper, not a promoted theorem card.  If every pair not already
+in the generated closure is jointly inspected by some patch, exact restriction
+prevents any exact global gluing from adding that pair. -/
+theorem g4_generated_pair_coverage_unique_exact_gluing {Nod Patch : Type}
+    (generated global : Nod → Nod → Prop)
+    (localEcho : Patch → Nod → Nod → Prop) (onPatch : Patch → Nod → Prop)
+    (isClosure : IsGeneratedClosure generated localEcho onPatch)
+    (globalEquivalence : IsEchoEquivalence global)
+    (exactRestriction : ExactPatchRestriction global localEcho onPatch)
+    (pairCoverage : ∀ x y, ¬ generated x y →
+      ∃ patch, onPatch patch x ∧ onPatch patch y) :
+    ∀ x y, global x y ↔ generated x y := by
+  rcases isClosure with ⟨_, generatedContains, least⟩
+  have globalContains : ContainsLocalEchoes global localEcho onPatch := by
+    intro patch x y hx hy localXY
+    exact (exactRestriction patch x y hx hy).mpr localXY
+  intro x y
+  constructor
+  · intro globalXY
+    apply Classical.byContradiction
+    intro notGenerated
+    rcases pairCoverage x y notGenerated with ⟨patch, hx, hy⟩
+    have localXY := (exactRestriction patch x y hx hy).mp globalXY
+    exact notGenerated (generatedContains patch x y hx hy localXY)
+  · intro generatedXY
+    exact least global globalEquivalence globalContains x y generatedXY
+
+inductive SingletonNod where
+  | a | b
+  deriving DecidableEq
+
+inductive SingletonPatch where
+  | a | b
+  deriving DecidableEq
+
+def singletonOnPatch : SingletonPatch → SingletonNod → Prop
+  | .a, x => x = .a
+  | .b, x => x = .b
+
+def singletonLocalEcho : SingletonPatch → SingletonNod → SingletonNod → Prop
+  | patch, x, y => singletonOnPatch patch x ∧ singletonOnPatch patch y
+
+def singletonIdentity : SingletonNod → SingletonNod → Prop := Eq
+
+def singletonUniversal : SingletonNod → SingletonNod → Prop := fun _ _ => True
+
+/- Digest-bound helper, not a promoted theorem card.  The two disjoint singleton
+patches admit both identity and universal exact gluings, hence existence does
+not imply extensional uniqueness. -/
+theorem g4_disjoint_singletons_exact_gluing_not_unique :
+    IsEchoEquivalence singletonIdentity ∧
+    IsEchoEquivalence singletonUniversal ∧
+    ExactPatchRestriction singletonIdentity singletonLocalEcho singletonOnPatch ∧
+    ExactPatchRestriction singletonUniversal singletonLocalEcho singletonOnPatch ∧
+    ¬ (∀ x y, singletonIdentity x y ↔ singletonUniversal x y) := by
+  constructor
+  · exact ⟨fun _ => rfl, fun _ _ h => h.symm, fun _ _ _ hxy hyz => hxy.trans hyz⟩
+  · constructor
+    · exact ⟨fun _ => trivial, fun _ _ _ => trivial, fun _ _ _ _ _ => trivial⟩
+    · constructor
+      · intro patch x y hx hy
+        cases patch <;> cases x <;> cases y <;>
+          simp_all [singletonIdentity, singletonLocalEcho, singletonOnPatch]
+      · constructor
+        · intro patch x y hx hy
+          cases patch <;> cases x <;> cases y <;>
+            simp_all [singletonUniversal, singletonLocalEcho, singletonOnPatch]
+        · intro same
+          have impossible := (same .a .b).mpr trivial
+          simp [singletonIdentity] at impossible
+
 #check THM_G4_001_exact_gluing_exists_iff_no_local_contradiction
 #check THM_G4_002_triangle_singleton_overlaps_pass
 #check THM_G4_003_triangle_exact_gluing_impossible
+#check g4_generated_pair_coverage_unique_exact_gluing
+#check g4_disjoint_singletons_exact_gluing_not_unique
 
 end Veyra

@@ -6,6 +6,7 @@ from .balance import balance_from_int, stitch_balance
 from .certify_benchmark_evidence import certify_benchmark_evidence_r15
 from .certify_calculus import certify_calculus_depth
 from .certify_classical_benchmarks import certify_classical_benchmark_f5
+from .certify_comparative_ledgers import certify_comparative_bridge_separation_ledgers
 from .certify_category import certify_category_like_translation
 from .certify_convergence import certify_convergence_algebra
 from .certify_deduction_chain import certify_deduction_chain_f6
@@ -113,7 +114,7 @@ def certificate_suite() -> list[Certificate]:
         certify_statistics_concentration_likelihood(),
         certify_likelihood_geometry_x5(), certify_surprise_separation_s1(), certify_surprise_search_s3(), certify_surprise_kwise_s5(), certify_surprise_debruijn_s6(), certify_surprise_corpus_s7(), certify_observer_gap_topology_s7(), certify_veyra_magic_m1(), certify_vam_reference_v1(),
         certify_foundational_repair_f1_f3(), certify_proof_carrying_core_r7(), certify_theorem_promotion_contract_r8(), certify_intrinsic_mode_transport_r9(), certify_proof_elaboration_r10(), certify_observer_core_r11(), certify_intrinsic_vam_r12(), certify_intrinsic_observer_echo_r13(), certify_observer_synthesis_v2_r14(), certify_observer_descent_r16(), certify_observer_realization_p1_r16(),
-        certify_native_runtime_f4(), certify_classical_benchmark_f5(), certify_benchmark_evidence_r15(),
+        certify_native_runtime_f4(), certify_classical_benchmark_f5(), certify_comparative_bridge_separation_ledgers(), certify_benchmark_evidence_r15(),
         certify_deduction_chain_f6(),
         certify_transcendental_limit(),
         certify_convergence_algebra(),

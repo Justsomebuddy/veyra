@@ -32,7 +32,11 @@ an explicit non-claim boundary.
   three singleton overlaps in the AB/BC/CA triangle pass, and exact global
   gluing is nevertheless impossible. The certificate rejects whole-file digest
   mismatch before Lean, compiles exact captured bytes, and rereads continuity.
-  This is not a manifold, sheaf, field, general-topology, or R8 theorem.
+  Two additional digest-bound helpers prove a pair-coverage sufficient condition
+  for extensional uniqueness and a disjoint-singleton nonuniqueness witness.
+  They are not registered theorem cards, and the executable quotient-partition
+  classification is not claimed Lean-proved. This is not a manifold, general
+  sheaf/descent, field, general-topology, novelty, or R8 theorem.
 - I1 coherent-tower bridge: `VeyraCoherentTowers.lean` recovers and uniquely
   determines a stream from an explicitly supplied all-depth coherent family,
   blocks a global stream under one restriction conflict, and proves modular

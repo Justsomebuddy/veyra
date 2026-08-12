@@ -9,16 +9,18 @@ import src.core.certify_observer_patch_atlas as certificate
 logger = logging.getLogger(__name__)
 
 
-def test_g4_lean_evidence_binds_full_bytes_and_three_exact_symbols():
-    logger.debug("test_g4_lean_evidence_binds_full_bytes_and_three_exact_symbols entry")
+def test_g4_lean_evidence_binds_full_bytes_registered_symbols_and_helpers():
+    logger.debug("test_g4_lean_evidence_binds_full_bytes_registered_symbols_and_helpers entry")
     evidence = certificate.observer_patch_atlas_lean_evidence()
     actual = hashlib.sha256(certificate.lean_observer_patch_atlas_path().read_bytes()).hexdigest()
     assert evidence.expected_sha256 == evidence.actual_sha256 == actual == certificate.G4_LEAN_SHA256
     assert evidence.digest_status == "matched"
     assert evidence.lean_status == "checked"
     assert evidence.symbols == certificate.G4_LEAN_SYMBOLS
-    assert len(evidence.symbols) == 3 and evidence.symbols_exact and evidence.continuous
-    logger.debug("test_g4_lean_evidence_binds_full_bytes_and_three_exact_symbols exit")
+    assert len(evidence.symbols) == 3 and evidence.symbols_exact
+    assert evidence.helper_symbols == certificate.G4_LEAN_HELPER_SYMBOLS
+    assert len(evidence.helper_symbols) == 2 and evidence.helpers_exact and evidence.continuous
+    logger.debug("test_g4_lean_evidence_binds_full_bytes_registered_symbols_and_helpers exit")
 
 
 def test_g4_certificate_combines_valid_gluing_triangle_and_lean():
@@ -27,7 +29,7 @@ def test_g4_certificate_combines_valid_gluing_triangle_and_lean():
     assert result.name == "observer_patch_atlas_g4"
     assert result.passed and result.level == 1
     assert "exact gluing" in result.method and "triangle" in result.method
-    assert result.detail == "valid_gluing=True triangle_obstructions=1 lean=3/3"
+    assert result.detail == "valid_gluing=True triangle_obstructions=1 nonunique=2 lean=3/3 helpers=2/2"
     logger.debug("test_g4_certificate_combines_valid_gluing_triangle_and_lean exit")
 
 
@@ -44,7 +46,7 @@ def test_g4_digest_tamper_blocks_before_lean(tmp_path, monkeypatch):
     evidence = certificate._observer_patch_lean_evidence_at(path)
     assert evidence.digest_status == "mismatch"
     assert evidence.lean_status == "blocked"
-    assert not evidence.symbols_exact and not evidence.continuous
+    assert not evidence.symbols_exact and not evidence.helpers_exact and not evidence.continuous
     logger.debug("test_g4_digest_tamper_blocks_before_lean exit")
 
 
@@ -62,6 +64,7 @@ def test_g4_reread_continuity_blocks_post_capture_swap(tmp_path, monkeypatch):
     evidence = certificate._observer_patch_lean_evidence_at(path)
     assert evidence.digest_status == "matched"
     assert evidence.symbols_exact
+    assert evidence.helpers_exact
     assert evidence.lean_status == "blocked" and not evidence.continuous
     logger.debug("test_g4_reread_continuity_blocks_post_capture_swap exit")
 
