@@ -1,5 +1,9 @@
 # Changelog
+
 ## [Unreleased] — Changed
+- Accept the platform-native `.exe` suffix when authenticating the fixed
+  observer-pipeline worker on Windows, while retaining exact basename matching
+  on every platform.
 - Added observer synthesis v3 without renewing v1/v2 identities: an append-only
   grammar registry with pinned prefix roots; a typed finite transport DSL whose
   bijection/injection/loss class is derived independently of task-preservation

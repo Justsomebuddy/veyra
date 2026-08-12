@@ -160,7 +160,12 @@ fn validate_limits(limits: ObserverWorkerLimitsV3) -> Result<(), ObserverWorkerV
 
 fn fixed_child(executable: &Path) -> Result<(), ObserverWorkerV3Error> {
     event("WORKER_V3_PATH_ENTER", "checking fixed child path");
-    if executable.file_name().and_then(|name| name.to_str()) != Some(FIXED_CHILD_NAME) {
+    let expected_name = if cfg!(target_os = "windows") {
+        concat!("vam-observer-pipeline-worker", ".exe")
+    } else {
+        FIXED_CHILD_NAME
+    };
+    if executable.file_name().and_then(|name| name.to_str()) != Some(expected_name) {
         return Err(reject("worker-v3-not-fixed-child"));
     }
     event("WORKER_V3_PATH_EXIT", "fixed child path checked");
