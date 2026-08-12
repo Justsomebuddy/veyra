@@ -1,5 +1,8 @@
 # Changelog
 ## [Unreleased] — Changed
+- Updated the exact Python 3.11 tested-environment pin from JupyterLab 4.5.1
+  to the compatible 4.5.10 security-patch release; the declared optional
+  runtime range remains `jupyterlab>=4,<5`.
 - Updated the portable GitHub Actions trust roots from deprecated Node.js 20
   revisions to immutable official Node.js 24 commits: `actions/checkout`
   v7.0.1 and `actions/setup-python` v7.0.0. Least-privilege `contents: read`,
