@@ -7,6 +7,12 @@ description = "Minimal honest Rust VAM0 native backend scaffold"
 license = "MIT"
 default-run = "vam0-inspect"
 
+[dependencies]
+ed25519-dalek = { version = "=2.2.0", default-features = false, features = ["std", "zeroize"] }
+# Keep the locked dependency closure inside this crate's declared Rust 1.83
+# MSRV; zeroize 1.9 raises its own floor to Rust 1.85.
+zeroize = { version = "=1.8.2", default-features = false }
+
 [lib]
 name = "vam_native"
 path = "src/lib.rs"

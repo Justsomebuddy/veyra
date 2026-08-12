@@ -1,5 +1,28 @@
 # Changelog
 ## [Unreleased] — Changed
+- Added observer synthesis v3 without renewing v1/v2 identities: an append-only
+  grammar registry with pinned prefix roots; a typed finite transport DSL whose
+  bijection/injection/loss class is derived independently of task-preservation
+  evidence; stable-cost-bucket and memoized joint search checked
+  against the independent exhaustive engine; an integer observer-gap lab with
+  positive/negative controls and explicit transform/observer/explanation/loss
+  costs; and an atomic normalize/transport/observer/explanation/aggregate
+  pipeline that searches only the declared typed transports under a unified
+  transport-plus-observer cost. Transport composition is recursively bounded
+  and precharged; selected loss penalties are derived rather than caller-
+  asserted. Added payload-typed VOR2 HMAC-SHA256/Ed25519 bundles with domain
+  separation, streaming decode, deny-by-default external trust policy, and
+  authentication before exact semantic replay while preserving VORP v1.
+  Worker v2 reports every physical control separately; a fixed worker-v3 child
+  executes the canonical pipeline under verified baseline Linux controls and a
+  parent promotes wall/output/process-group custody only after fresh exact
+  replay. Strict cgroup/seccomp/namespace custody remains blocked rather than
+  emulated. Added an axiom-free abstract Lean bridge for
+  canonical acceptance, explicit bijective task transport, and consequences of
+  an admitted optimized/reference equality witness. These are finite
+  profile-relative engineering results, not general representation laws,
+  hidden-variable discovery, speedup, sandbox/remote attestation, signer trust,
+  Rust verification, or theorem promotion.
 - Added observer synthesis v2 without rebinding any legacy receipt: an
   immutable named 1,565-row profile plus a separately rooted 230-row `Parity`
   extension; exhaustive survey of 120 declared shift/permutation encodings;

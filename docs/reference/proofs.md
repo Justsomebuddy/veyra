@@ -18,6 +18,12 @@ an explicit non-claim boundary.
   relabeling, and the exact list-relative meaning of finite-catalog exhaustion.
   It does not formalize the Rust implementation, canonical bytes or hashes,
   CEGIS/catalog completeness, resource custody, or any concrete benchmark row.
+- `VeyraObserverSynthesisV3.lean` is an `INTERNAL_RESEARCH_CANDIDATE`
+  abstract bridge for canonical rebuild acceptance, task transport through an
+  explicitly supplied bijection, and consequences of an explicit equality
+  witness between optimized and reference search. It does not formalize Rust,
+  cryptography, process custody, concrete profiles, benchmark outcomes, or
+  catalog completeness.
 - `THM-F001`: for every observer `o` and object `x`, `echo(o,x,x)`.
 - `THM-F002`: `(n * k + 1) % n = 1 % n`, the product-plus-one arithmetic shadow now used by finite native Mode-length Euclid rows.
 - `THM-F003`: finite prime-period Fermat phase row over native Mode/Breath length observers; Python certificate only.

@@ -64,7 +64,14 @@ The current Python implementation proves that Veyra rows are executable, but it 
   transform/observer pair, runs the exact evidence build under Linux child
   custody, and supports external-key authenticated replay. Its Lean slice is
   abstract and nonpromoting.
-- Docs: `docs/003_reference_interpreter.md` through `docs/040_native_observer_synthesis_v2.md` cover interpreter, VAM0/VAMD, optimizer, Core/HL-1 lowering, diagnostics/theorem carriers, native scaffold, finite semantics/metadata, the bounded Rust synthesis shadow and receipts, the representation-sensitive benchmark family, and its versioned/custodied v2 extension.
+- Observer synthesis v3 adds append-only grammar registration, mechanically
+  classified finite transport programs with bounded recursive composition,
+  direct optimized/reference transport × observer differential search, an
+  integer observer-gap laboratory, atomic staged evidence, VOR2 HMAC/Ed25519
+  pipeline replay, and a fixed baseline worker-v3 supervisor. All results stay
+  finite/profile-relative and unavailable strict physical controls remain
+  blocked.
+- Docs: `docs/003_reference_interpreter.md` through `docs/041_native_observer_synthesis_v3.md` cover interpreter, VAM0/VAMD, optimizer, Core/HL-1 lowering, diagnostics/theorem carriers, native scaffold, finite semantics/metadata, the bounded Rust synthesis shadow and receipts, the representation-sensitive benchmark family, and its versioned/custodied v2/v3 extensions.
 
 ## Boundary
 

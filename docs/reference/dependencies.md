@@ -45,7 +45,7 @@ surface but is a solver input, not a complete transitive lock.
 
 ## Lean
 
-All 44 sources target `leanprover/lean4:v4.30.0-rc2`. Their non-local imports
+All 45 sources target `leanprover/lean4:v4.30.0-rc2`. Their non-local imports
 (`Init.GrindInstances.Ring.Fin`, `Lean.Elab.Tactic.Omega`, and `Std.Tactic`) are
 provided by that Lean distribution; the project does not declare a Lake or
 mathlib dependency. `elan` is the supported toolchain selector.
@@ -55,10 +55,15 @@ Portable compilation and hardened certificate renewal are distinct. See
 
 ## Rust
 
-`vam/native/Cargo.lock` contains only the local `vam-native` package: the crate
-has no crates.io dependencies. `rust-toolchain.toml` selects Rust 1.95.0 with
-the minimal profile for reproduced checks, while `Cargo.toml` declares locked
-MSRV 1.83. `rustfmt` is required for the formatting gate.
+`vam/native/Cargo.lock` pins `ed25519-dalek 2.2.0`, constrains `zeroize` to
+MSRV-compatible `1.8.2`, and pins the resulting transitive graph for
+the Rust replay-bundle signature verifier. The crate is configured without RNG
+support: signing keys enter only through a borrowed library API and are never
+generated, serialized, or logged; trust anchors remain external. The pinned
+release declares Rust 1.81 compatibility, below this crate's tested MSRV 1.83.
+`rust-toolchain.toml` selects Rust 1.95.0 with the minimal profile for
+reproduced checks, while `Cargo.toml` declares locked MSRV 1.83. `rustfmt` is
+required for the formatting gate.
 
 Install the reproduced Rust lane with
 `rustup toolchain install 1.95.0 --profile minimal --component rustfmt`. The
