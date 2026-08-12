@@ -4,7 +4,7 @@ build==1.4.0
 cryptography==46.0.6
 ipykernel==6.31.0
 jupyterlab==4.5.10
-pytest==9.0.2
+pytest==9.0.3
 ruff==0.15.6
 setuptools==80.10.2
 tqdm==4.67.1
