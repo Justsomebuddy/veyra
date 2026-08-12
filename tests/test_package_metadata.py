@@ -122,6 +122,7 @@ def test_wheel_package_discovery_is_explicit_and_bounded():
     assert packages == {
         "src",
         "src.core",
+        "src.core.claim_composition",
         "src.core.construction",
         "src.core.construction.finite_builder",
         "src.core.observer_discovery_v3",
@@ -177,6 +178,20 @@ def test_portable_verification_includes_observer_realization_behavior():
     portable_pytest = next(step for step in portable_steps() if step.name == "Portable pytest")
     assert "tests/test_observer_realization.py" in portable_pytest.command
     logger.debug("test portable observer realization coverage exit")
+
+
+def test_portable_verification_includes_claim_composition_behavior():
+    """Hosted CI must exercise composition semantics, export replay, and authentication."""
+    logger.debug("test portable claim composition coverage entry")
+    portable_pytest = next(step for step in portable_steps() if step.name == "Portable pytest")
+    assert {
+        "tests/test_claim_composition.py",
+        "tests/test_claim_composition_adversarial.py",
+        "tests/test_claim_composition_export.py",
+    } <= set(portable_pytest.command)
+    package_smoke = (ROOT / "scripts/package_smoke.py").read_text(encoding="utf-8")
+    assert "import src.core.claim_composition" in package_smoke
+    logger.debug("test portable claim composition coverage exit")
 
 
 def test_hosted_matrix_is_fixed_bounded_and_immutable():

@@ -229,6 +229,9 @@ Veyra uses several evidence levels that must not be collapsed:
 
 Passing tests does not promote a candidate. A statement changes status only
 through an explicit registry entry with its dependencies and non-claims.
+Likewise, several locally valid receipts license no stronger aggregate wording
+without an exact replayable composition license under the boundary described in
+[`docs/165_composition_licensed_claims.md`](docs/165_composition_licensed_claims.md).
 
 ## Experimental Omega-A
 

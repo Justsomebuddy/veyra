@@ -38,6 +38,7 @@ mathematical theorem or a claim about physical reality.
 - [Fixed-observer confirmation](../159_fixed_observer_confirmation.md)
 - [Governed observer discovery v3](../160_governed_observer_discovery_v3.md)
 - [Adaptive research-line validity](../163_adaptive_research_line_validity.md)
+- [Composition-licensed aggregate claims](../165_composition_licensed_claims.md)
 - [Comparative bridge and separation ledger](../162_comparative_bridge_separation_ledger.md)
 
 This line distinguishes bounded search, evidence, confirmation, and governance

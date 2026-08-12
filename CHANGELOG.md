@@ -1,5 +1,20 @@
 # Changelog
 ## [Unreleased] — Changed
+- Added the issue-18 claim-composition boundary immediately upstream of P2-S.
+  Assumption-bearing receipts retain their exact external validator identity;
+  governed Phase-III results derive structural evaluation-completion contracts
+  without mislabeling capability/attempt roots as assumptions. Bounded
+  `EXACT_CONJUNCTION` preserves per-component contracts and exact scope,
+  assumptions, observer/doctrine, execution/research lineage, provenance, and
+  semantic axes. The `R_A: A -> P(x)` / `R_B: B -> P(y)` control accepts only
+  the target retaining `A` and `B`; unconditional, universal, independent,
+  adaptive, epistemic/objectivity, and stronger-wording aggregates remain
+  `NOT_ESTABLISHED`. A strict source-backed codec exports the complete target,
+  license, assessment, and nonpromoting receipt; companion HMAC-SHA256 and
+  optional Ed25519 envelopes bind all critical roots without turning
+  authentication into truth. Portable CI and installed-wheel smoke now cover
+  the package. This adds no P2 rule, discharge theorem, certificate,
+  independence, significance, or population claim.
 - Raised the security-reviewed Python tool and signing floors to pip 26.1.2,
   setuptools 83.0.0, pytest 9.0.3, and cryptography 50.0.0 across exact
   manifests, package metadata, the conda profile, documentation, and contract

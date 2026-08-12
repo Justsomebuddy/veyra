@@ -212,11 +212,18 @@ not externally attested facts.
 | replay package | valid HMAC/Ed25519 | authenticated bound roots under supplied key material |
 | research line | canonical bounded DAG | declared family history, relative only to disclosed nodes |
 | lineage assessment | local/family/adaptive status tuple | no adaptive validity without a separate policy verifier |
+| claim composition | licensed finite conjunction | exact governed or externally validated local contracts; every binding retained; no P2 promotion |
 
 None of these states implies another unless the relevant linking validator
 checks the exact roots. None promotes an empirical claim into causality,
 semantic explanation, object formation, population generalization, a Veyra
 theorem, or a registry certificate.
+
+Document 165 adds a separate downstream composition boundary. It can combine
+freshly validated `READY` governed results or explicitly validator-bound local
+claim receipts only as an exact finite conjunction that retains every local
+binding. It does not change the meaning of `READY`, trust an external validator,
+or let receipt multiplicity alone license an aggregate claim.
 
 ## 8. Adaptive research-line boundary
 

@@ -39,6 +39,11 @@ adaptive_validity
 Consequently a locally valid terminal receipt can coexist with a recorded
 adaptive family and `adaptive_validity=NOT_ESTABLISHED`.
 
+The composition boundary in document 165 does not discharge this distinction.
+Its only V1 rule fixes every aggregate to `LOCAL_ONLY`, so several locally
+valid results still cannot become family/adaptive validity, significance, or
+population wording through conjunction.
+
 ## 2. Canonical lineage node
 
 `ExperimentLineageNode` binds:
