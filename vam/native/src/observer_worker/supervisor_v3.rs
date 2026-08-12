@@ -45,7 +45,7 @@ const MAX_WORKER_V3_RESPONSE_BYTES: usize = MAX_PIPELINE_RESULT_V3_BYTES + WIRE_
 const POLL_INTERVAL: Duration = Duration::from_millis(5);
 const TERM_GRACE: Duration = Duration::from_millis(200);
 
-pub const OBSERVER_WORKER_V3_BOUNDARY: &str = "the caller-trusted fixed-name child path is not executable attestation; that child applies and reads back baseline Linux controls before executing a canonical finite observer pipeline; only its supervising parent may promote wall-clock, bounded-output, and owned-process-group custody after exact fresh request/result replay; strict execution blocks until real cgroup-v2, seccomp, and namespace controls exist";
+pub const OBSERVER_WORKER_V3_BOUNDARY: &str = "the caller-trusted fixed-name child path is not executable attestation; the Linux parent marks every descriptor above stderr close-on-exec and the child independently audits the post-exec table before applying and reading back baseline controls; only the supervising parent may promote wall-clock, bounded-output, and owned-process-group custody after exact fresh request/result replay; strict execution blocks until real cgroup-v2, seccomp, and namespace controls exist";
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub enum ObserverWorkerStatusV3 {
@@ -438,7 +438,10 @@ pub fn supervise_observer_pipeline_v3(
         .stdout(Stdio::piped())
         .stderr(Stdio::null());
     #[cfg(target_os = "linux")]
-    command.process_group(0);
+    {
+        command.process_group(0);
+        configure_close_on_exec_boundary(&mut command);
+    }
     let mut child = command.spawn().map_err(|_| reject("worker-v3-spawn"))?;
     let pid = child.id();
     if write_request(&mut child, canonical_request).is_err() {
@@ -490,6 +493,30 @@ pub fn supervise_observer_pipeline_v3(
     };
     event("WORKER_V3_PARENT_EXIT", "observer supervisor completed");
     Ok(receipt)
+}
+
+#[cfg(target_os = "linux")]
+fn configure_close_on_exec_boundary(command: &mut Command) {
+    event(
+        "WORKER_V3_FD_SETUP_ENTER",
+        "configuring child close-on-exec descriptor boundary",
+    );
+    // SAFETY: the closure runs after fork and performs one async-signal-safe
+    // Linux syscall. CLOEXEC preserves Rust's exec-error pipe until exec while
+    // ensuring every unrelated descriptor above stderr is absent afterwards.
+    unsafe {
+        command.pre_exec(|| {
+            if linux_fd_ffi::close_range(3, u32::MAX, linux_fd_ffi::CLOSE_RANGE_CLOEXEC) == 0 {
+                Ok(())
+            } else {
+                Err(std::io::Error::last_os_error())
+            }
+        });
+    }
+    event(
+        "WORKER_V3_FD_SETUP_EXIT",
+        "child close-on-exec descriptor boundary configured",
+    );
 }
 
 fn write_request(child: &mut Child, request: &[u8]) -> std::io::Result<()> {
@@ -592,4 +619,15 @@ fn terminate_and_reap(child: &mut Child) {
     let _ = signal_process_group(child.id(), true);
     let _ = child.wait();
     event("WORKER_V3_TERMINATE_EXIT", "child killed and reaped");
+}
+
+#[cfg(target_os = "linux")]
+mod linux_fd_ffi {
+    use std::os::raw::{c_int, c_uint};
+
+    pub const CLOSE_RANGE_CLOEXEC: c_uint = 1 << 2;
+
+    unsafe extern "C" {
+        pub fn close_range(first: c_uint, last: c_uint, flags: c_uint) -> c_int;
+    }
 }

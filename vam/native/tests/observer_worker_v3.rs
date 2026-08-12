@@ -27,6 +27,21 @@ fn worker_path() -> &'static Path {
     Path::new(env!("CARGO_BIN_EXE_vam-observer-pipeline-worker"))
 }
 
+fn clean_worker_command() -> Command {
+    let mut command = Command::new(worker_path());
+    #[cfg(target_os = "linux")]
+    unsafe {
+        command.pre_exec(|| {
+            if close_range(3, u32::MAX, CLOSE_RANGE_CLOEXEC) == 0 {
+                Ok(())
+            } else {
+                Err(std::io::Error::last_os_error())
+            }
+        });
+    }
+    command
+}
+
 fn child_process_lock() -> MutexGuard<'static, ()> {
     static LOCK: OnceLock<Mutex<()>> = OnceLock::new();
     LOCK.get_or_init(|| Mutex::new(())).lock().unwrap()
@@ -117,7 +132,7 @@ fn directly_invoked_child_can_emit_only_custody_pending() {
     }
     let _guard = child_process_lock();
     let request = encode_observer_pipeline_request_v3(&request()).unwrap();
-    let mut command = Command::new(worker_path());
+    let mut command = clean_worker_command();
     command
         .arg("--child")
         .arg("10")
@@ -232,6 +247,34 @@ fn child_rejects_an_inherited_descriptor_above_the_old_scan_window() {
     }
 }
 
+#[test]
+fn parent_removes_inherited_descriptor_before_child_audit() {
+    if !cfg!(target_os = "linux") {
+        return;
+    }
+    let _guard = child_process_lock();
+    #[cfg(target_os = "linux")]
+    {
+        let request = encode_observer_pipeline_request_v3(&request()).unwrap();
+        let source = std::fs::File::open("/dev/null").unwrap();
+        // SAFETY: duplicates a valid descriptor into this test process. The
+        // parent launch boundary must mark it close-on-exec for the worker.
+        let inherited = unsafe { fcntl(source.as_raw_fd(), F_DUPFD, 4096) };
+        assert!(inherited >= 4096);
+        let result = supervise_observer_pipeline_v3(
+            worker_path(),
+            &request,
+            WorkerV2Policy::Baseline,
+            ObserverWorkerLimitsV3::default(),
+        );
+        // SAFETY: `inherited` is the successful F_DUPFD result owned here.
+        assert_eq!(unsafe { close(inherited) }, 0);
+        let receipt = result.unwrap();
+        assert_eq!(receipt.status, ObserverWorkerStatusV3::Ready);
+        assert!(receipt.controls.inherited_fd_boundary);
+    }
+}
+
 struct FakeWorker {
     directory: PathBuf,
     path: PathBuf,
@@ -265,7 +308,15 @@ impl Drop for FakeWorker {
 const F_DUPFD: std::os::raw::c_int = 0;
 
 #[cfg(target_os = "linux")]
+const CLOSE_RANGE_CLOEXEC: std::os::raw::c_uint = 1 << 2;
+
+#[cfg(target_os = "linux")]
 unsafe extern "C" {
     fn fcntl(fd: std::os::raw::c_int, command: std::os::raw::c_int, ...) -> std::os::raw::c_int;
     fn close(fd: std::os::raw::c_int) -> std::os::raw::c_int;
+    fn close_range(
+        first: std::os::raw::c_uint,
+        last: std::os::raw::c_uint,
+        flags: std::os::raw::c_uint,
+    ) -> std::os::raw::c_int;
 }

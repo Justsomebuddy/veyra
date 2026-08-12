@@ -157,8 +157,11 @@ attestation, or universal sandbox.
 
 Worker v3 connects those controls to the canonical v3 pipeline. Its fixed
 name is checked, but its caller-supplied executable path remains trusted launch
-input rather than binary attestation. The child accepts only the bounded canonical request, applies and reads back the
-baseline Linux controls, executes the pipeline, and emits only
+input rather than binary attestation. Before `exec`, the Linux parent marks
+every descriptor above standard error close-on-exec; the child then independently
+audits the complete post-exec descriptor table. The child accepts only the
+bounded canonical request, applies and reads back the baseline Linux controls,
+executes the pipeline, and emits only
 `CUSTODY_PENDING`. The parent drains concurrently under exact output and wall
 limits, signals the owned process group, reaps its leader, checks child control
 and digest bindings, freshly rebuilds the request/result, and only then returns

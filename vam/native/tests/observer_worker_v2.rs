@@ -6,6 +6,8 @@ use std::sync::Mutex;
 
 #[cfg(target_os = "linux")]
 use std::os::fd::AsRawFd;
+#[cfg(target_os = "linux")]
+use std::os::unix::process::CommandExt;
 
 use vam_native::observer_worker::{
     inspect_worker_v2_capabilities, WorkerControlStateV2, WorkerV2Admission, WorkerV2LaunchOptions,
@@ -14,6 +16,21 @@ use vam_native::observer_worker::{
 
 fn probe_path() -> &'static Path {
     Path::new(env!("CARGO_BIN_EXE_vam-observer-worker-v2"))
+}
+
+fn clean_probe_command() -> Command {
+    let mut command = Command::new(probe_path());
+    #[cfg(target_os = "linux")]
+    unsafe {
+        command.pre_exec(|| {
+            if close_range(3, u32::MAX, CLOSE_RANGE_CLOEXEC) == 0 {
+                Ok(())
+            } else {
+                Err(std::io::Error::last_os_error())
+            }
+        });
+    }
+    command
 }
 
 // These tests intentionally manipulate an inheritable process-wide descriptor.
@@ -27,7 +44,7 @@ fn baseline_child_enforces_local_controls_but_never_mints_parent_custody() {
         return;
     }
     let _guard = CHILD_LAUNCH_LOCK.lock().unwrap();
-    let output = Command::new(probe_path())
+    let output = clean_probe_command()
         .arg("--baseline-child-probe")
         .env_clear()
         .output()
@@ -82,8 +99,7 @@ fn delegated_cgroup_path_is_launch_only_and_does_not_self_authorize() {
 
 #[test]
 fn strict_probe_cli_reports_the_same_static_block() {
-    let _guard = CHILD_LAUNCH_LOCK.lock().unwrap();
-    let output = Command::new(probe_path())
+    let output = clean_probe_command()
         .arg("--strict-preflight")
         .env_clear()
         .output()
@@ -132,7 +148,15 @@ fn baseline_child_detects_an_inherited_descriptor_above_the_old_scan_window() {
 const F_DUPFD: std::os::raw::c_int = 0;
 
 #[cfg(target_os = "linux")]
+const CLOSE_RANGE_CLOEXEC: std::os::raw::c_uint = 1 << 2;
+
+#[cfg(target_os = "linux")]
 unsafe extern "C" {
     fn fcntl(fd: std::os::raw::c_int, command: std::os::raw::c_int, ...) -> std::os::raw::c_int;
     fn close(fd: std::os::raw::c_int) -> std::os::raw::c_int;
+    fn close_range(
+        first: std::os::raw::c_uint,
+        last: std::os::raw::c_uint,
+        flags: std::os::raw::c_uint,
+    ) -> std::os::raw::c_int;
 }

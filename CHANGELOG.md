@@ -23,9 +23,10 @@
   profile-relative engineering results, not general representation laws,
   hidden-variable discovery, speedup, sandbox/remote attestation, signer trust,
   Rust verification, or theorem promotion.
-- Pinned the transitive `base64ct` closure inside Rust 1.83 and made worker-v2
-  probe tests deterministic under parallel execution and truthful on non-Linux
-  platforms after hosted portable CI exposed both boundary errors.
+- Pinned the transitive `base64ct` closure inside Rust 1.83, added a parent-side
+  close-on-exec FD boundary before the worker-v3 child audit, and made worker-v2
+  probes deterministic and truthful on non-Linux platforms after hosted
+  portable CI exposed the boundary errors.
 - Added observer synthesis v2 without rebinding any legacy receipt: an
   immutable named 1,565-row profile plus a separately rooted 230-row `Parity`
   extension; exhaustive survey of 120 declared shift/permutation encodings;

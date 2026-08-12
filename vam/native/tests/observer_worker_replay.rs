@@ -3,6 +3,7 @@
 use std::io::Write;
 use std::path::Path;
 use std::process::{Command, Stdio};
+use std::sync::{Mutex, MutexGuard, OnceLock};
 use std::time::{Duration, Instant};
 use vam_native::observer_worker::{
     build_portable_replay_package, decode_portable_replay_package, decode_worker_receipt,
@@ -17,11 +18,17 @@ fn worker_path() -> &'static Path {
     Path::new(env!("CARGO_BIN_EXE_vam-observer-worker"))
 }
 
+fn legacy_child_process_lock() -> MutexGuard<'static, ()> {
+    static LOCK: OnceLock<Mutex<()>> = OnceLock::new();
+    LOCK.get_or_init(|| Mutex::new(())).lock().unwrap()
+}
+
 #[test]
 fn linux_worker_enforces_resources_and_replay_keeps_exact_receipt() {
     if !cfg!(target_os = "linux") {
         return;
     }
+    let _guard = legacy_child_process_lock();
     let request = NativeWorkerRequestV1::default();
     let receipt = supervise_current_executable(worker_path(), &request).unwrap();
     assert_eq!(receipt.status, NativeWorkerStatus::Ready);
@@ -66,6 +73,7 @@ fn strict_profile_and_tampering_fail_closed() {
     if !cfg!(target_os = "linux") {
         return;
     }
+    let _guard = legacy_child_process_lock();
     let request = NativeWorkerRequestV1::default();
     let receipt = supervise_current_executable(worker_path(), &request).unwrap();
     let receipt_bytes = encode_worker_receipt_frame(&receipt).unwrap();
@@ -94,6 +102,7 @@ fn directly_invoked_child_cannot_mint_parent_custody() {
     if !cfg!(target_os = "linux") {
         return;
     }
+    let _guard = legacy_child_process_lock();
     let request = NativeWorkerRequestV1::default();
     let request_bytes = encode_request_frame(&request).unwrap();
     let mut child = Command::new(worker_path())
@@ -128,6 +137,8 @@ fn directly_invoked_child_cannot_mint_parent_custody() {
 fn wall_timeout_kills_the_owned_descendant_group() {
     use std::fs;
     use std::os::unix::fs::PermissionsExt;
+
+    let _guard = legacy_child_process_lock();
 
     let target = Path::new(env!("CARGO_MANIFEST_DIR")).join("target");
     let suffix = std::process::id();
@@ -188,6 +199,7 @@ fn decoder_rejects_partial_trailing_and_oversized_packages() {
     if !cfg!(target_os = "linux") {
         return;
     }
+    let _guard = legacy_child_process_lock();
     let request = NativeWorkerRequestV1::default();
     let receipt = supervise_current_executable(worker_path(), &request).unwrap();
     let request_bytes = encode_request_frame(&request).unwrap();

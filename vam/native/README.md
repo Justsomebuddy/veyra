@@ -109,9 +109,10 @@ normalize/transport/observer/explanation/aggregate evidence over the unchanged
 v1/v2 profiles. VOR2 authenticates either the legacy worker or canonical v3
 pipeline payload under external HMAC/Ed25519 trust while preserving VORP v1.
 Worker-v2 states distinguish enforced, available, unavailable, unsupported and
-failed controls. The fixed worker-v3 child remains custody-pending; its parent
-adds bounded output, wall-time and process-group custody only after exact fresh
-pipeline replay. Strict mode blocks rather than turning missing
+failed controls. The worker-v3 parent marks all descriptors above stderr
+close-on-exec and its fixed child audits the post-exec table. The child remains
+custody-pending; its parent adds bounded output, wall-time and process-group
+custody only after exact fresh pipeline replay. Strict mode blocks rather than turning missing
 cgroup/seccomp/namespace controls into a sandbox claim.
 See `../docs/041_native_observer_synthesis_v3.md`.
 
