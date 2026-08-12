@@ -79,6 +79,15 @@ wall-clock/process-AS flags. It is not BM-F009, general discovery, holdout
 evidence, a signed artifact, or a backend promotion. See
 `../docs/038_native_observer_surprise_receipt.md`.
 
+The next bounded layer keeps the grammar fixed and adds an atomic four-member
+benchmark suite: an identity mixture is found by `Crest(Input)`, balanced-
+marginal XOR exhausts the exact catalog, a shifted mixture is repaired by the
+costlier `Crest(Tail(Input))`, and a fixed permutation exhausts the catalog.
+Two explicit transport rows first test the source witness unchanged and only
+then record target re-synthesis. This is finite representation-sensitivity
+evidence, not invariance, general impossibility, BM-F009, or hidden-variable
+discovery. See `../docs/039_native_observer_benchmark_family.md`.
+
 ## Required contract
 
 - Profile is explicit: `vam0-ref-v1` now; `f4-strict` is future-gated and must be

@@ -55,7 +55,11 @@ The current Python implementation proves that Veyra rows are executable, but it 
 - A bounded zero-vs-positive quotient benchmark now gives that native core one
   replayable surprise receipt with integer fit/class gaps and explicit absent
   process custody; it is not BM-F009, general discovery, or theorem evidence.
-- Docs: `docs/003_reference_interpreter.md` through `docs/038_native_observer_surprise_receipt.md` cover interpreter, VAM0/VAMD, optimizer, Core/HL-1 lowering, diagnostics/theorem carriers, native scaffold, v0.8/v0.9 contracts, v1.x/v2.x finite semantics/metadata, the bounded Rust synthesis shadow, and its first replayable finite surprise receipt.
+- A four-member native benchmark-family receipt now records positive mixture,
+  balanced-marginal XOR exhaustion, shifted re-synthesis at cost `+1`, and
+  permuted-representation exhaustion, with source-witness transport tested
+  separately from re-synthesis. All outcomes remain exact-catalog-relative.
+- Docs: `docs/003_reference_interpreter.md` through `docs/039_native_observer_benchmark_family.md` cover interpreter, VAM0/VAMD, optimizer, Core/HL-1 lowering, diagnostics/theorem carriers, native scaffold, v0.8/v0.9 contracts, v1.x/v2.x finite semantics/metadata, the bounded Rust synthesis shadow, its first replayable finite surprise receipt, and the fixed representation-sensitive benchmark family.
 
 ## Boundary
 

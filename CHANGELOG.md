@@ -1,5 +1,16 @@
 # Changelog
 ## [Unreleased] — Changed
+- Added an atomic Rust-native observer benchmark-family receipt over the
+  unchanged pinned 1,565-row grammar. The identity four-state mixture is found
+  by `Crest(Input)` with class saving 2; a two-bit XOR target has exact balanced
+  single-bit contingency tables and exhausts the catalog; shifting the mixture
+  breaks direct witness reuse but re-synthesis finds `Crest(Tail(Input))` at
+  cost `+1`; and a fixed permutation exhausts the catalog. Separate transport
+  rows bind the unchanged source-witness truth tables before target
+  re-synthesis, and exact replay rejects semantic, marginal, terminal, winner,
+  transport, ordering, and cutoff mutations. These are finite grammar-relative
+  calibration outcomes, not BM-F009, hidden-variable discovery, general
+  impossibility, representation invariance, theoremhood, or promotion.
 - Integrated the previously reviewed dependency-free Rust-native shadow of the
   closed R11/R14.1/R14.3b observer-synthesis core under
   `vam_native::observer_synthesis`: typed `Input`/`Tail`/`Crest`/ordered-`Pair`

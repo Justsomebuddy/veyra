@@ -5,6 +5,10 @@
 
 mod ast;
 mod benchmark;
+mod benchmark_marginals;
+mod benchmark_suite;
+mod benchmark_suite_receipt;
+mod benchmark_transport;
 mod budget;
 mod canonical;
 mod cegis;
@@ -20,6 +24,20 @@ pub use benchmark::{
     NativeSurpriseRun, NativeSurpriseScore, NativeSurpriseWitness, NATIVE_SURPRISE_BOUNDARY,
     ZERO_POSITIVE_BENCHMARK_ID,
 };
+pub use benchmark_marginals::NativeBitMarginalBalanceV1;
+pub use benchmark_suite::{
+    native_observer_benchmarks, run_native_benchmark_suite, NativeBenchmarkExpectation,
+    NativeBenchmarkExperimentRun, NativeBenchmarkRowReceiptV1, NativeBenchmarkScore,
+    NativeBenchmarkSuiteReceiptV1, NativeBenchmarkSuiteRun, NativeBenchmarkWinnerReceiptV1,
+    NativeEncodedState, NativeObserverBenchmark, MIXTURE_BENCHMARK_ID,
+    NATIVE_BENCHMARK_SUITE_BOUNDARY, NATIVE_BENCHMARK_SUITE_SCHEMA,
+    PERMUTED_TRANSPORT_BENCHMARK_ID, SHIFT_TRANSPORT_BENCHMARK_ID, XOR_PARITY_BENCHMARK_ID,
+};
+pub use benchmark_suite_receipt::{
+    build_native_benchmark_suite_receipt, canonical_native_benchmark_suite_receipt_bytes,
+    replay_native_benchmark_suite_receipt,
+};
+pub use benchmark_transport::NativeRepresentationTransportReceiptV1;
 pub use budget::{
     BudgetCutoff, BudgetLedger, BudgetLimits, BudgetSnapshot, MAX_CANDIDATES, MAX_CANONICAL_BYTES,
     MAX_EVALUATIONS, MAX_OUTPUT_BYTES,

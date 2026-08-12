@@ -40,7 +40,7 @@ pub struct NativeObserverSurpriseReceiptV1 {
     pub receipt_digest: String,
 }
 
-fn hex_bytes(bytes: &[u8]) -> String {
+pub(super) fn hex_bytes_for_benchmark(bytes: &[u8]) -> String {
     diagnostics::event("SURPRISE_HEX_ENTER", "encoding bounded winner bytes");
     const HEX: &[u8; 16] = b"0123456789abcdef";
     let mut out = String::with_capacity(bytes.len() * 2);
@@ -131,7 +131,7 @@ fn receipt_json(receipt: &NativeObserverSurpriseReceiptV1, include_digest: bool)
         receipt.trace_digest,
         receipt.training_digest,
         receipt.traversed_candidates,
-        hex_bytes(&receipt.winner_canonical),
+        hex_bytes_for_benchmark(&receipt.winner_canonical),
         receipt.winner_cost,
         receipt.winner_depth,
         receipt.winner_digest,
