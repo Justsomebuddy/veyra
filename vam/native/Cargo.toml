@@ -8,6 +8,9 @@ license = "MIT"
 default-run = "vam0-inspect"
 
 [dependencies]
+# `spki` accepts newer base64ct releases whose edition/MSRV exceeds this
+# crate's declared Rust 1.83 boundary. Keep the resolved closure reproducible.
+base64ct = { version = "=1.7.3", default-features = false }
 ed25519-dalek = { version = "=2.2.0", default-features = false, features = ["std", "zeroize"] }
 # Keep the locked dependency closure inside this crate's declared Rust 1.83
 # MSRV; zeroize 1.9 raises its own floor to Rust 1.85.

@@ -55,12 +55,15 @@ Portable compilation and hardened certificate renewal are distinct. See
 
 ## Rust
 
-`vam/native/Cargo.lock` pins `ed25519-dalek 2.2.0`, constrains `zeroize` to
-MSRV-compatible `1.8.2`, and pins the resulting transitive graph for
-the Rust replay-bundle signature verifier. The crate is configured without RNG
+`vam/native/Cargo.lock` pins `ed25519-dalek 2.2.0`, constrains `base64ct` to
+MSRV-compatible `1.7.3` and `zeroize` to MSRV-compatible `1.8.2`, and pins the
+resulting transitive graph for the Rust replay-bundle signature verifier. The
+crate is configured without RNG
 support: signing keys enter only through a borrowed library API and are never
 generated, serialized, or logged; trust anchors remain external. The pinned
-release declares Rust 1.81 compatibility, below this crate's tested MSRV 1.83.
+signing release declares Rust 1.81 compatibility, below this crate's tested
+MSRV 1.83. The direct `base64ct` constraint also prevents a transitive
+edition-2024/Rust-1.85 drift through `spki`.
 `rust-toolchain.toml` selects Rust 1.95.0 with the minimal profile for
 reproduced checks, while `Cargo.toml` declares locked MSRV 1.83. `rustfmt` is
 required for the formatting gate.

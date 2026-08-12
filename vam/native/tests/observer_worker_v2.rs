@@ -2,6 +2,7 @@
 
 use std::path::Path;
 use std::process::Command;
+use std::sync::Mutex;
 
 #[cfg(target_os = "linux")]
 use std::os::fd::AsRawFd;
@@ -15,11 +16,17 @@ fn probe_path() -> &'static Path {
     Path::new(env!("CARGO_BIN_EXE_vam-observer-worker-v2"))
 }
 
+// These tests intentionally manipulate an inheritable process-wide descriptor.
+// Serialize child launches inside this test binary so a parallel sibling cannot
+// accidentally change another probe's inherited-FD result.
+static CHILD_LAUNCH_LOCK: Mutex<()> = Mutex::new(());
+
 #[test]
 fn baseline_child_enforces_local_controls_but_never_mints_parent_custody() {
     if !cfg!(target_os = "linux") {
         return;
     }
+    let _guard = CHILD_LAUNCH_LOCK.lock().unwrap();
     let output = Command::new(probe_path())
         .arg("--baseline-child-probe")
         .env_clear()
@@ -75,6 +82,7 @@ fn delegated_cgroup_path_is_launch_only_and_does_not_self_authorize() {
 
 #[test]
 fn strict_probe_cli_reports_the_same_static_block() {
+    let _guard = CHILD_LAUNCH_LOCK.lock().unwrap();
     let output = Command::new(probe_path())
         .arg("--strict-preflight")
         .env_clear()
@@ -84,8 +92,13 @@ fn strict_probe_cli_reports_the_same_static_block() {
     let report = String::from_utf8(output.stdout).unwrap();
     assert!(report.contains("policy=strict\n"));
     assert!(report.contains("admission=blocked\n"));
-    assert!(report.contains("seccomp=unavailable\n"));
-    assert!(report.contains("namespaces=unavailable\n"));
+    if cfg!(target_os = "linux") {
+        assert!(report.contains("seccomp=unavailable\n"));
+        assert!(report.contains("namespaces=unavailable\n"));
+    } else {
+        assert!(report.contains("seccomp=unsupported-platform\n"));
+        assert!(report.contains("namespaces=unsupported-platform\n"));
+    }
 }
 
 #[test]
@@ -95,6 +108,7 @@ fn baseline_child_detects_an_inherited_descriptor_above_the_old_scan_window() {
     }
     #[cfg(target_os = "linux")]
     {
+        let _guard = CHILD_LAUNCH_LOCK.lock().unwrap();
         let source = std::fs::File::open("/dev/null").unwrap();
         // SAFETY: F_DUPFD duplicates a valid descriptor; the returned owned
         // descriptor is closed after the child finishes.
