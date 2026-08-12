@@ -188,9 +188,15 @@ def test_portable_verification_includes_claim_composition_behavior():
         "tests/test_claim_composition.py",
         "tests/test_claim_composition_adversarial.py",
         "tests/test_claim_composition_export.py",
+        "tests/test_claim_composition_p2.py",
+        "tests/test_claim_composition_properties.py",
+        "tests/test_claim_composition_replay.py",
+        "tests/test_observer_provenance.py",
+        "tests/test_observer_synthesis_python_rust_vector.py",
     } <= set(portable_pytest.command)
     package_smoke = (ROOT / "scripts/package_smoke.py").read_text(encoding="utf-8")
     assert "import src.core.claim_composition" in package_smoke
+    assert "import src.core.observer_provenance" in package_smoke
     logger.debug("test portable claim composition coverage exit")
 
 

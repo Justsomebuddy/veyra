@@ -144,10 +144,37 @@ potentially large original local artifacts. Therefore:
   accepts only canonical bytes that replay against those exact sources;
 - `composition_disclosure_json(...)` is the convenience build-and-render path.
 
-This is a disclosure of a nonpromoted aggregate artifact, not a P2-exportable
-judgment or a self-contained proof of source validity. A recipient must possess
-the exact governed results or externally validated local receipts named by the
-export.
+This is a disclosure of a nonpromoted aggregate artifact, not a P2 judgment or
+a self-contained proof of source validity. A recipient must possess the exact
+governed results or externally validated local receipts named by the export.
+
+`build_composition_p2_premise(...)` now supplies a narrower seam: after fresh
+source-backed receipt replay it creates one `PremiseArtifact` with no P2
+indices and explicit target-contract, license, assessment, source-family, and
+nonpromotion evidence. `validate_composition_p2_premise(...)` replays the exact
+source family before accepting that artifact. No P2 v1 rule consumes its
+`claim-composition-receipt` kind; the registry, literal oracle, certificate, and
+historical entry 90 remain unchanged with `promotions=0`.
+
+For portable transfer, `CompositionReplayPackage` carries the public export
+plus detached local receipt contracts/effects. Its strict canonical decoder
+can replay composition without the original Python objects. This does not
+revalidate an external validator or prove source truth. The bounded
+`scripts/verify_composition.py` CLI reports replay and authentication as
+separate outcomes and never treats omitted authentication as verified.
+
+The decoder also rejects a source family that is complete but not in its
+unique canonical order. Bounded mutation tests cover extra fields, digest and
+receipt-root drift, source reordering, authentication-tag/export-root drift,
+and both replay/authentication byte caps.
+
+`proofs/lean/VeyraClaimComposition.lean` is a small abstract model, with no
+project-declared axioms, of the same finite-conjunction shape. It proves
+field-union preservation, permutation invariance, append decomposition, and
+explicit false flags for P2 promotion, independence, assumption discharge,
+and universalization. It is an internal research candidate: no theorem claims
+that its abstract `Contract` is byte-equivalent to the Python DTO/codec, and it
+has no `THM_*`, certificate, or P2 registry entry.
 
 The JSON cap is 1 MiB. Each dimension accepts at most 256 sorted unique SHA-256
 roots, each contract at most 1024 total roots, and a composition at most 64
@@ -183,8 +210,9 @@ adapter and worker-output precharge cases remain in the capability-gated full
 lane. Wheel smoke imports `src.core.claim_composition` strictly from the
 installed artifact.
 
-- Issue #3 remains the authority for provenance independence; composition says
-  only `MULTIPLE_LOCAL_RECEIPTS`.
+- Document 166 implements issue #3 as a separate finite provenance diagnostic;
+  composition still says only `MULTIPLE_LOCAL_RECEIPTS` and has no automatic
+  independence upgrade.
 - Document 162 governs Comparative Bridge / Structural Separation, not generic
   receipt aggregation.
 - Document 163 governs declared adaptive research-line history; conjunction
@@ -204,7 +232,8 @@ This implementation does not establish:
 - causal, explanatory, objectivity, ontology, novelty, theorem, certificate,
   or promoted-judgment status;
 - trusted chronology, source fidelity, complete disclosure, key identity, or a
-  self-contained executable replay of the original local computations.
+  self-contained executable replay of the original local computations. The
+  replay package reproduces receipt-bound composition, not those computations.
 
 Future composition rules must be closed, bounded, separately reviewed, and
 must replay every contract axis they preserve or explicitly transform.

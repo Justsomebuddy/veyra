@@ -1,6 +1,6 @@
 # Lean proof inventory
 
-This directory contains 42 Lean source modules. The table is exhaustive: status refers to the public claim supported by the source, not merely to the presence of compilable declarations. Exact declaration locations and dependencies are listed in `../../THEOREMS.md`.
+This directory contains 43 Lean source modules. The table is exhaustive: status refers to the public claim supported by the source, not merely to the presence of compilable declarations. Exact released declaration locations and dependencies are listed in `../../THEOREMS.md`.
 
 ## Status vocabulary
 
@@ -15,6 +15,7 @@ This directory contains 42 Lean source modules. The table is exhaustive: status 
 |---|---|---|---|
 | `VeyraAlgebra.lean` | bounded algebra and finite analysis cards | `FORMALLY_PROVED` | `THM_A001_polynomial_identity_coeffs`, `THM_A002_polynomial_eval_at_3`, `THM_A003_linear_equation_unique_solution`, `THM_A004_sampled_continuity_double_0_five_points`, `THM_A005_square_symmetric_drift_3_steps_1_2_3`, `THM_A006_identity_midpoint_area_4_4_8` |
 | `VeyraAllDepthFamily.lean` | periodic all-depth family and restriction laws | `FORMALLY_PROVED` | `THM_D3_LEAN_001_coordinate_total`, `THM_D3_LEAN_002_coordinate_member`, `THM_D3_LEAN_003_restriction_compatible`, `THM_D3_LEAN_004_relation_reflexive`, `THM_D3_LEAN_005_relation_symmetric`, `THM_D3_LEAN_006_relation_transitive`, `THM_D3_LEAN_007_restriction_identity`, `THM_D3_LEAN_008_restriction_composition`, `THM_D3_LEAN_009_restriction_congruence`, `THM_D3_LEAN_010_family_equivalence`, `THM_D3_LEAN_011_constructor_deterministic` |
+| `VeyraClaimComposition.lean` | abstract exact finite-conjunction preservation, permutation, append, and explicit non-upgrade laws | `INTERNAL_RESEARCH_CANDIDATE` | none; intentionally not registered as a public `THM_*` claim |
 | `VeyraCoherentTowers.lean` | conditional all-depth prefix recovery and uniqueness | `FORMALLY_PROVED` | `THM_I1_001_prefix_tower_recovers_stream`, `THM_I1_002_prefix_observers_determine_stream`, `THM_I1_003_prefix_conflict_blocks_global_stream`, `THM_I1_004_modular_addition_preserves_refinement` |
 | `VeyraCombinatorics.lean` | fixed finite binomial card | `FORMALLY_PROVED` | `THM_B001_binomial_symmetry_6_2` |
 | `VeyraCyclic.lean` | finite cyclic and chord cards | `FORMALLY_PROVED` | `THM_C001_cyclic_period`, `THM_C002_chord_symmetry_12_0_3_9` |
@@ -73,14 +74,14 @@ This directory contains 42 Lean source modules. The table is exhaustive: status 
 ## Whole-source compilation
 
 Install `elan` and the exact reviewed toolchain, then compile the complete
-42-source local import graph from the repository root:
+43-source local import graph from the repository root:
 
 ```bash
 elan toolchain install leanprover/lean4:v4.30.0-rc2
 python scripts/check_lean_sources.py --jobs 8
 ```
 
-The harness checks the exact Lean version, validates the 42-file inventory,
+The harness checks the exact Lean version, validates the 43-file inventory,
 builds dependency layers, and writes temporary `.olean` files only under the
 ignored `data/tmp/` tree. Independent modules in each layer compile in parallel.
 

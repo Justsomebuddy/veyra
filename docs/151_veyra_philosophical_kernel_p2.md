@@ -262,7 +262,17 @@ promotions and makes zero ontology claims; it is not an ontological axiom,
 mathematical theorem, object constructor, infinity principle, retroactive
 certificate, codebase-completeness audit, or QA substitute. Existing P1/PΩ
 results do not acquire a stronger status merely because their names occur in
-the rule grammar.
+the rule grammar. Composition receipts may now be replayed into an opaque,
+index-free P2 premise artifact, but no P2 v1 rule consumes that artifact kind;
+premise syntax is not a conclusion.
+
+Issue #3 is implemented separately as the finite diagnostic in document 166.
+It distinguishes externally validator-bound multi-observer agreement from
+policy-relative provenance independence. Clone consensus preserves established
+agreement while refuting independent corroboration when distinct observer
+tokens share a decisive source or control ancestor. Allowed shared basis,
+incomplete ancestry, and decisive ancestry are typed separately; this changes
+neither scoped objectivity nor observer-free truth.
 P1-D2 now makes the infinity boundary executable negatively: two finite evidence
 packages are insufficient for positive introduction, while natural descent, a
 target-reading chooser, and shrinking tails refute three exact implications.

@@ -31,17 +31,18 @@ REQUIRED_SDIST_PREFIXES = (
 
 
 def expected_source_only_payload() -> frozenset[str]:
-    """Return the exact maintained Lean and native source/config payload."""
+    """Return exact maintained Lean, native, and differential-vector payload."""
     logger.debug("package_smoke.expected_source_only_payload entry")
     lean = tuple(sorted((ROOT / "proofs" / "lean").glob("*.lean")))
-    if len(lean) != 42:
+    if len(lean) != 43:
         raise RuntimeError("lean-source-inventory-mismatch")
     native_root = ROOT / "vam" / "native"
     native = tuple(sorted((native_root / "src").rglob("*.rs"))) + tuple(
         native_root / name
         for name in ("Cargo.toml", "Cargo.lock", "rust-toolchain.toml", "README.md")
     )
-    files = (*lean, *native)
+    differential = ROOT / "tests/fixtures/observer_synthesis_python_rust_v1.json"
+    files = (*lean, *native, differential)
     if any(not path.is_file() or path.is_symlink() for path in files):
         raise RuntimeError("source-only-payload-invalid")
     result = frozenset(path.relative_to(ROOT).as_posix() for path in files)
@@ -140,11 +141,12 @@ def installed_import_smoke(wheel: Path, scratch: Path, label: str) -> None:
             "from importlib.resources import files",
             "import src.core",
             "import src.core.claim_composition",
+            "import src.core.observer_provenance",
             "import veyra_sage.all",
             "import vam.src",
             "from pathlib import Path",
             "root = Path(sys.path[0]).resolve()",
-            "for module in (src.core, src.core.claim_composition, veyra_sage.all, vam.src):",
+            "for module in (src.core, src.core.claim_composition, src.core.observer_provenance, veyra_sage.all, vam.src):",
             "    assert Path(module.__file__).resolve().is_relative_to(root)",
             "example = files('vam').joinpath('examples/minimal_echo.vmasm')",
             "assert example.is_file()",

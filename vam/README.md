@@ -46,8 +46,17 @@ The current Python implementation proves that Veyra rows are executable, but it 
 - VAM v2.3 adds the fourth checked local law: `dead-shadow` unused lookup/drop preservation; VAM v2.4 documents executable pre/post witness evidence connecting all four local laws to concrete optimizer examples.
 - VAM v2.5 splits optimizer certificate gates and checked local-law catalog helpers so VAM proof/cert modules stay below the project module-size cap.
 - VAM v2.6-v2.9 add checked `compress-idempotent` rejection/visible-use laws plus executable witnesses for different-observer, obstruction-boundary, and visible-use observer-preservation guards.
-- Docs: `docs/003_reference_interpreter.md` through `docs/036_vam_v2_9_visible_use_observer_law.md` cover interpreter, VAM0/VAMD, optimizer, Core/HL-1 lowering, diagnostics/theorem carriers, native scaffold, v0.8/v0.9 contracts, and v1.x/v2.x finite semantics/metadata.
+- The native observer-synthesis calibration adds a closed Rust R11 AST,
+  byte-identical canonical identities, the pinned R14.1 1,565-row grammar,
+  finite recurrence semantics, counter-bounded train-only CEGIS, and exact
+  Python catalog/winner identities. Its counter-only trace is deliberately
+  native-domain-separated. It is a library shadow, not the default backend or a
+  general-synthesis/performance result.
+- A bounded zero-vs-positive quotient benchmark now gives that native core one
+  replayable surprise receipt with integer fit/class gaps and explicit absent
+  process custody; it is not BM-F009, general discovery, or theorem evidence.
+- Docs: `docs/003_reference_interpreter.md` through `docs/038_native_observer_surprise_receipt.md` cover interpreter, VAM0/VAMD, optimizer, Core/HL-1 lowering, diagnostics/theorem carriers, native scaffold, v0.8/v0.9 contracts, v1.x/v2.x finite semantics/metadata, the bounded Rust synthesis shadow, and its first replayable finite surprise receipt.
 
 ## Boundary
 
-VAM is not yet faster than Python, not a proof assistant, and not a native-performance backend. VAMD is a compact representation and parity target, not a speed result. The Rust executor/parser/optimizer/emission slices and v2.4 pre/post witnesses are parity/evidence checkpoints only, even when they cover VAMD inputs, emitted VAM0 artifacts, multiple optimizer passes, or the checked local-law Lean bridge. VAM is the executable contract that future interpreters, optimizers, and compilers must preserve.
+VAM is not yet faster than Python, not a proof assistant, and not a native-performance backend. VAMD is a compact representation and parity target, not a speed result. The Rust executor/parser/optimizer/emission and bounded synthesis slices plus v2.4 pre/post witnesses are parity/evidence checkpoints only, even when they cover VAMD inputs, emitted VAM0 artifacts, multiple optimizer passes, a finite synthesized winner, or the checked local-law Lean bridge. VAM is the executable contract that future interpreters, optimizers, and compilers must preserve.

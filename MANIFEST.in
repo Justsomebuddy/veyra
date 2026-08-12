@@ -8,7 +8,7 @@ recursive-include notebooks *.md
 recursive-include requirements *.txt
 recursive-include proofs *.md *.lean *.tex
 recursive-include scripts *.py
-recursive-include tests *.py
+recursive-include tests *.py *.json
 recursive-include vam *.md *.py *.rs *.toml *.lock *.vmasm
 prune vam/native/target
 recursive-include data *.md *.json

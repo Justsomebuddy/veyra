@@ -24,6 +24,7 @@ LEAN_ROOT = ROOT / "proofs" / "lean"
 TMP_ROOT = ROOT / "data" / "tmp"
 DEFAULT_TOOLCHAIN = "leanprover/lean4:v4.30.0-rc2"
 EXPECTED_VERSION = "4.30.0-rc2"
+EXPECTED_SOURCE_COUNT = 43
 IMPORT_PATTERN = re.compile(r"^import\s+(.+?)\s*$", re.MULTILINE)
 
 
@@ -83,7 +84,7 @@ def source_graph(root: Path = LEAN_ROOT) -> dict[Path, tuple[Path, ...]]:
             by_stem[name] for row in IMPORT_PATTERN.findall(text) for name in row.split() if name in by_stem
         )
         graph[source] = imports
-    if len(graph) != 42:
+    if len(graph) != EXPECTED_SOURCE_COUNT:
         logger.error("check_lean_sources inventory mismatch count=%d", len(graph))
         raise RuntimeError("lean-source-inventory-mismatch")
     logger.debug("check_lean_sources.source_graph exit sources=%d", len(graph))
@@ -152,7 +153,7 @@ def compile_source(
 
 
 def run(argv: list[str]) -> int:
-    """Run the pinned 42-source gate with dependency-aware parallelism."""
+    """Run the pinned complete-source gate with dependency-aware parallelism."""
     logger.debug("check_lean_sources.run entry argc=%d", len(argv))
     args = parse_args(argv)
     if args.jobs < 1 or args.jobs > 32:
@@ -166,14 +167,15 @@ def run(argv: list[str]) -> int:
     started = time.perf_counter()
     passed = failed = 0
     print(
-        f"[3/4] Compiling 42 sources in {len(layers)} dependency layers with {args.jobs} workers",
+        f"[3/4] Compiling {EXPECTED_SOURCE_COUNT} sources in "
+        f"{len(layers)} dependency layers with {args.jobs} workers",
         flush=True,
     )
     with tempfile.TemporaryDirectory(prefix="lean-all-", dir=TMP_ROOT) as directory:
         output_root = Path(directory)
         env = os.environ.copy()
         env["LEAN_PATH"] = os.pathsep.join((str(output_root), str(LEAN_ROOT)))
-        with tqdm(total=42, desc="Lean sources", unit="source") as progress:
+        with tqdm(total=EXPECTED_SOURCE_COUNT, desc="Lean sources", unit="source") as progress:
             for layer in layers:
                 with ThreadPoolExecutor(max_workers=min(args.jobs, len(layer))) as executor:
                     futures = {
@@ -207,14 +209,14 @@ def run(argv: list[str]) -> int:
                 if layer_failed:
                     break
     elapsed = time.perf_counter() - started
-    skipped = 42 - passed - failed
+    skipped = EXPECTED_SOURCE_COUNT - passed - failed
     print("[4/4] Whole-source Lean summary", flush=True)
     print(
         f"[done] passed={passed} failed={failed} skipped={skipped} "
         f"elapsed={elapsed:.2f}s speed={passed / elapsed if elapsed else 0:.2f} source/s",
         flush=True,
     )
-    result = 0 if passed == 42 and failed == 0 else 1
+    result = 0 if passed == EXPECTED_SOURCE_COUNT and failed == 0 else 1
     logger.debug(
         "check_lean_sources.run exit rc=%d passed=%d failed=%d skipped=%d",
         result,

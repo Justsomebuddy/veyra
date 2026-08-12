@@ -6,7 +6,7 @@ speed.
 
 ## Current parity slice
 
-This directory contains a Rust crate with `vam0-inspect`. It validates VAM0/VAMD magic/version/length/CRC, decodes the current JSON or dense instruction payload, executes current `vam0-ref-v1` rows, and emits deterministic JSON reports. Python remains the oracle. v1.3 adds CLI VAMD execution/report parity; v1.5 extends bounded optimizer parity across observer alias, duplicate `COMPRESS`, idempotent `COMPRESS`, and dead-shadow pruning. v1.6 accepts VAMD only at the decoded semantic report boundary. v1.7 emits optimized VAM0 frames only for VAM0 input plus exact `observer-alias-v1`. v1.8/v1.9 add witness, proof-obligation, and metamorphic regression evidence around those boundaries; VAMD optimized-frame emission remains blocked. Performance work remains future work.
+This directory contains a Rust crate with `vam0-inspect`. It validates VAM0/VAMD magic/version/length/CRC, decodes the current JSON or dense instruction payload, executes current `vam0-ref-v1` rows, and emits deterministic JSON reports. Python remains the oracle. v1.3 adds CLI VAMD execution/report parity; v1.5 extends bounded optimizer parity across observer alias, duplicate `COMPRESS`, idempotent `COMPRESS`, and dead-shadow pruning. v1.6 accepts VAMD only at the decoded semantic report boundary. v1.7 emits optimized VAM0 frames only for VAM0 input plus exact `observer-alias-v1`. v1.8/v1.9 add witness, proof-obligation, and metamorphic regression evidence around those boundaries; VAMD optimized-frame emission remains blocked. The separate `vam_native::observer_synthesis` library surface now reproduces the closed R11 AST, exact R14.1 catalog and deterministic default R14.3b calibration without changing CLI/backend dispatch. Performance work remains future work.
 
 Run manually:
 
@@ -38,6 +38,46 @@ VAM0/VAMD bytes -> Rust decoder -> Rust interpreter -> canonical trace/certs
 ```
 
 It must keep matching the Python reference stack for VAM0 v1, VAMD golden fixtures, and any enabled native optimizer slice before LLVM, GPU, FPGA, or speed-focused work is allowed.
+
+## Native observer-synthesis calibration
+
+`vam_native::observer_synthesis` supplies a dependency-free, closed finite
+surface:
+
+- typed `Input`, `Tail`, `Crest`, and ordered `Pair` observers;
+- Python-byte-identical canonical observer JSON and SHA-256 identities;
+- exact R14.1 cost/depth enumeration with pinned strata
+  `1/3/8/27/104/358/1064`, 1,565 candidates, 488,550 retained bytes, and the
+  published catalog digest;
+- finite unary-recurrence `observe`/`echo` semantics with explicit
+  `tail-of-silence` paths;
+- monotone candidate/byte/evaluation/output precharges and deterministic
+  train-only CEGIS;
+- the exact default calibration winner `Crest(Input)` at ordinal 1 and a
+  native-domain-separated counter-only trace binding.
+
+Set `VEYRA_NATIVE_DEBUG=1` to emit bounded observer-synthesis lifecycle,
+rejection, cutoff, and terminal-state diagnostics to stderr. Diagnostics are
+off by default and never include observer payloads, canonical bytes, or
+digests.
+
+This base catalog/CEGIS surface is an opt-in Rust library shadow. It has no CLI,
+worker isolation, wall-clock/address-space enforcement, train/holdout trial
+suite, statistical discovery, or default-backend dispatch. Its finite winner
+is a finite Python-identity calibration, not novelty, general synthesis, superiority, or a
+speed result. Because wall-clock and process-address-space limits are not
+enforced here, its limits binding explicitly records both as unenforced and its
+trace cannot reuse the stronger Python worker trace root. See
+`../docs/037_native_observer_synthesis_core.md`.
+
+A bounded receipt layer adds one fixed zero-vs-positive quotient
+benchmark and `NativeObserverSurpriseReceiptV1`. `Input` has three response
+classes and zero saving; the pinned `Crest(Input)` winner has two classes and
+one saving while satisfying both fixed obligations. The receipt freshly
+replays the existing catalog/CEGIS path and retains the explicitly unenforced
+wall-clock/process-AS flags. It is not BM-F009, general discovery, holdout
+evidence, a signed artifact, or a backend promotion. See
+`../docs/038_native_observer_surprise_receipt.md`.
 
 ## Required contract
 

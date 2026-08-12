@@ -1,5 +1,48 @@
 # Changelog
 ## [Unreleased] — Changed
+- Integrated the previously reviewed dependency-free Rust-native shadow of the
+  closed R11/R14.1/R14.3b observer-synthesis core under
+  `vam_native::observer_synthesis`: typed `Input`/`Tail`/`Crest`/ordered-`Pair`
+  observers, byte-exact canonical identities, the pinned 1,565-row grammar,
+  finite recurrence semantics, monotone counter budgets, and deterministic
+  train-only CEGIS. Python remains the oracle; the weaker in-process native
+  trace is domain-separated, diagnostics are opt-in/static/payload-free, and no
+  backend dispatch, performance, general synthesis, theorem, or certificate
+  claim follows.
+- Extended that Rust surface with one deterministic zero-vs-positive quotient
+  benchmark and a canonical replayable receipt. The surface `Input` observer
+  has three classes/one of two obligations/zero saving; the pinned ordinal-1
+  `Crest(Input)` winner has two classes/two obligations/one saving. Receipt
+  replay reconstructs the exact catalog, cases, limits, CEGIS run, witness, and
+  integer gap, rejects tampering/cutoffs, and records absent wall-clock/process-
+  AS enforcement. This is not BM-F009, hidden-variable discovery, holdout,
+  signing, theoremhood, performance, or backend promotion.
+- Added one canonical Python/Rust identity vector for the shared closed grammar
+  and winner. Both implementations independently reproduce the exact catalog
+  count/bytes/digest and `Crest(Input)` ordinal/cost/depth/bytes/digest; this is
+  differential identity evidence, not whole-receipt or execution equivalence.
+- Added a narrow nonpromoting composition-to-P2 seam: a freshly replayed
+  `CompositionReceipt` can become an index-free `PremiseArtifact` whose exact
+  target, license, assessment, source family, and permanent nonpromotion are
+  bound as evidence. No P2 v1 rule consumes the new artifact kind, so the P2
+  registry/oracle/certificate remain unchanged with zero promotions. Added a
+  canonical detached-local-receipt replay package and bounded independent CLI;
+  replay proves neither external validator trust nor source truth, and omitted
+  authentication is reported as `NOT_CHECKED`.
+- Added an internal Lean model, with no project-declared axioms, of exact finite
+  conjunction. It proves
+  field-union preservation, permutation invariance, append decomposition, and
+  explicit non-upgrade flags for P2 promotion, independence, assumption
+  discharge, and universalization. The model is not yet a byte-level Python
+  receipt bridge and is intentionally not a public `THM_*`/certificate entry.
+- Implemented issue #3 as a separate bounded observer-provenance diagnostic.
+  An external scoped-agreement binding remains orthogonal to a typed finite DAG:
+  shared decisive source/control ancestry refutes policy-relative independence,
+  allowed shared basis does not, and incomplete ancestry remains OPEN. The clone
+  consensus fixture therefore preserves `multi_observer_agreement=ESTABLISHED`
+  while returning `independent_corroboration=NOT_ESTABLISHED`. This is not
+  statistical/causal independence, complete provenance disclosure,
+  observer-free truth, objectivity, theoremhood, or P2 promotion.
 - Added the issue-18 claim-composition boundary immediately upstream of P2-S.
   Assumption-bearing receipts retain their exact external validator identity;
   governed Phase-III results derive structural evaluation-completion contracts
