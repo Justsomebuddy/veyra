@@ -1,5 +1,10 @@
 # Changelog
 ## [Unreleased] — Changed
+- Updated the portable GitHub Actions trust roots from deprecated Node.js 20
+  revisions to immutable official Node.js 24 commits: `actions/checkout`
+  v7.0.1 and `actions/setup-python` v7.0.0. Least-privilege `contents: read`,
+  disabled checkout credential persistence, fixed runner labels, and bounded
+  job timeouts remain unchanged.
 - Implemented the representational half of `OD-A12` from issue #14: a bounded
   canonical research-line DAG now binds experiment/design/data/outcome roots,
   parents, visible prior outcomes, and adaptation reasons while keeping local

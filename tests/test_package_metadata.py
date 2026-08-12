@@ -161,6 +161,16 @@ def test_hosted_matrix_is_fixed_bounded_and_immutable():
         assert row in workflow
     uses = re.findall(r"uses:\s+[^@\s]+@([^\s#]+)", workflow)
     assert uses and all(re.fullmatch(r"[0-9a-f]{40}", revision) for revision in uses)
+    assert workflow.count(
+        "actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1"
+    ) == 3
+    assert workflow.count(
+        "actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0"
+    ) == 2
+    assert workflow.count("persist-credentials: false") == 3
+    assert re.search(r"(?m)^permissions:\n  contents: read$", workflow)
+    assert "11bd71901bbe5b1630ceea73d27597364c9af683" not in workflow
+    assert "42375524e23c412d93fb67b49958b491fce71c38" not in workflow
     assert "pull_request_target" not in workflow
     logger.debug("test hosted matrix contract exit actions=%d", len(uses))
 
