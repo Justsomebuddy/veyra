@@ -146,6 +146,14 @@ select OS families, not immutable image revisions; the concrete hosted image
 revision remains mutable workflow-run evidence, so later runs must be evaluated
 independently rather than inheriting this result.
 
+The action layer uses immutable official Node.js 24 revisions:
+`actions/checkout` v7.0.1 at
+`3d3c42e5aac5ba805825da76410c181273ba90b1` and `actions/setup-python`
+v7.0.0 at `5fda3b95a4ea91299a34e894583c3862153e4b97`. Version comments are
+descriptive only; the full commit identifiers are the executable trust roots.
+This replaces the deprecated Node.js 20 action runtime without broadening
+workflow permissions or enabling persisted checkout credentials.
+
 The final diff-integrity stage checks unstaged changes, the staged index, and
 the current commit object. On a clean commit-bound run, the commit-object check
 remains non-vacuous even though both working-tree diffs are empty.

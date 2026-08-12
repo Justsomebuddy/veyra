@@ -78,6 +78,7 @@ def z4_parity_descent() -> ObserverDescent:
         doctrine,
         z4_successor(),
         observer_by_name(doctrine, "parity"),
+        target_doctrine=doctrine,
     )
     logger.debug("z4_parity_descent exit residual=%d", len(result.residual))
     return result
@@ -91,6 +92,7 @@ def z4_threshold_descent() -> ObserverDescent:
         doctrine,
         z4_successor(),
         observer_by_name(doctrine, "threshold"),
+        target_doctrine=doctrine,
     )
     logger.debug(
         "z4_threshold_descent exit descended=%s residual=%d",
@@ -110,6 +112,7 @@ def z4_two_tact_balance() -> ResidualChainBalance:
         z4_successor("succ-1"),
         z4_successor("succ-2"),
         observer_by_name(doctrine, "threshold"),
+        target_doctrine=doctrine,
     )
     logger.debug(
         "z4_two_tact_balance exit balanced=%s synergy=%d",

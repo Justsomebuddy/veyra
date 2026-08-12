@@ -147,7 +147,12 @@ def pullback_observer(
     transition: FiniteTransition,
     target_observer: FiniteObserver,
 ) -> FiniteObserver:
-    """Pull a total observer response backward through a transition."""
+    """Pull a total observer backward without asserting doctrine admission.
+
+    This is the deliberately ambient, lower-level operation.  The public R16
+    descent boundary is :func:`observer_descent`, which additionally requires
+    and validates the target doctrine containing ``target_observer``.
+    """
     transition_name, source, target, _ = snapshot_transition(transition)
     observer_name, _, observer_cost = snapshot_observer(target_observer)
     logger.debug(
@@ -169,18 +174,63 @@ def pullback_observer(
     return result
 
 
+def _admitted_target_observer(
+    target_doctrine: FiniteObserverDoctrine,
+    target_observer: FiniteObserver,
+) -> tuple[str, tuple[State, ...], FiniteObserver]:
+    """Return a detached exact target only when its doctrine admits it."""
+    doctrine_name, carrier, observers = snapshot_doctrine(target_doctrine)
+    target_snapshot = snapshot_observer(target_observer)
+    logger.debug(
+        "_admitted_target_observer entry doctrine=%s observer=%s",
+        doctrine_name,
+        target_snapshot[0],
+    )
+    validate_doctrine(target_doctrine)
+    admitted = tuple(snapshot_observer(observer) for observer in observers)
+    matches = tuple(candidate for candidate in admitted if candidate == target_snapshot)
+    if len(matches) != 1:
+        logger.error(
+            "_admitted_target_observer rejected doctrine=%s observer=%s matches=%d",
+            doctrine_name,
+            target_snapshot[0],
+            len(matches),
+        )
+        raise ValueError("descent-target-observer-not-admitted")
+    result = FiniteObserver(*target_snapshot)
+    logger.debug(
+        "_admitted_target_observer exit doctrine=%s observer=%s",
+        doctrine_name,
+        result.name,
+    )
+    return doctrine_name, carrier, result
+
+
 def observer_descent(
     source_doctrine: FiniteObserverDoctrine,
     transition: FiniteTransition,
     target_observer: FiniteObserver,
+    *,
+    target_doctrine: FiniteObserverDoctrine,
 ) -> ObserverDescent:
-    """Compute a unique greatest admitted source observer, or fail closed."""
+    """Descend one target admitted by its exact finite doctrine.
+
+    Membership compares the complete canonical value (name, responses, cost),
+    not Python object identity.  The admitted value is detached before the
+    computation, so reconstructed validated DTOs remain usable without
+    trusting caller-owned state after admission.
+    """
     doctrine_name, carrier, observers = snapshot_doctrine(source_doctrine)
-    transition_name, source, _, _ = snapshot_transition(transition)
+    transition_name, source, transition_target, _ = snapshot_transition(transition)
     target_name, _, _ = snapshot_observer(target_observer)
+    target_doctrine_name, target_carrier, admitted_target = (
+        _admitted_target_observer(target_doctrine, target_observer)
+    )
     logger.debug(
-        "observer_descent entry doctrine=%s transition=%s target=%s",
+        "observer_descent entry source_doctrine=%s target_doctrine=%s "
+        "transition=%s target=%s",
         doctrine_name,
+        target_doctrine_name,
         transition_name,
         target_name,
     )
@@ -188,7 +238,10 @@ def observer_descent(
     if source != carrier:
         logger.error("observer_descent source carrier mismatch")
         raise ValueError("descent-source-carrier-mismatch")
-    raw_observer = pullback_observer(transition, target_observer)
+    if transition_target != target_carrier:
+        logger.error("observer_descent target doctrine carrier mismatch")
+        raise ValueError("descent-target-doctrine-carrier-mismatch")
+    raw_observer = pullback_observer(transition, admitted_target)
     raw = distinction_set(raw_observer, source)
     rows = tuple(
         (observer, distinction_set(observer, carrier))

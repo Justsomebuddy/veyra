@@ -160,9 +160,9 @@ Typed de Bruijn syntax, substitution, independent inference, canonical graph rep
 ## DEF-404–409 / THM-R12-001–009 — R12.4–R12.5 intrinsic execution and formal preservation — `VAMI` v1 supplies bounded 13-tag raw-IR framing and independent Python/Rust structural parity; the R11-continuous, 28-source/10-stage/9-object Lean bridge proves recurrence decode/injectivity, primitive/observer/observation/echo transport, obstruction prefixing, and tail/silence blockage only under explicit Python-aligned 2047/2048/4096/128 resource predicates. Universal helper lemmas are not correspondence evidence. Capability is only `preserves` with `formal-bridge/general` evidence: CRC/receipts are unauthenticated, arbitrary raw-IR reflection/equivalence, certificate/Sage/R8 promotion/taxonomy/legacy changes do not follow; see docs 136–137.
 ## DEF-410–413 / THM-R13-001–005 — Promoted intrinsic observer-echo nucleus — The exact doc139 artifacts/report connect R7 soundness, the R9 image, R11 readiness, and R12 lowering only when `observerBounded`, `r11RecurrenceBounded`, and `echoOutcomeBounded` hold; fixed tail/crest rows discharge public R12 wrappers. The second exact R8 contract promotes only this bounded `intrinsic-observer-echo`; broad `echo` remains witness-only and `proof_complete=False`.
 ## DEF-414–424 — R16 observer-descent and crest-braid bundle
-Finite observer doctrines, extensional distinction/refinement, admitted joins, pullback, greatest descent, relational residual, synergy, chain-balance witness, tact profile, minimal crest, and finite crest braid. `DEF-425` refinement-atlas completion remains conjectural; see docs 141–142.
+Finite observer doctrines, extensional distinction/refinement, admitted joins, pullback, greatest descent, relational residual, synergy, chain-balance witness, tact profile, minimal crest, and finite crest braid. The executable descent/chain boundaries now require the declared target doctrine and exact canonical `q in O_Y`; the ambient pullback helper alone supplies no membership evidence. `DEF-425` refinement-atlas completion remains conjectural; see docs 141–142.
 ## THM-R16-001–003 — Residual partition, disjointness, and zero-synergy chain rule
-For finite doctrines where every named direct/staged descent exists, the rows give two disjoint decompositions of the same distinction debt. The abstract predicate spine is Lean-checked; Python internal-join validation does not prove descent totality, and the concrete bridge is not R8 proof/promotion evidence.
+For finite doctrines where the target is exactly admitted and every named direct/staged descent exists, the rows give two disjoint decompositions of the same distinction debt. The abstract predicate spine is Lean-checked; Python target admission and internal-join validation do not prove descent totality, and the concrete bridge is not R8 proof/promotion evidence.
 ## DEF-426–430 / THM-S7-001 — Bounded topological observer gap
 `FiniteDAG`, the S7 degree-factor signature, its declared factor class, exact topological-order count, and the five-row isolated-extension family define a finite separation. `THM-S7-001` states only that the two named eight-vertex incidence DAGs, after adjoining `t=0..4` labelled isolates, have equal declared baseline signatures and unequal linear-extension counts. Exact subset-DP and certificate `observer_gap_topology_s7` check the rows; no all-DAG, minimality, discovery, or superiority claim follows. See doc 143.
 ## DEF-431–436 / THM-Q11-001–004 — Finite tensor/Born/unitarity bundle
@@ -170,7 +170,7 @@ For finite doctrines where every named direct/staged descent exists, the rows gi
 ## DEF-437–445 — VAM bounded completion/obstruction bundle
 Visible-use guard rows, an always-open whole-optimizer theorem skeleton, symbolic `DECLARE_FORALL`, capture-safe total specialization, bounded native parity status, and explicit optimized-VAMD emission policy close the ambiguous roadmap families with executable statuses. They are definitions and obligation ledgers, not a whole-optimizer theorem, proof-producing quantifier semantics, native proof-grade parity, emitted VAMD frame, or performance backend. See doc 145.
 ## DEF-446 — R16 best-lower reduction audit and partiality boundary
-`best_lower_approximation` independently computes a unique greatest admitted lower relation when it exists; `z4_reduction_audit` checks `16/16` descents and `64/64` composition precision gaps. A five-state counterexample proves that finite bottom plus internal joins does not make descent total. R16.6 is closed by rejection of novelty promotion, not by a non-reduction theorem. See doc 146.
+`best_lower_approximation` independently computes a unique greatest admitted lower relation when it exists; `z4_reduction_audit` checks `16/16` target-doctrine-bound descents and `64/64` composition precision gaps. A five-state source counterexample with its raw partition admitted by a separate valid target doctrine proves that finite bottom plus internal joins does not make descent total. R16.6 is closed by rejection of novelty promotion, not by a non-reduction theorem. See doc 146.
 ## X8 `THM_S001/S002`, `THM_P002/P003`, `THM_B001` — Fixed arithmetic cards
 Lean checks only the declared `(1,3,5)` mean, two fixed variance numerators, canonical four-outcome union/independence counts, and `choose 6 2 = choose 6 4 = 15`; no general statistics/probability/measure/combinatorics theorem. See doc 109.
 ## X8 `THM_G002`–`G005`, `THM_A004`–`A006`, `THM_C002` — Final fixed geometry/analysis/cyclic cards
@@ -208,5 +208,42 @@ Exact finite prefix/residue windows report first restriction obstructions; Lean 
 `prime_power_reduction_network*` binds exact arithmetic-derived finite reduction maps and strict integer-family separators to a captured symbolic thin `Natᵒᵖ` theory. `VeyraPrimePowerReductionNetwork.lean` proves reduction identity and composition, comparison-proof witness independence, equality of all canonical same-endpoint finite paths, the compatible-family observer square, and the two separator equations. The 37-row/54-edge ledger closes at `Classical.choice`, `propext`, and `Quot.sound`. No completion judgment, final PPCP theorem, C2 premise, inverse translation, generic observer network, ontic/objective identity, or promotion follows.
 ## DEF-683–704 / THM-P3N3-001–002 / THM-P3N4-001 — Exact local realization and scoped equality
 N3 realizes the exact N1 family in the exact PΩ2 carrier and proves every coordinate. N4 consumes an independently sourced all-depth premise plus PΩ2 joint separation and derives only ledger-relative scoped carrier equality. The Lean sources, public aliases, focused functional/adversarial/formal/public tests, and the release-bundle certificate are present in this publication; status is **FORMALLY_PROVED + PUBLICLY_VALIDATED**. This does not establish generic completion, topology, absolute identity, N5 adoption, or physical/foundation-independent infinity.
+## DEF-705–709 — Relative P1→R16 observer realization
+`RealizationContext` binds one external finite state-to-recurrence scope plus
+explicit totalization, cost, and join-closure policies; structured replay rows
+retain exact R11 `Ready|Blocked` payloads; normalized partitions and
+minimum-generator provenance derive one bounded R16 bottom/join completion;
+the ordered first representative records only a context-local section; and the
+terminal witness is accepted only after authoritative full R11 replay and exact
+R16 reconstruction. This is level-1 executable evidence, not a canonical map,
+echo embedding, functor, natural transformation, quotient transport, ready-only
+image theorem, Lean result, authentication, or promotion. See doc 161.
+## DEF-710–716 — Comparative bridge and finite G4 quotient-conflict classification
+The separate structural ledger assigns only `KNOWN_ANALOGUE`,
+`CANDIDATE_BRIDGE`, `REDUCED`, or `OPEN` to bridges and only
+`CANDIDATE_SEPARATION`, `STRICTLY_SEPARATED`, or `OPEN` to explicit predicate
+separations. `CB-G4-001` reduces one declared finite G4 exact-gluing existence
+problem to matching-family amalgamation for the set-valued presheaf
+`V ↦ EqRel(V)`. Conditional on existence, `Q=U/E*` carries the conflict graph;
+exact gluings correspond to conflict-independent partitions of `Q`, and
+uniqueness is equivalent to completeness. `SEP-G4-001` separates existence
+from uniqueness by disjoint singletons. This is executable/finite and uses two
+digest-bound nonpromoted Lean helpers; no new registered theorem card, general
+sheaf/descent/topology result, novelty, nonexpressibility, or superiority follows.
+See doc 162.
+## DEF-717–723 — Adaptive research-line validity boundary
+`ExperimentLineageNode` and `ExperimentResearchLine` bind a bounded canonical
+declared experiment DAG; disjoint design modes expose isolated, predeclared,
+and outcome-adaptive continuation; orthogonal status values separate local
+governed-result replay, family recording relative to the declaration, and
+adaptive validity; `AdaptiveInferencePolicy` names a generic external policy
+without verifying its mathematics; `ResearchLineAssessment` never licenses
+significance or population wording; `AdaptiveRetryWitness` computes exact
+`1-(1-alpha)^m` under independent-null assumptions; and the independent
+Python/real-Sage oracle checks the complement against the binomial sum. These
+are definitions and executable counterpressure, not a registered theorem or
+certificate. They prove neither disclosure completeness, chronology,
+independence of a real workflow, family-error control, anytime validity,
+causality, objecthood, nor generalization. See doc 163.
 ## THM-P3N6W-001–004 — Prime-power uniform late distinction — internal research candidate
 `VeyraPrimePowerInformation.lean` constructively packages, for each requested `k`, the zero/`p^(k+1)` carrier pair agreeing through `k` and separating at `k+1`. The four Lean declarations are checked formal source results, but this publication contains no release-bundle certificate or public export for the family. Status is **INTERNAL_RESEARCH_CANDIDATE**, not a released registry theorem. It establishes neither ΩN completed indexing, `InformationUnbounded`, cardinality nor uncountability.

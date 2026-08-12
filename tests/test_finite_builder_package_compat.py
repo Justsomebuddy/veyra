@@ -2,14 +2,19 @@
 
 import importlib
 import logging
+from pathlib import Path
 import pickle
 import subprocess
 import sys
 
 import src.core.construction.finite_builder.codec as canonical_codec
 import src.core.construction.finite_builder.digest as canonical_digest
+import src.core.construction.finite_builder.runtime as canonical_runtime
+import src.core.construction.finite_builder.validation as canonical_validation
 import src.core.finite_builder_codec as compatibility_codec
 import src.core.finite_builder_digest as compatibility_digest
+import src.core.finite_builder_runtime as compatibility_runtime
+import src.core.finite_builder_validation as compatibility_validation
 
 logger = logging.getLogger(__name__)
 
@@ -59,7 +64,38 @@ DIGEST_DEFINED_SYMBOLS = (
     "_source_digest",
     "_trace_digest",
 )
-_MISSING = object()
+RUNTIME_DEFINED_SYMBOLS = (
+    "FiniteBuilderReplayError",
+    "_recurrence_depth",
+    "_output_recurrence_commitment",
+    "replay_finite_builder",
+    "snapshot_replay_artifact",
+)
+VALIDATION_DEFINED_SYMBOLS = (
+    "FiniteBuilderValidationError",
+    "_reject",
+    "_identifier",
+    "_hex_digest",
+    "_snapshot_doctrine",
+    "_snapshot_builder_expr",
+    "_builder_shape",
+    "_snapshot_seed",
+    "_snapshot_program",
+    "_snapshot_source",
+    "_snapshot_target_stage",
+)
+RUNTIME_CONSUMERS = (
+    "src/core/__init__.py",
+    "src/core/certify_finite_construction.py",
+    "src/core/finite_construction.py",
+)
+VALIDATION_CONSUMERS = (
+    "src/core/__init__.py",
+    "src/core/finite_construction.py",
+    "src/core/scoped_formation_preflight.py",
+    "src/core/scoped_formation_result_validation.py",
+    "src/core/scoped_formation_scope.py",
+)
 
 
 def test_flat_compatibility_modules_reexport_identical_symbols():
@@ -98,6 +134,65 @@ def test_flat_and_canonical_imports_are_true_module_aliases_with_legacy_provenan
     logger.debug("test_true_module_aliases_with_legacy_provenance exit")
 
 
+def test_runtime_and_validation_are_true_aliases_with_legacy_provenance():
+    """Relocated execution modules retain module, symbol, and logger identity."""
+    logger.debug("test_runtime_validation_true_aliases entry")
+    assert compatibility_runtime is canonical_runtime
+    assert compatibility_validation is canonical_validation
+    assert sys.modules["src.core.finite_builder_runtime"] is canonical_runtime
+    assert sys.modules["src.core.finite_builder_validation"] is canonical_validation
+    for name in RUNTIME_DEFINED_SYMBOLS:
+        assert getattr(compatibility_runtime, name) is getattr(canonical_runtime, name)
+        assert getattr(canonical_runtime, name).__module__ == (
+            "src.core.finite_builder_runtime"
+        )
+    for name in VALIDATION_DEFINED_SYMBOLS:
+        assert getattr(compatibility_validation, name) is getattr(
+            canonical_validation, name
+        )
+        assert getattr(canonical_validation, name).__module__ == (
+            "src.core.finite_builder_validation"
+        )
+    assert canonical_runtime.logger.name == "src.core.finite_builder_runtime"
+    assert canonical_validation.logger.name == "src.core.finite_builder_validation"
+    logger.debug("test_runtime_validation_true_aliases exit")
+
+
+def test_runtime_validation_root_exports_remain_compatible():
+    """Stable root API bindings point at the canonical execution modules."""
+    logger.debug("test_runtime_validation_root_exports entry")
+    core = importlib.import_module("src.core")
+    for name in (
+        "FiniteBuilderReplayError",
+        "replay_finite_builder",
+        "snapshot_replay_artifact",
+    ):
+        assert getattr(core, name) is getattr(canonical_runtime, name)
+    assert core.FiniteBuilderValidationError is (
+        canonical_validation.FiniteBuilderValidationError
+    )
+    logger.debug("test_runtime_validation_root_exports exit")
+
+
+def test_known_production_consumers_use_canonical_execution_paths():
+    """The reviewed production ledger no longer depends on flat adapters."""
+    logger.debug("test_canonical_execution_consumer_ledger entry")
+    root = Path(__file__).resolve().parents[1]
+    for relative_path in RUNTIME_CONSUMERS:
+        source = (root / relative_path).read_text(encoding="utf-8")
+        assert "from .finite_builder_runtime import" not in source, relative_path
+        assert "construction.finite_builder.runtime import" in source, relative_path
+    for relative_path in VALIDATION_CONSUMERS:
+        source = (root / relative_path).read_text(encoding="utf-8")
+        assert "from .finite_builder_validation import" not in source, relative_path
+        assert "construction.finite_builder.validation import" in source, relative_path
+    runtime_source = (
+        root / "src/core/construction/finite_builder/runtime.py"
+    ).read_text(encoding="utf-8")
+    assert "from .validation import" in runtime_source
+    logger.debug("test_canonical_execution_consumer_ledger exit")
+
+
 def test_legacy_provenance_remains_pickle_resolvable():
     """Legacy-qualified functions and exceptions survive pickle resolution."""
     logger.debug("test_legacy_provenance_remains_pickle_resolvable entry")
@@ -111,6 +206,20 @@ def test_legacy_provenance_remains_pickle_resolvable():
     restored = pickle.loads(pickle.dumps(error))
     assert type(restored) is canonical_codec.FiniteBuilderCodecError
     assert restored.args == ("pickle-boundary",)
+    for module, names in (
+        (canonical_runtime, RUNTIME_DEFINED_SYMBOLS[1:]),
+        (canonical_validation, VALIDATION_DEFINED_SYMBOLS[1:]),
+    ):
+        for name in names:
+            value = getattr(module, name)
+            assert pickle.loads(pickle.dumps(value)) is value
+    for error_type in (
+        canonical_runtime.FiniteBuilderReplayError,
+        canonical_validation.FiniteBuilderValidationError,
+    ):
+        restored = pickle.loads(pickle.dumps(error_type("pickle-boundary")))
+        assert type(restored) is error_type
+        assert restored.args == ("pickle-boundary",)
     logger.debug("test_legacy_provenance_remains_pickle_resolvable exit")
 
 
@@ -158,6 +267,59 @@ def test_standard_legacy_imports_set_parent_attributes_in_fresh_interpreters():
     logger.debug("test_standard_legacy_imports_set_parent_attributes exit")
 
 
+def test_runtime_validation_import_orders_and_reload_keep_true_aliases():
+    """Both execution-module import orders preserve compatibility identity."""
+    logger.debug("test_runtime_validation_import_orders entry")
+    prelude = "\n".join((
+        "import importlib, sys",
+        "runtime_old = 'src.core.finite_builder_runtime'",
+        "runtime_new = 'src.core.construction.finite_builder.runtime'",
+        "validation_old = 'src.core.finite_builder_validation'",
+        "validation_new = 'src.core.construction.finite_builder.validation'",
+    )) + "\n"
+    assertions = "\n".join((
+        "old_runtime = importlib.import_module(runtime_old)",
+        "new_runtime = importlib.import_module(runtime_new)",
+        "old_validation = importlib.import_module(validation_old)",
+        "new_validation = importlib.import_module(validation_new)",
+        "assert old_runtime is new_runtime",
+        "assert old_validation is new_validation",
+        "import src.core",
+        "assert src.core.finite_builder_runtime is new_runtime",
+        "assert src.core.finite_builder_validation is new_validation",
+        "assert importlib.reload(old_runtime) is new_runtime",
+        "assert importlib.reload(old_validation) is new_validation",
+        "assert importlib.import_module(runtime_old) is new_runtime",
+        "assert importlib.import_module(validation_old) is new_validation",
+        "assert new_runtime.replay_finite_builder.__module__ == runtime_old",
+        "assert new_validation._snapshot_source.__module__ == validation_old",
+        "assert new_runtime.logger.name == runtime_old",
+        "assert new_validation.logger.name == validation_old",
+    ))
+    scenarios = (
+        prelude + (
+            "print('[1/2] canonical-first execution modules')\n"
+            "importlib.import_module(runtime_new)\n"
+            "importlib.import_module(validation_new)\n"
+            "assert runtime_old not in sys.modules\n"
+            "assert validation_old not in sys.modules\n"
+            "print('[2/2] loading legacy adapters')\n"
+        ) + assertions,
+        prelude + (
+            "print('[1/1] legacy-first execution modules')\n"
+            "importlib.import_module(runtime_old)\n"
+            "importlib.import_module(validation_old)\n"
+        ) + assertions,
+    )
+    for scenario in scenarios:
+        result = subprocess.run(
+            [sys.executable, "-c", scenario],
+            capture_output=True, text=True, check=False, timeout=60,
+        )
+        assert result.returncode == 0, result.stderr
+    logger.debug("test_runtime_validation_import_orders exit")
+
+
 def test_pickle_triggers_legacy_adapters_from_canonical_only_interpreter():
     """Legacy-qualified pickle globals load adapters on first demand."""
     logger.debug("test_pickle_triggers_legacy_adapters entry")
@@ -165,19 +327,31 @@ def test_pickle_triggers_legacy_adapters_from_canonical_only_interpreter():
         "import importlib, pickle, sys",
         "codec_old = 'src.core.finite_builder_codec'",
         "digest_old = 'src.core.finite_builder_digest'",
+        "runtime_old = 'src.core.finite_builder_runtime'",
+        "validation_old = 'src.core.finite_builder_validation'",
         "codec = importlib.import_module(",
         "    'src.core.construction.finite_builder.codec')",
         "digest = importlib.import_module(",
         "    'src.core.construction.finite_builder.digest')",
+        "runtime = importlib.import_module(",
+        "    'src.core.construction.finite_builder.runtime')",
+        "validation = importlib.import_module(",
+        "    'src.core.construction.finite_builder.validation')",
         "assert codec_old not in sys.modules",
         "assert digest_old not in sys.modules",
+        "assert runtime_old not in sys.modules",
+        "assert validation_old not in sys.modules",
         "print('[1/2] pickling legacy-qualified globals')",
         "assert pickle.loads(pickle.dumps(codec._decode_builder)) is codec._decode_builder",
         "assert pickle.loads(pickle.dumps(digest._digest_tokens)) is digest._digest_tokens",
+        "assert pickle.loads(pickle.dumps(runtime.replay_finite_builder)) is runtime.replay_finite_builder",
+        "assert pickle.loads(pickle.dumps(validation._snapshot_source)) is validation._snapshot_source",
         "print('[2/2] checking adapter-created parent attributes')",
         "import src.core",
         "assert src.core.finite_builder_codec is codec",
         "assert src.core.finite_builder_digest is digest",
+        "assert src.core.finite_builder_runtime is runtime",
+        "assert src.core.finite_builder_validation is validation",
     ))
     result = subprocess.run(
         [sys.executable, "-c", script], capture_output=True, text=True, check=False
@@ -227,38 +401,47 @@ def test_legacy_first_import_and_reload_keep_true_aliases_in_fresh_interpreter()
     logger.debug("test_legacy_first_import_and_reload exit")
 
 
-def test_legacy_monkeypatch_precedes_fresh_canonical_consumer_import(monkeypatch):
-    """A legacy seam patch is visible to a newly imported canonical consumer."""
+def test_legacy_monkeypatch_precedes_fresh_canonical_consumer_import():
+    """Legacy codec and validation seams reach a fresh canonical runtime."""
     logger.debug("test_legacy_monkeypatch_before_fresh_consumer entry")
-    module_name = "src.core.finite_builder_runtime"
-    package = importlib.import_module("src.core")
-    original_module = sys.modules.get(module_name, _MISSING)
-    original_attribute = getattr(package, "finite_builder_runtime", _MISSING)
-    original_decode = canonical_codec._decode_builder
-
-    def intercepted_decode(value):
-        logger.debug("intercepted_decode entry")
-        result = original_decode(value)
-        logger.debug("intercepted_decode exit")
-        return result
-
-    with monkeypatch.context() as patch:
-        patch.setattr(compatibility_codec, "_decode_builder", intercepted_decode)
-        try:
-            sys.modules.pop(module_name, None)
-            if hasattr(package, "finite_builder_runtime"):
-                delattr(package, "finite_builder_runtime")
-            fresh = importlib.import_module(module_name)
-            assert fresh._decode_builder is intercepted_decode
-        finally:
-            sys.modules.pop(module_name, None)
-            if original_module is not _MISSING:
-                sys.modules[module_name] = original_module
-            if original_attribute is _MISSING:
-                if hasattr(package, "finite_builder_runtime"):
-                    delattr(package, "finite_builder_runtime")
-            else:
-                package.finite_builder_runtime = original_attribute
+    script = "\n".join((
+        "import importlib, sys",
+        "import src.core",
+        "codec = importlib.import_module('src.core.finite_builder_codec')",
+        "validation = importlib.import_module('src.core.finite_builder_validation')",
+        "runtime = importlib.import_module('src.core.finite_builder_runtime')",
+        "original_decode = codec._decode_builder",
+        "original_snapshot = validation._snapshot_doctrine",
+        "def intercepted_decode(value):",
+        "    return original_decode(value)",
+        "def intercepted_snapshot(value):",
+        "    return original_snapshot(value)",
+        "codec._decode_builder = intercepted_decode",
+        "validation._snapshot_doctrine = intercepted_snapshot",
+        "runtime_old = 'src.core.finite_builder_runtime'",
+        "runtime_new = 'src.core.construction.finite_builder.runtime'",
+        "sys.modules.pop(runtime_old, None)",
+        "sys.modules.pop(runtime_new, None)",
+        "for package_name, attribute in ((",
+        "    'src.core', 'finite_builder_runtime'), (",
+        "    'src.core.construction.finite_builder', 'runtime')):",
+        "    package = importlib.import_module(package_name)",
+        "    if hasattr(package, attribute):",
+        "        delattr(package, attribute)",
+        "print('[1/2] importing fresh canonical runtime')",
+        "fresh = importlib.import_module(runtime_new)",
+        "assert fresh._decode_builder is intercepted_decode",
+        "assert fresh._snapshot_doctrine is intercepted_snapshot",
+        "print('[2/2] loading legacy runtime alias')",
+        "assert importlib.import_module(runtime_old) is fresh",
+        "assert src.core.finite_builder_runtime is fresh",
+    ))
+    result = subprocess.run(
+        [sys.executable, "-c", script],
+        capture_output=True, text=True, check=False, timeout=60,
+    )
+    assert result.returncode == 0, result.stderr
+    assert "[2/2] loading legacy runtime alias" in result.stdout
     logger.debug("test_legacy_monkeypatch_before_fresh_consumer exit")
 
 

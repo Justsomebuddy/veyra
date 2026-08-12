@@ -31,6 +31,7 @@ def test_each_z4_descent_is_the_best_admitted_lower_approximation(
         doctrine,
         z4_shift(shift),
         observer_by_name(doctrine, target_name),
+        target_doctrine=doctrine,
     )
 
 
@@ -66,6 +67,14 @@ def test_internal_join_semilattice_does_not_make_descent_total():
         ),
     )
     raw_ambient_join = observer("ambient-join", (0, 1, 2, 3, 3))
+    target_doctrine = FiniteObserverDoctrine(
+        "ambient-target-chain",
+        carrier,
+        (
+            observer("target-bottom", (0, 0, 0, 0, 0)),
+            raw_ambient_join,
+        ),
+    )
     identity = FiniteTransition(
         "id",
         carrier,
@@ -73,5 +82,11 @@ def test_internal_join_semilattice_does_not_make_descent_total():
         tuple(zip(carrier, carrier, strict=True)),
     )
     validate_doctrine(doctrine)
+    validate_doctrine(target_doctrine)
     with pytest.raises(ValueError, match="descent-not-unique"):
-        observer_descent(doctrine, identity, raw_ambient_join)
+        observer_descent(
+            doctrine,
+            identity,
+            raw_ambient_join,
+            target_doctrine=target_doctrine,
+        )

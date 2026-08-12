@@ -100,7 +100,12 @@ def test_dynamic_containers_and_relations_are_not_laundered():
         pullback_pairs(z4_shift(1), {(0, 1)})
     with pytest.raises(TypeError, match="observer-name-requires-exact-string"):
         observer_by_name(doctrine, 1)
-    assert observer_descent(doctrine, z4_shift(1), parity).residual == frozenset()
+    assert observer_descent(
+        doctrine,
+        z4_shift(1),
+        parity,
+        target_doctrine=doctrine,
+    ).residual == frozenset()
 
 
 def test_duplicate_graph_sources_and_images_outside_target_fail_closed():

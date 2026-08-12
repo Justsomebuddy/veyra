@@ -1,5 +1,76 @@
 # Changelog
 ## [Unreleased] — Changed
+- Updated the portable GitHub Actions trust roots from deprecated Node.js 20
+  revisions to immutable official Node.js 24 commits: `actions/checkout`
+  v7.0.1 and `actions/setup-python` v7.0.0. Least-privilege `contents: read`,
+  disabled checkout credential persistence, fixed runner labels, and bounded
+  job timeouts remain unchanged.
+- Implemented the representational half of `OD-A12` from issue #14: a bounded
+  canonical research-line DAG now binds experiment/design/data/outcome roots,
+  parents, visible prior outcomes, and adaptation reasons while keeping local
+  validity, family recording relative to the declaration, and adaptive
+  validity orthogonal. Generic named policies remain unverified and cannot
+  license significance or population wording. An exact independent-null
+  adaptive-retry witness plus Python/real-Sage binomial cross-check reproduces
+  `1-(1-alpha)^m` (about `0.6415` for twenty `alpha=0.05` attempts). This adds
+  no theorem/certificate, trusted chronology, disclosure-completeness,
+  independence, family-error, anytime-valid, causal, or generalization claim.
+- Implemented issue #5 as a sibling Comparative Bridge and Structural
+  Separation ledger without changing F5's fixed eight rows. The first exact
+  bridge reduces the declared finite G4 existence/effectivity problem to
+  matching-family amalgamation for `V ↦ EqRel(V)`; a bounded conflict graph on
+  `Q=U/E*` classifies every exact gluing and makes uniqueness equivalent to
+  completeness, conditional on existence. Disjoint singletons strictly
+  separate existence from uniqueness. An independent Python oracle plus real
+  Sage 10.7 `SetPartitions` reproduce all `1275` assignments through `n≤3`
+  (`491` gluable, `441` unique), and two digest-bound nonpromoted Lean helpers
+  cover pair-coverage uniqueness and the nonunique witness. This adds one
+  certificate row (102 total), not a general sheaf/descent/topology theorem,
+  novelty, nonexpressibility, or superiority claim.
+- Hardened supplied P1→R16 witness validation: evaluation states now receive an
+  aggregate 32,768-node/2 MiB precharge before per-row capture, excessive JSON
+  nesting fails through the closed realization error boundary, and the portable
+  test lane now exercises the full observer-realization behavior on every
+  hosted operating system.
+- Added the explicit relative P1→R16 realization requested in issue #13. A
+  fingerprint-bound external context now declares the finite state/recurrence
+  scope, ordered observer costs, structured R11 totalization, and finite join
+  completion policy. The checker replays every canonical P1 program on every
+  bound input, retains full `Ready`/`Blocked` payloads, derives bottom and joins
+  with source-separated provenance, validates the unchanged R16 doctrine, and
+  rejects even digest-consistent supplied rows that do not match fresh replay.
+  Context-order class representatives are local witnesses only: no canonical
+  P1→R16 map, echo embedding, functoriality, quotient transport, ready-only
+  image theorem, authentication, Lean proof, novelty, or promotion is claimed.
+  Aggregate closure costs and non-UTF-8 carrier text also fail closed before
+  canonical encoding; the total source cost is context-bounded, expanded state
+  traversal and total replay payload are precharged, and equal-cost generator
+  ties follow declared source order. The witness is a deterministic typed value,
+  not a standalone portable wire artifact.
+- Closed the R16 target-admission ambiguity reported in issue #10. The public
+  `observer_descent`, residual-chain, and per-row reduction boundaries now
+  require an explicit keyword-only target doctrine, validate its full
+  finite-doctrine contract and exact carrier, and admit the target only by
+  canonical `(name, responses, cost)` value. Detached exact DTO copies remain valid;
+  name-only, extensional-only, reordered, response-drifted, cost-drifted, and
+  external targets fail closed. `pullback_observer` remains the explicitly
+  ambient low-level operation and is not membership evidence. This is an
+  intentional public signature correction; callers must pass
+  `target_doctrine=...`, and any stable package release containing it requires
+  a major-version migration.
+- Completed one bounded, semantics-preserving package-layout wave by moving the
+  finite-builder validation and replay implementations beside their existing
+  canonical codec, digest, and types modules. The flat runtime/validation paths
+  remain physical identity-preserving aliases with legacy pickle, logger,
+  reload, root-export, and monkeypatch compatibility. Added static gates for
+  Git-custodied Core artifact paths, resolvable relative imports, valid
+  path-shaped inline Markdown links, and repository-shaped source citations; a
+  concise subject navigation page now complements the unchanged chronological
+  documentation paths. Unexpected
+  certificate exceptions are regression-tested to propagate and make the CLI
+  fail. This deliberately does not add catch-all “unavailable” conversion,
+  blanket platform skips, a global import hook, trust-root renewal, weakened
+  verification, or bulk source/test/document renames.
 - Added a separate strict Phase-III observer-discovery experiment under
   `src.core.observer_discovery_v3` without changing or exporting it from the
   Phase-I/II root APIs: bounded canonical three-way schemas; exact invertible

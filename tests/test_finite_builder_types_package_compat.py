@@ -50,8 +50,8 @@ CANONICAL_CONSUMERS = (
     "src/core/certify_finite_construction.py",
     "src/core/certify_productivity.py",
     "src/core/certify_scoped_formation.py",
-    "src/core/finite_builder_runtime.py",
-    "src/core/finite_builder_validation.py",
+    "src/core/construction/finite_builder/runtime.py",
+    "src/core/construction/finite_builder/validation.py",
     "src/core/finite_construction.py",
     "src/core/observer_actualization.py",
     "src/core/observer_actualization_certificate_fixture.py",
@@ -156,7 +156,10 @@ def test_known_core_consumers_use_the_canonical_types_path():
     for relative_path in CANONICAL_CONSUMERS:
         source = (root / relative_path).read_text(encoding="utf-8")
         assert "finite_builder_types" not in source, relative_path
-        assert "construction.finite_builder.types" in source, relative_path
+        if relative_path.startswith("src/core/construction/finite_builder/"):
+            assert "from .types import" in source, relative_path
+        else:
+            assert "construction.finite_builder.types" in source, relative_path
     codec_source = (root / "src/core/construction/finite_builder/codec.py").read_text(encoding="utf-8")
     assert "from .types import" in codec_source
     logger.debug("test_known_core_consumers_use_canonical_path exit")

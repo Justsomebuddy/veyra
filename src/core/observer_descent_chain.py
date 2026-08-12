@@ -59,29 +59,49 @@ def residual_chain_balance(
     first: FiniteTransition,
     second: FiniteTransition,
     target_observer: FiniteObserver,
+    *,
+    target_doctrine: FiniteObserverDoctrine,
 ) -> ResidualChainBalance:
-    """Evaluate the exact VODC residual-chain balance with synergy."""
+    """Evaluate the exact typed VODC residual-chain balance with synergy."""
     _, middle_carrier, _ = snapshot_doctrine(middle_doctrine)
+    target_doctrine_name, _, _ = snapshot_doctrine(target_doctrine)
     first_name, _, first_target, _ = snapshot_transition(first)
     second_name, second_source, _, _ = snapshot_transition(second)
     target_name, _, _ = snapshot_observer(target_observer)
     logger.debug(
-        "residual_chain_balance entry first=%s second=%s target=%s",
+        "residual_chain_balance entry first=%s second=%s "
+        "target_doctrine=%s target=%s",
         first_name,
         second_name,
+        target_doctrine_name,
         target_name,
     )
     if first_target != middle_carrier or second_source != middle_carrier:
         logger.error("residual_chain_balance middle carrier mismatch")
         raise ValueError("chain-middle-carrier-mismatch")
-    second_descent = observer_descent(middle_doctrine, second, target_observer)
+    second_descent = observer_descent(
+        middle_doctrine,
+        second,
+        target_observer,
+        target_doctrine=target_doctrine,
+    )
     middle_observer = observer_by_name(
         middle_doctrine,
         second_descent.descended_observer,
     )
-    first_descent = observer_descent(source_doctrine, first, middle_observer)
+    first_descent = observer_descent(
+        source_doctrine,
+        first,
+        middle_observer,
+        target_doctrine=middle_doctrine,
+    )
     composite = compose_transitions(first, second)
-    composite_descent = observer_descent(source_doctrine, composite, target_observer)
+    composite_descent = observer_descent(
+        source_doctrine,
+        composite,
+        target_observer,
+        target_doctrine=target_doctrine,
+    )
     pulled = pullback_pairs(first, second_descent.residual)
     synergy = (
         composite_descent.admitted_distinctions

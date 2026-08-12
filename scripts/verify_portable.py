@@ -29,6 +29,7 @@ PORTABLE_TESTS = (
     "tests/test_modes.py",
     "tests/test_core_language.py",
     "tests/test_core_native_semantics.py",
+    "tests/test_observer_realization.py",
     "tests/test_finite_builder_package_compat.py",
     "tests/test_finite_builder_types_package_compat.py",
     "tests/test_platform_imports.py",

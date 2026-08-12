@@ -7,7 +7,7 @@ import logging
 
 from .confluence_aggregate_catalog_validation import snapshot_finite_confluence_catalog
 from .confluence_validation import snapshot_finite_diagram_source
-from .finite_builder_validation import _snapshot_source, _snapshot_target_stage
+from .construction.finite_builder.validation import _snapshot_source, _snapshot_target_stage
 from .positive_ontology_doctrine import snapshot_observer_doctrine, stage_commitment
 from .scoped_formation_codec import (
     ScopedFormationValidationError, canonical_bytes, digest, exact_tuple,

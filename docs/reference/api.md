@@ -23,7 +23,7 @@ This curated aggregate is not an inventory of every split implementation module.
 | `src.core.certify_deduction_chain` | Executable deduction-chain proof-row certificate helper. |
 | `src.core.certify_likelihood` | Likelihood geometry certificate helper. |
 | `src.core.certify_observer_synthesis_v2` | R14 finite 5+1 observer-synthesis audit certificate; not theorem evidence or promotion. |
-| `src.core.certify_observer_descent` | R16 bounded finite doctrine/shift-chain certificate; not novelty, universality, or R8 promotion evidence. |
+| `src.core.certify_observer_descent` | R16 bounded finite doctrine/shift-chain certificate with an exact negative target-admission gate; not novelty, universality, or R8 promotion evidence. |
 | `src.core.certify_status_promotion` | P2-S level-1 schema meta-validation certificate; `promotions=0`, `ontology_claims=0`. |
 | `src.core.certify_surprise_search` | S3 bounded expanded-baseline surprise search certificate helper. |
 | `src.core.certify_surprise_debruijn` | S6 de Bruijn trail-adjacency surprise certificate helper. |
@@ -160,17 +160,26 @@ This curated aggregate is not an inventory of every split implementation module.
 | `src.core.observer_discovery_v3.ledger` / `ledger.store` / `ledger.types` | Same-user cooperating-process `RESERVED→CLAIMED→CONSUMED/FAILED` local ledger with claim-time burn and per-store reservation/capability/test-root uniqueness; no anti-rollback, trusted time, or operator non-bypass. |
 | `src.core.observer_discovery_v3.service` / `service.governed` / `service.types` | Claim-first root validation and closed-worker execution with linked terminal ledger evidence; `READY` is evaluation completion, not statistical confirmation. |
 | `src.core.observer_discovery_v3.replay` / `replay.package` / `replay.types` | Canonical roots-only `AUDIT_RECEIPT` with shared-key HMAC or optional Ed25519 verification; key trust is external and the package is not independently executable replay. |
+| `src.core.observer_discovery_v3.lineage` / `lineage.protocol` / `lineage.types` / `lineage.statistics` | Canonical bounded declared experiment-family DAG, orthogonal local/family/adaptive status assessment, generic named-policy boundary, and exact adaptive-retry witness; no trusted chronology, disclosure-completeness, policy verification, significance, or population claim. |
 | `src.core.observer_synthesis_v2_pipeline` | Atomic five-trial-child plus one-receipt-child R14 finite evidence pipeline. |
 | `src.core.observer_descent_types` | Exact slotted R16 doctrine, transition, descent, balance, and finite crest-braid DTOs. |
 | `src.core.observer_descent_validation` | Bounded exact snapshots and closed schema IDs for R16 finite data. |
-| `src.core.observer_descent` | Finite distinction/refinement, pullback, greatest admitted descent, residual, and transition composition. |
-| `src.core.observer_descent_chain` | Residual-chain synergy balance plus derived finite crest braid and response receipts. |
+| `src.core.observer_descent` | Ambient exact-total pullback plus target-doctrine-bound finite distinction/refinement, greatest admitted descent, residual, and transition composition. `observer_descent(..., target_doctrine=...)` requires exact canonical membership; raw pullback alone is not admission evidence. |
+| `src.core.observer_descent_chain` | Target-doctrine-bound residual-chain precision-gap balance plus derived finite crest braid and response receipts. |
 | `src.core.observer_descent_examples` | Canonical `Z/4` parity/threshold/synergy/closed-braid witnesses. |
-| `src.core.observer_descent_reduction` | Independent best-lower audit, 16/16 finite reduction, composition precision-gap accounting, and no-promotion status. |
+| `src.core.observer_descent_reduction` | Target-doctrine-bound independent best-lower audit, 16/16 finite reduction, composition precision-gap accounting, and no-promotion status. |
+| `src.core.observer_realization_types` | Exact external context, structured replay, finite-closure provenance, and witness DTOs for the relative P1→R16 contract. |
+| `src.core.observer_realization_validation` | Exact-type, context-digest, local-section, R16-doctrine, and witness-integrity gates, including aggregate supplied-evaluation-state precharge and closed canonical-JSON recursion handling. |
+| `src.core.observer_realization` | Authoritative all-row R11 replay, tagged totalization, bounded minimum-generator finite join completion, and exact witness verification; no canonical functor or quotient transport. |
+| `src.core.certify_observer_realization` | Level-1 blocked/ready finite realization certificate; not Lean, authentication, theoremhood, or promotion evidence. |
 | `src.core.observer_gap_topology` | Declared degree-factor observer class, exact topological-order counter, five-row S7 family, and `THM-S7-001` card. |
 | `src.core.observer_patch_atlas` | Finite observer patches, partition-valued local sections, generated echo closure, exact gluing criterion, and triangle obstruction. |
 | `src.core.observer_patch_validation` | Exact-type structural validation for canonical finite G4 patch/atlas/section values. |
-| `src.core.certify_observer_patch_atlas` | Full-byte-digest-bound three-symbol Lean evidence and the finite G4 atlas certificate. |
+| `src.core.observer_patch_gluing_classification` / `observer_patch_gluing_types` | Bounded quotient-conflict graph, all exact-gluing classification, uniqueness verdict, and disjoint-singleton nonuniqueness witness; no general sheaf claim. |
+| `src.core.comparative_bridge_ledger` / `comparative_ledger_types` | Independent structural bridge statuses and three-row ledger; F5 remains the fixed eight-row result comparison. |
+| `src.core.structural_separation_ledger` | Predicate-separation statuses and the finite existence-versus-uniqueness witness; no expressivity or superiority claim. |
+| `src.core.certify_observer_patch_atlas` | Full-byte-digest-bound three registered symbols plus two nonpromoted Lean helpers and the finite G4 atlas certificate. |
+| `src.core.certify_comparative_ledgers` | Level-1 bridge/separation catalog and evidence-boundary certificate. |
 | `src.core.infinity_prefix_types` / `infinity_prefix_validation` / `infinity_prefix` | Exact finite prefix-window DTOs, fail-closed shape gates, periodic observations, coherence reports, and first restriction obstruction. |
 | `src.core.padic_residue_types` / `padic_residue_validation` / `padic_residue_tower` | Exact finite prime-power residue windows, canonical integer shadows, projections, first obstruction, and equal-shape coherent arithmetic. |
 | `src.core.certify_infinity_i1` | Full-byte-digest-bound `THM_I1_001..004` evidence plus `observer_infinity_i1`; no Sage/layer/R8 or inverse-limit-carrier effect. |
@@ -205,8 +214,7 @@ This curated aggregate is not an inventory of every split implementation module.
 | `src.core.observer_relation_request` / `validation` / `preflight` | Exact source/scope/proposal construction, hostile validation, and all-bound precharge before R11/P1-A semantics. |
 | `src.core.observer_relation_replay` / `laws` / `translation` / `triangles` / `runtime` | Fresh stage replay, complete ordered pair laws, exact classification, raw P1-A/proposal triangle checks, loss separation, and judgment assembly. |
 | `src.core.observer_relation_result_validation` / `certify_observer_relations`; `certify_observer_network` | Fresh P1-A2/P3-T revalidation and separate L1 certificates; P3-T has 18 attacks/promotions 0 and proves no prime-power N2, universal observer order, ontic identity, or promotion. |
-| `src.core.construction.finite_builder.codec` / `digest` / `types` | Canonical P1-B finite-builder codec, commitments, `SeedRef`/`PulseStep`, seed/program/source/replay DTOs, formal-generability status, and closed nonclaim enums. Legacy `src.core.finite_builder_*` paths remain identity-preserving compatibility aliases. |
-| `src.core.finite_builder_runtime` | Fresh target-free replay plus exact artifact revalidation; deterministic commitments with fresh stage identities. |
+| `src.core.construction.finite_builder.codec` / `digest` / `types` / `validation` / `runtime` | Canonical P1-B finite-builder codec, commitments, DTOs, fail-closed snapshots, fresh target-free replay, and exact artifact revalidation. Legacy `src.core.finite_builder_*` paths remain identity-preserving compatibility aliases with unchanged pickle and logger provenance. |
 | `src.core.finite_construction` | P1-B seed/program/source constructors, unital/associative closed-expression composition, replay-before-target formal-generability judgment, and judgment revalidation. |
 | `src.core.certify_finite_construction` | Provisional level-1 P1-B certificate surface; not ontic genesis, chronology, target independence, scoped formation, confluence, productivity, all-depth, or PΩ. |
 | `src.core.confluence` / types / validation / path / preflight / runtime | P1-C1 finite DTOs and generic doctrine-bound construction/replay for one exact direct-echo fork; higher statuses stay OPEN. |

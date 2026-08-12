@@ -11,7 +11,7 @@ from .scoped_formation_codec import (
 from .scoped_formation_components import expected_component_keys
 from .scoped_formation_g4 import g4_response_check_count
 from .observer_patch_validation import LocalObserverSection
-from .finite_builder_validation import _snapshot_target_stage
+from .construction.finite_builder.validation import _snapshot_target_stage
 from .positive_ontology_doctrine import stage_commitment
 from .positive_ontology_types import OntologyStage
 from .scoped_formation_preflight import snapshot_formation_request

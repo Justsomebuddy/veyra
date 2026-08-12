@@ -90,6 +90,7 @@ def test_wheel_package_discovery_is_explicit_and_bounded():
         "src.core.observer_discovery_v3",
         "src.core.observer_discovery_v3.dsl",
         "src.core.observer_discovery_v3.ledger",
+        "src.core.observer_discovery_v3.lineage",
         "src.core.observer_discovery_v3.replay",
         "src.core.observer_discovery_v3.schema",
         "src.core.observer_discovery_v3.service",
@@ -132,6 +133,14 @@ def test_portable_verification_steps_are_time_bounded():
     logger.debug("test portable timeouts exit count=%d", len(planned))
 
 
+def test_portable_verification_includes_observer_realization_behavior():
+    """The portable matrix must exercise the context-relative R16 behavior."""
+    logger.debug("test portable observer realization coverage entry")
+    portable_pytest = next(step for step in portable_steps() if step.name == "Portable pytest")
+    assert "tests/test_observer_realization.py" in portable_pytest.command
+    logger.debug("test portable observer realization coverage exit")
+
+
 def test_hosted_matrix_is_fixed_bounded_and_immutable():
     """Portable CI must name hosts, Python patches, bounds, and action objects."""
     logger.debug("test hosted matrix contract entry")
@@ -152,6 +161,16 @@ def test_hosted_matrix_is_fixed_bounded_and_immutable():
         assert row in workflow
     uses = re.findall(r"uses:\s+[^@\s]+@([^\s#]+)", workflow)
     assert uses and all(re.fullmatch(r"[0-9a-f]{40}", revision) for revision in uses)
+    assert workflow.count(
+        "actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1"
+    ) == 3
+    assert workflow.count(
+        "actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0"
+    ) == 2
+    assert workflow.count("persist-credentials: false") == 3
+    assert re.search(r"(?m)^permissions:\n  contents: read$", workflow)
+    assert "11bd71901bbe5b1630ceea73d27597364c9af683" not in workflow
+    assert "42375524e23c412d93fb67b49958b491fce71c38" not in workflow
     assert "pull_request_target" not in workflow
     logger.debug("test hosted matrix contract exit actions=%d", len(uses))
 

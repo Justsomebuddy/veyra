@@ -6,6 +6,8 @@
 
 **Implementation:** `src/core/observer_patch_atlas.py`
 
+**Classification:** `src/core/observer_patch_gluing_classification.py`
+
 **Lean:** `proofs/lean/VeyraObserverPatchAtlas.lean`
 
 ## Purpose
@@ -74,16 +76,35 @@ all pass and exact global gluing fails.
 - `THM_G4_003_triangle_exact_gluing_impossible` proves that no transitive global
   relation can have all three exact restrictions.
 
+## EqRel bridge and uniqueness classification
+
+On one declared finite cover, G4 exact-gluing existence is exactly the
+matching-family amalgamation question for the set-valued presheaf
+`V ↦ EqRel(V)`. This is an existence/effectivity reduction, not a general sheaf,
+descent, topology, or stack implementation.
+
+Conditional on existence, set `Q=U/E*` and join two quotient classes when one
+patch meets both. Exact gluings are in bijection with conflict-independent
+partitions of `Q`; uniqueness holds exactly when the conflict graph is complete.
+The executable classifier also brute-forces every global partition within its
+eight-node bound and rejects any disagreement with the constructed bijection.
+
+Disjoint singleton patches show that existence does not imply uniqueness: both
+identity and universal relations restrict exactly. The pair-coverage uniqueness
+condition and this nonuniqueness witness are digest-bound Lean helpers, not new
+registered `THM_G4_*` cards. See
+[`162_comparative_bridge_separation_ledger.md`](162_comparative_bridge_separation_ledger.md).
+
 ## Verification boundary
 
 Focused tests cover constructive gluing, exact restrictions, overlap mismatch,
 invalid direct-constructor shapes, missing sections, and the three-patch
 obstruction. Certificate `observer_patch_atlas_g4` binds the entire Lean file to
-SHA-256 `b7907ee4…e0bcd26`, rejects mismatch before Lean, compiles only exact
+SHA-256 `6e0b011f…f07038c`, rejects mismatch before Lean, compiles only exact
 captured bytes with the pinned `leanprover/lean4:v4.30.0-rc2` toolchain, and
-rereads continuity afterward. It adds one suite row (76 total) without changing
-the 36-layer, 93-Sage-export, 41-notebook/280-cell, or `2/4/25/5` ledgers. The
-original frozen 75-certificate K0/Sage gate remains separate.
+rereads continuity afterward. It checks three registered theorems plus two
+nonpromoted helpers. The historical 76/75 counts in this G4 release slice remain
+historical; the current whole-project suite is documented separately.
 
 ## Related material
 

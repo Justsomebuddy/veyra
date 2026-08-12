@@ -17,15 +17,20 @@ from .observer_patch_atlas import (
     observer_patch_atlas,
     triangle_counterexample,
 )
+from .observer_patch_gluing_classification import disjoint_singleton_nonuniqueness
 from .paths import repository_path
 
 logger = logging.getLogger(__name__)
 
-G4_LEAN_SHA256 = "b7907ee428ae9a580c076fc34e1b71faaedc0ffb711c88fe2890ab648e0bcd26"
+G4_LEAN_SHA256 = "6e0b011f61c8f6093973efe61577aac82b2848564ea87675fdfdd5fe5f07038c"
 G4_LEAN_SYMBOLS = (
     "THM_G4_001_exact_gluing_exists_iff_no_local_contradiction",
     "THM_G4_002_triangle_singleton_overlaps_pass",
     "THM_G4_003_triangle_exact_gluing_impossible",
+)
+G4_LEAN_HELPER_SYMBOLS = (
+    "g4_generated_pair_coverage_unique_exact_gluing",
+    "g4_disjoint_singletons_exact_gluing_not_unique",
 )
 
 
@@ -40,6 +45,8 @@ class ObserverPatchLeanEvidence:
     lean_status: str
     symbols: tuple[str, ...]
     symbols_exact: bool
+    helper_symbols: tuple[str, ...]
+    helpers_exact: bool
     continuous: bool
 
 
@@ -60,7 +67,7 @@ def observer_patch_atlas_lean_evidence() -> ObserverPatchLeanEvidence:
 
 
 def certify_observer_patch_atlas_g4() -> Certificate:
-    """Certify one exact gluing, the triangle obstruction, and three Lean laws."""
+    """Certify exact, blocked, and nonunique G4 cases plus Lean evidence."""
     logger.debug("certify_observer_patch_atlas_g4 entry")
     patches = (observer_patch("AB", ("a", "b")), observer_patch("BC", ("b", "c")))
     atlas = observer_patch_atlas(("a", "b", "c"), patches)
@@ -71,6 +78,7 @@ def certify_observer_patch_atlas_g4() -> Certificate:
     valid_criterion = exact_gluing_criterion(atlas, sections)
     valid_witness = exact_gluing_relation(atlas, sections)
     triangle = triangle_counterexample()
+    nonunique = disjoint_singleton_nonuniqueness()
     lean = observer_patch_atlas_lean_evidence()
     triangle_row = triangle.contradictions[0] if len(triangle.contradictions) == 1 else None
     passed = (
@@ -89,15 +97,24 @@ def certify_observer_patch_atlas_g4() -> Certificate:
         and lean.lean_status == "checked"
         and lean.symbols == G4_LEAN_SYMBOLS
         and lean.symbols_exact
+        and lean.helper_symbols == G4_LEAN_HELPER_SYMBOLS
+        and lean.helpers_exact
         and lean.continuous
+        and nonunique.classification.direct_exact_gluing_count == 2
+        and nonunique.classification.classification_holds
+        and nonunique.classification.uniqueness_iff_conflict_complete
+        and nonunique.both_exact
+        and nonunique.distinct
     )
     detail = (
         f"valid_gluing={valid_witness is not None} triangle_obstructions="
-        f"{len(triangle.contradictions)} lean={len(lean.symbols) if lean.symbols_exact else 0}/3"
+        f"{len(triangle.contradictions)} nonunique={nonunique.classification.direct_exact_gluing_count} "
+        f"lean={len(lean.symbols) if lean.symbols_exact else 0}/3 "
+        f"helpers={len(lean.helper_symbols) if lean.helpers_exact else 0}/2"
     )
     result = Certificate(
         "observer_patch_atlas_g4",
-        "finite observer-patch exact gluing and triangle compatibility obstruction",
+        "finite observer-patch exact gluing, triangle obstruction, and nonuniqueness",
         passed,
         detail,
         1,
@@ -122,7 +139,8 @@ def _observer_patch_lean_evidence_at(
         return _blocked_evidence(proof_path, expected_sha256, actual, "mismatch")
     text = payload.decode(errors="replace")
     symbols_exact = all(declares_lean_theorem(text, symbol) for symbol in G4_LEAN_SYMBOLS)
-    if not symbols_exact:
+    helpers_exact = all(declares_lean_theorem(text, symbol) for symbol in G4_LEAN_HELPER_SYMBOLS)
+    if not symbols_exact or not helpers_exact:
         logger.error("_observer_patch_lean_evidence_at exact symbol set missing path=%s", proof_path)
         return _blocked_evidence(proof_path, expected_sha256, actual, "matched")
     compiled = check_captured_lean_artifact(payload, expected_sha256)
@@ -139,7 +157,7 @@ def _observer_patch_lean_evidence_at(
     result = ObserverPatchLeanEvidence(
         str(proof_path), expected_sha256, actual, "matched",
         "checked" if compiled == "checked" and continuous else "blocked",
-        G4_LEAN_SYMBOLS, symbols_exact, continuous,
+        G4_LEAN_SYMBOLS, symbols_exact, G4_LEAN_HELPER_SYMBOLS, helpers_exact, continuous,
     )
     logger.debug("_observer_patch_lean_evidence_at exit status=%s", result.lean_status)
     return result
@@ -150,7 +168,8 @@ def _blocked_evidence(
 ) -> ObserverPatchLeanEvidence:
     logger.debug("_blocked_evidence entry path=%s digest_status=%s", path, digest_status)
     result = ObserverPatchLeanEvidence(
-        str(path), expected, actual, digest_status, "blocked", G4_LEAN_SYMBOLS, False, False
+        str(path), expected, actual, digest_status, "blocked", G4_LEAN_SYMBOLS, False,
+        G4_LEAN_HELPER_SYMBOLS, False, False,
     )
     logger.debug("_blocked_evidence exit result=%r", result)
     return result

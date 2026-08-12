@@ -253,3 +253,4 @@ any promotion proposal remain R13 work.
 - precursor boundaries: [R7](123_proof_carrying_core_r7.md),
   [R9](125_intrinsic_mode_transport_r9.md),
   [R10](126_proof_grade_core_elaboration_r10.md)
+- separate relative finite realization: [P1→R16 contract](161_p1_r16_realization_contract.md)
