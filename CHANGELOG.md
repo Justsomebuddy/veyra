@@ -12,6 +12,8 @@
   profile-relative calibration and shared-key integrity results, not grammar
   completeness, general representation laws, public signatures, sandboxing,
   Rust verification, theorem promotion, or hidden-variable discovery.
+  Default worker ceilings allow 10 CPU/30 wall seconds so the same fixed search
+  remains bounded without becoming spuriously timing-dependent on contended CI.
 - Added an atomic Rust-native observer benchmark-family receipt over the
   unchanged pinned 1,565-row grammar. The identity four-state mixture is found
   by `Crest(Input)` with class saving 2; a two-bit XOR target has exact balanced

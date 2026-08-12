@@ -87,6 +87,10 @@ an internal `CustodyPending` result; only its supervising parent can add the
 wall-clock/process-group facts and mint a terminal `Ready` receipt. Direct child
 invocation therefore cannot self-assert parent custody.
 
+The default hard ceilings are 10 CPU seconds, 30 wall seconds, and 512 MiB of
+address space. They accommodate contended shared runners and are resource
+ceilings, not performance claims; callers may choose stricter admitted values.
+
 The parent checks the exact v2 artifact size and pinned receipt-domain digest
 before promotion without repeating synthesis outside the child's limits.
 The executable path remains a caller-selected local trust input: this layer

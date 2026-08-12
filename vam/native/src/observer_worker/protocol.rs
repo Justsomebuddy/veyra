@@ -49,8 +49,11 @@ impl Default for NativeWorkerRequestV1 {
     fn default() -> Self {
         Self {
             isolation_profile: IsolationProfile::LinuxRlimitV1,
-            wall_timeout_ms: 5_000,
-            cpu_seconds: 2,
+            // The exact search is normally sub-second on the reference host,
+            // but shared CI runners can be heavily contended. These remain
+            // hard ceilings rather than benchmark expectations.
+            wall_timeout_ms: 30_000,
+            cpu_seconds: 10,
             process_as_bytes: 512 * 1024 * 1024,
             max_response_bytes: MAX_WORKER_FRAME_BYTES as u64,
         }
