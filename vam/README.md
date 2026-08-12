@@ -59,7 +59,12 @@ The current Python implementation proves that Veyra rows are executable, but it 
   balanced-marginal XOR exhaustion, shifted re-synthesis at cost `+1`, and
   permuted-representation exhaustion, with source-witness transport tested
   separately from re-synthesis. All outcomes remain exact-catalog-relative.
-- Docs: `docs/003_reference_interpreter.md` through `docs/039_native_observer_benchmark_family.md` cover interpreter, VAM0/VAMD, optimizer, Core/HL-1 lowering, diagnostics/theorem carriers, native scaffold, v0.8/v0.9 contracts, v1.x/v2.x finite semantics/metadata, the bounded Rust synthesis shadow, its first replayable finite surprise receipt, and the fixed representation-sensitive benchmark family.
+- Observer synthesis v2 freezes that legacy profile, adds a separately rooted
+  parity profile, surveys 120 declared representations, jointly synthesizes a
+  transform/observer pair, runs the exact evidence build under Linux child
+  custody, and supports external-key authenticated replay. Its Lean slice is
+  abstract and nonpromoting.
+- Docs: `docs/003_reference_interpreter.md` through `docs/040_native_observer_synthesis_v2.md` cover interpreter, VAM0/VAMD, optimizer, Core/HL-1 lowering, diagnostics/theorem carriers, native scaffold, finite semantics/metadata, the bounded Rust synthesis shadow and receipts, the representation-sensitive benchmark family, and its versioned/custodied v2 extension.
 
 ## Boundary
 

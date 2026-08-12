@@ -88,6 +88,18 @@ then record target re-synthesis. This is finite representation-sensitivity
 evidence, not invariance, general impossibility, BM-F009, or hidden-variable
 discovery. See `../docs/039_native_observer_benchmark_family.md`.
 
+Observer synthesis v2 preserves the entire legacy catalog and canonical-byte
+contract while adding a separately identified `Parity` grammar profile. It
+enumerates 120 shift/permutation representations, provides a complete
+obligation-result survey for that family, and searches transform/observer pairs by a
+deterministic total-cost order. The fixed `vam-observer-worker` adds Linux
+RLIMIT CPU/address-space/core custody, parent wall timeout and process-group
+kill/reap; portable VORP packages bind exact worker request/receipt bytes with
+external-key HMAC-SHA256 and fresh execution replay. This is bounded shared-key
+authentication, not a public signature, sandbox, general representation law,
+or proof of implementation correctness. See
+`../docs/040_native_observer_synthesis_v2.md`.
+
 ## Required contract
 
 - Profile is explicit: `vam0-ref-v1` now; `f4-strict` is future-gated and must be

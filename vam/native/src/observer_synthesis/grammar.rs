@@ -2,11 +2,12 @@
 
 use std::collections::HashSet;
 
-use super::ast::{
-    infer_observer_kind, ObserverExpr, PrimitiveId, ResponseKind, SynthesisCoreError,
-};
+use super::ast::{infer_observer_kind, ObserverExpr, ResponseKind, SynthesisCoreError};
 use super::canonical::canonical_observer_bytes;
 use super::diagnostics;
+use super::grammar_profile::{
+    observer_grammar_profile, ObserverGrammarProfile, ObserverGrammarProfileId,
+};
 use super::hash::sha256_hex;
 
 pub const DEFAULT_STRATA: [usize; 7] = [1, 3, 8, 27, 104, 358, 1064];
@@ -15,6 +16,13 @@ pub const DEFAULT_CANONICAL_BYTES: usize = 488_550;
 pub const DEFAULT_MAX_ROW_BYTES: usize = 338;
 pub const DEFAULT_CATALOG_DIGEST: &str =
     "23408184aba5d55d283e4a9440e1859beaefa9d73a909d283057d59b527437cf";
+pub const PARITY_V2_CATALOG_DOMAIN: &str = "veyra.native-observer-grammar.parity-v2.catalog.v1";
+pub const PARITY_V2_STRATA: [usize; 5] = [1, 4, 11, 41, 173];
+pub const PARITY_V2_CANDIDATES: usize = 230;
+pub const PARITY_V2_CANONICAL_BYTES: usize = 52_154;
+pub const PARITY_V2_MAX_ROW_BYTES: usize = 246;
+pub const PARITY_V2_CATALOG_DIGEST: &str =
+    "6aa5cc4e0f386083a8b0bf5a4845099e232ab1fd939fecaf6ad2e65cb88430cf";
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub struct GrammarConfig {
@@ -62,6 +70,25 @@ pub struct GrammarEnumeration {
     pub catalog_digest: String,
 }
 
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct ProfiledGrammarEnumeration {
+    pub profile: ObserverGrammarProfile,
+    pub enumeration: GrammarEnumeration,
+}
+
+pub fn grammar_config_for_profile(profile_id: ObserverGrammarProfileId) -> GrammarConfig {
+    diagnostics::event("GRAMMAR_CONFIG_ENTER", "selecting closed profile limits");
+    let profile = observer_grammar_profile(profile_id);
+    let result = GrammarConfig {
+        max_cost: profile.max_cost,
+        max_depth: profile.max_depth,
+        candidate_limit: profile.candidate_limit,
+        canonical_bytes_limit: profile.canonical_bytes_limit,
+    };
+    diagnostics::event("GRAMMAR_CONFIG_EXIT", "closed profile limits selected");
+    result
+}
+
 fn candidate(
     observer: ObserverExpr,
     cost: usize,
@@ -80,23 +107,44 @@ fn candidate(
     })
 }
 
-fn catalog_digest(candidates: &[ObserverCandidate]) -> String {
-    let mut framed = b"veyra.observer-synthesis-v2.catalog.v1\0".to_vec();
+fn catalog_digest(profile: &ObserverGrammarProfile, candidates: &[ObserverCandidate]) -> String {
+    diagnostics::event("GRAMMAR_CATALOG_DIGEST_ENTER", "binding profiled catalog");
+    let mut framed = match profile.profile_id {
+        ObserverGrammarProfileId::LegacyV1 => b"veyra.observer-synthesis-v2.catalog.v1\0".to_vec(),
+        ObserverGrammarProfileId::ParityV2 => {
+            let mut prefix = PARITY_V2_CATALOG_DOMAIN.as_bytes().to_vec();
+            prefix.push(0);
+            prefix.extend_from_slice(profile.profile_digest.as_bytes());
+            prefix.push(0);
+            prefix
+        }
+    };
     for row in candidates {
         framed.extend_from_slice(&(row.canonical.len() as u64).to_be_bytes());
         framed.extend_from_slice(&row.canonical);
     }
-    sha256_hex(&framed)
+    let result = sha256_hex(&framed);
+    diagnostics::event("GRAMMAR_CATALOG_DIGEST_EXIT", "profiled catalog bound");
+    result
 }
 
 pub fn enumerate_observer_grammar(
     config: GrammarConfig,
 ) -> Result<GrammarEnumeration, SynthesisCoreError> {
+    enumerate_observer_grammar_profile(ObserverGrammarProfileId::LegacyV1, config)
+        .map(|result| result.enumeration)
+}
+
+pub fn enumerate_observer_grammar_profile(
+    profile_id: ObserverGrammarProfileId,
+    config: GrammarConfig,
+) -> Result<ProfiledGrammarEnumeration, SynthesisCoreError> {
     diagnostics::event(
         "GRAMMAR_ENUM_ENTER",
         "validating bounded grammar configuration",
     );
-    let maxima = GrammarConfig::default();
+    let profile = observer_grammar_profile(profile_id);
+    let maxima = grammar_config_for_profile(profile_id);
     if config.candidate_limit == 0
         || config.canonical_bytes_limit == 0
         || config.max_cost > maxima.max_cost
@@ -129,9 +177,9 @@ pub fn enumerate_observer_grammar(
             if depth > config.max_depth {
                 continue;
             }
-            for primitive in [PrimitiveId::Tail, PrimitiveId::Crest] {
+            for primitive in profile.primitives() {
                 let row = candidate(
-                    ObserverExpr::apply(primitive, child.observer.clone()),
+                    ObserverExpr::apply(*primitive, child.observer.clone()),
                     cost,
                     depth,
                 )?;
@@ -181,13 +229,13 @@ pub fn enumerate_observer_grammar(
         .unwrap_or(0);
     let result = GrammarEnumeration {
         config,
-        catalog_digest: catalog_digest(&candidates),
+        catalog_digest: catalog_digest(&profile, &candidates),
         strata,
         candidates,
         canonical_bytes: retained,
         max_row_bytes,
     };
-    if config == GrammarConfig::default() {
+    if profile_id == ObserverGrammarProfileId::LegacyV1 && config == GrammarConfig::default() {
         let actual: Vec<_> = result
             .strata
             .iter()
@@ -204,7 +252,10 @@ pub fn enumerate_observer_grammar(
         }
     }
     diagnostics::event("GRAMMAR_ENUM_EXIT", "bounded catalog enumeration completed");
-    Ok(result)
+    Ok(ProfiledGrammarEnumeration {
+        profile,
+        enumeration: result,
+    })
 }
 
 fn retain(
@@ -238,6 +289,7 @@ fn retain(
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::observer_synthesis::PrimitiveId;
 
     #[test]
     fn default_catalog_matches_every_python_pin() {
@@ -281,5 +333,43 @@ mod tests {
             enumerate_observer_grammar(config).unwrap_err().0,
             "v2-canonical-bytes-limit"
         );
+    }
+
+    #[test]
+    fn profile_api_preserves_legacy_catalog_exactly_and_adds_parity_only_to_v2() {
+        let legacy = enumerate_observer_grammar_profile(
+            ObserverGrammarProfileId::LegacyV1,
+            grammar_config_for_profile(ObserverGrammarProfileId::LegacyV1),
+        )
+        .unwrap();
+        let old = enumerate_observer_grammar(GrammarConfig::default()).unwrap();
+        assert_eq!(legacy.enumeration, old);
+        assert_eq!(legacy.enumeration.catalog_digest, DEFAULT_CATALOG_DIGEST);
+
+        let parity = enumerate_observer_grammar_profile(
+            ObserverGrammarProfileId::ParityV2,
+            grammar_config_for_profile(ObserverGrammarProfileId::ParityV2),
+        )
+        .unwrap();
+        assert_eq!(
+            parity
+                .enumeration
+                .strata
+                .iter()
+                .map(|row| row.candidates.len())
+                .collect::<Vec<_>>(),
+            PARITY_V2_STRATA
+        );
+        assert_eq!(parity.enumeration.candidates.len(), PARITY_V2_CANDIDATES);
+        assert_eq!(
+            parity.enumeration.canonical_bytes,
+            PARITY_V2_CANONICAL_BYTES
+        );
+        assert_eq!(parity.enumeration.max_row_bytes, PARITY_V2_MAX_ROW_BYTES);
+        assert_eq!(parity.enumeration.catalog_digest, PARITY_V2_CATALOG_DIGEST);
+        assert!(parity.enumeration.candidates.iter().any(|candidate| {
+            candidate.observer == ObserverExpr::apply(PrimitiveId::Parity, ObserverExpr::Input)
+        }));
+        assert_ne!(parity.enumeration.catalog_digest, DEFAULT_CATALOG_DIGEST);
     }
 }

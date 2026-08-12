@@ -8,6 +8,7 @@ mod intrinsic_tests;
 mod intrinsic_types;
 mod json;
 pub mod observer_synthesis;
+pub mod observer_worker;
 mod optimizer;
 mod payload;
 mod runtime;

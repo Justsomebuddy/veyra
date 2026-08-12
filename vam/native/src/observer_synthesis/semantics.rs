@@ -47,6 +47,7 @@ pub enum ResponseValue {
 pub enum PathStep {
     ApplyTail,
     ApplyCrest,
+    ApplyParity,
     PairLeft,
     PairRight,
 }
@@ -107,6 +108,7 @@ fn observe_node(
             let step = match primitive {
                 PrimitiveId::Tail => PathStep::ApplyTail,
                 PrimitiveId::Crest => PathStep::ApplyCrest,
+                PrimitiveId::Parity => PathStep::ApplyParity,
             };
             let value = match child_result {
                 Observation::Blocked(rows) => return Ok(Observation::Blocked(prefix(step, rows))),
@@ -129,6 +131,13 @@ fn observe_node(
                 }
                 PrimitiveId::Crest => Ok(Observation::Ready(ResponseValue::Mark(
                     if value.pulses == 0 {
+                        Mark::Silent
+                    } else {
+                        Mark::Pulse
+                    },
+                ))),
+                PrimitiveId::Parity => Ok(Observation::Ready(ResponseValue::Mark(
+                    if value.pulses % 2 == 0 {
                         Mark::Silent
                     } else {
                         Mark::Pulse
@@ -253,5 +262,29 @@ mod tests {
         assert_eq!(rows.len(), 1);
         assert_eq!(rows[0].code, ObstructionCode::TailOfSilence);
         assert_eq!(rows[0].path, vec![PathStep::PairRight, PathStep::ApplyTail]);
+    }
+
+    #[test]
+    fn parity_is_total_on_recurrences_and_preserves_child_obstructions() {
+        let parity = ObserverExpr::apply(PrimitiveId::Parity, ObserverExpr::Input);
+        assert_eq!(
+            observe(&parity, Recurrence::silence()).unwrap(),
+            Observation::Ready(ResponseValue::Mark(Mark::Silent))
+        );
+        assert_eq!(
+            observe(&parity, Recurrence::new(3).unwrap()).unwrap(),
+            Observation::Ready(ResponseValue::Mark(Mark::Pulse))
+        );
+        let blocked = ObserverExpr::apply(
+            PrimitiveId::Parity,
+            ObserverExpr::apply(PrimitiveId::Tail, ObserverExpr::Input),
+        );
+        let Observation::Blocked(rows) = observe(&blocked, Recurrence::silence()).unwrap() else {
+            panic!("parity must preserve a child obstruction");
+        };
+        assert_eq!(
+            rows[0].path,
+            vec![PathStep::ApplyParity, PathStep::ApplyTail]
+        );
     }
 }

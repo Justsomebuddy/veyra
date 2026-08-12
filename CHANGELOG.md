@@ -1,5 +1,17 @@
 # Changelog
 ## [Unreleased] — Changed
+- Added observer synthesis v2 without rebinding any legacy receipt: an
+  immutable named 1,565-row profile plus a separately rooted 230-row `Parity`
+  extension; exhaustive survey of 120 declared shift/permutation encodings;
+  deterministic joint transform/observer synthesis with distinct
+  `INCOMPLETE`/`EXHAUSTED`; a fixed Linux child worker with verified
+  CPU/address-space/core limits, wall timeout and process-group kill/reap; and
+  bounded portable external-key HMAC replay that freshly reproduces exact
+  evidence bytes. Added an axiom-free abstract Lean research slice for replay
+  determinism, bijective task relabeling, and finite-list exhaustion. These are
+  profile-relative calibration and shared-key integrity results, not grammar
+  completeness, general representation laws, public signatures, sandboxing,
+  Rust verification, theorem promotion, or hidden-variable discovery.
 - Added an atomic Rust-native observer benchmark-family receipt over the
   unchanged pinned 1,565-row grammar. The identity four-state mixture is found
   by `Crest(Input)` with class saving 2; a two-bit XOR target has exact balanced

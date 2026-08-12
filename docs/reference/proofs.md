@@ -12,6 +12,12 @@ an explicit non-claim boundary.
 
 - Formal bridge entry point: `src/core/formal_bridge.py`.
 - Lean files include `proofs/lean/VeyraEcho.lean`, theorem-card files, R7–R13 files, and `VeyraOptimizer.lean`.
+- `VeyraObserverSynthesisReplay.lean` is an `INTERNAL_RESEARCH_CANDIDATE`
+  abstract slice: it proves functional replay determinism/sound acceptance,
+  pointwise target preservation under an explicitly supplied bijective
+  relabeling, and the exact list-relative meaning of finite-catalog exhaustion.
+  It does not formalize the Rust implementation, canonical bytes or hashes,
+  CEGIS/catalog completeness, resource custody, or any concrete benchmark row.
 - `THM-F001`: for every observer `o` and object `x`, `echo(o,x,x)`.
 - `THM-F002`: `(n * k + 1) % n = 1 % n`, the product-plus-one arithmetic shadow now used by finite native Mode-length Euclid rows.
 - `THM-F003`: finite prime-period Fermat phase row over native Mode/Breath length observers; Python certificate only.

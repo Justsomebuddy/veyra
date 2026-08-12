@@ -11,6 +11,9 @@ pub const MAX_OBSERVER_DEPTH: usize = 128;
 pub enum PrimitiveId {
     Tail,
     Crest,
+    /// V2-only recurrence parity projection. Legacy grammar profiles never
+    /// enumerate this variant, preserving their byte-for-byte catalog.
+    Parity,
 }
 
 impl PrimitiveId {
@@ -18,6 +21,7 @@ impl PrimitiveId {
         match self {
             Self::Tail => "tail",
             Self::Crest => "crest",
+            Self::Parity => "parity",
         }
     }
 }
@@ -90,7 +94,7 @@ pub fn infer_observer_kind(observer: &ObserverExpr) -> Result<ResponseKind, Synt
                 }
                 Ok(match primitive {
                     PrimitiveId::Tail => ResponseKind::Recurrence,
-                    PrimitiveId::Crest => ResponseKind::Mark,
+                    PrimitiveId::Crest | PrimitiveId::Parity => ResponseKind::Mark,
                 })
             }
             ObserverExpr::Pair { left, right } => Ok(ResponseKind::Pair(
@@ -129,6 +133,14 @@ mod tests {
                 .unwrap_err()
                 .0,
             "invalid-primitive-application"
+        );
+        assert_eq!(
+            infer_observer_kind(&ObserverExpr::apply(
+                PrimitiveId::Parity,
+                ObserverExpr::Input,
+            ))
+            .unwrap(),
+            ResponseKind::Mark
         );
     }
 }

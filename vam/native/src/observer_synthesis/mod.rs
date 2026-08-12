@@ -14,8 +14,11 @@ mod canonical;
 mod cegis;
 mod diagnostics;
 mod grammar;
+mod grammar_profile;
 mod hash;
+mod joint_synthesis;
 mod receipt;
+mod representation_family;
 mod semantics;
 
 pub use ast::{infer_observer_kind, ObserverExpr, PrimitiveId, ResponseKind, SynthesisCoreError};
@@ -48,14 +51,38 @@ pub use cegis::{
     LockedObserverWinner, ObserverCase, SynthesisReport, SynthesisStatus, CEGIS_BOUNDARY,
 };
 pub use grammar::{
-    enumerate_observer_grammar, GrammarConfig, GrammarEnumeration, GrammarStratum,
-    ObserverCandidate, DEFAULT_CANDIDATES, DEFAULT_CANONICAL_BYTES, DEFAULT_CATALOG_DIGEST,
-    DEFAULT_MAX_ROW_BYTES, DEFAULT_STRATA,
+    enumerate_observer_grammar, enumerate_observer_grammar_profile, grammar_config_for_profile,
+    GrammarConfig, GrammarEnumeration, GrammarStratum, ObserverCandidate,
+    ProfiledGrammarEnumeration, DEFAULT_CANDIDATES, DEFAULT_CANONICAL_BYTES,
+    DEFAULT_CATALOG_DIGEST, DEFAULT_MAX_ROW_BYTES, DEFAULT_STRATA, PARITY_V2_CANDIDATES,
+    PARITY_V2_CANONICAL_BYTES, PARITY_V2_CATALOG_DIGEST, PARITY_V2_CATALOG_DOMAIN,
+    PARITY_V2_MAX_ROW_BYTES, PARITY_V2_STRATA,
+};
+pub use grammar_profile::{
+    observer_grammar_profile, ObserverGrammarProfile, ObserverGrammarProfileId,
+    GRAMMAR_PROFILE_SCHEMA, LEGACY_GRAMMAR_PROFILE_DIGEST, LEGACY_GRAMMAR_PROFILE_ID,
+    PARITY_GRAMMAR_PROFILE_DIGEST, PARITY_GRAMMAR_PROFILE_ID,
+};
+pub use joint_synthesis::{
+    synthesize_transform_and_observer, JointBudgetCutoff, JointSynthesisLedger,
+    JointSynthesisLimits, JointSynthesisStatus, NativeJointSynthesisReportV1, NativeJointWinnerV1,
+    NativePartitionTaskId, JOINT_SYNTHESIS_SCHEMA, MAX_JOINT_CANDIDATES,
+    MAX_JOINT_RELATION_EVALUATIONS, MAX_JOINT_TRANSFORMS, PARITY_INPUT_DIGEST,
+    PARITY_V2_JOINT_ORDER_DIGEST, PARITY_V2_XOR_TRACE_DIGEST, XOR_PARITY_TASK_DIGEST,
 };
 pub use receipt::{
     build_zero_positive_surprise_receipt, canonical_native_surprise_receipt_bytes,
     native_surprise_receipt_from_run, replay_native_surprise_receipt,
     NativeObserverSurpriseReceiptV1, NATIVE_SURPRISE_RECEIPT_SCHEMA,
+};
+pub use representation_family::{
+    encoded_recurrences, enumerate_representation_family, evaluate_systematic_transport,
+    survey_representation_family, NativeRepresentationFamilyV1, NativeRepresentationSurveyV1,
+    NativeRepresentationTransformV1, NativeSystematicTransportV1,
+    NativeTransportEquivalenceClassV1, FIRST_REPRESENTATION_TRANSFORM_DIGEST,
+    LAST_REPRESENTATION_TRANSFORM_DIGEST, PARITY_XOR_PRESERVING_TRANSFORMS,
+    PARITY_XOR_SURVEY_CLASSES, PARITY_XOR_SURVEY_DIGEST, REPRESENTATION_FAMILY_DIGEST,
+    REPRESENTATION_FAMILY_ID, REPRESENTATION_FAMILY_SCHEMA, REPRESENTATION_TRANSFORMS,
 };
 pub use semantics::{
     echo, observe, EchoOutcome, Mark, Observation, ObserverObstruction, ObstructionCode, PathStep,

@@ -9,7 +9,7 @@ Veyra has two deliberately different support levels.
 | installable portable Python subset and finite semantics | supported on CPython 3.11; verified locally and in hosted CI on 3.11.14 | verified in hosted CI on CPython 3.11.9 | verified in hosted CI on CPython 3.11.9 |
 | wheel/sdist build and isolated wheel import | verified locally and in hosted CI | verified in hosted CI | verified in hosted CI |
 | VAM Rust crate | verified locally and in hosted CI with pinned Rust | verified in hosted CI with pinned Rust | verified in hosted CI with pinned Rust |
-| compiling all 43 Lean sources with `elan` | supported when the pinned toolchain is installed | expected where `elan` supplies the pinned toolchain | expected where `elan` supplies the pinned toolchain |
+| compiling all 44 Lean sources with `elan` | supported when the pinned toolchain is installed | expected where `elan` supplies the pinned toolchain | expected where `elan` supplies the pinned toolchain |
 | content-bound certificate renewal and guarded Lean execution | Linux x86_64 only | unsupported | unsupported |
 | R14 process/resource hardening | Linux/POSIX contract only | unsupported | unsupported |
 | Sage-native facade | supported when SageMath provides the hardened CPython 3.11.14 lane | dependent on a compatible SageMath distribution | dependent on a compatible SageMath distribution |

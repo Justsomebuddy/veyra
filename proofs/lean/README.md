@@ -1,6 +1,6 @@
 # Lean proof inventory
 
-This directory contains 43 Lean source modules. The table is exhaustive: status refers to the public claim supported by the source, not merely to the presence of compilable declarations. Exact released declaration locations and dependencies are listed in `../../THEOREMS.md`.
+This directory contains 44 Lean source modules. The table is exhaustive: status refers to the public claim supported by the source, not merely to the presence of compilable declarations. Exact released declaration locations and dependencies are listed in `../../THEOREMS.md`.
 
 ## Status vocabulary
 
@@ -33,6 +33,7 @@ This directory contains 43 Lean source modules. The table is exhaustive: status 
 | `VeyraObserverPatchAtlas.lean` | finite patch atlas/gluing criterion plus two nonpromoted uniqueness helpers | `FORMALLY_PROVED` | `THM_G4_001_exact_gluing_exists_iff_no_local_contradiction`, `THM_G4_002_triangle_singleton_overlaps_pass`, `THM_G4_003_triangle_exact_gluing_impossible` |
 | `VeyraObserverProof.lean` | proof-grade observer laws | `FORMALLY_PROVED` | `THM_R11_001_ready_echo_characterization`, `THM_R11_002_ready_domain_reflexivity`, `THM_R11_003_r7_equality_implies_ready_echo`, `THM_R11_004_tail_silence_obstruction`, `THM_R11_005_both_side_echo_domain_obstruction`, `THM_R11_006_crest_noncollapse_witness` |
 | `VeyraObserverSynthesis.lean` | observer-class closure and separation laws | `FORMALLY_PROVED` | `THM_R6_001_factor_blind`, `THM_R6_002_extension_separates` |
+| `VeyraObserverSynthesisReplay.lean` | abstract deterministic replay, bijective task relabeling, and finite-catalog exhaustion boundary | `INTERNAL_RESEARCH_CANDIDATE` | none; abstract helpers only, with no concrete Rust theorem or public theorem-card registration |
 | `VeyraOptimizer.lean` | bounded local optimizer laws | `FORMAL_CONSTRUCTION` | none |
 | `VeyraPadicAllDepthEquality.lean` | N4 all-projection scoped equality | `FORMALLY_PROVED + PUBLICLY_VALIDATED` | `THM_P3N4_PREMISE_001_same_integer_coordinates` |
 | `VeyraPadicCompletion.lean` | PΩ2 prime-power compatible-family completion | `FORMALLY_PROVED` | `THM_POMEGA2_001_prime_lower_bound`, `THM_POMEGA2_002_stage_modulus_divisibility`, `THM_POMEGA2_003_reduction_well_formed_congruence`, `THM_POMEGA2_004_reduction_identity`, `THM_POMEGA2_005_reduction_composition`, `THM_POMEGA2_006_carrier_presentation_compatible`, `THM_POMEGA2_007_universal_realization`, `THM_POMEGA2_008_coordinate_agreement`, `THM_POMEGA2_009_joint_separation`, `THM_POMEGA2_010_relative_uniqueness`, `THM_POMEGA2_011_zero_family_nonvacuity`, `THM_POMEGA2_012_one_family_formation`, `THM_POMEGA2_013_addition_closure`, `THM_POMEGA2_014_negation_additive_inverse`, `THM_POMEGA2_015_multiplication_closure`, `THM_POMEGA2_016_full_commutative_ring`, `THM_POMEGA2_017_ppcp_introduction` |
@@ -74,14 +75,14 @@ This directory contains 43 Lean source modules. The table is exhaustive: status 
 ## Whole-source compilation
 
 Install `elan` and the exact reviewed toolchain, then compile the complete
-43-source local import graph from the repository root:
+44-source local import graph from the repository root:
 
 ```bash
 elan toolchain install leanprover/lean4:v4.30.0-rc2
 python scripts/check_lean_sources.py --jobs 8
 ```
 
-The harness checks the exact Lean version, validates the 43-file inventory,
+The harness checks the exact Lean version, validates the 44-file inventory,
 builds dependency layers, and writes temporary `.olean` files only under the
 ignored `data/tmp/` tree. Independent modules in each layer compile in parallel.
 
