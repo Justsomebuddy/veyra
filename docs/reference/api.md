@@ -141,7 +141,7 @@ This curated aggregate is not an inventory of every split implementation module.
 | `src.core.native_runtime` | Native F4 rez/nod/tact/breath/mode runtime and observer shadows. |
 | `src.core.order` | Dominance, magnitude, and intervals for Veyra arithmetic shadows. |
 | `src.core.observer_synthesis` | Typed bounded observer grammar, deterministic train-only search, and fixed-winner holdout validation. |
-| `vam_native::observer_synthesis` | Dependency-free Rust shadow of the closed R11/R14.1 grammar and R14.3b recurrence calibration, plus one replayable zero-vs-positive finite-surprise receipt. Python identities remain the oracle; no backend, performance, general-discovery, theorem, or promotion claim follows. |
+| `vam_native::observer_synthesis` | Dependency-free Rust shadow of the closed R11/R14.1 grammar and R14.3b recurrence calibration; includes the zero-vs-positive finite-surprise receipt and an atomic four-row mixture/XOR/representation benchmark receipt with exact replay and separate source-witness transport evidence. All outcomes are relative to the fixed 1,565-row catalog; Python identities remain the oracle, and no backend, performance, hidden-variable discovery, general impossibility, representation-invariance, theorem, or promotion claim follows. |
 | `src.core.observer_synthesis_protocol` | Stable evaluator/config/grammar identities and ID-independent split-payload leakage guards. |
 | `src.core.observer_synthesis_types` | Grammar, case, evidence, fitted-observer, holdout, and obstruction datatypes. |
 | `src.core.observer_synthesis_parity` | Parity train/holdout witness and strict proper-marginal observer-class certificate. |
