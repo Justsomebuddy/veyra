@@ -1,16 +1,21 @@
 //! Bounded isolated execution and authenticated replay for native observer receipts.
 
 mod autonomous_replay_v4;
+mod autonomous_replay_v5;
 mod digest;
 mod isolation_v4;
+#[cfg(target_os = "linux")]
+mod isolation_v5;
 mod linux;
 mod pipeline_replay_v3;
 mod protocol;
 mod replay;
+mod replay_trust_v5;
 mod replay_v2;
 mod supervisor;
 mod supervisor_v3;
 mod supervisor_v4;
+mod supervisor_v5;
 mod synthesis_v2;
 mod worker_v2;
 
@@ -23,6 +28,16 @@ pub use autonomous_replay_v4::{
     AUTONOMOUS_REPLAY_V4_BOUNDARY, AUTONOMOUS_REPLAY_V4_MAGIC, AUTONOMOUS_REPLAY_V4_SCHEMA,
     AUTONOMOUS_REPLAY_V4_VERSION, MAX_AUTONOMOUS_MANIFEST_ROWS_V4, MAX_AUTONOMOUS_REPLAY_V4_BYTES,
 };
+pub use autonomous_replay_v5::{
+    build_autonomous_replay_package_from_worker_v5, build_autonomous_replay_package_v5,
+    decode_autonomous_replay_package_v5, encode_autonomous_replay_package_v5,
+    verify_autonomous_replay_package_v5, AutonomousReplayPackageV5, AutonomousReplayV5Error,
+    WorkerPolicyManifestV5, WorkerProfileEvidenceV5, AUTONOMOUS_REPLAY_V5_BOUNDARY,
+    AUTONOMOUS_REPLAY_V5_MAGIC, AUTONOMOUS_REPLAY_V5_VERSION, MAX_AUTONOMOUS_MANIFEST_ROWS_V5,
+    MAX_AUTONOMOUS_REPLAY_V5_BYTES,
+};
+#[cfg(target_os = "linux")]
+pub use isolation_v5::{run_cgroup_v5_e2e_harness, CgroupHarnessReportV5, CgroupHarnessStatusV5};
 pub use pipeline_replay_v3::{
     build_ed25519_observer_pipeline_bundle_v3, build_hmac_observer_pipeline_bundle_v3,
     canonical_observer_pipeline_result_v3_bytes, decode_observer_pipeline_request_v3,
@@ -37,6 +52,12 @@ pub use replay::{
     build_portable_replay_package, decode_portable_replay_package, encode_portable_replay_package,
     replay_portable_package, validate_portable_replay_package, PortableReplayPackageV1,
     MAX_PORTABLE_REPLAY_BYTES, PORTABLE_REPLAY_BOUNDARY,
+};
+pub use replay_trust_v5::{
+    canonical_replay_trust_policy_v5_bytes, sign_replay_message_v5, verify_replay_threshold_v5,
+    ReplaySignatureV5, ReplayTrustKeyV5, ReplayTrustPolicyV5, ReplayTrustV5Error,
+    MAX_REPLAY_SIGNATURES_V5, MAX_REPLAY_SIGNATURE_MESSAGE_V5, MAX_REPLAY_TRUST_KEYS_V5,
+    REPLAY_TRUST_V5_BOUNDARY,
 };
 pub use replay_v2::{
     build_ed25519_replay_bundle_v2, build_hmac_replay_bundle_v2, decode_replay_bundle_v2,
@@ -57,6 +78,11 @@ pub use supervisor_v4::{
     run_observer_pipeline_child_v4, supervise_observer_pipeline_v4, IsolationProfileV4,
     ObserverWorkerControlsV4, ObserverWorkerLaunchV4, ObserverWorkerLimitsV4,
     ObserverWorkerReceiptV4, ObserverWorkerV4Error, OBSERVER_WORKER_V4_BOUNDARY,
+};
+pub use supervisor_v5::{
+    run_discovery_child_v5, supervise_discovery_v5, ObserverWorkerControlsV5,
+    ObserverWorkerLaunchV5, ObserverWorkerLimitsV5, ObserverWorkerReceiptV5, ObserverWorkerV5Error,
+    OBSERVER_WORKER_V5_BOUNDARY,
 };
 pub use synthesis_v2::{
     build_observer_synthesis_v2_receipt, replay_observer_synthesis_v2_receipt,

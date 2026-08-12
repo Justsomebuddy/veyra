@@ -24,7 +24,7 @@ help:
 	  '  make sage-required Run the facade through real SageMath' \
 	  '  make sage-doctest  Run veyra_sage doctests' \
 	  '  make rust          Run locked native formatting/tests' \
-	  '  make lean          Compile all 46 pinned Lean sources' \
+	  '  make lean          Compile all 47 pinned Lean sources' \
 	  '  make package-smoke Build/install/inspect wheel and sdist' \
 	  '  make portable      Run the shell-neutral portable lane' \
 	  '  make hygiene       Check active file line hygiene' \

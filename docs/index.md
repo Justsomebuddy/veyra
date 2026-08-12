@@ -255,6 +255,10 @@ No metaphysical claim is accepted as mathematics until it becomes a definition, 
   representation/observer search, truthful namespace/seccomp/cgroup custody,
   state-free signed replay, and an abstract Lean boundary; not general
   discovery, a sealed filesystem, attestation, signer trust, or Rust proof.
+- `vam/docs/043_native_observer_synthesis_v5.md` — append-only generated
+  scientific calibration, proof-carrying branch-and-bound, fail-closed closed-
+  rootfs/cgroup custody, threshold replay, and conditional Lean laws; not
+  empirical discovery, universal completeness, attestation, or Rust proof.
 - `docs/161_p1_r16_realization_contract.md` — finite context-bound replay of P1
   programs into a derived R16 join completion; structured blockage is retained,
   but no canonical map, functoriality, quotient transport, or theorem follows.

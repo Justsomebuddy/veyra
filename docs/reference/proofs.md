@@ -30,6 +30,12 @@ an explicit non-claim boundary.
   exhaustion. It does not formalize the Rust codec, signatures, operating-
   system isolation, source/toolchain manifests, a concrete grammar, or a
   universal search result.
+- `VeyraObserverSynthesisV5.lean` is an axiom-free
+  `INTERNAL_RESEARCH_CANDIDATE` for caller-supplied admissible pruning,
+  finite branch-and-bound coverage, explicitly admitted transport
+  preservation, and exact list-relative exhaustion. It does not prove the
+  concrete Rust lower bound/ledger, VOR5 framing or signatures, Linux custody,
+  a concrete catalog complete, or any universal discovery result.
 - `THM-F001`: for every observer `o` and object `x`, `echo(o,x,x)`.
 - `THM-F002`: `(n * k + 1) % n = 1 % n`, the product-plus-one arithmetic shadow now used by finite native Mode-length Euclid rows.
 - `THM-F003`: finite prime-period Fermat phase row over native Mode/Breath length observers; Python certificate only.

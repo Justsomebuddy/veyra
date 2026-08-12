@@ -31,3 +31,11 @@ path = "src/bin/vami-inspect.rs"
 [[bin]]
 name = "vam-observer-replay-v4"
 path = "src/bin/vam-observer-replay-v4.rs"
+
+[[bin]]
+name = "vam-observer-discover-v5"
+path = "src/bin/vam-observer-discover-v5.rs"
+
+[[bin]]
+name = "vam-observer-replay-v5"
+path = "src/bin/vam-observer-replay-v5.rs"

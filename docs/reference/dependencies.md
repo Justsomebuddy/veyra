@@ -45,7 +45,7 @@ surface but is a solver input, not a complete transitive lock.
 
 ## Lean
 
-All 46 sources target `leanprover/lean4:v4.30.0-rc2`. Their non-local imports
+All 47 sources target `leanprover/lean4:v4.30.0-rc2`. Their non-local imports
 (`Init.GrindInstances.Ring.Fin`, `Lean.Elab.Tactic.Omega`, and `Std.Tactic`) are
 provided by that Lean distribution; the project does not declare a Lake or
 mathlib dependency. `elan` is the supported toolchain selector.
@@ -60,7 +60,10 @@ MSRV-compatible `1.7.3` and `zeroize` to MSRV-compatible `1.8.2`, and pins the
 resulting transitive graph for the Rust replay-bundle signature verifier. The
 crate is configured without RNG
 support: signing keys enter only through a borrowed library API and are never
-generated, serialized, or logged; trust anchors remain external. The pinned
+generated, serialized, or logged; trust anchors remain external. VOR5 reuses
+the exact closure for bounded threshold verification and caller-selected
+rotation epochs; it adds no trusted-time, identity, attestation, or source-
+validation dependency. The pinned
 signing release declares Rust 1.81 compatibility, below this crate's tested
 MSRV 1.83. The direct `base64ct` constraint also prevents a transitive
 edition-2024/Rust-1.85 drift through `spki`.

@@ -34,7 +34,7 @@ def expected_source_only_payload() -> frozenset[str]:
     """Return exact maintained Lean, native, and differential-vector payload."""
     logger.debug("package_smoke.expected_source_only_payload entry")
     lean = tuple(sorted((ROOT / "proofs" / "lean").glob("*.lean")))
-    if len(lean) != 46:
+    if len(lean) != 47:
         raise RuntimeError("lean-source-inventory-mismatch")
     native_root = ROOT / "vam" / "native"
     native = tuple(sorted((native_root / "src").rglob("*.rs"))) + tuple(

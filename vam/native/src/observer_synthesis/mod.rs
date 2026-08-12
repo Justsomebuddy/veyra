@@ -14,19 +14,23 @@ mod budget;
 mod canonical;
 mod cegis;
 mod diagnostics;
+mod discovery_benchmark_v5;
 mod grammar;
 mod grammar_profile;
 mod grammar_registry;
+mod grammar_v5;
 mod hash;
 mod joint_search_optimized;
 mod joint_synthesis;
 mod observer_gap_lab;
 mod pipeline_v3;
+mod prune_verifier_v5;
 mod receipt;
 mod representation_family;
 mod representation_survey_v4;
 mod semantics;
 mod synthesis_v4;
+mod synthesis_v5;
 mod transport_dsl;
 mod transport_observer_search;
 
@@ -66,6 +70,14 @@ pub use cegis::{
     default_train_cases, fit_observer_cegis, CegisEvent, CegisTraceStep, ExpectedRelation,
     LockedObserverWinner, ObserverCase, SynthesisReport, SynthesisStatus, CEGIS_BOUNDARY,
 };
+pub use discovery_benchmark_v5::{
+    canonical_discovery_benchmark_v5_bytes, discovery_benchmark_family_v5, discovery_benchmark_v5,
+    discovery_benchmark_v5_root, DiscoveryBenchmarkFamilyV5, DiscoveryBenchmarkIdV5,
+    DiscoveryBenchmarkSplitV5, DiscoveryBenchmarkV5, ALL_DISCOVERY_BENCHMARKS_V5,
+    CALIBRATION_DISCOVERY_BENCHMARKS_V5, DISCOVERY_BENCHMARK_V5_BOUNDARY,
+    DISCOVERY_BENCHMARK_V5_FAMILY_DIGEST, DISCOVERY_BENCHMARK_V5_SCHEMA,
+    HELD_OUT_DISCOVERY_BENCHMARKS_V5,
+};
 pub use grammar::{
     enumerate_observer_grammar, enumerate_observer_grammar_profile, grammar_config_for_profile,
     GrammarConfig, GrammarEnumeration, GrammarStratum, ObserverCandidate,
@@ -83,6 +95,14 @@ pub use grammar_registry::{
     enumerate_registered_grammar, grammar_registry_v1, validate_registry_prefix,
     GrammarLifecycleV1, GrammarRegistryEntryV1, GrammarRegistryReceiptV1, GRAMMAR_REGISTRY_DIGEST,
     GRAMMAR_REGISTRY_SCHEMA, LEGACY_REGISTRY_PREFIX_DIGEST,
+};
+pub use grammar_v5::{
+    discovery_grammar_extension_v5, enumerate_discovery_grammar_v5, DiscoveryGrammarCatalogV5,
+    DiscoveryGrammarExtensionV5, DiscoveryGrammarProfileIdV5, DiscoveryGrammarProfileV5,
+    DiscoveryObserverCandidateV5, DiscoveryObserverTermV5, DISCOVERY_GRAMMAR_V5_BOUNDARY,
+    DISCOVERY_GRAMMAR_V5_CATALOG_DIGEST, DISCOVERY_GRAMMAR_V5_EXTENSION_DIGEST,
+    DISCOVERY_GRAMMAR_V5_PROFILE_DIGEST, DISCOVERY_GRAMMAR_V5_PROFILE_ID,
+    DISCOVERY_GRAMMAR_V5_SCHEMA,
 };
 pub use joint_search_optimized::{
     differential_joint_search, synthesize_transform_and_observer_optimized,
@@ -140,6 +160,17 @@ pub use synthesis_v4::{
     ObserverSynthesisStatusV4, ObserverSynthesisWinnerV4, MAX_V4_OBSERVERS,
     MAX_V4_RELATION_EVALUATIONS, MAX_V4_REPRESENTATIONS, MAX_V4_TOTAL_COST,
     OBSERVER_SYNTHESIS_V4_BOUNDARY, OBSERVER_SYNTHESIS_V4_SCHEMA,
+};
+pub use synthesis_v5::{
+    canonical_discovery_request_v5_bytes, canonical_discovery_result_v5_bytes,
+    decode_discovery_request_v5_bytes, decode_discovery_result_v5_bytes, differential_discovery_v5,
+    discovery_request_v5_root, discovery_result_v5_root, run_discovery_benchmark_v5,
+    synthesize_discovery_v5, synthesize_discovery_v5_exhaustive, verify_branch_bound_proof_v5,
+    DiscoveryBenchmarkRunV5, DiscoveryPruneLedgerV5, DiscoverySearchDifferentialV5,
+    DiscoverySearchLimitsV5, DiscoverySearchRequestV5, DiscoverySearchResultV5,
+    DiscoverySearchStatusV5, DiscoveryWinnerV5, DISCOVERY_BENCHMARK_RUN_V5_DIGEST,
+    DISCOVERY_SYNTHESIS_V5_BOUNDARY, DISCOVERY_SYNTHESIS_V5_SCHEMA, MAX_DISCOVERY_V5_CANDIDATES,
+    MAX_DISCOVERY_V5_PAIR_DISPOSITIONS, MAX_DISCOVERY_V5_TOTAL_COST,
 };
 pub use transport_dsl::{
     apply_transport, compile_legacy_representation_transform, compile_transport, compose_transport,

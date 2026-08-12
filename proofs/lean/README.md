@@ -1,6 +1,6 @@
 # Lean proof inventory
 
-This directory contains 46 Lean source modules. The table is exhaustive: status refers to the public claim supported by the source, not merely to the presence of compilable declarations. Exact released declaration locations and dependencies are listed in `../../THEOREMS.md`.
+This directory contains 47 Lean source modules. The table is exhaustive: status refers to the public claim supported by the source, not merely to the presence of compilable declarations. Exact released declaration locations and dependencies are listed in `../../THEOREMS.md`.
 
 ## Status vocabulary
 
@@ -36,6 +36,7 @@ This directory contains 46 Lean source modules. The table is exhaustive: status 
 | `VeyraObserverSynthesisReplay.lean` | abstract deterministic replay, bijective task relabeling, and finite-catalog exhaustion boundary | `INTERNAL_RESEARCH_CANDIDATE` | none; abstract helpers only, with no concrete Rust theorem or public theorem-card registration |
 | `VeyraObserverSynthesisV3.lean` | abstract canonical rebuild acceptance, explicit bijective task transport, and optimized/reference equivalence consequences | `INTERNAL_RESEARCH_CANDIDATE` | none; does not formalize Rust, cryptography, custody, concrete catalogs, or benchmark outcomes |
 | `VeyraObserverSynthesisV4.lean` | exact abstract codec/replay laws, explicit-bijection task transport, and list-relative finite exhaustion | `INTERNAL_RESEARCH_CANDIDATE` | none; axiom-free helpers only, with no Rust, cryptography, isolation, concrete-catalog, or universal-completeness theorem |
+| `VeyraObserverSynthesisV5.lean` | abstract admissible branch-and-bound pruning, explicitly admitted transport preservation, and exact finite-catalog exhaustion | `INTERNAL_RESEARCH_CANDIDATE` | none; conditional axiom-free helpers only, with no concrete Rust/pruning/transport completeness theorem |
 | `VeyraOptimizer.lean` | bounded local optimizer laws | `FORMAL_CONSTRUCTION` | none |
 | `VeyraPadicAllDepthEquality.lean` | N4 all-projection scoped equality | `FORMALLY_PROVED + PUBLICLY_VALIDATED` | `THM_P3N4_PREMISE_001_same_integer_coordinates` |
 | `VeyraPadicCompletion.lean` | PΩ2 prime-power compatible-family completion | `FORMALLY_PROVED` | `THM_POMEGA2_001_prime_lower_bound`, `THM_POMEGA2_002_stage_modulus_divisibility`, `THM_POMEGA2_003_reduction_well_formed_congruence`, `THM_POMEGA2_004_reduction_identity`, `THM_POMEGA2_005_reduction_composition`, `THM_POMEGA2_006_carrier_presentation_compatible`, `THM_POMEGA2_007_universal_realization`, `THM_POMEGA2_008_coordinate_agreement`, `THM_POMEGA2_009_joint_separation`, `THM_POMEGA2_010_relative_uniqueness`, `THM_POMEGA2_011_zero_family_nonvacuity`, `THM_POMEGA2_012_one_family_formation`, `THM_POMEGA2_013_addition_closure`, `THM_POMEGA2_014_negation_additive_inverse`, `THM_POMEGA2_015_multiplication_closure`, `THM_POMEGA2_016_full_commutative_ring`, `THM_POMEGA2_017_ppcp_introduction` |
@@ -77,7 +78,7 @@ This directory contains 46 Lean source modules. The table is exhaustive: status 
 ## Whole-source compilation
 
 Install `elan` and the exact reviewed toolchain, then compile the complete
-46-source local import graph from the repository root:
+47-source local import graph from the repository root:
 
 ```bash
 elan toolchain install leanprover/lean4:v4.30.0-rc2

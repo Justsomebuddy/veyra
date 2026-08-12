@@ -24,7 +24,7 @@ LEAN_ROOT = ROOT / "proofs" / "lean"
 TMP_ROOT = ROOT / "data" / "tmp"
 DEFAULT_TOOLCHAIN = "leanprover/lean4:v4.30.0-rc2"
 EXPECTED_VERSION = "4.30.0-rc2"
-EXPECTED_SOURCE_COUNT = 46
+EXPECTED_SOURCE_COUNT = 47
 IMPORT_PATTERN = re.compile(r"^import\s+(.+?)\s*$", re.MULTILINE)
 
 

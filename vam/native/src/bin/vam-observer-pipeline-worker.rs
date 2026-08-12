@@ -5,8 +5,8 @@ use std::process;
 use std::path::PathBuf;
 
 use vam_native::observer_worker::{
-    run_observer_pipeline_child_v3, run_observer_pipeline_child_v4, IsolationProfileV4,
-    WorkerV2Limits,
+    run_discovery_child_v5, run_observer_pipeline_child_v3, run_observer_pipeline_child_v4,
+    IsolationProfileV4, ObserverWorkerLimitsV5, WorkerV2Limits,
 };
 
 fn event(code: &'static str, detail: &'static str) {
@@ -74,10 +74,50 @@ fn parse_v4(
     ))
 }
 
+fn parse_v5(
+    arguments: &[String],
+) -> Result<(ObserverWorkerLimitsV5, PathBuf, PathBuf), &'static str> {
+    event("WORKER_V5_BIN_PARSE_ENTER", "parsing v5 child controls");
+    let [_, command, cpu, address_space, wall_timeout, max_response, cpu_quota, cpu_period, memory, pids, rootfs_bytes, cgroup, rootfs] =
+        arguments
+    else {
+        return Err("worker-v5-usage");
+    };
+    if command != "--child-v5" {
+        return Err("worker-v5-usage");
+    }
+    let limits = ObserverWorkerLimitsV5 {
+        cpu_seconds: cpu.parse::<u32>().map_err(|_| "worker-v5-usage")?,
+        address_space_bytes: address_space
+            .parse::<u64>()
+            .map_err(|_| "worker-v5-usage")?,
+        wall_timeout_ms: wall_timeout.parse::<u32>().map_err(|_| "worker-v5-usage")?,
+        max_response_bytes: max_response.parse::<u32>().map_err(|_| "worker-v5-usage")?,
+        cpu_quota_us: cpu_quota.parse::<u32>().map_err(|_| "worker-v5-usage")?,
+        cpu_period_us: cpu_period.parse::<u32>().map_err(|_| "worker-v5-usage")?,
+        memory_bytes: memory.parse::<u64>().map_err(|_| "worker-v5-usage")?,
+        pids: pids.parse::<u32>().map_err(|_| "worker-v5-usage")?,
+        rootfs_bytes: rootfs_bytes.parse::<u64>().map_err(|_| "worker-v5-usage")?,
+    };
+    event("WORKER_V5_BIN_PARSE_EXIT", "v5 child controls parsed");
+    Ok((limits, PathBuf::from(cgroup), PathBuf::from(rootfs)))
+}
+
 fn main() {
     event("WORKER_V3_BIN_ENTER", "fixed child started");
     let arguments = std::env::args().collect::<Vec<_>>();
-    let result = if arguments.get(1).map(String::as_str) == Some("--child-v4") {
+    let result = if arguments.get(1).map(String::as_str) == Some("--child-v5") {
+        parse_v5(&arguments).and_then(|(limits, cgroup, rootfs)| {
+            run_discovery_child_v5(
+                std::io::stdin().lock(),
+                std::io::stdout().lock(),
+                limits,
+                &cgroup,
+                &rootfs,
+            )
+            .map_err(|error| error.0)
+        })
+    } else if arguments.get(1).map(String::as_str) == Some("--child-v4") {
         parse_v4(&arguments).and_then(|(profile, limits, cgroup)| {
             run_observer_pipeline_child_v4(
                 std::io::stdin().lock(),

@@ -130,6 +130,16 @@ the exact pipeline. The accompanying Lean file is an abstract finite model, not
 a verification of Rust, Linux custody, or Ed25519. See
 `../docs/042_native_observer_synthesis_v4.md`.
 
+Observer synthesis v5 appends a separately rooted 2,048-row affine
+parity/reflection grammar and deterministic synthetic calibration family.
+Proof-carrying branch-and-bound binds admitted lower bounds and the pruned
+suffix, while a separate exhaustive implementation checks bounded terminals.
+Worker-v5 adds fail-closed closed-rootfs/delegated-cgroup custody with
+parent/child readback and cleanup. VOR5 threshold-authenticates exact
+request/result/pruning/manifests under an external rotation policy and replays
+the proof without producer state. These remain catalog/task/cost/host-relative
+engineering results. See `../docs/043_native_observer_synthesis_v5.md`.
+
 ## Required contract
 
 - Profile is explicit: `vam0-ref-v1` now; `f4-strict` is future-gated and must be

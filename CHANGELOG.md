@@ -1,6 +1,21 @@
 # Changelog
 
 ## [Unreleased] — Changed
+- Added observer synthesis v5 while preserving v1–v4 identities: a separately
+  rooted 2,048-row affine parity/reflection grammar; deterministic generated
+  hidden-structure, symmetry, misrepresentation, negative-control and synthetic
+  held-out calibration; proof-carrying branch-and-bound with canonical lower-
+  bound/prune ledgers checked against an independent exhaustive path; and exact
+  task/request/result codecs exposing winner roots, catalog-cost observer gap
+  and alternatives. Added fail-closed Linux x86-64 closed-tmpfs-root custody
+  with parent/child namespace, seccomp and delegated-cgroup readback plus a
+  conditional cleanup harness. Added bounded threshold-Ed25519 VOR5 replay with
+  external rotation epochs, signed manifests and state-free proof rebuilding,
+  plus four axiom-free abstract Lean pruning/transport/exhaustion results.
+  These are synthetic finite catalog/task/cost/host-relative results—not
+  empirical or causal discovery, statistical generalization, universal
+  completeness, workload-limit proof, trusted identity/time/source,
+  attestation, Rust verification, theoremhood, or promotion.
 - Added observer synthesis v4 without rebinding v1/v2/v3 artifacts: pinned v3
   golden/mutation/metamorphic contracts; a deterministic finite representation
   survey; joint representation/transport/observer/explanation synthesis checked

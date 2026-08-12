@@ -71,7 +71,7 @@ The current Python implementation proves that Veyra rows are executable, but it 
   pipeline replay, and a fixed baseline worker-v3 supervisor. All results stay
   finite/profile-relative and unavailable strict physical controls remain
   blocked.
-- Docs: `docs/003_reference_interpreter.md` through `docs/041_native_observer_synthesis_v3.md` cover interpreter, VAM0/VAMD, optimizer, Core/HL-1 lowering, diagnostics/theorem carriers, native scaffold, finite semantics/metadata, the bounded Rust synthesis shadow and receipts, the representation-sensitive benchmark family, and its versioned/custodied v2/v3 extensions.
+- Docs: `docs/003_reference_interpreter.md` through `docs/043_native_observer_synthesis_v5.md` cover interpreter, VAM0/VAMD, optimizer, Core/HL-1 lowering, diagnostics/theorem carriers, native scaffold, finite semantics/metadata, the bounded Rust synthesis shadow and receipts, representation-sensitive benchmark families, proof-carrying finite search, strict custody, and signed replay.
 
 ## Boundary
 
