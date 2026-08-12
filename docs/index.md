@@ -23,11 +23,13 @@ P2. `151_veyra_philosophical_kernel_p2.md` — observer/formation/silence/infini
 P3. `154_six_closure_principles.md` — six independent closure principles for ontology, semantics, construction, foundation, and provenance.
 PX. `156_omegaa_semantic_authority_ladder.md` — conceptual map for the isolated, unfinished Omega-A experiment; not stable Core or a checker release.
 OD. `157_certified_observer_discovery_mvp.md` through
-    `160_governed_observer_discovery_v3.md` — bounded categorical observer
+    `160_governed_observer_discovery_v3.md` and
+    `163_adaptive_research_line_validity.md` — bounded categorical observer
     search, its nonpromoting Phase-II claim tuple and fixed-winner replication,
     plus the separate strict-v3 canonical transport, closed-worker, local
     governance, and authenticated-root experiment; no causality, object
-    formation, theorem, strict syscall isolation, or production custody follows.
+    formation, theorem, strict syscall isolation, production custody, or
+    adaptive-inference guarantee follows.
 PR. `161_p1_r16_realization_contract.md` — explicit context-relative P1→R16
     realization with structured Ready/Blocked replay, derived finite join
     completion, authoritative checking, and no canonical-functor claim.
@@ -248,6 +250,9 @@ No metaphysical claim is accepted as mathematics until it becomes a definition, 
 - `docs/161_p1_r16_realization_contract.md` — finite context-bound replay of P1
   programs into a derived R16 join completion; structured blockage is retained,
   but no canonical map, functoriality, quotient transport, or theorem follows.
+- `docs/163_adaptive_research_line_validity.md` — canonical bounded declared
+  experiment-family history, orthogonal local/family/adaptive validity, and an
+  exact independent-null retry counterexample; family inference remains open.
 ## Executable examples
 - `veyra_sage/examples.py` — Sage doctest examples.
 - `scripts/scale_memory_log_demo.py` — practical transition-depth recovery demo with progress output.
@@ -322,7 +327,7 @@ No metaphysical claim is accepted as mathematics until it becomes a definition, 
   replication on a third declared test set.
 - `tests/test_observer_discovery_v3*.py` and `tests/test_observer_v3_*.py` —
   strict-v3 schema/transport/commuting-square, closed-worker, local-ledger,
-  burn-before-evaluation, and authenticated root-receipt pressure.
+  burn-before-evaluation, authenticated root-receipt, and adaptive-lineage pressure.
 - `tests/test_veyra_sage_essence.py`, `test_certify_intrinsic_vam.py`, `test_veyra_sage_intrinsic_vam.py`, `test_intrinsic_observer_echo_*.py` — Sage Essence, R12.6 integration, and R13 proof/promotion/Sage boundaries.
 - `tests/test_veyra_sage_calculus.py` — Sage-facing calculus-depth lab and notebook.
 - `tests/test_veyra_sage_trigonometry.py` — Sage-facing trigonometry identity lab and notebook.

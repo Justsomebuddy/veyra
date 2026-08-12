@@ -72,6 +72,9 @@ The table is intentionally machine-readable: tests parse the first column and co
 | `G4ExhaustiveRow` | observer-patch-gluing | class | `veyra_sage.observer_patch_gluing` |
 | `VeyraObserverPatchGluingLab` | observer-patch-gluing | class | `veyra_sage.observer_patch_gluing` |
 | `exhaustive_g4_row` | observer-patch-gluing | function | `veyra_sage.observer_patch_gluing` |
+| `AdaptiveRetryOracleRow` | adaptive-research-line | class | `veyra_sage.adaptive_research_line` |
+| `VeyraAdaptiveResearchLineLab` | adaptive-research-line | class | `veyra_sage.adaptive_research_line` |
+| `adaptive_retry_oracle` | adaptive-research-line | function | `veyra_sage.adaptive_research_line` |
 | `SAGE_AVAILABLE` | runtime | constant | `veyra_sage.all` |
 | `VeyraBalanceElement` | arithmetic-balances | class | `veyra_sage.balances` |
 | `VeyraBalanceParent` | arithmetic-balances | class | `veyra_sage.balances` |
@@ -127,7 +130,7 @@ The table is intentionally machine-readable: tests parse the first column and co
 
 ## API count
 
-- Public symbols: 96
+- Public symbols: 99
 - Governing tests: `tests/test_veyra_sage_api_index.py`
 - Boundary document: `docs/69_package_boundary.md`
 

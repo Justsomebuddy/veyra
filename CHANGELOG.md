@@ -1,5 +1,15 @@
 # Changelog
 ## [Unreleased] — Changed
+- Implemented the representational half of `OD-A12` from issue #14: a bounded
+  canonical research-line DAG now binds experiment/design/data/outcome roots,
+  parents, visible prior outcomes, and adaptation reasons while keeping local
+  validity, family recording relative to the declaration, and adaptive
+  validity orthogonal. Generic named policies remain unverified and cannot
+  license significance or population wording. An exact independent-null
+  adaptive-retry witness plus Python/real-Sage binomial cross-check reproduces
+  `1-(1-alpha)^m` (about `0.6415` for twenty `alpha=0.05` attempts). This adds
+  no theorem/certificate, trusted chronology, disclosure-completeness,
+  independence, family-error, anytime-valid, causal, or generalization claim.
 - Implemented issue #5 as a sibling Comparative Bridge and Structural
   Separation ledger without changing F5's fixed eight rows. The first exact
   bridge reduces the declared finite G4 existence/effectivity problem to

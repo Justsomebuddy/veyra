@@ -90,6 +90,7 @@ def test_wheel_package_discovery_is_explicit_and_bounded():
         "src.core.observer_discovery_v3",
         "src.core.observer_discovery_v3.dsl",
         "src.core.observer_discovery_v3.ledger",
+        "src.core.observer_discovery_v3.lineage",
         "src.core.observer_discovery_v3.replay",
         "src.core.observer_discovery_v3.schema",
         "src.core.observer_discovery_v3.service",

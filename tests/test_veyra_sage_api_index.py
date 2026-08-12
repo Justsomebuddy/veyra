@@ -27,7 +27,7 @@ def _documented_symbols() -> tuple[str, ...]:
 def test_veyra_sage_api_index_matches_public_all():
     documented = _documented_symbols()
     assert documented == tuple(veyra_api.__all__)
-    assert len(documented) == 96
+    assert len(documented) == 99
 
 
 def test_veyra_sage_api_index_records_boundary_and_domains():
@@ -45,3 +45,4 @@ def test_veyra_sage_api_index_records_boundary_and_domains():
     assert "VeyraIntrinsicObserverEchoLab" in text
     assert "VeyraObserverSynthesisV2Lab" in text
     assert "VeyraObserverPatchGluingLab" in text
+    assert "VeyraAdaptiveResearchLineLab" in text

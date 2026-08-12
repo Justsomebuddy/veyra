@@ -24,6 +24,7 @@ from .intrinsic_observer_echo import VeyraIntrinsicObserverEchoLab
 from .intrinsic_vam import VeyraIntrinsicVamLab
 from .observer_synthesis_v2 import VeyraObserverSynthesisV2Lab
 from .observer_patch_gluing import G4ExhaustiveRow, VeyraObserverPatchGluingLab, exhaustive_g4_row
+from .adaptive_research_line import AdaptiveRetryOracleRow, VeyraAdaptiveResearchLineLab, adaptive_retry_oracle
 from .school import VeyraCurriculumNode, VeyraExportRow, VeyraSchoolCore, VeyraTheoremSpec
 from .statistics_inference import VeyraStatisticsInferenceLab, build_statistics_inference_notebook, statistics_inference_lab_summary
 from .topology_echo import VeyraTopologyLab, build_topology_echo_notebook, topology_echo_lab_summary
@@ -44,6 +45,7 @@ __all__ = [
     "VeyraLikelihoodGeometryLab", "build_likelihood_geometry_notebook", "likelihood_geometry_lab_summary",
     "VeyraIntrinsicObserverEchoLab", "VeyraIntrinsicVamLab", "VeyraObserverSynthesisV2Lab",
     "G4ExhaustiveRow", "VeyraObserverPatchGluingLab", "exhaustive_g4_row",
+    "AdaptiveRetryOracleRow", "VeyraAdaptiveResearchLineLab", "adaptive_retry_oracle",
     "SAGE_AVAILABLE",
     "VeyraBalanceElement",
     "VeyraBalanceParent",

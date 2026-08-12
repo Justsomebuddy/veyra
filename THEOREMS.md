@@ -50,3 +50,7 @@ complete registry; no local history is required.
   quotient-conflict classification. Its exhaustive `n≤3`/Sage evidence and two
   digest-bound Lean helpers do not add registered theorem cards or imply a
   general sheaf/descent, novelty, nonexpressibility, or superiority result.
+- DEF-717–723 records declared adaptive research lines and the exact
+  independent-null retry inflation witness. Its Python/Sage arithmetic is
+  executable counterpressure, not a registered theorem, verified adaptive
+  policy, significance license, or population claim.

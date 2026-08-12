@@ -231,5 +231,19 @@ from uniqueness by disjoint singletons. This is executable/finite and uses two
 digest-bound nonpromoted Lean helpers; no new registered theorem card, general
 sheaf/descent/topology result, novelty, nonexpressibility, or superiority follows.
 See doc 162.
+## DEF-717–723 — Adaptive research-line validity boundary
+`ExperimentLineageNode` and `ExperimentResearchLine` bind a bounded canonical
+declared experiment DAG; disjoint design modes expose isolated, predeclared,
+and outcome-adaptive continuation; orthogonal status values separate local
+governed-result replay, family recording relative to the declaration, and
+adaptive validity; `AdaptiveInferencePolicy` names a generic external policy
+without verifying its mathematics; `ResearchLineAssessment` never licenses
+significance or population wording; `AdaptiveRetryWitness` computes exact
+`1-(1-alpha)^m` under independent-null assumptions; and the independent
+Python/real-Sage oracle checks the complement against the binomial sum. These
+are definitions and executable counterpressure, not a registered theorem or
+certificate. They prove neither disclosure completeness, chronology,
+independence of a real workflow, family-error control, anytime validity,
+causality, objecthood, nor generalization. See doc 163.
 ## THM-P3N6W-001–004 — Prime-power uniform late distinction — internal research candidate
 `VeyraPrimePowerInformation.lean` constructively packages, for each requested `k`, the zero/`p^(k+1)` carrier pair agreeing through `k` and separating at `k+1`. The four Lean declarations are checked formal source results, but this publication contains no release-bundle certificate or public export for the family. Status is **INTERNAL_RESEARCH_CANDIDATE**, not a released registry theorem. It establishes neither ΩN completed indexing, `InformationUnbounded`, cardinality nor uncountability.

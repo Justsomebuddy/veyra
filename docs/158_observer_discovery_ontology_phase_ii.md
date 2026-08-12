@@ -297,7 +297,7 @@ assumptions, executable obligations, and still-open inference requirements.
 | `OD-A09` | sampling | locked test data support any claimed transfer population | external statistical assumption | exact finite-corpus claim only |
 | `OD-A10` | baseline | `B` is the complete comparison class named in the wording | declared finite scope | prohibit all-method superiority claims |
 | `OD-A11` | robustness | transformations and refinements in `R` preserve the intended subject matter | supplied semantic argument | cosmetic invariance only |
-| `OD-A12` | inference | candidate search and repeated comparisons receive declared multiplicity control | future statistical obligation | no significance or population claim |
+| `OD-A12` | inference | candidate search and repeated comparisons receive declared multiplicity control | research-line history represented in Phase III; adaptive statistical policy remains OPEN | no significance or population claim |
 | `OD-A13` | QA | tests, digests, and receipts attest implementation replay rather than ontology | adopted boundary | prohibit theorem or object promotion |
 | `OD-A14` | novelty | “found” means new in the bound search transcript unless independent priority evidence exists | adopted wording rule | prohibit scientific-novelty claim |
 
@@ -469,9 +469,12 @@ that stronger infrastructure cannot silently outrun claim semantics:
    task, split manifests, limits, and candidate-selection transcript before the
    locked test is released. Distinguish content immutability from historical
    target independence.
-5. **Statistical layer.** Add nested or group-aware resampling, uncertainty,
-   permutation testing, multiplicity correction, perturbation stability, and
-   explicit population assumptions. These support inference, not ontology.
+5. **Statistical layer.** The bounded research-line DAG now exposes declared
+   cross-experiment continuation and keeps local/family/adaptive validity
+   separate. Still add a policy-specific verified construction—such as an
+   exact fresh terminal-test, alpha-spending, reusable-holdout, or anytime-valid
+   contract under its own assumptions—before significance/population wording.
+   These support inference, not ontology.
 6. **Signed replay package.** Produce a canonical portable witness with content
    digests, environment/toolchain identity, resource receipts, result status,
    obstructions, and signature verification. Signing establishes artifact

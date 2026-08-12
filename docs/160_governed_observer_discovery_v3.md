@@ -5,8 +5,8 @@
 `src.core.observer_discovery_v3` is a separate experimental protocol package.
 It does not replace or silently strengthen the Phase-I/II APIs described in
 documents 157–159. The package root exports nothing; public names are exposed
-through its narrow `schema`, `transport`, `dsl`, `ledger`, `service`, and
-`replay` subpackages or the explicit `worker.runtime` module.
+through its narrow `schema`, `transport`, `dsl`, `ledger`, `service`, `replay`,
+and `lineage` subpackages or the explicit `worker.runtime` module.
 
 Phase III adds bounded engineering controls around canonical representations,
 closed observers, local one-shot governance, and authenticated evidence roots.
@@ -210,11 +210,30 @@ not externally attested facts.
 | ledger | `CONSUMED` | one cooperating local capability reached a completed outcome |
 | governed service | `READY` | burned attempt produced a valid ready worker receipt |
 | replay package | valid HMAC/Ed25519 | authenticated bound roots under supplied key material |
+| research line | canonical bounded DAG | declared family history, relative only to disclosed nodes |
+| lineage assessment | local/family/adaptive status tuple | no adaptive validity without a separate policy verifier |
 
 None of these states implies another unless the relevant linking validator
 checks the exact roots. None promotes an empirical claim into causality,
 semantic explanation, object formation, population generalization, a Veyra
 theorem, or a registry certificate.
+
+## 8. Adaptive research-line boundary
+
+The `lineage` subpackage addresses the representational half of `OD-A12`. It
+binds finite experiment nodes, parents, design roots, data commitments, prior
+outcomes visible before design, adaptation reasons, and local outcome roots
+into a canonical DAG. `ISOLATED`, `PREDECLARED_CONTINUATION`, and
+`ADAPTIVE_AFTER_OUTCOME` are disjoint shapes; adaptive nodes must name actual
+ancestor outcome roots.
+
+Assessment keeps local governed-result replay, family recording relative to
+the declaration, and adaptive inference orthogonal. A named inferential policy
+is deliberately `DECLARED_UNVERIFIED`; significance and population wording
+remain disabled until a separate policy-specific verifier is implemented. The
+exact independent-null adaptive-retry fixture demonstrates that twenty local
+`alpha=0.05` attempts can have roughly `0.642` probability of at least one
+nominal positive. See [document 163](163_adaptive_research_line_validity.md).
 
 ## Remaining production boundary
 
@@ -227,6 +246,8 @@ A stronger production-scientific system would still require, at minimum:
 - a full disclosure/replay bundle containing the data, programs, policies,
   runtime identity, and deterministic reconstruction procedure;
 - an external sampling and inference argument for any population claim.
+- a proved/executable family-level inference policy for any adaptive sequence,
+  plus trusted evidence that the declared research line is complete;
 
 Phase III is useful because it makes several missing controls explicit and
 testable. It remains finite research infrastructure, not certification of a
