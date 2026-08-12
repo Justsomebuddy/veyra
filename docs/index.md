@@ -251,6 +251,10 @@ No metaphysical claim is accepted as mathematics until it becomes a definition, 
   representation/commuting-square checks, closed logical subprocess, local
   burn-before-evaluation governance, and HMAC/optional-Ed25519 root-only audit
   receipts; not a syscall sandbox, production custody, full replay, or theorem.
+- `vam/docs/042_native_observer_synthesis_v4.md` — append-only finite
+  representation/observer search, truthful namespace/seccomp/cgroup custody,
+  state-free signed replay, and an abstract Lean boundary; not general
+  discovery, a sealed filesystem, attestation, signer trust, or Rust proof.
 - `docs/161_p1_r16_realization_contract.md` — finite context-bound replay of P1
   programs into a derived R16 join completion; structured blockage is retained,
   but no canonical map, functoriality, quotient transport, or theorem follows.

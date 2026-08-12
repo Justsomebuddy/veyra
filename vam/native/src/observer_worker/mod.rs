@@ -1,6 +1,8 @@
 //! Bounded isolated execution and authenticated replay for native observer receipts.
 
+mod autonomous_replay_v4;
 mod digest;
+mod isolation_v4;
 mod linux;
 mod pipeline_replay_v3;
 mod protocol;
@@ -8,9 +10,19 @@ mod replay;
 mod replay_v2;
 mod supervisor;
 mod supervisor_v3;
+mod supervisor_v4;
 mod synthesis_v2;
 mod worker_v2;
 
+pub use autonomous_replay_v4::{
+    build_autonomous_replay_package_from_worker_v4, build_autonomous_replay_package_v4,
+    decode_autonomous_replay_package_v4, decode_autonomous_replay_package_v4_bytes,
+    encode_autonomous_replay_package_v4, verify_autonomous_replay_package_v4,
+    AutonomousReplayPackageV4, AutonomousReplayV4Error, ManifestEntryV4, ManifestKindV4,
+    WorkerPolicyAndReceiptV4, WorkerPolicyManifestV4, WorkerProfileEvidenceV4,
+    AUTONOMOUS_REPLAY_V4_BOUNDARY, AUTONOMOUS_REPLAY_V4_MAGIC, AUTONOMOUS_REPLAY_V4_SCHEMA,
+    AUTONOMOUS_REPLAY_V4_VERSION, MAX_AUTONOMOUS_MANIFEST_ROWS_V4, MAX_AUTONOMOUS_REPLAY_V4_BYTES,
+};
 pub use pipeline_replay_v3::{
     build_ed25519_observer_pipeline_bundle_v3, build_hmac_observer_pipeline_bundle_v3,
     canonical_observer_pipeline_result_v3_bytes, decode_observer_pipeline_request_v3,
@@ -40,6 +52,11 @@ pub use supervisor_v3::{
     run_observer_pipeline_child_v3, supervise_observer_pipeline_v3, ObserverWorkerControlsV3,
     ObserverWorkerLimitsV3, ObserverWorkerReceiptV3, ObserverWorkerStatusV3, ObserverWorkerV3Error,
     OBSERVER_WORKER_V3_BOUNDARY,
+};
+pub use supervisor_v4::{
+    run_observer_pipeline_child_v4, supervise_observer_pipeline_v4, IsolationProfileV4,
+    ObserverWorkerControlsV4, ObserverWorkerLaunchV4, ObserverWorkerLimitsV4,
+    ObserverWorkerReceiptV4, ObserverWorkerV4Error, OBSERVER_WORKER_V4_BOUNDARY,
 };
 pub use synthesis_v2::{
     build_observer_synthesis_v2_receipt, replay_observer_synthesis_v2_receipt,

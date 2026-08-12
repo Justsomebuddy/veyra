@@ -24,6 +24,12 @@ an explicit non-claim boundary.
   witness between optimized and reference search. It does not formalize Rust,
   cryptography, process custody, concrete profiles, benchmark outcomes, or
   catalog completeness.
+- `VeyraObserverSynthesisV4.lean` is an axiom-free
+  `INTERNAL_RESEARCH_CANDIDATE` for exact abstract codec/replay laws,
+  explicit-bijection task transport, and the list-relative meaning of finite
+  exhaustion. It does not formalize the Rust codec, signatures, operating-
+  system isolation, source/toolchain manifests, a concrete grammar, or a
+  universal search result.
 - `THM-F001`: for every observer `o` and object `x`, `echo(o,x,x)`.
 - `THM-F002`: `(n * k + 1) % n = 1 % n`, the product-plus-one arithmetic shadow now used by finite native Mode-length Euclid rows.
 - `THM-F003`: finite prime-period Fermat phase row over native Mode/Breath length observers; Python certificate only.

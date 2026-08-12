@@ -1,6 +1,23 @@
 # Changelog
 
 ## [Unreleased] — Changed
+- Added observer synthesis v4 without rebinding v1/v2/v3 artifacts: pinned v3
+  golden/mutation/metamorphic contracts; a deterministic finite representation
+  survey; joint representation/transport/observer/explanation synthesis checked
+  semantically against a separate exhaustive reference path over the same
+  catalog/primitive semantics; and public positive, negative,
+  representation-trap, information-destroying-family, cutoff, and exhaustion
+  benchmarks. Added truthful
+  Linux worker `baseline`/`isolated`/`strict` profiles with namespace/seccomp
+  readback and delegated cgroup-v2 limit, membership, empty-leaf, and cleanup
+  custody. The private mount namespace does not hide the host filesystem. Added
+  a bounded two-layer Ed25519 VOR4 package and state-free verifier that bind
+  manifests, registry roots, optional worker-policy evidence, and exact pipeline
+  replay, plus narrow axiom-free Lean results for abstract replay, explicit
+  bijections, and finite-list exhaustion. These are finite catalog-relative
+  engineering results, not causal or hidden-variable discovery, universal
+  representation laws, a sealed sandbox, executable attestation, signer trust,
+  source truth, Rust verification, or theorem promotion.
 - Accept the platform-native `.exe` suffix when authenticating the fixed
   observer-pipeline worker on Windows, while retaining exact basename matching
   on every platform.

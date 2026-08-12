@@ -116,6 +116,20 @@ custody only after exact fresh pipeline replay. Strict mode blocks rather than t
 cgroup/seccomp/namespace controls into a sandbox claim.
 See `../docs/041_native_observer_synthesis_v3.md`.
 
+Observer synthesis v4 adds contract-stabilization vectors, a deterministic
+finite representation survey, and joint
+representation/transport/observer/explanation search whose optimized terminal
+must agree semantically with a separately implemented exhaustive reference path
+over the same catalog and primitive semantics. Worker-v4 adds
+truthful `baseline`, `isolated`, and `strict` Linux profiles with namespace,
+seccomp, and delegated cgroup-v2 readback; its private mount namespace does not
+hide the host filesystem tree. VOR4 signs bounded manifests, derived registry
+roots, an optional worker-policy binding, and an independently signed VOR2
+pipeline payload, then verifies them without producer state and freshly replays
+the exact pipeline. The accompanying Lean file is an abstract finite model, not
+a verification of Rust, Linux custody, or Ed25519. See
+`../docs/042_native_observer_synthesis_v4.md`.
+
 ## Required contract
 
 - Profile is explicit: `vam0-ref-v1` now; `f4-strict` is future-gated and must be

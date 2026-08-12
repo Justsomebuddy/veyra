@@ -9,6 +9,7 @@ mod benchmark_marginals;
 mod benchmark_suite;
 mod benchmark_suite_receipt;
 mod benchmark_transport;
+mod benchmark_v4;
 mod budget;
 mod canonical;
 mod cegis;
@@ -23,7 +24,9 @@ mod observer_gap_lab;
 mod pipeline_v3;
 mod receipt;
 mod representation_family;
+mod representation_survey_v4;
 mod semantics;
+mod synthesis_v4;
 mod transport_dsl;
 mod transport_observer_search;
 
@@ -47,6 +50,13 @@ pub use benchmark_suite_receipt::{
     replay_native_benchmark_suite_receipt,
 };
 pub use benchmark_transport::NativeRepresentationTransportReceiptV1;
+pub use benchmark_v4::{
+    observer_synthesis_benchmarks_v4, run_observer_synthesis_benchmark_suite_v4,
+    ObserverSynthesisBenchmarkIdV4, ObserverSynthesisBenchmarkRowV4,
+    ObserverSynthesisBenchmarkSpecV4, ObserverSynthesisBenchmarkSuiteV4,
+    OBSERVER_SYNTHESIS_BENCHMARK_V4_BOUNDARY, OBSERVER_SYNTHESIS_BENCHMARK_V4_DIGEST,
+    OBSERVER_SYNTHESIS_BENCHMARK_V4_SCHEMA,
+};
 pub use budget::{
     BudgetCutoff, BudgetLedger, BudgetLimits, BudgetSnapshot, MAX_CANDIDATES, MAX_CANONICAL_BYTES,
     MAX_EVALUATIONS, MAX_OUTPUT_BYTES,
@@ -111,9 +121,25 @@ pub use representation_family::{
     PARITY_XOR_SURVEY_CLASSES, PARITY_XOR_SURVEY_DIGEST, REPRESENTATION_FAMILY_DIGEST,
     REPRESENTATION_FAMILY_ID, REPRESENTATION_FAMILY_SCHEMA, REPRESENTATION_TRANSFORMS,
 };
+pub use representation_survey_v4::{
+    enumerate_representation_family_v4, survey_representation_family_v4, RepresentationCandidateV4,
+    RepresentationFamilyKindV4, RepresentationFamilyV4, RepresentationSurveyRowV4,
+    RepresentationSurveyV4, RepresentationTaskClassV4, ALL_REPRESENTATION_FAMILIES_V4,
+    REPRESENTATION_SURVEY_V4_BOUNDARY, REPRESENTATION_SURVEY_V4_SCHEMA,
+    SYSTEMATIC_REPRESENTATION_FAMILY_V4_DIGEST,
+};
 pub use semantics::{
     echo, observe, EchoOutcome, Mark, Observation, ObserverObstruction, ObstructionCode, PathStep,
     Recurrence, ResponseValue, MAX_RECURRENCE_PULSES,
+};
+pub use synthesis_v4::{
+    differential_representation_observer_v4, synthesize_representation_observer_v4,
+    synthesize_representation_observer_v4_exhaustive, ObserverExplanationV4,
+    ObserverSynthesisCutoffV4, ObserverSynthesisDifferentialV4, ObserverSynthesisLedgerV4,
+    ObserverSynthesisLimitsV4, ObserverSynthesisReportV4, ObserverSynthesisRequestV4,
+    ObserverSynthesisStatusV4, ObserverSynthesisWinnerV4, MAX_V4_OBSERVERS,
+    MAX_V4_RELATION_EVALUATIONS, MAX_V4_REPRESENTATIONS, MAX_V4_TOTAL_COST,
+    OBSERVER_SYNTHESIS_V4_BOUNDARY, OBSERVER_SYNTHESIS_V4_SCHEMA,
 };
 pub use transport_dsl::{
     apply_transport, compile_legacy_representation_transform, compile_transport, compose_transport,
