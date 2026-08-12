@@ -133,6 +133,14 @@ def test_portable_verification_steps_are_time_bounded():
     logger.debug("test portable timeouts exit count=%d", len(planned))
 
 
+def test_portable_verification_includes_observer_realization_behavior():
+    """The portable matrix must exercise the context-relative R16 behavior."""
+    logger.debug("test portable observer realization coverage entry")
+    portable_pytest = next(step for step in portable_steps() if step.name == "Portable pytest")
+    assert "tests/test_observer_realization.py" in portable_pytest.command
+    logger.debug("test portable observer realization coverage exit")
+
+
 def test_hosted_matrix_is_fixed_bounded_and_immutable():
     """Portable CI must name hosts, Python patches, bounds, and action objects."""
     logger.debug("test hosted matrix contract entry")

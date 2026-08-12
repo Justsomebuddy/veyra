@@ -22,6 +22,11 @@
   cover pair-coverage uniqueness and the nonunique witness. This adds one
   certificate row (102 total), not a general sheaf/descent/topology theorem,
   novelty, nonexpressibility, or superiority claim.
+- Hardened supplied P1→R16 witness validation: evaluation states now receive an
+  aggregate 32,768-node/2 MiB precharge before per-row capture, excessive JSON
+  nesting fails through the closed realization error boundary, and the portable
+  test lane now exercises the full observer-realization behavior on every
+  hosted operating system.
 - Added the explicit relative P1→R16 realization requested in issue #13. A
   fingerprint-bound external context now declares the finite state/recurrence
   scope, ordered observer costs, structured R11 totalization, and finite join

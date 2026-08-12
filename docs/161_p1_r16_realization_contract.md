@@ -52,6 +52,14 @@ size, identifiers, source-cost cardinality and magnitude, aggregate closure
 costs, payloads, and total evidence are bounded before expensive work or
 canonical encoding.
 
+Supplied witness evaluation states are also precharged as one aggregate before
+per-row capture. The aggregate admits at most the eightfold expansion of the
+context state budget (32,768 finite-value nodes and 2 MiB of encoded state
+material), matching the maximum source count without allowing every replay row
+an independent context-sized allocation. Canonical JSON payload validation
+converts malformed, non-ASCII, and excessive nesting failures into the same
+closed realization validation error rather than exposing parser recursion.
+
 The sum of all nonnegative source costs must fit the bridge's fixed cost bound.
 This explicit context-admissibility rule ensures that every enumerated subset
 cost is representable before minimum-generator selection begins.
@@ -147,6 +155,13 @@ wire codec. Replay still requires the exact external P1 doctrine and context.
 It is not a self-contained signed package and contains no authentication key or
 signature.
 
+The resource precharge is an acceptance bound, not a complexity or throughput
+claim. Shared tuple references are charged by expanded occurrence so aliasing
+cannot bypass the aggregate cap; exact cap values are accepted and the first
+excess node or byte is rejected before per-row deep capture. The subsequent
+per-row snapshot remains authoritative for exact type, depth, integer, text,
+and byte limits.
+
 ## 6. Identity, composition, and quotient transport
 
 The first contract deliberately defines no identity or composition law between
@@ -218,6 +233,8 @@ This release does not establish:
 - replay/completion/checker: [`observer_realization.py`](../src/core/observer_realization.py)
 - bounded certificate: [`certify_observer_realization.py`](../src/core/certify_observer_realization.py)
 - tests: [`test_observer_realization.py`](../tests/test_observer_realization.py)
+- portable gate: [`verify_portable.py`](../scripts/verify_portable.py), which
+  selects the realization tests without an OS-specific capability marker
 - source semantics: [R11](127_native_observer_echo_core_r11.md)
 - target calculus: [R16](141_observer_descent_residual_calculus_r16.md)
 - source doctrine: [P1](150_constructive_observer_doctrine_p1.md)

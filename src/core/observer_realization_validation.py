@@ -47,6 +47,12 @@ MAX_REALIZATION_COST = (1 << 63) - 1
 MAX_REALIZATION_INT_BITS = 4096
 MAX_REALIZATION_STATE_NODES = 4096
 MAX_REALIZATION_STATE_BYTES = 262_144
+MAX_REALIZATION_EVALUATION_STATE_NODES = (
+    MAX_REALIZATION_STATE_NODES * MAX_REALIZATION_SOURCES
+)
+MAX_REALIZATION_EVALUATION_STATE_BYTES = (
+    MAX_REALIZATION_STATE_BYTES * MAX_REALIZATION_SOURCES
+)
 MAX_REALIZATION_DOCTRINE_VALUE_NODES = 4_000_000
 MAX_REALIZATION_DOCTRINE_VALUE_BYTES = 67_108_864
 
@@ -99,7 +105,12 @@ def natural(value: object, field: str, maximum: int) -> int:
 
 
 def _precharge_finite_values(
-    values: tuple[object, ...], node_limit: int, byte_limit: int
+    values: tuple[object, ...],
+    node_limit: int,
+    byte_limit: int,
+    *,
+    node_error: str = "realization-state-node-limit",
+    byte_error: str = "realization-state-byte-limit",
 ) -> None:
     """Bound full expanded traversal before recursive copy or encoding."""
     logger.debug(
@@ -115,7 +126,7 @@ def _precharge_finite_values(
         value, depth = stack.pop()
         nodes += 1
         if nodes > node_limit:
-            reject("realization-state-node-limit")
+            reject(node_error)
         if depth > 8:
             reject("realization-state-depth-limit")
         if value is None:
@@ -142,7 +153,7 @@ def _precharge_finite_values(
         else:
             reject("realization-state-not-canonical")
         if encoded_bytes > byte_limit:
-            reject("realization-state-byte-limit")
+            reject(byte_error)
     logger.debug(
         "_precharge_finite_values exit nodes=%d bytes=%d", nodes, encoded_bytes
     )
@@ -174,6 +185,19 @@ def precharge_finite_states(values: tuple[object, ...]) -> None:
         values, MAX_REALIZATION_STATE_NODES, MAX_REALIZATION_STATE_BYTES
     )
     logger.debug("precharge_finite_states exit states=%d", len(values))
+
+
+def _precharge_evaluation_states(values: tuple[object, ...]) -> None:
+    """Bound all supplied evaluation states before any per-row deep capture."""
+    logger.debug("precharge_evaluation_states entry states=%d", len(values))
+    _precharge_finite_values(
+        values,
+        MAX_REALIZATION_EVALUATION_STATE_NODES,
+        MAX_REALIZATION_EVALUATION_STATE_BYTES,
+        node_error="realization-evaluation-state-node-limit",
+        byte_error="realization-evaluation-state-byte-limit",
+    )
+    logger.debug("precharge_evaluation_states exit states=%d", len(values))
 
 
 def snapshot_finite_state(value: object) -> object:
@@ -417,7 +441,13 @@ def _snapshot_payload(value: object, status: ObservationStatus) -> bytes:
         canonical = json.dumps(
             raw, sort_keys=True, separators=(",", ":"), ensure_ascii=True
         ).encode("ascii")
-    except (UnicodeError, json.JSONDecodeError, TypeError, ValueError) as exc:
+    except (
+        UnicodeError,
+        json.JSONDecodeError,
+        RecursionError,
+        TypeError,
+        ValueError,
+    ) as exc:
         logger.error("_snapshot_payload invalid JSON")
         raise ObserverRealizationValidationError(
             "invalid-realization-observation-payload"
@@ -485,6 +515,15 @@ def snapshot_witness(value: object) -> ObserverRealizationWitness:
         reject("invalid-realization-witness-shape")
     source_fp = digest64(source_fp, "source-doctrine-fingerprint")
     context_digest = digest64(context_digest, "witness-context-digest")
+    raw_evaluation_states: list[object] = []
+    for evaluation_row in evaluations:
+        if type(evaluation_row) is not RealizationEvaluationRow:
+            reject("realization-evaluation-row-must-be-exact")
+        try:
+            raw_evaluation_states.append(evaluation_row.state)
+        except AttributeError:
+            reject("realization-evaluation-row-missing-fields")
+    _precharge_evaluation_states(tuple(raw_evaluation_states))
     captured_evaluations: list[RealizationEvaluationRow] = []
     total_payload = 0
     for evaluation_row in evaluations:

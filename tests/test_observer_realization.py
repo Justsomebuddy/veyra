@@ -10,6 +10,7 @@ import pytest
 
 from src import core
 import src.core.observer_realization as realization_module
+import src.core.observer_realization_validation as realization_validation
 from src.core.observer_core_codec import canonical_observer_bytes
 from src.core.observer_core_kernel import tail_observer
 from src.core.observer_core_semantics import echo, infer_observer_kind
@@ -392,6 +393,131 @@ def test_shared_state_dag_and_generated_total_payload_fail_before_return(monkeyp
         ObserverRealizationValidationError, match="realization-total-payload-limit"
     ):
         realize_observer_doctrine_r16(doctrine, context)
+
+
+def test_supplied_payload_depth_fails_through_closed_validation_boundary():
+    doctrine, context = _p0_context()
+    witness = realize_observer_doctrine_r16(doctrine, context)
+    first = witness.evaluations[0]
+    nested_payload = (
+        b'{"tag":"ready","value":'
+        + (b"[" * 2000)
+        + b"0"
+        + (b"]" * 2000)
+        + b"}"
+    )
+    forged_row = replace(
+        first,
+        status=ObservationStatus.READY,
+        observation_payload=nested_payload,
+        payload_digest=sha256(nested_payload).hexdigest(),
+    )
+    forged = replace(
+        witness, evaluations=(forged_row,) + witness.evaluations[1:]
+    )
+    with pytest.raises(
+        ObserverRealizationValidationError,
+        match="invalid-realization-observation-payload",
+    ):
+        snapshot_witness(forged)
+
+
+def test_supplied_payload_accepts_bounded_canonical_nesting():
+    nested: object = 0
+    for _ in range(32):
+        nested = [nested]
+    payload = json.dumps(
+        {"tag": "ready", "value": nested},
+        sort_keys=True,
+        separators=(",", ":"),
+        ensure_ascii=True,
+    ).encode("ascii")
+
+    assert (
+        realization_validation._snapshot_payload(
+            payload, ObservationStatus.READY
+        )
+        == payload
+    )
+
+
+def test_supplied_evaluation_states_receive_aggregate_precharge(monkeypatch):
+    doctrine, context = _p0_context()
+    witness = realize_observer_doctrine_r16(doctrine, context)
+    assert snapshot_witness(witness) == witness
+
+    exact_nodes = len(witness.evaluations)
+    exact_bytes = sum(
+        len(row.state.encode("utf-8")) for row in witness.evaluations
+    )
+    with monkeypatch.context() as bounded:
+        bounded.setattr(
+            realization_validation,
+            "MAX_REALIZATION_EVALUATION_STATE_NODES",
+            exact_nodes,
+        )
+        bounded.setattr(
+            realization_validation,
+            "MAX_REALIZATION_EVALUATION_STATE_BYTES",
+            exact_bytes,
+        )
+        assert snapshot_witness(witness) == witness
+        bounded.setattr(
+            realization_validation,
+            "MAX_REALIZATION_EVALUATION_STATE_NODES",
+            exact_nodes - 1,
+        )
+        with pytest.raises(
+            ObserverRealizationValidationError,
+            match="realization-evaluation-state-node-limit",
+        ):
+            snapshot_witness(witness)
+
+    with monkeypatch.context() as bounded:
+        bounded.setattr(
+            realization_validation,
+            "MAX_REALIZATION_EVALUATION_STATE_NODES",
+            exact_nodes,
+        )
+        bounded.setattr(
+            realization_validation,
+            "MAX_REALIZATION_EVALUATION_STATE_BYTES",
+            exact_bytes - 1,
+        )
+        with pytest.raises(
+            ObserverRealizationValidationError,
+            match="realization-evaluation-state-byte-limit",
+        ):
+            snapshot_witness(witness)
+
+
+def test_supplied_shared_evaluation_dag_is_rejected_before_capture(monkeypatch):
+    doctrine, context = _p0_context()
+    witness = realize_observer_doctrine_r16(doctrine, context)
+    shared: object = 0
+    for _ in range(3):
+        shared = (shared,) * 4
+    forged_rows = tuple(
+        replace(row, state=shared) for row in witness.evaluations
+    )
+    forged = replace(witness, evaluations=forged_rows)
+    monkeypatch.setattr(
+        realization_validation,
+        "MAX_REALIZATION_EVALUATION_STATE_NODES",
+        100,
+    )
+
+    def unexpected_capture(value: object, depth: int) -> object:
+        raise AssertionError("aggregate precharge must fail before deep capture")
+
+    monkeypatch.setattr(
+        realization_validation, "_capture_finite_state", unexpected_capture
+    )
+    with pytest.raises(
+        ObserverRealizationValidationError,
+        match="realization-evaluation-state-node-limit",
+    ):
+        snapshot_witness(forged)
 
 
 def test_public_root_exports_are_collision_safe():
