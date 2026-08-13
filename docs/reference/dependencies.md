@@ -45,7 +45,7 @@ surface but is a solver input, not a complete transitive lock.
 
 ## Lean
 
-All 47 sources target `leanprover/lean4:v4.30.0-rc2`. Their non-local imports
+All 48 sources target `leanprover/lean4:v4.30.0-rc2`. Their non-local imports
 (`Init.GrindInstances.Ring.Fin`, `Lean.Elab.Tactic.Omega`, and `Std.Tactic`) are
 provided by that Lean distribution; the project does not declare a Lake or
 mathlib dependency. `elan` is the supported toolchain selector.

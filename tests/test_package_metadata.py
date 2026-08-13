@@ -134,6 +134,7 @@ def test_wheel_package_discovery_is_explicit_and_bounded():
         "src.core.observer_discovery_v3.service",
         "src.core.observer_discovery_v3.transport",
         "src.core.observer_discovery_v3.worker",
+        "src.core.realization_transport",
         "vam",
         "vam.intrinsic",
         "vam.src",

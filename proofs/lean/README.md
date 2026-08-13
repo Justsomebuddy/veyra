@@ -1,6 +1,6 @@
 # Lean proof inventory
 
-This directory contains 47 Lean source modules. The table is exhaustive: status refers to the public claim supported by the source, not merely to the presence of compilable declarations. Exact released declaration locations and dependencies are listed in `../../THEOREMS.md`.
+This directory contains 48 Lean source modules. The table is exhaustive: status refers to the public claim supported by the source, not merely to the presence of compilable declarations. Exact released declaration locations and dependencies are listed in `../../THEOREMS.md`.
 
 ## Status vocabulary
 
@@ -57,6 +57,7 @@ This directory contains 47 Lean source modules. The table is exhaustive: status 
 | `VeyraProofSoundness.lean` | R7 inference soundness | `FORMALLY_PROVED` | `THM_R7_001_check_sound` |
 | `VeyraQuantumTensor.lean` | exact finite tensor and unitary laws | `FORMALLY_PROVED` | `THM_Q11_001_born_rule_normalized`, `THM_Q11_002_tensor_born_normalized`, `THM_Q11_003_tensor_unitary`, `THM_Q11_004_compose_unitary` |
 | `VeyraRecurrenceModeBridge.lean` | recurrence/mode image bridge | `FORMALLY_PROVED` | `THM_R9_002_decode_encode`, `THM_R9_003_encode_decode`, `THM_R9_004_encode_injective`, `THM_R9_001_encode_mode_ready`, `THM_R9_005_stitch_preserved`, `THM_R9_006_weave_preserved`, `THM_R9_007_resonance_transport` |
+| `VeyraRealizationTransport.lean` | abstract inverse-image partition identity/composition, bottom/refinement preservation, and conditional cost nonincrease | `INTERNAL_RESEARCH_CANDIDATE` | none; axiom-free relation-level helpers only, with no Python, replay, receipt, R11/R16 correspondence, P1-A, or cross-doctrine theorem |
 | `VeyraStatistics.lean` | fixed finite statistics cards | `FORMALLY_PROVED` | `THM_S001_mean_balance_1_3_5`, `THM_S002_variance_shift_1_3_5_plus_10` |
 | `VeyraStreamCompletion.lean` | PΩ1 stream completion relative to an explicit ledger | `FORMALLY_PROVED` | `THM_POMEGA1_001_truncation_identity`, `THM_POMEGA1_002_truncation_composition`, `THM_POMEGA1_003_rho_formation_congruence`, `THM_POMEGA1_004_stream_restriction_compatible`, `THM_POMEGA1_005_diagonal_realization_depth`, `THM_POMEGA1_006_universal_realization`, `THM_POMEGA1_007_coordinate_agreement`, `THM_POMEGA1_008_joint_separation`, `THM_POMEGA1_009_relative_uniqueness`, `THM_POMEGA1_010_nonvacuity_inhabitance`, `THM_POMEGA1_011_scp_introduction` |
 | `VeyraTransportCoherence.lean` | P3-C2 typed-setoid transport coherence | `FORMALLY_PROVED` | `THM_P3C2_001_ranked_local_to_generated_transport`, `THM_P3C2_002_natop_reduction_identity`, `THM_P3C2_003_natop_reduction_composition` |
@@ -78,14 +79,14 @@ This directory contains 47 Lean source modules. The table is exhaustive: status 
 ## Whole-source compilation
 
 Install `elan` and the exact reviewed toolchain, then compile the complete
-47-source local import graph from the repository root:
+48-source local import graph from the repository root:
 
 ```bash
 elan toolchain install leanprover/lean4:v4.30.0-rc2
 python scripts/check_lean_sources.py --jobs 8
 ```
 
-The harness checks the exact Lean version, validates the 46-file inventory,
+The harness checks the exact Lean version, validates the 48-file inventory,
 builds dependency layers, and writes temporary `.olean` files only under the
 ignored `data/tmp/` tree. Independent modules in each layer compile in parallel.
 

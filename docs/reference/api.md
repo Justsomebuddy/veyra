@@ -180,6 +180,7 @@ This curated aggregate is not an inventory of every split implementation module.
 | `src.core.observer_realization_validation` | Exact-type, context-digest, local-section, R16-doctrine, and witness-integrity gates, including aggregate supplied-evaluation-state precharge and closed canonical-JSON recursion handling. |
 | `src.core.observer_realization` | Authoritative all-row R11 replay, tagged totalization, bounded minimum-generator finite join completion, and exact witness verification; no canonical functor or quotient transport. |
 | `src.core.certify_observer_realization` | Level-1 blocked/ready finite realization certificate; not Lean, authentication, theoremhood, or promotion evidence. |
+| `src.core.realization_transport` | Restricted same-doctrine total state reindexing with authoritative endpoint replay, contravariant extensional closure action, bottom/join and nonincreasing-cost checks, and fresh identity/composition receipt construction; no cross-doctrine, P1-A, category, functor, or naturality claim. |
 | `src.core.observer_gap_topology` | Declared degree-factor observer class, exact topological-order counter, five-row S7 family, and `THM-S7-001` card. |
 | `src.core.observer_patch_atlas` | Finite observer patches, partition-valued local sections, generated echo closure, exact gluing criterion, and triangle obstruction. |
 | `src.core.observer_patch_validation` | Exact-type structural validation for canonical finite G4 patch/atlas/section values. |

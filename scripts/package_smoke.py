@@ -34,7 +34,7 @@ def expected_source_only_payload() -> frozenset[str]:
     """Return exact maintained Lean, native, and differential-vector payload."""
     logger.debug("package_smoke.expected_source_only_payload entry")
     lean = tuple(sorted((ROOT / "proofs" / "lean").glob("*.lean")))
-    if len(lean) != 47:
+    if len(lean) != 48:
         raise RuntimeError("lean-source-inventory-mismatch")
     native_root = ROOT / "vam" / "native"
     native = tuple(sorted((native_root / "src").rglob("*.rs"))) + tuple(
@@ -142,11 +142,12 @@ def installed_import_smoke(wheel: Path, scratch: Path, label: str) -> None:
             "import src.core",
             "import src.core.claim_composition",
             "import src.core.observer_provenance",
+            "import src.core.realization_transport",
             "import veyra_sage.all",
             "import vam.src",
             "from pathlib import Path",
             "root = Path(sys.path[0]).resolve()",
-            "for module in (src.core, src.core.claim_composition, src.core.observer_provenance, veyra_sage.all, vam.src):",
+            "for module in (src.core, src.core.claim_composition, src.core.observer_provenance, src.core.realization_transport, veyra_sage.all, vam.src):",
             "    assert Path(module.__file__).resolve().is_relative_to(root)",
             "example = files('vam').joinpath('examples/minimal_echo.vmasm')",
             "assert example.is_file()",

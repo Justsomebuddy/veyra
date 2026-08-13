@@ -164,10 +164,14 @@ and byte limits.
 
 ## 6. Identity, composition, and quotient transport
 
-The first contract deliberately defines no identity or composition law between
-realization contexts. Such a law would additionally need typed state maps,
-recurrence-input transformations, cost transport, closure compatibility, and a
-proved witness-transport rule. None is inferred from matching digests.
+This first contract itself defines no identity or composition law between
+realization contexts. The additive restricted same-doctrine reindexing layer in
+[document 167](167_realization_context_transport.md) now supplies typed finite
+state graphs, authoritative endpoint replay, contravariant extensional closure
+action, and bounded identity/composition checks. None of that is inferred from
+matching digests, and it does not retroactively make this realization canonical
+or establish a category, functor, natural transformation, P1-A integration, or
+cross-doctrine transport.
 
 Each closure row records the first state position in every response class. This
 is a deterministic **local ordered section** relative to one context order. It
@@ -238,3 +242,4 @@ This release does not establish:
 - source semantics: [R11](127_native_observer_echo_core_r11.md)
 - target calculus: [R16](141_observer_descent_residual_calculus_r16.md)
 - source doctrine: [P1](150_constructive_observer_doctrine_p1.md)
+- restricted same-doctrine context transport: [document 167](167_realization_context_transport.md)

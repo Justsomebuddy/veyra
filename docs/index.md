@@ -37,6 +37,9 @@ OD. `157_certified_observer_discovery_mvp.md` through
 PR. `161_p1_r16_realization_contract.md` — explicit context-relative P1→R16
     realization with structured Ready/Blocked replay, derived finite join
     completion, authoritative checking, and no canonical-functor claim.
+RT. `167_realization_context_transport.md` — restricted same-doctrine finite
+    state reindexing with authoritative endpoint replay and contravariant
+    extensional closure action; no cross-doctrine or functor claim.
 CB. `162_comparative_bridge_separation_ledger.md` — a sibling structural
     bridge/separation ledger, finite G4→EqRel amalgamation reduction,
     quotient-conflict uniqueness classification, and independent Sage oracle.
@@ -134,7 +137,7 @@ CB. `162_comparative_bridge_separation_ledger.md` — a sibling structural
 108–127. `108_formal_export_prep_x7.md` through `127_native_observer_echo_core_r11.md` — formal/quantum seeds and R7–R11; doc 109 records all nineteen X8 rows, newest only four closed A004–A006/C002 fixtures.
 133. `133_shadow_effect_system_r12.md` — R12.1 bridge capabilities, evidence separation, observer brands, and non-promotional audit registry.
 134–142. `134_intrinsic_vam_sidecar_ir_r12_2.md` through `142_crest_braid_derived_path_invariant_r16.md` — explicitly bounded R12 exact-image closure, exact-premise R13 guarded promotion, repaired/re-reviewed R14 bounded synthesis, then R16 finite observer descent/residual/synergy with an abstract Lean partition and derived crest braid; K6–K8 are closed, only K0 remains, and R16 has no novelty/R8-promotion claim.
-143–161. Bounded S7/Q11/VAM/R16/G4/I1, P0/P1/P2, PΩ1/PΩ2, P3-C1/C2.2, P3-N1/N2/N3/N4/T/A1b, the prime-power closure audit, six relative closure principles, their candidate no-cast modal kernel, observer discovery, and the relative P1→R16 realization contract. ΩG's philosophy interface is documented; N0/N5, higher C2.3, generic completion, and absolute infinity remain OPEN.
+143–167. Bounded S7/Q11/VAM/R16/G4/I1, P0/P1/P2, PΩ1/PΩ2, P3-C1/C2.2, P3-N1/N2/N3/N4/T/A1b, the prime-power closure audit, six relative closure principles, their candidate no-cast modal kernel, observer discovery, the relative P1→R16 realization contract, and restricted same-doctrine context transport. ΩG's philosophy interface is documented; N0/N5, higher C2.3, generic completion, cross-doctrine transport, and absolute infinity remain OPEN.
 72. `../THEOREMS.md` — formal registry.
 73. `../NOTATION.md` — notation catalog.
 ## Research discipline
@@ -262,6 +265,9 @@ No metaphysical claim is accepted as mathematics until it becomes a definition, 
 - `docs/161_p1_r16_realization_contract.md` — finite context-bound replay of P1
   programs into a derived R16 join completion; structured blockage is retained,
   but no canonical map, functoriality, quotient transport, or theorem follows.
+- `docs/167_realization_context_transport.md` — authoritative restricted
+  same-doctrine state reindexing and inverse-image action on realized closures;
+  no cross-doctrine transport, category, functor, or naturality claim follows.
 - `docs/163_adaptive_research_line_validity.md` — canonical bounded declared
   experiment-family history, orthogonal local/family/adaptive validity, and an
   exact independent-null retry counterexample; family inference remains open.

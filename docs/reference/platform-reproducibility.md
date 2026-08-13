@@ -9,7 +9,7 @@ Veyra has two deliberately different support levels.
 | installable portable Python subset and finite semantics | supported on CPython 3.11; verified locally and in hosted CI on 3.11.14 | verified in hosted CI on CPython 3.11.9 | verified in hosted CI on CPython 3.11.9 |
 | wheel/sdist build and isolated wheel import | verified locally and in hosted CI | verified in hosted CI | verified in hosted CI |
 | VAM Rust crate | verified locally and in hosted CI with pinned Rust | verified in hosted CI with pinned Rust | verified in hosted CI with pinned Rust |
-| compiling all 47 Lean sources with `elan` | supported when the pinned toolchain is installed | expected where `elan` supplies the pinned toolchain | expected where `elan` supplies the pinned toolchain |
+| compiling all 48 Lean sources with `elan` | supported when the pinned toolchain is installed | expected where `elan` supplies the pinned toolchain | expected where `elan` supplies the pinned toolchain |
 | content-bound certificate renewal and guarded Lean execution | Linux x86_64 only | unsupported | unsupported |
 | R14 process/resource hardening | Linux/POSIX contract only | unsupported | unsupported |
 | observer worker v5 closed-root/cgroup custody | Linux x86-64 only with caller-owned writable cgroup delegation and a mount base; otherwise fail-closed unavailable | unsupported | unsupported |

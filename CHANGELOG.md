@@ -1,6 +1,17 @@
 # Changelog
 
 ## [Unreleased] — Changed
+- Added a restricted same-doctrine realization-context transport research
+  contract: total finite state reindexings preserve exact canonical recurrence
+  inputs, both endpoint P1→R16 witnesses are authoritatively replayed, and
+  target closure partitions act contravariantly by normalized inverse image.
+  Receipts freshly reconstruct full Ready/Blocked evaluation commutation,
+  bottom/join preservation, and nonincreasing (optionally exact) cost rows;
+  identity/composition helpers do not splice trusted receipt data. Added
+  adversarial/property coverage and axiom-free abstract Lean laws. This is no
+  cross-doctrine or P1-A transport, category, functor, natural transformation,
+  canonical quotient section, exact-cost theorem, Python formal verification,
+  theorem promotion, authentication, or ontology claim.
 - Added observer synthesis v5 while preserving v1–v4 identities: a separately
   rooted 2,048-row affine parity/reflection grammar; deterministic generated
   hidden-structure, symmetry, misrepresentation, negative-control and synthetic
