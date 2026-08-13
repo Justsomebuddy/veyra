@@ -1,6 +1,18 @@
 # Changelog
 
 ## [Unreleased] — Changed
+- Corrected observer-synthesis v5 represented-task and pruning evidence: the
+  misrepresentation-recovery calibration now binds a genuine nonidentity
+  represented-state permutation, every same-cost alternative inspected after
+  the first winner is counted as evaluated, and only the strictly higher-cost
+  suffix is reported as pruned. The independent verifier reconstructs that
+  frontier from the task and catalog; affected v5 family/run pins were renewed
+  while v1–v4 byte contracts remain unchanged.
+- Hardened the observer-worker v5 conditional cgroup harness so an existing
+  nondelegated system mount and controller/subtree capability read failures
+  return its documented explicit `UNAVAILABLE` report. Invalid limits,
+  nonexistent/out-of-mount roots, readback mismatches, and harness faults remain
+  fail-closed errors; v1–v4 contracts are unchanged.
 - Added a restricted same-doctrine realization-context transport research
   contract: total finite state reindexings preserve exact canonical recurrence
   inputs, both endpoint P1→R16 witnesses are authoritatively replayed, and

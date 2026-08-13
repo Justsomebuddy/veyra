@@ -131,14 +131,21 @@ a verification of Rust, Linux custody, or Ed25519. See
 `../docs/042_native_observer_synthesis_v4.md`.
 
 Observer synthesis v5 appends a separately rooted 2,048-row affine
-parity/reflection grammar and deterministic synthetic calibration family.
-Proof-carrying branch-and-bound binds admitted lower bounds and the pruned
-suffix, while a separate exhaustive implementation checks bounded terminals.
+parity/reflection grammar and deterministic synthetic calibration family. The
+misrepresentation-recovery row binds a nonidentity represented-state
+permutation rather than a label-only distinction. Proof-carrying
+branch-and-bound evaluates the complete incumbent-cost frontier and binds only
+the strictly higher-cost pruned suffix, while an independent verifier and a
+separate exhaustive implementation check the bounded terminal.
 Worker-v5 adds fail-closed closed-rootfs/delegated-cgroup custody with
-parent/child readback and cleanup. VOR5 threshold-authenticates exact
-request/result/pruning/manifests under an external rotation policy and replays
-the proof without producer state. These remain catalog/task/cost/host-relative
-engineering results. See `../docs/043_native_observer_synthesis_v5.md`.
+parent/child readback and cleanup. Its conditional cgroup harness returns
+explicit `UNAVAILABLE` for valid host capability/delegation failures (including
+the ordinary nondelegated system mount and unreadable controller state), while
+invalid limits and malformed roots remain errors. VOR5 threshold-authenticates
+exact request/result/pruning/manifests under an external rotation policy and
+replays the proof without producer state. These remain
+catalog/task/cost/host-relative engineering results. See
+`../docs/043_native_observer_synthesis_v5.md`.
 
 ## Required contract
 

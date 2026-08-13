@@ -100,7 +100,7 @@ fn v5_rejects_invalid_limits_and_false_delegation() {
 fn delegated_cgroup_harness_is_explicitly_passed_or_unavailable() {
     let root = std::env::var_os("VEYRA_V5_CGROUP_ROOT")
         .map(PathBuf::from)
-        .unwrap_or_else(|| PathBuf::from("/sys/fs/cgroup/veyra-not-delegated"));
+        .unwrap_or_else(|| PathBuf::from("/sys/fs/cgroup"));
     let report = run_cgroup_v5_e2e_harness(&root, ObserverWorkerLimitsV5::default()).unwrap();
     match report.status() {
         CgroupHarnessStatusV5::Passed => {
@@ -116,6 +116,44 @@ fn delegated_cgroup_harness_is_explicitly_passed_or_unavailable() {
             assert_ne!(report.reason(), "passed");
             assert!(!report.controls_readback());
         }
+    }
+}
+
+#[cfg(target_os = "linux")]
+#[test]
+fn existing_nondelegated_cgroup_mount_is_explicitly_unavailable() {
+    let report = run_cgroup_v5_e2e_harness(
+        Path::new("/sys/fs/cgroup"),
+        ObserverWorkerLimitsV5::default(),
+    )
+    .unwrap();
+    assert_eq!(report.status(), CgroupHarnessStatusV5::Unavailable);
+    assert_eq!(report.reason(), "worker-v5-cgroup-not-delegated");
+    assert!(!report.controls_readback());
+}
+
+#[cfg(target_os = "linux")]
+#[test]
+fn cgroup_harness_rejects_malformed_roots() {
+    let outside_mount = run_cgroup_v5_e2e_harness(
+        std::env::temp_dir().as_path(),
+        ObserverWorkerLimitsV5::default(),
+    )
+    .unwrap_err();
+    assert_eq!(outside_mount.0, "worker-v5-cgroup-delegation-invalid");
+
+    let missing = run_cgroup_v5_e2e_harness(
+        Path::new("/sys/fs/cgroup/veyra-v5-definitely-missing"),
+        ObserverWorkerLimitsV5::default(),
+    )
+    .unwrap_err();
+    assert_eq!(missing.0, "worker-v5-cgroup-root");
+
+    let file_root = Path::new("/sys/fs/cgroup/cgroup.procs");
+    if file_root.exists() {
+        let not_directory =
+            run_cgroup_v5_e2e_harness(file_root, ObserverWorkerLimitsV5::default()).unwrap_err();
+        assert_eq!(not_directory.0, "worker-v5-cgroup-root-not-directory");
     }
 }
 

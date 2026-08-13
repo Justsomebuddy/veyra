@@ -9,6 +9,7 @@ use super::grammar_v5::{
     enumerate_discovery_grammar_v5, DiscoveryGrammarProfileIdV5, DiscoveryObserverCandidateV5,
 };
 use super::hash::domain_sha256_hex;
+use super::synthesis_winner_v5::winner_for;
 
 pub const DISCOVERY_SYNTHESIS_V5_SCHEMA: &str = "veyra.discovery-observer-synthesis.v5";
 const REQUEST_DOMAIN: &str = "veyra.discovery-observer-synthesis.request.v5.binding";
@@ -20,9 +21,9 @@ pub const MAX_DISCOVERY_V5_CANDIDATES: usize = 2_048;
 pub const MAX_DISCOVERY_V5_PAIR_DISPOSITIONS: usize = 245_760;
 pub const MAX_DISCOVERY_V5_TOTAL_COST: usize = 64;
 pub const DISCOVERY_BENCHMARK_RUN_V5_DIGEST: &str =
-    "a53dd8ad4fde38a5e48a5ef9d3bdd218802a6335ccd4643c627ea7a294e9c956";
+    "49402db1092e46e21571e0c2e8fb615e131aa941a270fc7efd3927cfc8d9f054";
 const PAIR_OBLIGATIONS: usize = 120;
-pub const DISCOVERY_SYNTHESIS_V5_BOUNDARY: &str = "FOUND is the first minimum (declared cost, catalog ordinal) exact partition witness for one generated task; EXHAUSTED means every cost-admitted catalog candidate was evaluated; CUTOFF is decided before search whenever physical counters cannot cover the complete admitted product; branch-and-bound pruning is justified only by the catalog's monotone intrinsic-cost lower bound and independently checked against an exhaustive implementation";
+pub const DISCOVERY_SYNTHESIS_V5_BOUNDARY: &str = "FOUND is the first minimum (declared cost, catalog ordinal) exact partition witness for one generated represented task; every candidate at the incumbent cost is evaluated to count same-cost alternatives, and only a strictly higher-cost suffix is pruned; EXHAUSTED means every cost-admitted catalog candidate was evaluated; CUTOFF is decided before search whenever physical counters cannot cover the complete admitted product; branch-and-bound pruning is justified only by the catalog's monotone intrinsic-cost lower bound and independently reconstructed against an exhaustive implementation";
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub enum DiscoverySearchStatusV5 {
@@ -482,15 +483,20 @@ fn validate_request(request: &DiscoverySearchRequestV5) -> Result<(), SynthesisC
     Ok(())
 }
 
-fn optimized_fits(candidate: &DiscoveryObserverCandidateV5, targets: &[u8; 16]) -> bool {
+fn optimized_fits(
+    candidate: &DiscoveryObserverCandidateV5,
+    surface_states: &[u8; 16],
+    targets: &[u8; 16],
+) -> bool {
     diagnostics::event(
         "SYNTH_V5_OPT_FIT_ENTER",
         "evaluating optimized partition fit",
     );
-    let responses = candidate.responses();
     for left in 0..16 {
         for right in left + 1..16 {
-            if (responses[left] == responses[right]) != (targets[left] == targets[right]) {
+            let response_left = candidate.term.response(surface_states[left]);
+            let response_right = candidate.term.response(surface_states[right]);
+            if (response_left == response_right) != (targets[left] == targets[right]) {
                 diagnostics::event("SYNTH_V5_OPT_FIT_EXIT", "optimized candidate rejected");
                 return false;
             }
@@ -513,73 +519,22 @@ fn canonical_partition(values: [u8; 16]) -> [u8; 16] {
     })
 }
 
-fn reference_fits(candidate: &DiscoveryObserverCandidateV5, targets: &[u8; 16]) -> bool {
+fn reference_fits(
+    candidate: &DiscoveryObserverCandidateV5,
+    surface_states: &[u8; 16],
+    targets: &[u8; 16],
+) -> bool {
     diagnostics::event(
         "SYNTH_V5_REF_FIT_ENTER",
         "evaluating reference partition fit",
     );
-    let actual = canonical_partition(candidate.responses());
+    let represented: [u8; 16] =
+        std::array::from_fn(|index| candidate.term.response(surface_states[index]));
+    let actual = canonical_partition(represented);
     let expected = canonical_partition(*targets);
     let result = actual == expected;
     diagnostics::event("SYNTH_V5_REF_FIT_EXIT", "reference partition fit evaluated");
     result
-}
-
-fn witness_digest(candidate: &DiscoveryObserverCandidateV5, task_digest: &str) -> String {
-    let body = format!(
-        "{}:{task_digest}:exact-partition",
-        candidate.candidate_digest
-    );
-    domain_sha256_hex(RESULT_DOMAIN, body.as_bytes())
-}
-
-fn representation_digest(
-    candidate: &DiscoveryObserverCandidateV5,
-    benchmark_digest: &str,
-) -> String {
-    let (multiplier, shift) = match candidate.term {
-        super::grammar_v5::DiscoveryObserverTermV5::AffineBitParity {
-            multiplier, shift, ..
-        }
-        | super::grammar_v5::DiscoveryObserverTermV5::AffineReflectionOrbit { multiplier, shift } => {
-            (multiplier, shift)
-        }
-    };
-    domain_sha256_hex(
-        RESULT_DOMAIN,
-        format!("affine-representation:{multiplier}:{shift}:{benchmark_digest}").as_bytes(),
-    )
-}
-
-fn explanation_digest(candidate: &DiscoveryObserverCandidateV5, task_digest: &str) -> String {
-    domain_sha256_hex(
-        RESULT_DOMAIN,
-        format!(
-            "exact-equality-partition:{}:{task_digest}",
-            candidate.response_digest
-        )
-        .as_bytes(),
-    )
-}
-
-fn winner_for(
-    candidate: &DiscoveryObserverCandidateV5,
-    admitted: &[&DiscoveryObserverCandidateV5],
-    alternatives_at_same_cost: usize,
-    task_digest: &str,
-) -> DiscoveryWinnerV5 {
-    DiscoveryWinnerV5 {
-        candidate_ordinal: candidate.ordinal,
-        candidate_digest: candidate.candidate_digest.clone(),
-        total_cost: candidate.cost,
-        observer_gap: candidate
-            .cost
-            .saturating_sub(admitted.first().map_or(candidate.cost, |row| row.cost)),
-        alternatives_at_same_cost,
-        representation_digest: representation_digest(candidate, task_digest),
-        explanation_digest: explanation_digest(candidate, task_digest),
-        witness_digest: witness_digest(candidate, task_digest),
-    }
 }
 
 fn lower_bound_digest(admitted: &[&DiscoveryObserverCandidateV5]) -> String {
@@ -642,7 +597,7 @@ fn terminal(
         None
     };
     let bound_admissible = match (incumbent_cost, first_pruned_cost_lower_bound) {
-        (Some(incumbent), Some(lower_bound)) => lower_bound >= incumbent,
+        (Some(incumbent), Some(lower_bound)) => lower_bound > incumbent,
         (_, None) => true,
         (None, Some(_)) => false,
     };
@@ -720,16 +675,36 @@ fn optimized_search(
             true,
         );
     }
-    for (index, candidate) in admitted.iter().enumerate() {
-        if optimized_fits(candidate, &benchmark.target_classes) {
+    for candidate in &admitted {
+        if optimized_fits(
+            candidate,
+            &benchmark.surface_states,
+            &benchmark.target_classes,
+        ) {
+            let evaluated_candidates = admitted
+                .iter()
+                .take_while(|row| row.cost <= candidate.cost)
+                .count();
             let alternatives = admitted
                 .iter()
+                .take(evaluated_candidates)
                 .filter(|row| row.cost == candidate.cost)
-                .filter(|row| optimized_fits(row, &benchmark.target_classes))
+                .filter(|row| {
+                    optimized_fits(row, &benchmark.surface_states, &benchmark.target_classes)
+                })
                 .count()
                 .saturating_sub(1);
-            let winner = winner_for(candidate, &admitted, alternatives, &benchmark.task_digest);
-            diagnostics::event("SYNTH_V5_OPT_PRUNE", "incumbent prunes monotone suffix");
+            let winner = winner_for(
+                candidate,
+                &admitted,
+                alternatives,
+                &benchmark.surface_states,
+                &benchmark.task_digest,
+            );
+            diagnostics::event(
+                "SYNTH_V5_OPT_PRUNE",
+                "same-cost rows evaluated before pruning higher-cost suffix",
+            );
             return terminal(
                 true,
                 DiscoverySearchStatusV5::Found,
@@ -737,7 +712,7 @@ fn optimized_search(
                 request.limits,
                 catalog.candidates.len(),
                 &admitted,
-                index + 1,
+                evaluated_candidates,
                 Some(winner),
                 benchmark.task_digest,
                 benchmark.split,
@@ -809,14 +784,26 @@ fn reference_search(
     }
     let mut best: Option<DiscoveryWinnerV5> = None;
     for candidate in &admitted {
-        if reference_fits(candidate, &benchmark.target_classes) {
+        if reference_fits(
+            candidate,
+            &benchmark.surface_states,
+            &benchmark.target_classes,
+        ) {
             let alternatives = admitted
                 .iter()
                 .filter(|row| row.cost == candidate.cost)
-                .filter(|row| reference_fits(row, &benchmark.target_classes))
+                .filter(|row| {
+                    reference_fits(row, &benchmark.surface_states, &benchmark.target_classes)
+                })
                 .count()
                 .saturating_sub(1);
-            let proposed = winner_for(candidate, &admitted, alternatives, &benchmark.task_digest);
+            let proposed = winner_for(
+                candidate,
+                &admitted,
+                alternatives,
+                &benchmark.surface_states,
+                &benchmark.task_digest,
+            );
             if best.as_ref().map_or(true, |current| {
                 (proposed.total_cost, proposed.candidate_ordinal)
                     < (current.total_cost, current.candidate_ordinal)

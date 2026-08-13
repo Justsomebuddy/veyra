@@ -28,19 +28,24 @@ not rebound.
 
 The deterministic synthetic family generates declared targets from
 domain-separated generators rather than embedding winning answer tables. It
-covers hidden affine structure, reflection symmetry, recovery from a misleading
-surface representation, and a catalog-diagonalized negative control. A held-out
-row, when present in the pinned family, uses a separately declared generator
-domain and is excluded from calibration selection. This is reproducible
-synthetic held-out calibration—not empirical validation, statistical
-generalization, unknown-variable recovery in nature, or novelty evidence.
+covers hidden affine structure, reflection symmetry, recovery through a
+nonidentity affine permutation of represented states, and a
+catalog-diagonalized negative control. The recovery task binds both that
+represented-state permutation and its target classes; its recovered observer is
+therefore genuinely distinct from the hidden-affine task rather than merely
+carrying a different label. A held-out row, when present in the pinned family,
+uses a separately declared generator domain and is excluded from calibration
+selection. This is reproducible synthetic held-out calibration—not empirical
+validation, statistical generalization, unknown-variable recovery in nature,
+or novelty evidence.
 
 ## Proof-carrying branch-and-bound
 
 The optimized engine searches candidates in the pinned monotone order
 `(intrinsic cost, catalog ordinal)`. After the first minimum exact-partition
-witness, a suffix can be pruned only when its first declared cost is no smaller
-than the incumbent. The result binds:
+witness, every remaining row at the incumbent cost is still evaluated to count
+same-cost alternatives. A suffix can be pruned only when its first declared
+cost is strictly greater than the incumbent. The result binds:
 
 - the admitted catalog and lower-bound digest;
 - evaluated and pruned pair-disposition counts;
@@ -50,10 +55,13 @@ than the incumbent. The result binds:
   representation/explanation/witness roots.
 
 A separately implemented exhaustive path uses independent admission/counting
-arithmetic and canonical-partition comparison. Bounded differential tests
-require the same terminal, winner, task/profile/catalog bindings, and a fresh
-optimized proof replay. `EXHAUSTED` means every cost-admitted row in this exact
-finite catalog was evaluated; it says nothing about other grammars.
+arithmetic and canonical-partition comparison. The proof verifier independently
+reconstructs the winner-cost frontier, same-cost evaluations, and strictly
+higher-cost pruned suffix from the request, represented task, and catalog; it
+does not accept the producer's split as an assumption. Bounded differential
+tests require the same terminal, winner, task/profile/catalog bindings, and a
+fresh optimized proof replay. `EXHAUSTED` means every cost-admitted row in this
+exact finite catalog was evaluated; it says nothing about other grammars.
 
 The observer gap in this v5 surface is a declared catalog-cost gap from the
 admitted cost floor. It is not a likelihood ratio, information-theoretic
@@ -83,6 +91,12 @@ package. Portable verification authenticates this receipt binding; it does not
 revalidate the historical OS controls or provide executable attestation.
 
 The conditional cgroup harness reports `PASSED` or explicit `UNAVAILABLE`.
+`UNAVAILABLE` covers valid host capability/delegation failures: an ordinary
+nondelegated system cgroup mount, required controller/subtree state that cannot
+be read or enabled, and kernel/delegation refusal of fresh leaf or control
+operations. It does not convert invalid limits, nonexistent or out-of-mount
+roots, non-directory roots, mismatched control readback, or harness program
+failures into availability results; those remain fail-closed errors.
 Its abnormal cleanup rows cover immediate `SIGKILL` and `SIGSEGV`; the
 `SIGKILL` row is not labeled or presented as a deadline/timeout experiment.
 Configuration readback and cleanup do not prove workload-level CPU throttling,

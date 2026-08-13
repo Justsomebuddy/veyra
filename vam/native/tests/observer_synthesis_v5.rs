@@ -84,14 +84,26 @@ fn generated_family_covers_declared_scientific_controls_without_answer_tables() 
     assert!(CALIBRATION_DISCOVERY_BENCHMARKS_V5
         .iter()
         .all(|id| !HELD_OUT_DISCOVERY_BENCHMARKS_V5.contains(id)));
+    let identity_surface = std::array::from_fn(|state| state as u8);
+    let hidden = &first.tasks[0];
+    let misrepresentation = &first.tasks[2];
+    assert_eq!(hidden.surface_states, identity_surface);
+    assert_ne!(misrepresentation.surface_states, identity_surface);
+    assert_ne!(hidden.surface_states, misrepresentation.surface_states);
+    assert_ne!(
+        (hidden.surface_states, hidden.target_classes),
+        (
+            misrepresentation.surface_states,
+            misrepresentation.target_classes
+        )
+    );
     assert!(first.tasks[..4].iter().all(|calibration| {
         !same_partition(&calibration.target_classes, &first.tasks[4].target_classes)
     }));
     for task in &first.tasks {
-        assert_eq!(
-            task.surface_states,
-            std::array::from_fn(|state| state as u8)
-        );
+        let mut sorted_surface = task.surface_states;
+        sorted_surface.sort_unstable();
+        assert_eq!(sorted_surface, identity_surface);
         assert!(task
             .target_classes
             .windows(2)
@@ -105,6 +117,9 @@ fn generated_family_covers_declared_scientific_controls_without_answer_tables() 
 
 #[test]
 fn branch_and_bound_proof_matches_genuinely_exhaustive_reference() {
+    let catalog =
+        enumerate_discovery_grammar_v5(DiscoveryGrammarProfileIdV5::AffineParityReflectionV5)
+            .unwrap();
     for benchmark_id in ALL_DISCOVERY_BENCHMARKS_V5 {
         let request = DiscoverySearchRequestV5::systematic(benchmark_id);
         let differential = differential_discovery_v5(&request).unwrap();
@@ -137,13 +152,43 @@ fn branch_and_bound_proof_matches_genuinely_exhaustive_reference() {
                 DiscoverySearchStatusV5::Found
             );
             assert!(differential.optimized.ledger.pruned_pairs > 0);
-            assert!(differential.optimized.winner.is_some());
+            let winner = differential.optimized.winner.as_ref().unwrap();
+            let expected_evaluated = catalog
+                .candidates
+                .iter()
+                .filter(|candidate| candidate.cost <= winner.total_cost)
+                .count();
+            assert_eq!(
+                differential.optimized.ledger.evaluated_pairs,
+                expected_evaluated * 120
+            );
+            assert!(
+                differential
+                    .optimized
+                    .ledger
+                    .first_pruned_cost_lower_bound
+                    .unwrap()
+                    > winner.total_cost
+            );
             assert_eq!(
                 differential.reference.ledger.evaluated_pairs,
                 differential.reference.ledger.admissible_pairs
             );
         }
     }
+
+    let hidden = differential_discovery_v5(&DiscoverySearchRequestV5::systematic(
+        DiscoveryBenchmarkIdV5::HiddenAffine,
+    ))
+    .unwrap();
+    let recovered = differential_discovery_v5(&DiscoverySearchRequestV5::systematic(
+        DiscoveryBenchmarkIdV5::MisrepresentationRecovery,
+    ))
+    .unwrap();
+    assert_ne!(
+        hidden.optimized.winner.unwrap().candidate_digest,
+        recovered.optimized.winner.unwrap().candidate_digest
+    );
 }
 
 #[test]

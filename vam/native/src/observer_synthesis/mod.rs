@@ -31,6 +31,7 @@ mod representation_survey_v4;
 mod semantics;
 mod synthesis_v4;
 mod synthesis_v5;
+mod synthesis_winner_v5;
 mod transport_dsl;
 mod transport_observer_search;
 

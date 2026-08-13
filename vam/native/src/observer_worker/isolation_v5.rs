@@ -225,25 +225,7 @@ impl CgroupLeafV5 {
             "WORKER_V5_CGROUP_CREATE_ENTER",
             "creating delegated cgroup leaf",
         );
-        let root = fs::canonicalize(root).map_err(|_| reject("worker-v5-cgroup-root"))?;
-        let metadata = fs::metadata(&root).map_err(|_| reject("worker-v5-cgroup-root"))?;
-        if root == Path::new(CGROUP_MOUNT)
-            || !root.starts_with(CGROUP_MOUNT)
-            || !metadata.is_dir()
-            || metadata.uid() != unsafe { ffi::getuid() }
-        {
-            return Err(reject("worker-v5-cgroup-delegation-invalid"));
-        }
-        let available = fs::read_to_string(root.join("cgroup.controllers"))
-            .map_err(|_| reject("worker-v5-cgroup-controllers"))?;
-        let enabled = fs::read_to_string(root.join("cgroup.subtree_control"))
-            .map_err(|_| reject("worker-v5-cgroup-subtree"))?;
-        if !["cpu", "memory", "pids"].iter().all(|name| {
-            available.split_whitespace().any(|value| value == *name)
-                && enabled.split_whitespace().any(|value| value == *name)
-        }) {
-            return Err(reject("worker-v5-cgroup-controller-unavailable"));
-        }
+        let root = inspect_delegated_cgroup_root(root, Path::new(CGROUP_MOUNT))?;
         static NEXT: AtomicU64 = AtomicU64::new(0);
         let path = root.join(format!(
             "veyra-observer-v5-{}-{}",
@@ -350,6 +332,42 @@ impl CgroupLeafV5 {
     }
 }
 
+fn inspect_delegated_cgroup_root(
+    root: &Path,
+    mount: &Path,
+) -> Result<PathBuf, ObserverWorkerV5Error> {
+    event(
+        "WORKER_V5_CGROUP_DELEGATION_ENTER",
+        "inspecting delegated cgroup root",
+    );
+    let root = fs::canonicalize(root).map_err(|_| reject("worker-v5-cgroup-root"))?;
+    let metadata = fs::metadata(&root).map_err(|_| reject("worker-v5-cgroup-root"))?;
+    if !root.starts_with(mount) {
+        return Err(reject("worker-v5-cgroup-delegation-invalid"));
+    }
+    if !metadata.is_dir() {
+        return Err(reject("worker-v5-cgroup-root-not-directory"));
+    }
+    if root == mount || metadata.uid() != unsafe { ffi::getuid() } {
+        return Err(reject("worker-v5-cgroup-not-delegated"));
+    }
+    let available = fs::read_to_string(root.join("cgroup.controllers"))
+        .map_err(|_| reject("worker-v5-cgroup-controllers"))?;
+    let enabled = fs::read_to_string(root.join("cgroup.subtree_control"))
+        .map_err(|_| reject("worker-v5-cgroup-subtree"))?;
+    if !["cpu", "memory", "pids"].iter().all(|name| {
+        available.split_whitespace().any(|value| value == *name)
+            && enabled.split_whitespace().any(|value| value == *name)
+    }) {
+        return Err(reject("worker-v5-cgroup-controller-unavailable"));
+    }
+    event(
+        "WORKER_V5_CGROUP_DELEGATION_EXIT",
+        "delegated cgroup root inspected",
+    );
+    Ok(root)
+}
+
 fn verify_cgroup_controls(
     path: &Path,
     limits: ObserverWorkerLimitsV5,
@@ -451,18 +469,45 @@ fn unavailable_reason(reason: &'static str) -> bool {
     );
     let result = matches!(
         reason,
-        "worker-v5-cgroup-root"
+        "worker-v5-cgroup-not-delegated"
+            | "worker-v5-cgroup-controllers"
+            | "worker-v5-cgroup-subtree"
             | "worker-v5-cgroup-controller-unavailable"
             | "worker-v5-cgroup-create"
             | "worker-v5-cgroup-cpu-write"
             | "worker-v5-cgroup-memory-write"
             | "worker-v5-cgroup-pids-write"
+            | "worker-v5-cgroup-cpu-read"
+            | "worker-v5-cgroup-memory-read"
+            | "worker-v5-cgroup-pids-read"
     );
     event(
         "WORKER_V5_HARNESS_CLASSIFY_EXIT",
         "cgroup unavailability classified",
     );
     result
+}
+
+fn unavailable_harness_report(reason: &'static str) -> CgroupHarnessReportV5 {
+    event(
+        "WORKER_V5_HARNESS_UNAVAILABLE_ENTER",
+        "constructing unavailable cgroup harness report",
+    );
+    let report = CgroupHarnessReportV5 {
+        status: CgroupHarnessStatusV5::Unavailable,
+        reason,
+        cpu_limit_readback: false,
+        memory_limit_readback: false,
+        pids_limit_readback: false,
+        normal_cleanup: false,
+        sigkill_cleanup: false,
+        crash_cleanup: false,
+    };
+    event(
+        "WORKER_V5_HARNESS_UNAVAILABLE_EXIT",
+        "unavailable cgroup harness report constructed",
+    );
+    report
 }
 
 fn harness_process(
@@ -529,23 +574,35 @@ pub fn run_cgroup_v5_e2e_harness(
         "running delegated cgroup e2e harness",
     );
     validate_limits(limits)?;
-    let probe = CgroupLeafV5::create(root, limits);
-    let mut probe = match probe {
-        Ok(value) => value,
-        Err(error) if unavailable_reason(error.0) => {
-            return Ok(CgroupHarnessReportV5 {
-                status: CgroupHarnessStatusV5::Unavailable,
-                reason: error.0,
-                cpu_limit_readback: false,
-                memory_limit_readback: false,
-                pids_limit_readback: false,
-                normal_cleanup: false,
-                sigkill_cleanup: false,
-                crash_cleanup: false,
-            });
+    match run_cgroup_v5_e2e_harness_checked(root, limits) {
+        Ok(report) => {
+            event(
+                "WORKER_V5_HARNESS_EXIT",
+                "delegated cgroup e2e harness completed",
+            );
+            Ok(report)
         }
-        Err(error) => return Err(error),
-    };
+        Err(error) if unavailable_reason(error.0) => {
+            let report = unavailable_harness_report(error.0);
+            event(
+                "WORKER_V5_HARNESS_EXIT",
+                "delegated cgroup e2e harness unavailable",
+            );
+            Ok(report)
+        }
+        Err(error) => Err(error),
+    }
+}
+
+fn run_cgroup_v5_e2e_harness_checked(
+    root: &Path,
+    limits: ObserverWorkerLimitsV5,
+) -> Result<CgroupHarnessReportV5, ObserverWorkerV5Error> {
+    event(
+        "WORKER_V5_HARNESS_CHECKED_ENTER",
+        "executing delegated cgroup harness checks",
+    );
+    let mut probe = CgroupLeafV5::create(root, limits)?;
     probe.verify()?;
     let controls_readback = probe.cleanup()?;
     let normal_cleanup = harness_process(root, limits, None)?;
@@ -562,10 +619,50 @@ pub fn run_cgroup_v5_e2e_harness(
         crash_cleanup,
     };
     event(
-        "WORKER_V5_HARNESS_EXIT",
-        "delegated cgroup e2e harness completed",
+        "WORKER_V5_HARNESS_CHECKED_EXIT",
+        "delegated cgroup harness checks completed",
     );
     Ok(report)
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn controller_and_subtree_read_failures_are_environmental_unavailability() {
+        let mount =
+            std::env::temp_dir().join(format!("veyra-v5-cgroup-inspection-{}", std::process::id()));
+        let root = mount.join("delegated");
+        fs::create_dir_all(&root).unwrap();
+
+        let controllers = inspect_delegated_cgroup_root(&root, &mount).unwrap_err();
+        assert_eq!(controllers.0, "worker-v5-cgroup-controllers");
+        assert!(unavailable_reason(controllers.0));
+        assert_eq!(
+            unavailable_harness_report(controllers.0).status(),
+            CgroupHarnessStatusV5::Unavailable
+        );
+
+        fs::write(root.join("cgroup.controllers"), "cpu memory pids\n").unwrap();
+        let subtree = inspect_delegated_cgroup_root(&root, &mount).unwrap_err();
+        assert_eq!(subtree.0, "worker-v5-cgroup-subtree");
+        assert!(unavailable_reason(subtree.0));
+        assert_eq!(
+            unavailable_harness_report(subtree.0).status(),
+            CgroupHarnessStatusV5::Unavailable
+        );
+
+        fs::remove_dir_all(&mount).unwrap();
+    }
+
+    #[test]
+    fn malformed_roots_are_not_environmental_unavailability() {
+        assert!(!unavailable_reason("worker-v5-cgroup-root"));
+        assert!(!unavailable_reason("worker-v5-cgroup-root-not-directory"));
+        assert!(!unavailable_reason("worker-v5-cgroup-delegation-invalid"));
+        assert!(!unavailable_reason("worker-v5-invalid-limits"));
+    }
 }
 
 mod ffi {

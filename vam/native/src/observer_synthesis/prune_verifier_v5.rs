@@ -41,8 +41,23 @@ fn partition(values: [u8; 16]) -> [u8; 16] {
     })
 }
 
-fn fits(candidate: &DiscoveryObserverCandidateV5, targets: [u8; 16]) -> bool {
-    partition(candidate.responses()) == partition(targets)
+fn fits(
+    candidate: &DiscoveryObserverCandidateV5,
+    surface_states: [u8; 16],
+    targets: [u8; 16],
+) -> bool {
+    diagnostics::event(
+        "PRUNE_V5_FIT_ENTER",
+        "independently evaluating represented partition fit",
+    );
+    let represented: [u8; 16] =
+        std::array::from_fn(|index| candidate.term.response(surface_states[index]));
+    let result = partition(represented) == partition(targets);
+    diagnostics::event(
+        "PRUNE_V5_FIT_EXIT",
+        "independent represented partition fit evaluated",
+    );
+    result
 }
 
 fn lower_bound_digest(admitted: &[&DiscoveryObserverCandidateV5]) -> String {
@@ -93,15 +108,23 @@ fn representation_digest(candidate: &DiscoveryObserverCandidateV5, task: &str) -
 fn expected_winner(
     candidate: &DiscoveryObserverCandidateV5,
     admitted: &[&DiscoveryObserverCandidateV5],
+    surface_states: [u8; 16],
     targets: [u8; 16],
     task: &str,
 ) -> DiscoveryWinnerV5 {
+    diagnostics::event(
+        "PRUNE_V5_WINNER_ENTER",
+        "independently reconstructing represented-task winner",
+    );
     let alternatives = admitted
         .iter()
-        .filter(|row| row.cost == candidate.cost && fits(row, targets))
+        .filter(|row| row.cost == candidate.cost && fits(row, surface_states, targets))
         .count()
         .saturating_sub(1);
-    DiscoveryWinnerV5 {
+    let represented: [u8; 16] =
+        std::array::from_fn(|index| candidate.term.response(surface_states[index]));
+    let response_digest = domain_sha256_hex(RESULT_DOMAIN, &represented);
+    let result = DiscoveryWinnerV5 {
         candidate_ordinal: candidate.ordinal,
         candidate_digest: candidate.candidate_digest.clone(),
         total_cost: candidate.cost,
@@ -112,17 +135,18 @@ fn expected_winner(
         representation_digest: representation_digest(candidate, task),
         explanation_digest: domain_sha256_hex(
             RESULT_DOMAIN,
-            format!(
-                "exact-equality-partition:{}:{task}",
-                candidate.response_digest
-            )
-            .as_bytes(),
+            format!("exact-represented-equality-partition:{response_digest}:{task}").as_bytes(),
         ),
         witness_digest: domain_sha256_hex(
             RESULT_DOMAIN,
             format!("{}:{task}:exact-partition", candidate.candidate_digest).as_bytes(),
         ),
-    }
+    };
+    diagnostics::event(
+        "PRUNE_V5_WINNER_EXIT",
+        "represented-task winner independently reconstructed",
+    );
+    result
 }
 
 pub(super) fn verify_branch_bound_proof_independent_v5(
@@ -199,21 +223,26 @@ pub(super) fn verify_branch_bound_proof_independent_v5(
     let evaluated = claimed.ledger.evaluated_pairs / PAIR_OBLIGATIONS;
     let first_fit = admitted
         .iter()
-        .position(|row| fits(row, benchmark.target_classes));
+        .position(|row| fits(row, benchmark.surface_states, benchmark.target_classes));
     let (status, detail, expected_winner, expected_evaluated, expected_pruned) = match first_fit {
         Some(index) => {
             let winner = expected_winner(
                 admitted[index],
                 &admitted,
+                benchmark.surface_states,
                 benchmark.target_classes,
                 &benchmark.task_digest,
             );
+            let evaluated_through_cost = admitted
+                .iter()
+                .take_while(|row| row.cost <= winner.total_cost)
+                .count();
             (
                 DiscoverySearchStatusV5::Found,
                 "minimum-catalog-relative-witness",
                 Some(winner),
-                index + 1,
-                admitted.len() - index - 1,
+                evaluated_through_cost,
+                admitted.len() - evaluated_through_cost,
             )
         }
         None => (
@@ -227,7 +256,7 @@ pub(super) fn verify_branch_bound_proof_independent_v5(
     let expected_incumbent = expected_winner.as_ref().map(|row| row.total_cost);
     let expected_suffix_bound = admitted.get(expected_evaluated).map(|row| row.cost);
     let bound_admissible = match (expected_incumbent, expected_suffix_bound) {
-        (Some(incumbent), Some(bound)) => bound >= incumbent,
+        (Some(incumbent), Some(bound)) => bound > incumbent,
         (_, None) => true,
         (None, Some(_)) => false,
     };

@@ -12,13 +12,13 @@ use super::hash::domain_sha256_hex;
 
 pub const DISCOVERY_BENCHMARK_V5_SCHEMA: &str = "veyra.synthetic-discovery-benchmark.v5";
 pub const DISCOVERY_BENCHMARK_V5_FAMILY_DIGEST: &str =
-    "9c307dc3d06b183cf9d59189e4539fba072b7d1b19c33ac5a23105677c38b86e";
+    "48c91d80b21fe93afb96dd91c0e8e7e57c13cd8f7c787c061af61ea5d482ba2c";
 const GENERATOR_DOMAIN: &str = "veyra.synthetic-discovery-benchmark.generator.v5.binding";
 const HELD_OUT_GENERATOR_DOMAIN: &str =
     "veyra.synthetic-discovery-benchmark.held-out-generator.v5.binding";
 const TASK_DOMAIN: &str = "veyra.synthetic-discovery-benchmark.task.v5.binding";
 const FAMILY_DOMAIN: &str = "veyra.synthetic-discovery-benchmark.family.v5.binding";
-pub const DISCOVERY_BENCHMARK_V5_BOUNDARY: &str = "five deterministic generated sixteen-state tasks: four calibration tasks covering affine-hidden, reflection-symmetry, representation-recovery and catalog-diagonalized-negative cases, plus one synthetic held-out task selected under a distinct domain and excluded from calibration selection; labels and the held-out expected observer are not embedded, and this is not statistical, external or empirical validation";
+pub const DISCOVERY_BENCHMARK_V5_BOUNDARY: &str = "five deterministic generated sixteen-state tasks: four calibration tasks covering affine-hidden, reflection-symmetry, recovery through a nonidentity affine permutation of represented states, and catalog-diagonalized-negative cases, plus one synthetic held-out task selected under a distinct domain and excluded from calibration selection; represented states and targets are bound independently, labels and the held-out expected observer are not embedded, and this is not statistical, external or empirical validation";
 
 #[derive(Clone, Copy, Debug, Eq, Ord, PartialEq, PartialOrd)]
 pub enum DiscoveryBenchmarkIdV5 {
@@ -259,7 +259,20 @@ pub fn discovery_benchmark_v5(
     } else {
         DiscoveryBenchmarkSplitV5::Calibration
     };
-    let generator_body = format!("{}:{}:{generator_key}", split.as_str(), id.as_str());
+    // The recovery row presents the same latent sample indices through a
+    // nonidentity affine permutation. Search therefore has to recover a term
+    // over represented states rather than reuse the latent generator term.
+    let surface_states = if id == DiscoveryBenchmarkIdV5::MisrepresentationRecovery {
+        std::array::from_fn(|latent| (5u8.wrapping_mul(latent as u8).wrapping_add(3)) & 15)
+    } else {
+        std::array::from_fn(|state| state as u8)
+    };
+    let surface_text = surface_states.map(|value| value.to_string()).join(",");
+    let generator_body = format!(
+        "{}:{}:{generator_key}:{surface_text}",
+        split.as_str(),
+        id.as_str()
+    );
     let generator_domain = if split == DiscoveryBenchmarkSplitV5::SyntheticHeldOut {
         HELD_OUT_GENERATOR_DOMAIN
     } else {
@@ -268,14 +281,14 @@ pub fn discovery_benchmark_v5(
     let generator_digest = domain_sha256_hex(generator_domain, generator_body.as_bytes());
     let target_text = targets.map(|value| value.to_string()).join(",");
     let task_body = format!(
-        "{}:{}:{target_text}:{hidden_variable}:{symmetry}:{misrepresentation}:{negative_control}:{generator_digest}",
+        "{}:{}:{surface_text}:{target_text}:{hidden_variable}:{symmetry}:{misrepresentation}:{negative_control}:{generator_digest}",
         id.as_str(), split.as_str()
     );
     let result = DiscoveryBenchmarkV5 {
         schema: DISCOVERY_BENCHMARK_V5_SCHEMA,
         id,
         split,
-        surface_states: std::array::from_fn(|state| state as u8),
+        surface_states,
         target_classes: targets,
         hidden_variable,
         symmetry,
@@ -296,8 +309,10 @@ pub fn canonical_discovery_benchmark_v5_bytes(
         "BENCH_V5_CODEC_ENTER",
         "encoding canonical discovery benchmark",
     );
+    let mut sorted_surface = task.surface_states;
+    sorted_surface.sort_unstable();
     if task.schema != DISCOVERY_BENCHMARK_V5_SCHEMA
-        || task.surface_states != std::array::from_fn(|state| state as u8)
+        || sorted_surface != std::array::from_fn(|state| state as u8)
         || task.boundary != DISCOVERY_BENCHMARK_V5_BOUNDARY
         || task.target_classes.iter().any(|value| *value > 15)
         || ![&task.generator_digest, &task.task_digest]
@@ -312,12 +327,14 @@ pub fn canonical_discovery_benchmark_v5_bytes(
         diagnostics::event("BENCH_V5_CODEC_REJECT", "discovery benchmark rejected");
         return Err(SynthesisCoreError("invalid-discovery-benchmark-v5"));
     }
+    let surfaces = task.surface_states.map(|value| value.to_string()).join(",");
     let targets = task.target_classes.map(|value| value.to_string()).join(",");
     let bytes = format!(
-        "{}\0{}\0{}\0{}\0{}\0{}\0{}\0{}\0{}\0{}\0{}",
+        "{}\0{}\0{}\0{}\0{}\0{}\0{}\0{}\0{}\0{}\0{}\0{}",
         task.schema,
         task.id.as_str(),
         task.split.as_str(),
+        surfaces,
         targets,
         task.hidden_variable,
         task.symmetry,

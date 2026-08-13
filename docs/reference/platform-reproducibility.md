@@ -12,7 +12,7 @@ Veyra has two deliberately different support levels.
 | compiling all 48 Lean sources with `elan` | supported when the pinned toolchain is installed | expected where `elan` supplies the pinned toolchain | expected where `elan` supplies the pinned toolchain |
 | content-bound certificate renewal and guarded Lean execution | Linux x86_64 only | unsupported | unsupported |
 | R14 process/resource hardening | Linux/POSIX contract only | unsupported | unsupported |
-| observer worker v5 closed-root/cgroup custody | Linux x86-64 only with caller-owned writable cgroup delegation and a mount base; otherwise fail-closed unavailable | unsupported | unsupported |
+| observer worker v5 closed-root/cgroup custody | Linux x86-64 only with caller-owned writable cgroup delegation and a mount base; valid host capability/delegation failures are explicit unavailable, while malformed configuration remains an error | unsupported | unsupported |
 | Sage-native facade | supported when SageMath provides the hardened CPython 3.11.14 lane | dependent on a compatible SageMath distribution | dependent on a compatible SageMath distribution |
 
 Portable imports never install fake `fcntl`, `pwd`, or `resource` modules.
