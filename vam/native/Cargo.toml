@@ -3,7 +3,7 @@ name = "vam-native"
 version = "0.1.0"
 edition = "2021"
 rust-version = "1.83"
-description = "Minimal honest Rust VAM0 native backend scaffold"
+description = "Native Rust backend for the Veyra Abstract Machine: dense execution, optimizer parity, and bounded observer-synthesis workers"
 license = "MIT"
 default-run = "vam0-inspect"
 

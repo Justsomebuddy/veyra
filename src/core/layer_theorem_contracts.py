@@ -23,6 +23,7 @@ from .layer_theorem_contract_handlers import (
 from .layer_theorem_contract_types import (
     LayerLike,
     LayerTheoremContract,
+    TheoremContractCapabilityBlocked,
     VerifiedLayerTheorem,
     theorem_contract_digest,
 )
@@ -43,6 +44,7 @@ from .proof_core_resonance import (
     BOUNDARY,
     intrinsic_resonance_theorem,
 )
+from src.platform_capabilities import Capability, capability_status
 
 logger = logging.getLogger(__name__)
 
@@ -154,16 +156,36 @@ _INTRINSIC_OBSERVER_ECHO_CONTRACT = LayerTheoremContract(
     bridge_verifier=verify_r13_bridge,
     executable_digest="ee12d603d86b0a1387bcba3e9c6a76fbba983940908e5ec07a0b5d856a9d5673",
 )
-THEOREM_CONTRACTS = build_theorem_contract_registry(
-    (_INTRINSIC_CONTRACT, _INTRINSIC_OBSERVER_ECHO_CONTRACT),
-)
+_THEOREM_CONTRACTS: Mapping[str, LayerTheoremContract] | None = None
+
+
+def _theorem_contracts() -> Mapping[str, LayerTheoremContract]:
+    """Build the immutable registry once, lazily.
+
+    Building at import time made every ``import src.core`` fail closed on any
+    interpreter whose bytecode did not match the pinned executable digests.
+    Validation still runs exactly once before first use, so the fail-closed
+    property is preserved; it just no longer poisons unrelated imports.
+    """
+    global _THEOREM_CONTRACTS
+    if _THEOREM_CONTRACTS is None:
+        logger.debug("layer_theorem_contracts registry lazy build entry")
+        _THEOREM_CONTRACTS = build_theorem_contract_registry(
+            (_INTRINSIC_CONTRACT, _INTRINSIC_OBSERVER_ECHO_CONTRACT),
+        )
+        logger.debug(
+            "layer_theorem_contracts registry lazy build exit count=%d",
+            len(_THEOREM_CONTRACTS),
+        )
+    return _THEOREM_CONTRACTS
 
 
 def theorem_contract_registry() -> Mapping[str, LayerTheoremContract]:
     """Return the immutable production theorem-promotion registry."""
     logger.debug("theorem_contract_registry entry")
-    logger.debug("theorem_contract_registry exit count=%d", len(THEOREM_CONTRACTS))
-    return THEOREM_CONTRACTS
+    result = _theorem_contracts()
+    logger.debug("theorem_contract_registry exit count=%d", len(result))
+    return result
 
 
 def resolve_layer_theorem(
@@ -171,6 +193,12 @@ def resolve_layer_theorem(
 ) -> VerifiedLayerTheorem:
     """Resolve only the requested layer's exact contract, with no fallback."""
     logger.debug("resolve_layer_theorem entry type=%s", type(layer).__name__)
+    if not capability_status(Capability.LEAN_TOOLCHAIN_CANDIDATE).available:
+        logger.debug("resolve_layer_theorem blocked missing lean candidate capability")
+        raise TheoremContractCapabilityBlocked(
+            "theorem-contract-capability-blocked:"
+            "lean-toolchain-candidate-required",
+        )
     actual_layer = (layer.name, layer.role, layer.certificate, layer.status)
     if any(type(item) is not str for item in actual_layer):
         _reject_type("layer-theorem-contract-metadata-type")

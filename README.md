@@ -85,6 +85,18 @@ comprehensive verification run. The changelog and registry preserve this
 boundary; no later focused result should be read as a replacement for the
 snapshot-wide result.
 
+Theorem-promotion contracts are validated lazily on first use, not at import
+time, so the portable package imports cleanly on every supported interpreter.
+Their executable handler digests are bytecode-bound to the pinned CPython
+3.11.14 lane; resolving a theorem contract on any other interpreter fails
+closed with an explicit interpreter-version error. On hosts without the Lean
+toolchain, contract resolution raises `TheoremContractCapabilityBlocked` and
+portable readiness reports mark the two theorem-derived layers as `blocked`
+instead of failing. `make test` now applies a host-capability marker filter
+(`scripts/active_test_filter.py`) automatically, so the public suite runs the
+portable lane by default and the complete lane when Lean, Rust, and SageMath
+are present.
+
 ## Repository map
 
 | Path | Purpose |

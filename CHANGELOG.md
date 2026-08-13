@@ -1,6 +1,37 @@
 # Changelog
 
 ## [Unreleased] — Changed
+- Moved theorem-promotion contract validation from import time to a lazy
+  registry build, so `import src.core` no longer fails on interpreters whose
+  bytecode differs from the pinned CPython 3.11.14 lane. Handler executable
+  digests stay bytecode-bound: resolving a theorem contract outside the pinned
+  lane now fails closed with an explicit interpreter-version error, and on
+  hosts without the Lean toolchain resolution raises the new typed
+  `TheoremContractCapabilityBlocked` boundary while portable readiness reports
+  mark theorem-derived layers `blocked` instead of raising. This is no
+  loosening of the executable-binding audit property.
+- Rejected tuples in `canonical_json` instead of silently merging them with
+  lists, closing a digest-collision surface in `digest_data` payloads.
+  Existing tuple-bearing payloads now convert to lists explicitly; all
+  recorded contract and executable digests are unchanged.
+- Completed the test capability classification in `tests/conftest.py` (Lean,
+  Linux-hardening, and native-Rust dependent files) and made `make test`
+  deselect unavailable lanes automatically through the new
+  `scripts/active_test_filter.py`, so the public suite runs green on portable
+  hosts without external toolchains while the complete lane still runs
+  everything.
+- Built the `vam0-inspect` CLI once per test session in
+  `test_vam_native_vamd_boundaries.py` instead of re-running `cargo run` per
+  test, keeping stderr assertions independent of compiler warnings.
+- Demoted an import-time `observer_adapter` unknown-name lookup from ERROR to
+  debug, removed redundant entry/exit debug logging from hot-path properties
+  and recursive serializers, removed a pointless log-and-reraise wrapper in
+  `Mode.from_word`, guarded the empty-carrier case in transport
+  `_join_partition`, refreshed the stale native crate description, and added
+  snapshot-boundary notes to the foundational gap audit and documentation
+  navigation. This is no semantic or evidence-status change.
+- Added a restricted same-doctrine realization-context transport research
+  contract: total finite state reindexings preserve exact canonical recurrence
 - Added a restricted same-doctrine realization-context transport research
   contract: total finite state reindexings preserve exact canonical recurrence
   inputs, both endpoint P1→R16 witnesses are authoritatively replayed, and

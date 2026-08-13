@@ -56,7 +56,8 @@ def _join_partition(left: tuple[int, ...], right: tuple[int, ...]) -> tuple[int,
         logger.error("transport _join_partition carrier mismatch")
         raise RealizationTransportValidationError("transport-join-carrier-mismatch")
     result = _normalize_partition(tuple(zip(left, right, strict=True)))
-    logger.debug("transport _join_partition exit classes=%d", 1 + max(result))
+    classes = 1 + max(result) if result else 0
+    logger.debug("transport _join_partition exit classes=%d", classes)
     return result
 
 

@@ -27,32 +27,19 @@ class Mode:
     def from_word(cls, word: str | Iterable[str]) -> "Mode":
         """Create a mode from a string or iterable of tact labels."""
         logger.debug("Mode.from_word entry word=%r", word)
-        try:
-            if isinstance(word, str):
-                mode = cls(tuple(word))
-            else:
-                mode = cls(tuple(word))
-            logger.debug("Mode.from_word exit mode=%s", mode.word)
-            return mode
-        except Exception:
-            logger.exception("Mode.from_word error word=%r", word)
-            raise
+        mode = cls(tuple(word))
+        logger.debug("Mode.from_word exit mode=%s", mode.word)
+        return mode
 
     @property
     def word(self) -> str:
         """Return compact word representation; epsilon for the silent mode."""
-        logger.debug("Mode.word entry tacts=%r", self.tacts)
-        result = "".join(self.tacts) if self.tacts else "ε"
-        logger.debug("Mode.word exit result=%s", result)
-        return result
+        return "".join(self.tacts) if self.tacts else "ε"
 
     @property
     def length(self) -> int:
         """Return tact count."""
-        logger.debug("Mode.length entry mode=%s", self.word)
-        result = len(self.tacts)
-        logger.debug("Mode.length exit result=%d", result)
-        return result
+        return len(self.tacts)
 
     def stitch(self, other: "Mode") -> "Mode":
         """Stitch two closed mode shadows by concatenating tact words."""

@@ -69,6 +69,12 @@ R7 checks inference; R8 contracts promotion; R9 transports only the fixed-anchor
 
 R11 final reviewed evidence: artifact `2bcf57b5dda6b92569328da5de0b5477058dcde08f57a986ced8882b1f5c6c95`; R10 continuity `445bffcf753f29ae20b0e92799561c2e1c047ab4993ef9ac5b22921fc03d8264`; snapshot `0f68fbfa0696f4c2e47c30042eafce7245da92310a9bc267700198ce44c0acc0`; binding `ebacad7ae4334e1e2eb693e015d7417df266400ae18783cb1daa21218f649f30`; non-self-bound manual manifest root `fb0f280af681a583c757a021f6503bc0ad1186ac5b76399619f82a83d9926c45`. Focused observer/bridge `80/80`, manifest `34/34`, and guarded Lean `9/9` pass. Full the complete verification suite exited 0: pytest `1315/1315` at 100%, certificates `67/67`, Sage `errors=0`, doctest `41` attempted/`0` failed, and hygiene clean; independent final review found no blocker/high/medium.
 
+> **Snapshot boundary note:** the pytest/certificate counts above describe the
+> R11 snapshot recorded on 2026-07-15. Later snapshots grew beyond them; the
+> current repository-wide certificate snapshot is the immutable 77-certificate
+> snapshot named in the root README. Numbers in this audit are not updated on
+> every release and must not be read as the current suite size.
+
 ### F4 — Native runtime
 
 Implemented internal Veyra objects before school shadows. R9 adds a total stack-safe recurrence encoder and exact image transport. R11 adds a closed `input | apply(tail|crest) | pair` AST with branded recurrence/mark/pair responses, ordered `tail-of-silence` obstructions, and `Echo | Mismatch | DomainBlocked`; echo is not equality. This is not arbitrary strict/word-mode semantics or observer synthesis.

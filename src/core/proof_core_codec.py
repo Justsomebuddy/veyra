@@ -25,21 +25,24 @@ def _type(reason: str) -> NoReturn:
 
 
 def _json_value(value: object) -> object:
-    logger.debug("proof_core_codec._json_value entry type=%s", type(value).__name__)
     if value is None or type(value) in {bool, int, str}:
         result = value
-    elif type(value) in {list, tuple}:
+    elif type(value) is list:
         result = [_json_value(item) for item in value]
     elif type(value) is dict and all(type(key) is str for key in value):
         result = {key: _json_value(value[key]) for key in sorted(value)}
     else:
         _type(f"noncanonical-json-type:{type(value).__name__}")
-    logger.debug("proof_core_codec._json_value exit")
     return result
 
 
 def canonical_json(value: object) -> str:
-    """Encode tagged integers/strings/lists/objects; never use repr or floats."""
+    """Encode tagged integers/strings/lists/objects; never use repr or floats.
+
+    Tuples are rejected (not silently merged with lists) so that two
+    semantically different payloads can never share one canonical digest.
+    Callers must convert tuple payloads to lists explicitly before digesting.
+    """
     logger.debug("canonical_json entry type=%s", type(value).__name__)
     result = json.dumps(
         _json_value(value), sort_keys=True, separators=(",", ":"), ensure_ascii=False,
@@ -61,7 +64,6 @@ def digest_data(value: object, domain: str) -> str:
 
 def term_data(term: CoreTerm) -> dict[str, object]:
     """Return the canonical tagged data form of a term."""
-    logger.debug("term_data entry term=%r", term)
     if type(term) is Bound:
         result = {"tag": "bound", "index": term.index}
     elif type(term) is Silence:
@@ -74,13 +76,11 @@ def term_data(term: CoreTerm) -> dict[str, object]:
         result = {"tag": "weave", "left": term_data(term.left), "right": term_data(term.right)}
     else:
         _type(f"unknown-core-term:{type(term).__name__}")
-    logger.debug("term_data exit tag=%s", result["tag"])
     return result
 
 
 def prop_data(prop: CoreProp) -> dict[str, object]:
     """Return the canonical tagged data form of a proposition."""
-    logger.debug("prop_data entry prop=%r", prop)
     if type(prop) is Equal:
         result = {"tag": "equal", "left": term_data(prop.left), "right": term_data(prop.right)}
     elif type(prop) is Implies:
@@ -91,19 +91,16 @@ def prop_data(prop: CoreProp) -> dict[str, object]:
         result = {"tag": "resonates", "factor": term_data(prop.factor), "carrier": term_data(prop.carrier)}
     else:
         _type(f"unknown-core-prop:{type(prop).__name__}")
-    logger.debug("prop_data exit tag=%s", result["tag"])
     return result
 
 
 def context_data(context: ProofContext) -> dict[str, object]:
     """Return canonical tagged context data."""
-    logger.debug("context_data entry context=%r", context)
     result = {
         "tag": "context",
         "types": [item.value for item in context.term_types],
         "assumptions": [prop_data(item) for item in context.assumptions],
     }
-    logger.debug("context_data exit types=%d assumptions=%d", len(context.term_types), len(context.assumptions))
     return result
 
 

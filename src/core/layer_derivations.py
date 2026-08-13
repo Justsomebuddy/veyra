@@ -7,8 +7,11 @@ from collections.abc import Iterable, Mapping
 
 from .essence import VeyraCoreLayer, core_layers
 from .layer_theorem_contracts import (
-    LayerTheoremContract, resolve_layer_theorem, theorem_contract_registry,
+    LayerTheoremContract,
+    resolve_layer_theorem,
+    theorem_contract_registry,
 )
+from .layer_theorem_contract_types import TheoremContractCapabilityBlocked
 from .semantic_kernel import DerivationReceipt, axiom_closure, evaluate_native, replay_receipts
 
 logger = logging.getLogger(__name__)
@@ -127,7 +130,18 @@ def _theorem_row(
     theorem_contracts: Mapping[str, LayerTheoremContract] | None = None,
 ) -> LayerDerivation:
     logger.debug("_theorem_row entry layer=%s", layer.name)
-    theorem = resolve_layer_theorem(layer, theorem_contracts)
+    try:
+        theorem = resolve_layer_theorem(layer, theorem_contracts)
+    except TheoremContractCapabilityBlocked:
+        logger.debug("_theorem_row capability blocked layer=%s", layer.name)
+        result = LayerDerivation(
+            layer.name, layer.certificate, "theorem-derived", "blocked", "", (), (),
+            "theorem contract requires the pinned Lean toolchain lane "
+            "(CPython 3.11.14 + elan); the portable lane reports this layer "
+            "as blocked without resolving its bridge",
+        )
+        logger.debug("_theorem_row exit blocked layer=%s", layer.name)
+        return result
     result = LayerDerivation(
         layer.name, layer.certificate, "theorem-derived", "ready", "", (), (),
         theorem.boundary, theorem.theorem_id, theorem.proof_digest,

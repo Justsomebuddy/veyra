@@ -28,11 +28,32 @@ def cargo_bin() -> str:
     pytest.skip("cargo/rust unavailable")
 
 
-def run_native(blob: bytes, tmp_path: Path) -> subprocess.CompletedProcess[str]:
+@pytest.fixture(scope="session")
+def native_cli() -> str:
+    """Build the vam0-inspect CLI once and return its executable path.
+
+    Compiler warnings are emitted while the binary is built; invoking the
+    built binary directly keeps every test's stderr assertion clean and
+    avoids one cargo invocation per test.
+    """
+    build = subprocess.run(
+        [cargo_bin(), "build", "--manifest-path", str(NATIVE / "Cargo.toml"), "--bin", "vam0-inspect"],
+        text=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        check=False,
+    )
+    assert build.returncode == 0, build.stderr
+    cli = NATIVE / "target" / "debug" / "vam0-inspect"
+    assert cli.exists(), f"expected CLI binary at {cli}"
+    return str(cli)
+
+
+def run_native(blob: bytes, tmp_path: Path, cli: str) -> subprocess.CompletedProcess[str]:
     sample = tmp_path / "bad-frame.vamd"
     sample.write_bytes(blob)
     return subprocess.run(
-        [cargo_bin(), "run", "--quiet", "--manifest-path", str(NATIVE / "Cargo.toml"), "--", str(sample)],
+        [cli, str(sample)],
         text=True,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
@@ -105,8 +126,8 @@ def invalid_utf8_string(blob: bytes) -> bytes:
         ("unknown_magic", lambda blob: with_header(blob, magic=b"NOPE"), "magic", "unsupported VAM frame magic"),
     ],
 )
-def test_native_vamd_cli_rejects_malformed_frames(name, blob_factory, kind, message_marker, tmp_path):
-    result = run_native(blob_factory(seed_frame()), tmp_path)
+def test_native_vamd_cli_rejects_malformed_frames(name, blob_factory, kind, message_marker, tmp_path, native_cli):
+    result = run_native(blob_factory(seed_frame()), tmp_path, native_cli)
 
     body = assert_cli_error(result, kind=kind, message_contains=message_marker)
     assert body["error"]["message"], name

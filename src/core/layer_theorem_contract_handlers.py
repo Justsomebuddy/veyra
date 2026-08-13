@@ -3,6 +3,7 @@ from __future__ import annotations
 
 from collections.abc import Callable
 import logging
+import sys
 
 from .layer_theorem_contract_types import (
     LayerTheoremContract,
@@ -242,10 +243,21 @@ def validate_contract_handlers(
             or actual_executable != expected_executable
         ):
             logger.error(
-                "validate_contract_handlers executable mismatch layer=%s expected=%s actual=%s",
+                "validate_contract_handlers executable mismatch layer=%s expected=%s actual=%s "
+                "interpreter=%s %s.%s.%s",
                 contract.layer,
                 expected_executable,
                 actual_executable,
+                sys.implementation.name,
+                sys.version_info.major,
+                sys.version_info.minor,
+                sys.version_info.micro,
             )
-            raise ValueError("theorem-contract-handler-executable-mismatch")
+            raise ValueError(
+                "theorem-contract-handler-executable-mismatch:"
+                f"{sys.implementation.name}-{sys.version_info.major}."
+                f"{sys.version_info.minor}.{sys.version_info.micro};"
+                "theorem contracts are bytecode-bound to the pinned "
+                "CPython 3.11.14 lane (see README verification status)"
+            )
     logger.debug("validate_contract_handlers exit layer=%s", contract.layer)

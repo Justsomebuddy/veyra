@@ -6,6 +6,10 @@ would break citations and make review unnecessarily difficult. This page
 therefore provides a subject-oriented entrance without moving authoritative
 documents.
 
+Gaps in the numbering correspond to documents that were superseded by later
+releases and removed; the surviving documents keep their original numbers so
+citations stay stable.
+
 ## Start here
 
 | Reader goal | First document | Then continue with |

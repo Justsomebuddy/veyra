@@ -94,7 +94,6 @@ def _label_response(obj: NativeObject) -> str:
 
 
 def _stable(value: object) -> str:
-    logger.debug("_stable entry type=%s", type(value).__name__)
     if isinstance(value, Rez): data: object = ["rez", value.name]
     elif isinstance(value, Nod): data = ["nod", json.loads(_stable(value.residue)), value.mark]
     elif isinstance(value, Tact): data = ["tact", json.loads(_stable(value.start)), json.loads(_stable(value.end)), value.mark]
@@ -108,7 +107,6 @@ def _stable(value: object) -> str:
     elif isinstance(value, tuple): data = [json.loads(_stable(item)) for item in value]
     else: data = value
     result = json.dumps(data, sort_keys=True, separators=(",", ":"), ensure_ascii=False)
-    logger.debug("_stable exit result=%s", result)
     return result
 
 
@@ -126,7 +124,7 @@ def observer_adapter(name: str) -> NativeObserver | None:
     adapters = {"kind": NativeObserver("kind", _kind_response), "label": NativeObserver("label", _label_response),
                 "trace": NativeObserver("trace", _trace_response), "length": canonical["length"], "boundary": canonical["boundary"]}
     result = adapters.get(name) if name in KNOWN_OBSERVERS else None
-    if result is None: logger.error("observer_adapter unknown name=%s", name)
+    if result is None: logger.debug("observer_adapter unknown name=%s", name)
     logger.debug("observer_adapter exit result=%r", result)
     return result
 

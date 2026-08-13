@@ -28,6 +28,15 @@ BridgeProvider = Callable[[], object]
 BridgeVerifier = Callable[["LayerTheoremContract", object, str], bool]
 
 
+class TheoremContractCapabilityBlocked(ValueError):
+    """Theorem-contract resolution requires an unavailable host capability.
+
+    Raised before any bridge work when the pinned Lean toolchain lane is not
+    present, so portable callers get a typed capability boundary instead of a
+    raw bridge rejection.
+    """
+
+
 @dataclass(frozen=True)
 class LayerTheoremContract:
     """Exact static and executable binding for one theorem-derived layer."""
@@ -78,8 +87,10 @@ def contract_data(contract: LayerTheoremContract) -> dict[str, object]:
         "theorem_id": contract.theorem_id,
         "statement_digest": contract.statement_digest,
         "artifact_digest": contract.artifact_digest,
-        "proof_rules": contract.proof_rules,
-        "native_laws": contract.native_laws,
+        # canonical_json rejects tuples: convert closures to lists explicitly
+        # so tuple/list can never collide in the trusted contract digest.
+        "proof_rules": list(contract.proof_rules),
+        "native_laws": list(contract.native_laws),
         "handler_id": contract.handler_id,
         "semantic_carrier": contract.semantic_carrier,
         "bridge_id": contract.bridge_id,

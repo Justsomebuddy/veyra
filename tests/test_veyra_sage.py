@@ -21,6 +21,7 @@ def test_veyra_mode_resonance_methods():
     assert parent("ab").weighted_resonates(parent("abac"), budget=0.5)
 
 
+@pytest.mark.requires_pinned_lean
 def test_sage_certificate_suite_summary():
     summary = sage_certificate_suite()
     assert summary["failed"] == []

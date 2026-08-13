@@ -21,18 +21,12 @@ class BalanceMode:
     @property
     def net_length(self) -> int:
         """Return length-observer signed shadow."""
-        logger.debug("BalanceMode.net_length entry arising=%s fading=%s", self.arising.word, self.fading.word)
-        result = self.arising.length - self.fading.length
-        logger.debug("BalanceMode.net_length exit result=%d", result)
-        return result
+        return self.arising.length - self.fading.length
 
     @property
     def word(self) -> str:
         """Return compact balance display."""
-        logger.debug("BalanceMode.word entry")
-        result = f"{self.arising.word}⇅{self.fading.word}"
-        logger.debug("BalanceMode.word exit result=%s", result)
-        return result
+        return f"{self.arising.word}⇅{self.fading.word}"
 
 
 def balance_from_int(value: int, tact: str = "τ") -> BalanceMode:

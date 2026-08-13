@@ -10,6 +10,7 @@ RUSTFMT_CARGO ?= $(CARGO) +1.95.0
 RUST_TEST_CARGO ?= $(CARGO) +1.95.0
 LEAN_JOBS ?= 8
 ACTIVE_IGNORE ?=
+TEST_MARKERS ?= $(shell PYTHONPATH='$(PROJECT_PYTHONPATH)' $(PYTHON) scripts/active_test_filter.py)
 
 .PHONY: help status lint test cert sage-smoke sage-required sage-doctest rust lean package-smoke portable hygiene diff-check verify omegaa-collect tables notebooks
 
@@ -50,8 +51,8 @@ lint:
 	@$(PYTHON) -m ruff check src veyra_sage vam scripts tests
 
 test:
-	@echo '[1/1] Running public pytest suite'
-	@PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 PYTHONPATH='$(PROJECT_PYTHONPATH)' $(PYTEST) -q $(ACTIVE_IGNORE)
+	@echo '[1/1] Running public pytest suite (host capability filter: $(if $(TEST_MARKERS),"$(TEST_MARKERS)","none - complete lane"))'
+	@PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 PYTHONPATH='$(PROJECT_PYTHONPATH)' $(PYTEST) -q $(if $(TEST_MARKERS),-m '$(TEST_MARKERS)',) $(ACTIVE_IGNORE)
 
 cert:
 	@echo '[1/1] Running executable certificate suite'

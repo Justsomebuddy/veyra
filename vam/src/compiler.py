@@ -41,10 +41,7 @@ class _Compiler:
     @property
     def program(self) -> tuple[Instruction, ...]:
         """Return immutable emitted program."""
-        logger.debug("compiler program entry size=%d", len(self._program))
-        result = tuple(self._program)
-        logger.debug("compiler program exit size=%d", len(result))
-        return result
+        return tuple(self._program)
 
     def emit(self, op: str, *args: object) -> str:
         """Emit one destination-style VAM instruction."""

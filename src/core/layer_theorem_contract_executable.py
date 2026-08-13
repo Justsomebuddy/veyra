@@ -14,10 +14,6 @@ HANDLER_EXECUTABLE_DOMAIN = "veyra-layer-theorem-handler-executable-v1"
 
 def _constant_data(value: object) -> object:
     """Encode exact code constants without repr- or address-dependent values."""
-    logger.debug(
-        "layer_theorem_contract_executable._constant_data entry type=%s",
-        type(value).__name__,
-    )
     if value is None or type(value) in {bool, int, str}:
         result: object = {"type": type(value).__name__, "value": value}
     elif type(value) is bytes:
@@ -48,19 +44,11 @@ def _constant_data(value: object) -> object:
             type(value).__name__,
         )
         raise TypeError("unsupported-handler-code-constant")
-    logger.debug(
-        "layer_theorem_contract_executable._constant_data exit type=%s",
-        type(value).__name__,
-    )
     return result
 
 
 def _code_data(code: CodeType) -> dict[str, object]:
     """Return line/path-independent executable semantics for one code object."""
-    logger.debug(
-        "layer_theorem_contract_executable._code_data entry name=%s",
-        code.co_name,
-    )
     result = {
         "name": code.co_name,
         "qualname": code.co_qualname,
@@ -72,17 +60,14 @@ def _code_data(code: CodeType) -> dict[str, object]:
         "flags": code.co_flags,
         "bytecode": code.co_code.hex(),
         "constants": [_constant_data(item) for item in code.co_consts],
-        "names": code.co_names,
-        "varnames": code.co_varnames,
-        "freevars": code.co_freevars,
-        "cellvars": code.co_cellvars,
+        # canonical_json rejects tuples: normalize code metadata to lists so
+        # the executable digest stays unambiguous across tuple/list shapes.
+        "names": list(code.co_names),
+        "varnames": list(code.co_varnames),
+        "freevars": list(code.co_freevars),
+        "cellvars": list(code.co_cellvars),
         "exceptiontable": code.co_exceptiontable.hex(),
     }
-    logger.debug(
-        "layer_theorem_contract_executable._code_data exit name=%s bytes=%d",
-        code.co_name,
-        len(code.co_code),
-    )
     return result
 
 
