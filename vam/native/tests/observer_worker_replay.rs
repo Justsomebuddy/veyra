@@ -138,9 +138,17 @@ fn wall_timeout_kills_the_owned_descendant_group() {
     use std::fs;
     use std::os::unix::fs::PermissionsExt;
 
+    eprintln!("observer worker timeout regression entry");
     let _guard = legacy_child_process_lock();
 
-    let target = Path::new(env!("CARGO_MANIFEST_DIR")).join("target");
+    // Cargo resolves a relative target directory from its invocation cwd, but
+    // runs integration tests from the package root.  The Cargo-provided worker
+    // binary path therefore identifies the actual build directory without
+    // reinterpreting CARGO_TARGET_DIR under the test process's different cwd.
+    let target = worker_path()
+        .parent()
+        .expect("Cargo-provided worker binary path must have a parent");
+    assert!(target.is_dir(), "Cargo worker build directory is absent");
     let suffix = std::process::id();
     let helper = target.join(format!("observer-worker-timeout-{suffix}.sh"));
     let pid_file = target.join(format!("observer-worker-timeout-{suffix}.pid"));
@@ -176,6 +184,7 @@ fn wall_timeout_kills_the_owned_descendant_group() {
     );
     let _ = fs::remove_file(helper);
     let _ = fs::remove_file(pid_file);
+    eprintln!("observer worker timeout regression exit");
 }
 
 #[test]
