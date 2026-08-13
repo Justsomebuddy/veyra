@@ -1,7 +1,7 @@
 //! Public integration tests for Linux worker custody and portable replay authentication.
 
 use std::io::Write;
-use std::path::{Path, PathBuf};
+use std::path::Path;
 use std::process::{Command, Stdio};
 use std::sync::{Mutex, MutexGuard, OnceLock};
 use std::time::{Duration, Instant};
@@ -21,21 +21,6 @@ fn worker_path() -> &'static Path {
 fn legacy_child_process_lock() -> MutexGuard<'static, ()> {
     static LOCK: OnceLock<Mutex<()>> = OnceLock::new();
     LOCK.get_or_init(|| Mutex::new(())).lock().unwrap()
-}
-
-fn worker_test_target_dir(cargo_target_dir: Option<std::ffi::OsString>) -> PathBuf {
-    cargo_target_dir
-        .map(PathBuf::from)
-        .unwrap_or_else(|| Path::new(env!("CARGO_MANIFEST_DIR")).join("target"))
-}
-
-#[test]
-fn worker_test_target_dir_honors_external_cargo_target_dir() {
-    let external = PathBuf::from("external-cargo-target");
-    assert_eq!(
-        worker_test_target_dir(Some(external.clone().into_os_string())),
-        external
-    );
 }
 
 #[test]
@@ -153,10 +138,17 @@ fn wall_timeout_kills_the_owned_descendant_group() {
     use std::fs;
     use std::os::unix::fs::PermissionsExt;
 
+    eprintln!("observer worker timeout regression entry");
     let _guard = legacy_child_process_lock();
 
-    let target = worker_test_target_dir(std::env::var_os("CARGO_TARGET_DIR"));
-    fs::create_dir_all(&target).unwrap();
+    // Cargo resolves a relative target directory from its invocation cwd, but
+    // runs integration tests from the package root.  The Cargo-provided worker
+    // binary path therefore identifies the actual build directory without
+    // reinterpreting CARGO_TARGET_DIR under the test process's different cwd.
+    let target = worker_path()
+        .parent()
+        .expect("Cargo-provided worker binary path must have a parent");
+    assert!(target.is_dir(), "Cargo worker build directory is absent");
     let suffix = std::process::id();
     let helper = target.join(format!("observer-worker-timeout-{suffix}.sh"));
     let pid_file = target.join(format!("observer-worker-timeout-{suffix}.pid"));
@@ -192,6 +184,7 @@ fn wall_timeout_kills_the_owned_descendant_group() {
     );
     let _ = fs::remove_file(helper);
     let _ = fs::remove_file(pid_file);
+    eprintln!("observer worker timeout regression exit");
 }
 
 #[test]
