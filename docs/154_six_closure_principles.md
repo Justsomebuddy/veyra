@@ -44,9 +44,11 @@ observer-role(scope) != historically-actualized-token(history,scope)
 
 Call their non-collapsing family the **Observer Actualization Pattern** (`OAP`).
 It is sufficient within its doctrines, not necessary for every conceivable
-observer. E1/E4 are finite OEP/HAP shadows; P3-N0 elects arithmetic `A-HAP`.
-Rereview-pending P3-OG also requires one-shot criterion-blind seed selection,
-bound interventions and endogenous closure/removal, so recognition cannot create the event.
+observer. E1/E4 are finite OEP/HAP shadows; the internal P3-N0 candidate proposes arithmetic `A-HAP` within its candidate doctrine.
+The partial executable P3-OG slice supplies deterministic pool-selection
+metadata, retained internal residue and a synthetic finite maintenance-control
+comparison. Historical blind/one-shot selection, typed history, formation/first
+closure, post-formation component ablation and a role theorem remain required.
 
 “Ontic” here means internal becoming, not an external tester being renamed:
 the doctrine admits a birth rule, while an exact history must supply the first
@@ -284,7 +286,7 @@ The project now has a candidate six-contract vocabulary:
 
 | Question | Principle | Current exact frontier |
 |---|---|---|
-| observer becoming | OAP | E1/E4 released; N0 candidate and endogenous P3-OG remain unreleased |
+| observer becoming | OAP | E1/E4 released; N0 remains candidate; P3-OG has only nonce-free all-candidate machine pressure and no history/formation/role theorem |
 | translation/refinement | TTRP | P3-T/N2 released; generic P3-TG remains OPEN |
 | positive object construction | SCAP | finite C4 released; P3-CG and N5 remain OPEN |
 | stable identity/confluence | PSP | finite C1/C2.2/thin N2 released; C2.3 remains OPEN |

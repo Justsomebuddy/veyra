@@ -43,9 +43,13 @@ mathematical theorem or a claim about physical reality.
 - [Composition-licensed aggregate claims](../165_composition_licensed_claims.md)
 - [Provenance-independent corroboration diagnostic](../166_provenance_independent_corroboration.md)
 - [Comparative bridge and separation ledger](../162_comparative_bridge_separation_ledger.md)
+- [P3-OG endogenous arithmetic-observer candidate](../168_endogenous_arithmetic_observer_p3og.md)
 
 This line distinguishes bounded search, evidence, confirmation, and governance
 from causal discovery, universal superiority, and theorem promotion.
+P3-OG currently contributes only bounded all-candidate machine pressure: it
+does not establish history, formation, an endogenous observer role, N0/HAP
+actualization, a formal theorem, certificate, object, infinity, or promotion.
 
 ### Construction, transport, and completion
 

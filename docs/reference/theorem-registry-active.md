@@ -247,3 +247,22 @@ independence of a real workflow, family-error control, anytime validity,
 causality, objecthood, nor generalization. See doc 163.
 ## THM-P3N6W-001–004 — Prime-power uniform late distinction — internal research candidate
 `VeyraPrimePowerInformation.lean` constructively packages, for each requested `k`, the zero/`p^(k+1)` carrier pair agreeing through `k` and separating at `k+1`. The four Lean declarations are checked formal source results, but this publication contains no release-bundle certificate or public export for the family. Status is **INTERNAL_RESEARCH_CANDIDATE**, not a released registry theorem. It establishes neither ΩN completed indexing, `InformationUnbounded`, cardinality nor uncountability.
+## Internal inventory — P3-OG all-candidate machine pressure — research candidate
+The isolated facade currently exposes source/seed, transition-kind,
+selection/result/report/status DTOs, the fixed nonclaim set, the source builder,
+deterministic selector, all-candidate pressure runtime, and source/report
+validators documented in its explicit `__all__`. Low-level state transitions and
+the synthetic pre-coupling maintenance-control operation remain internal.
+This inventory intentionally receives no stable `DEF` numbers while the semantic
+API remains internal. A nonce-free selector records canonical metadata, while
+the verdict conservatively requires every pool candidate to pass recurrence-shape,
+discrimination, retained-residue sensitivity, active maintenance and synthetic
+pre-coupling maintenance-control checks. The machine begins with an `ALIVE`
+boundary, the suffix is externally driven, and caller-supplied calibration
+integers are not an exact N1/N2/P3-T bridge. Exact replay rejects structural
+drift, role status stays `OPEN`, and promotions stay zero. This implementation
+inventory does not discharge conceptual `DEF-OG-001..010`: no historical
+blind/one-shot selection, formation genealogy/first closure, typed post-formation
+component ablation, history DAG, Lean theorem, endogenous observer-role
+conclusion, N0/HAP lift, physical birth, objecthood, promotion or infinity
+follows. See doc 168.

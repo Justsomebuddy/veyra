@@ -1,6 +1,15 @@
 # Changelog
 
 ## [Unreleased] — Changed
+- Added an isolated P3-OG all-candidate machine-pressure research slice with a
+  nonce-free canonical selector, bounded retained-residue transitions, native
+  maintenance-credit decay, a synthetic pre-coupling maintenance control, and
+  fresh exact replay. Exact source/text/integer budgets and terminal removed-
+  state guards fail closed. The explicit facade is not re-exported from
+  `src.core`; historical blind/one-shot selection, formation/first closure,
+  typed post-formation ablation, arithmetic provenance, observer role, N0/HAP
+  lift, formal theorem, certificate, object/infinity claim, and promotion remain
+  absent or `OPEN`.
 - Corrected observer-synthesis v5 represented-task and pruning evidence: the
   misrepresentation-recovery calibration now binds a genuine nonidentity
   represented-state permutation, every same-cost alternative inspected after

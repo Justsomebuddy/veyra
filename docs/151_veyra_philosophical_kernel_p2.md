@@ -24,9 +24,12 @@ when all of the following are supplied:
 6. an explicit doctrine-level admission principle.
 Call the last step the **Observer Emergence Principle** (`OEP`). It is a
 sufficient recognition rule, not the cause or a biconditional definition of an
-event. P1-E1 implements one finite formal shadow. Rereview-pending P3-OG adds
-one-shot criterion-blind seed selection, endogenous boundary maintenance and
-removal dependence; stateless maps and physical/conscious claims remain outside.
+event. P1-E1 implements one finite formal shadow. The partial executable P3-OG
+slice adds nonce-free deterministic pool-selection metadata, retained internal
+residue and a finite maintenance-control pressure comparison. It does not model
+historical blind/one-shot selection, formation/first closure, typed post-formation
+ablation, or the theorem obligations needed for an endogenous role.
+Stateless maps and physical/conscious claims remain outside.
 There is no final observer of all observers. A process may observe an encoded
 observer, but that new coupling is itself scoped. Regress is stopped by finite
 admission obligations and revisable provenance, not by a privileged viewpoint.
