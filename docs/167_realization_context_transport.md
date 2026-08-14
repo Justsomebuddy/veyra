@@ -128,15 +128,16 @@ receipts, and replay semantics together.
 
 ## 6. P1-A and cross-doctrine boundary
 
-P1-A response translation is not used by this contract.  It transforms
+P1-A response translation is not used by this v1 contract.  It transforms
 responses between observer identifiers only under one exact doctrine/source
 binding; it does not supply a state graph, recurrence-input conversion,
-cost/closure action, endpoint replay, or witness transport.  A future P1-A
-commuting square would need an all-status transformation preserving complete
-structured `Ready|Blocked` payloads and separate composition laws.
+cost/closure action, endpoint replay, or witness transport.  The separate v2
+sibling now supplies only an all-status transformation preserving complete
+structured `Ready|Blocked` payloads plus fresh finite identity/composition.
 
-[RFC 169](169_p1a_all_status_transport_rfc.md) now fixes that future boundary
-without changing v1: projection of `Blocked` must retain exact obstruction
+[RFC 169](169_p1a_all_status_transport_rfc.md) fixed that boundary and
+[document 170](170_p1a_all_status_transport_v2.md) records its separate
+implementation without changing v1: projection of `Blocked` retains exact obstruction
 code/path/order/multiplicity, discarded-branch-only blockage is explicitly
 undefined rather than fabricated as a coarse value, and a sibling v2 arrow is
 admitted only when every finite row commutes against fresh coarse replay.
@@ -205,7 +206,8 @@ This slice does not establish:
 - focused tests: [`test_realization_transport.py`](../tests/test_realization_transport.py),
   [`test_realization_transport_adversarial.py`](../tests/test_realization_transport_adversarial.py)
 - source realization: [document 161](161_p1_r16_realization_contract.md)
-- future P1-A sibling design:
-  [RFC 169](169_p1a_all_status_transport_rfc.md)
+- P1-A sibling design and implementation:
+  [RFC 169](169_p1a_all_status_transport_rfc.md),
+  [document 170](170_p1a_all_status_transport_v2.md)
 - abstract formal laws:
   [`VeyraRealizationTransport.lean`](../proofs/lean/VeyraRealizationTransport.lean)

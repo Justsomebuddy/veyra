@@ -1,14 +1,14 @@
 # RFC: Same-Doctrine All-Status P1-A Transport
 
 **Date:** 2026-08-14  
-**Status:** design accepted for a future sibling v2; no runtime or theorem  
+**Status:** accepted design implemented by the separate bounded sibling v2; no theorem  
 **Depends on:** P1-A in [document 150](150_constructive_observer_doctrine_p1.md),
 P1→R16 in [document 161](161_p1_r16_realization_contract.md), and restricted
 context transport v1 in [document 167](167_realization_context_transport.md)
 
 ## 1. Decision
 
-A future P1-A-aware realization transport must be a new sibling contract. It
+The implemented P1-A-aware realization transport is a new sibling contract. It
 must not widen or reinterpret `p1-r16-context-morphism-v1`, mutate its receipt
 schema, or add exports to the existing facade. The only admitted first scope is
 one exact P1 doctrine and source binding, one freshly reconstructed `STRONG`
@@ -46,8 +46,9 @@ correctly P1-A-free.
 
 ## 3. Proposed sibling objects
 
-The implementation proposal reserves new names and versions, but this RFC does
-not create them:
+The implementation follows the reserved names and versions below; the runtime
+and evidence map are documented in
+[document 170](170_p1a_all_status_transport_v2.md):
 
 ```text
 P1AObservationTransportV2
@@ -144,8 +145,8 @@ Pi_coarse_source = f*(Pi_coarse_target).
 
 At each endpoint, the transported-fine partition equals the corresponding
 coarse partition. The raw fine partition generally only **refines** that
-coarser partition; a lossy P1-A projection does not make them equal. The future
-receipt must reconstruct the vertical class map and refinement rather than
+coarser partition; a lossy P1-A projection does not make them equal. The sibling
+receipt reconstructs the vertical class map and refinement rather than
 infer either from observer IDs or digests.
 
 The first sibling-v2 contract adds no vertical closure or cost law. V1 bottom,
@@ -192,20 +193,26 @@ two raw fine/coarse streams at each endpoint remain within that endpoint's
 cap, and the six-stream sibling aggregate is capped at 32 MiB. Existing
 128-byte P1-A
 identifiers, projection length 128, 2,048-obstruction count, and 128-step
-obstruction-path bounds remain authoritative. DTO nodes and text bytes are
-also precharged before replay or receipt construction. This RFC does not invent
-a sibling DTO node/text ceiling: the implementation PR must freeze explicit
-numeric ceilings, document them, and test every boundary before adding code.
+obstruction-path bounds remain authoritative. The implementation charges the
+shallow sibling DTO graph and decoded payload graph together under one frozen
+65,536-node ceiling, and charges every sibling UTF-8 scalar except separately
+bounded canonical payload bytes under a 1 MiB nonpayload-text ceiling. Document
+170 records the executable boundary and focused tests.
 
 Decoders must reject subclasses, unknown enum members, noncanonical bytes,
 duplicate keys/rows, overdeep values, stale roots, wrong endpoints, and trailing
 data. Validation errors use fixed bounded reason codes. Logs may contain fixed
 codes, counts, indices, and short digest prefixes, but never recurrence values,
-response values, obstruction paths, or complete payload bytes.
+response values, obstruction paths, complete payload bytes, or full digests.
+Public sibling calls must transiently reduce reachable value-bearing
+lower-layer records to fixed routing metadata for the duration of that
+thread-local replay boundary. The redactor must precede pre-existing target
+logger filters and restore their exact order at exit, without replacing the
+process record factory.
 
 ## 9. Required implementation pressure
 
-A later implementation PR is NO-GO without normal and hostile coverage for:
+The implementation remains NO-GO unless its normal and hostile coverage retains:
 
 - ready→ready identity, left/right and nested projections;
 - blocked→blocked projection with exact path-prefix removal and stable order;
@@ -231,8 +238,10 @@ conversion.
 
 ## 10. Explicit nonclaims
 
-This RFC adds no runtime, DTO, export, certificate, theorem, status promotion,
-observer admission, R16 canonicality, category, functor, natural transformation,
+The RFC itself added no runtime. The later sibling implementation adds only its
+separate DTO/runtime/package surface; it adds no root export, certificate,
+theorem, status promotion, observer admission, R16 canonicality, category,
+functor, natural transformation,
 covariant pushforward, exact-cost theorem, chronology, authentication, custody,
 confidentiality, or performance claim.
 
@@ -252,7 +261,8 @@ The accepted order is:
 
 1. retain realization-context transport v1 unchanged;
 2. publish this same-doctrine all-status RFC;
-3. implement a separate versioned sibling only after the obstruction action,
-   total finite admission, resources, and hostile matrix are reviewed; and
+3. implement the separate versioned sibling only after the obstruction action,
+   total finite admission, resources, and hostile matrix are reviewed
+   ([completed boundary](170_p1a_all_status_transport_v2.md)); and
 4. keep cross-doctrine transport blocked unless a distinct RFC discharges its
    stronger obligations.

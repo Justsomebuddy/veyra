@@ -1,5 +1,14 @@
 # Realization Transport Module Log
 
+### [1.0.1-doc2] Document 170 — Link the implemented sibling without widening v1
+- **Type:** 📚 Documentation
+- **Files:** `docs/167_realization_context_transport.md`, `CLAUDE.md`
+- **What:** Replaced future-sibling wording with links to the separately
+  implemented P1-A v2 package while retaining every v1 contract and nonclaim.
+- **Why:** RFC 169 is now implemented additively; v1 must remain explicitly
+  P1-A-free rather than appear stale or implicitly widened.
+- **Module version:** 1.0.1 unchanged
+
 ### [1.0.1-doc] RFC 169 — Freeze future all-status P1-A sibling boundary
 - **Type:** 📚 Documentation / 🔒 Security
 - **Files:** `docs/169_p1a_all_status_transport_rfc.md`,

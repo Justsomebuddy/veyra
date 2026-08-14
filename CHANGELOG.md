@@ -1,15 +1,26 @@
 # Changelog
 
 ## [Unreleased] — Changed
-- Added a documentation-only RFC for a future same-doctrine all-status P1-A
-  realization-transport sibling. It identifies the current `Blocked` information
+- Added the separately versioned, non-root same-doctrine all-status P1-A
+  realization-transport sibling specified by RFC 169. It resolves the current `Blocked` information
   obstruction, admits only freshly reconstructed `STRONG` judgments, specifies
   a four-vertex exact-payload square plus obstruction-path projection, and fixes
-  replay, composition, resource, hostile-test and stop conditions. Raw fine
-  partitions only refine projected/coarse partitions and no vertical P1-A cost
-  law is claimed. Existing P1-A and realization-transport v1 DTOs, digests,
-  exports, runtime, status and theorem registries are unchanged; cross-doctrine
-  transport remains NO-GO.
+  replay, composition, resource, hostile-test and stop conditions. Fresh source
+  and target replay rebuilds exact six-payload rows and full endpoint partitions;
+  raw fine partitions only refine projected/coarse partitions through explicit
+  class maps. Identity/composition rebuild direct receipts, and sibling caps are
+  fixed at 256 rows, 262,144 bytes per payload, 8 MiB transported per endpoint,
+  32 MiB across six streams, 65,536 combined DTO/decoded nodes and 1 MiB
+  nonpayload UTF-8 text. A transient thread-local sibling replay boundary
+  replaces the reachable repr/full-root-bearing lower debug records with fixed
+  routing metadata before pre-existing target-logger filters run, then removes
+  itself without reordering those filters, so authoritative replay cannot
+  disclose recurrence, proposition, payload, path, or full-digest bodies
+  without changing process-wide record factories. No vertical P1-A cost law is
+  claimed.
+  Existing P1-A and realization-transport v1 DTOs,
+  digests, exports, runtime, status and theorem registries are unchanged;
+  cross-doctrine transport remains NO-GO.
 - Added a separate non-root strict-v3 categorical ingestion facade that converts
   three caller-declared CSV or JSONL byte payloads into the existing canonical
   `ThreeWayPresentation`. Every row supplies exact stable identity, feature and

@@ -132,6 +132,13 @@ conflict. Unary `Silence/Pulse` R11 partitions are nested/injective, so runtime
 crossed-partition incomparability remains deferred although its classifier truth
 table is tested. Structural invertibility remains `NOT_ESTABLISHED`.
 
+The separate same-doctrine all-status realization sibling in
+[document 170](170_p1a_all_status_transport_v2.md) combines only a freshly
+reconstructed `STRONG` P1-A projection with an independently verified finite v1
+state graph. Its complete `Ready|Blocked` commuting rows are bounded executable
+evidence, not a generic naturality theorem, cross-doctrine conversion, vertical
+cost law, observer admission, formation, or lifecycle implication.
+
 Finite sample agreement must never be promoted to general refinement. The
 translation must be derived from exact admitted structure or proved for the
 declared carrier.
@@ -295,11 +302,12 @@ now binds a finite state/input context, structured Ready/Blocked totalization,
 explicit costs, derived join completion, and authoritative all-row replay. It
 does not make R16 canonical from P1 or establish functoriality, quotient
 transport, an image theorem, or promotion.
-The documentation-only [same-doctrine all-status P1-A RFC](169_p1a_all_status_transport_rfc.md)
-specifies a future sibling-v2 acceptance boundary while leaving current P1-A
-and realization transport bytes/APIs unchanged. In particular, a blocked fine
-pair whose selected branch value was discarded cannot be relabeled or repaired;
-cross-doctrine transport remains NO-GO.
+The [same-doctrine all-status P1-A RFC](169_p1a_all_status_transport_rfc.md)
+is implemented by a separate, non-root-exported
+[sibling v2](170_p1a_all_status_transport_v2.md) while leaving existing P1-A
+and realization-transport v1 bytes/APIs unchanged. In particular, a blocked
+fine pair whose selected branch value was discarded cannot be relabeled or
+repaired; cross-doctrine transport remains NO-GO.
 ## 13. Explicit non-claims
 P1 is not a theory of consciousness, a proof that observers physically emerge,
 a view from nowhere, universal refinement, global Church-Rosser confluence, a
