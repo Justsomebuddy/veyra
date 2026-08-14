@@ -377,10 +377,10 @@ def _apply_limits(config: ClosedWorkerConfig) -> None:
     import resource
 
     memory = config.memory_limit_mb * 1024 * 1024
-    resource.setrlimit(resource.RLIMIT_CPU, (config.cpu_seconds, config.cpu_seconds))
-    resource.setrlimit(resource.RLIMIT_AS, (memory, memory))
-    resource.setrlimit(resource.RLIMIT_FSIZE, (config.max_response_bytes, config.max_response_bytes))
-    resource.setrlimit(resource.RLIMIT_NOFILE, (32, 32))
+    _set_limit(resource.RLIMIT_CPU, (config.cpu_seconds, config.cpu_seconds))
+    _set_limit(resource.RLIMIT_AS, (memory, memory), optional=True)
+    _set_limit(resource.RLIMIT_FSIZE, (config.max_response_bytes, config.max_response_bytes))
+    _set_limit(resource.RLIMIT_NOFILE, (32, 32))
     logger.debug("_apply_limits exit")
 
 
@@ -389,11 +389,25 @@ def _apply_hard_limits() -> None:
     logger.debug("_apply_hard_limits entry")
     import resource
 
-    resource.setrlimit(resource.RLIMIT_CPU, (10, 10))
-    resource.setrlimit(resource.RLIMIT_AS, (2048 * 1024 * 1024, 2048 * 1024 * 1024))
-    resource.setrlimit(resource.RLIMIT_FSIZE, (16_000_000, 16_000_000))
-    resource.setrlimit(resource.RLIMIT_NOFILE, (32, 32))
+    _set_limit(resource.RLIMIT_CPU, (10, 10))
+    _set_limit(resource.RLIMIT_AS, (2048 * 1024 * 1024, 2048 * 1024 * 1024), optional=True)
+    _set_limit(resource.RLIMIT_FSIZE, (16_000_000, 16_000_000))
+    _set_limit(resource.RLIMIT_NOFILE, (32, 32))
     logger.debug("_apply_hard_limits exit")
+
+
+def _set_limit(limit: int, target: tuple[int, int], *, optional: bool = False) -> None:
+    """Apply one child rlimit; optionally tolerate unsupported host resources."""
+    logger.debug("_set_limit entry limit=%s optional=%s", limit, optional)
+    import resource
+
+    try:
+        resource.setrlimit(limit, target)
+    except (OSError, ValueError) as exc:
+        if not optional:
+            raise
+        logger.warning("Skipping optional rlimit limit=%s target=%s reason=%s", limit, target, type(exc).__name__)
+    logger.debug("_set_limit exit")
 
 
 def _worker_main() -> int:
