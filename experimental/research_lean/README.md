@@ -45,6 +45,17 @@ and rehashes the originals after execution. It has no persistent cache.
 literal claim/scope/registry rows, and all 65 ordered axiom closures. The root
 does not hash itself or claim binary reproducibility.
 
+The current stable-source renewal binds
+`VeyraProofElaboration.lean` at
+`52269d4c9839b7178200e0a8e86acd4df6348302e457745eb86e58439feb265f`,
+base root `04b59e99bfd663831c9dccdcdfcd559b9e32dabb67a7583660d7fd7249ac89ab`,
+unchanged research root
+`9c38a3d665774ec860fff1ca79d1280500df3554df266d7288c3de6208e14514`,
+and proof root
+`5981f73ae730230f942034c7d18aab9427748c5cb86169ce1879d7161aa25e7f`.
+The complete manifest SHA-256 is
+`e22c355943f0b5bc76d8d78137e74358979e48d40549ed621d0afb7952334232`.
+
 The trusted computing base remains the selected Lean compiler/kernel and its
 reported primitive axioms, local Elan or hosted archive delivery, the Python
 checker and host operating system, plus human review of the claim ledger. Exact compiler

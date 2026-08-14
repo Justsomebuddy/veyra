@@ -1,5 +1,25 @@
 # Research Lean module log
 
+### [0.1.1] Stable proof-elaboration source renewal
+- **Type:** Correctness / evidence continuity
+- **Files:** `manifest.json`, `README.md`, module memory, root changelog/log
+- **What:** Renewed the one `proofs/lean/VeyraProofElaboration.lean` digest from
+  `5d92ed0a...f0f14d` to `52269d4c...b265f`, then recomputed the domain-separated
+  base source root, proof root, and complete manifest digest. The research root
+  remains exactly `9c38a3d6...e14514`.
+- **Why:** PR #37 intentionally renewed two embedded R9 binding constants in
+  the stable source, while PR #40's separate research inventory correctly
+  rejected the stale source digest in exact-head CI.
+- **Module version:** 0.1.0 → 0.1.1
+- **Boundary:** No research source, declaration, statement, claim row, axiom
+  closure, import, toolchain identity, stable theorem status, or checker policy
+  changed.
+- **Verification:** Reproduced the pre-repair checker result as `1 failed, 38
+  passed`; post-repair `tests/test_check_research_lean.py` passes `39/39`.
+  Static replay verifies 56/56 sources and the 48+8/65/33/65 inventories;
+  targeted Ruff, PyCompile, workflow YAML, and `git diff --check` pass. Full
+  `make verify` was intentionally not run.
+
 ### [0.1.0] Research Lean candidate governance
 - **Type:** Security / research integration
 - **Files:** `*.lean`, `manifest.json`, `README.md`, `lean-toolchain`,

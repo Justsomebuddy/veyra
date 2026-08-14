@@ -10,7 +10,10 @@
   export, source/evidence/theorem artifacts, snapshots, report bindings and R13
   trusted contract were renewed by fresh staged replay; theorem statements,
   proof rules, Lean declarations/object manifests, promotion count and taxonomy
-  are unchanged.
+  are unchanged. The independent research-Lean base inventory was then renewed
+  for only the changed `VeyraProofElaboration.lean` source row and its derived
+  base/proof roots; the research-source root, candidate declarations, claim
+  ledger, axiom closures, and toolchain pin are unchanged.
 - Integrated eight Lean research files as a separate
   `INTERNAL_RESEARCH_CANDIDATE`: a canonical manifest binds 48 stable
   dependencies, eight candidate sources, 65 declarations/axiom closures, and

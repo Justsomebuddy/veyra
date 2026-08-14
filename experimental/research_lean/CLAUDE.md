@@ -1,6 +1,6 @@
 # Research Lean module memory
 
-Version: **0.1.0**. Status: **`INTERNAL_RESEARCH_CANDIDATE`**.
+Version: **0.1.1**. Status: **`INTERNAL_RESEARCH_CANDIDATE`**.
 
 - `manifest.json` is canonical: exactly 48 stable dependencies, eight research
   sources, 65 declarations, 33 literal headline claim rows, 65 axiom-closure
@@ -18,3 +18,6 @@ Version: **0.1.0**. Status: **`INTERNAL_RESEARCH_CANDIDATE`**.
 
 - Integrated PR #40 as an isolated manifest-bound candidate.
 - Renamed T008 from an independence claim to cross-product reassociation.
+- Renewed only the changed stable `VeyraProofElaboration.lean` digest plus the
+  derived base/proof roots after PR #37; the research root and candidate
+  theorem/claim/axiom/toolchain inventories remain byte-for-byte unchanged.
