@@ -40,9 +40,10 @@ PR. `161_p1_r16_realization_contract.md` — explicit context-relative P1→R16
 RT. `167_realization_context_transport.md` — restricted same-doctrine finite
     state reindexing with authoritative endpoint replay and contravariant
     extensional closure action; no cross-doctrine or functor claim.
-POG. `168_endogenous_arithmetic_observer_p3og.md` — P3-OG design-debt ledger
-    and bounded internal-candidate all-pool machine pressure; no history,
-    formation, observer-role theorem, or N0/HAP promotion.
+POG. `168_endogenous_arithmetic_observer_p3og.md` — P3-OG design-debt ledger,
+    bounded internal-candidate all-pool machine pressure, and a separate
+    raw-cycle least-first-return pressure analogue; no typed history, full
+    formation judgment, observer-role theorem, or N0/HAP promotion.
 CB. `162_comparative_bridge_separation_ledger.md` — a sibling structural
     bridge/separation ledger, finite G4→EqRel amalgamation reduction,
     quotient-conflict uniqueness classification, and independent Sage oracle.
@@ -140,7 +141,7 @@ CB. `162_comparative_bridge_separation_ledger.md` — a sibling structural
 108–127. `108_formal_export_prep_x7.md` through `127_native_observer_echo_core_r11.md` — formal/quantum seeds and R7–R11; doc 109 records all nineteen X8 rows, newest only four closed A004–A006/C002 fixtures.
 133. `133_shadow_effect_system_r12.md` — R12.1 bridge capabilities, evidence separation, observer brands, and non-promotional audit registry.
 134–142. `134_intrinsic_vam_sidecar_ir_r12_2.md` through `142_crest_braid_derived_path_invariant_r16.md` — explicitly bounded R12 exact-image closure, exact-premise R13 guarded promotion, repaired/re-reviewed R14 bounded synthesis, then R16 finite observer descent/residual/synergy with an abstract Lean partition and derived crest braid; K6–K8 are closed, only K0 remains, and R16 has no novelty/R8-promotion claim.
-143–168. Bounded S7/Q11/VAM/R16/G4/I1, P0/P1/P2, PΩ1/PΩ2, P3-C1/C2.2, P3-N1/N2/N3/N4/T/A1b, the prime-power closure audit, six relative closure principles, their candidate no-cast modal kernel, observer discovery, the relative P1→R16 realization contract, restricted same-doctrine context transport, and the isolated P3-OG machine-pressure candidate. ΩG's philosophy interface is documented; P3-OG history/formation/role proof, N0/N5, higher C2.3, generic completion, cross-doctrine transport, and absolute infinity remain OPEN.
+143–168. Bounded S7/Q11/VAM/R16/G4/I1, P0/P1/P2, PΩ1/PΩ2, P3-C1/C2.2, P3-N1/N2/N3/N4/T/A1b, the prime-power closure audit, six relative closure principles, their candidate no-cast modal kernel, observer discovery, the relative P1→R16 realization contract, restricted same-doctrine context transport, and the isolated P3-OG machine/first-return pressure candidate. ΩG's philosophy interface is documented; P3-OG typed history/full formation/role proof, N0/N5, higher C2.3, generic completion, cross-doctrine transport, and absolute infinity remain OPEN.
 72. `../THEOREMS.md` — formal registry.
 73. `../NOTATION.md` — notation catalog.
 ## Research discipline
@@ -273,8 +274,9 @@ No metaphysical claim is accepted as mathematics until it becomes a definition, 
   no cross-doctrine transport, category, functor, or naturality claim follows.
 - `docs/168_endogenous_arithmetic_observer_p3og.md` — proposed endogenous
   arithmetic-observer obligations plus a bounded nonce-free all-candidate
-  machine-pressure implementation; no history, formation, role theorem,
-  certificate, N0/HAP lift, object, infinity, or promotion follows.
+  machine-pressure implementation and separate raw-cycle first-return pressure;
+  no typed history, full formation judgment, role theorem, certificate, N0/HAP
+  lift, object, infinity, or promotion follows.
 - `docs/163_adaptive_research_line_validity.md` — canonical bounded declared
   experiment-family history, orthogonal local/family/adaptive validity, and an
   exact independent-null retry counterexample; family inference remains open.

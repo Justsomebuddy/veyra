@@ -1,5 +1,34 @@
 # P3-OG Machine-Pressure Module Log
 
+## 0.2.0 — 2026-08-14
+
+### Raw-cycle first-return pressure — authority-free bounded genealogy analogue
+- **Type:** ✨ Feature / 🔒 Security
+- **Files:** `src/core/prime_power_observer_genesis_p3og_lifecycle*.py`,
+  `tests/test_prime_power_observer_genesis_p3og_lifecycle*.py`
+- **What:** Added a separate versioned lifecycle facade whose native ticks read
+  only the exact committed seed cycle, start from `UNFORMED`, bind continuous
+  state/receipt chains, stop at the least return after genuine departure,
+  bind the lifecycle source to the deterministic selected-seed receipt, and
+  validate by fresh exact replay. Digest-consistent cursors after an earlier
+  first closure are unreachable and rejected. Passing evidence binds only the
+  existing operational pressure-entry digest.
+- **Why:** Supply the first bounded pre-token formation-pressure seam requested
+  by issue #39 without changing the existing machine report bytes or pretending
+  that a linear raw-cycle replay is historical observer genesis.
+- **Module version:** 0.1.1 → 0.2.0
+
+### Public status synchronization — preserve the historical boundary
+- **Type:** 📝 Documentation
+- **Files:** `CHANGELOG.md`, `THEOREMS.md`, doc 168, API/navigation/index,
+  active registry, P2/prime-power/closure summaries, module memory/log
+- **What:** Documented the executable least-first-return analogue while keeping
+  full DEF-OG-003, typed history, role, token, admission, HAP/N0 lift, theorem,
+  certificate and promotions explicitly absent or `OPEN`.
+- **Why:** Prevent bounded native replay from being misreported as a historical
+  formation judgment or observer actualization.
+- **Module version:** 0.2.0
+
 ## 0.1.1 — 2026-08-14
 
 ### Matched maintenance-control coupling — fail-closed paired evidence

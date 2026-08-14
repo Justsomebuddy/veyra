@@ -47,8 +47,10 @@ It is sufficient within its doctrines, not necessary for every conceivable
 observer. E1/E4 are finite OEP/HAP shadows; the internal P3-N0 candidate proposes arithmetic `A-HAP` within its candidate doctrine.
 The partial executable P3-OG slice supplies deterministic pool-selection
 metadata, retained internal residue and a synthetic finite maintenance-control
-comparison. Historical blind/one-shot selection, typed history, formation/first
-closure, post-formation component ablation and a role theorem remain required.
+comparison. A separate raw-cycle lane supplies authority-free least-first-return
+pressure from `UNFORMED`. Historical blind/one-shot selection, typed history,
+full formation/first closure, post-formation component ablation and a role
+theorem remain required.
 
 “Ontic” here means internal becoming, not an external tester being renamed:
 the doctrine admits a birth rule, while an exact history must supply the first
@@ -286,7 +288,7 @@ The project now has a candidate six-contract vocabulary:
 
 | Question | Principle | Current exact frontier |
 |---|---|---|
-| observer becoming | OAP | E1/E4 released; N0 remains candidate; P3-OG has only nonce-free all-candidate machine pressure and no history/formation/role theorem |
+| observer becoming | OAP | E1/E4 released; N0 remains candidate; P3-OG has nonce-free all-candidate machine pressure plus raw-cycle first-return pressure, but no typed history/full formation/role theorem |
 | translation/refinement | TTRP | P3-T/N2 released; generic P3-TG remains OPEN |
 | positive object construction | SCAP | finite C4 released; P3-CG and N5 remain OPEN |
 | stable identity/confluence | PSP | finite C1/C2.2/thin N2 released; C2.3 remains OPEN |

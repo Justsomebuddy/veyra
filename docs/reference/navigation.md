@@ -47,9 +47,12 @@ mathematical theorem or a claim about physical reality.
 
 This line distinguishes bounded search, evidence, confirmation, and governance
 from causal discovery, universal superiority, and theorem promotion.
-P3-OG currently contributes only bounded all-candidate machine pressure: it
-does not establish history, formation, an endogenous observer role, N0/HAP
-actualization, a formal theorem, certificate, object, infinity, or promotion.
+P3-OG currently contributes bounded all-candidate machine pressure plus a
+separate authority-free raw-cycle first-return pressure analogue. The latter
+starts `UNFORMED` and records the least nontrivial return, but it is not a typed
+history or full formation judgment. Neither lane establishes an endogenous
+observer role, N0/HAP actualization, a formal theorem, certificate, object,
+infinity, or promotion.
 
 ### Construction, transport, and completion
 

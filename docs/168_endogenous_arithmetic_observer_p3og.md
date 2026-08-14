@@ -1,7 +1,7 @@
 # P3-OG — Endogenous Arithmetic Observer Formation
 **Document kind:** public research specification, not a theorem or release  
 **Target:** one finite, source-bound arithmetic model  
-**Status:** partial executable pressure slice; every positive theorem remains
+**Status:** partial executable pressure slices; every positive theorem remains
 `OPEN` until formalized
 ## 1. The idea in child-sized language
 An ordinary test is like a ruler placed beside a thing. The ruler does not become
@@ -74,19 +74,41 @@ finite machine experiment:
   operation. Internal complete-suffix evidence retains later terminal steps only
   as distinct budget-consuming removed-state no-ops.
 
-This slice does **not** yet supply a typed history DAG, a first-closure proof,
-a historical one-shot selector, a typed post-formation component ablation, an
-exact N1/N2/P3-T input bridge, a Lean theorem, an N0/HAP lift, or the full
-DEF-OG-001..010 conjunction. Its positive runtime status means only that every
-candidate in one committed finite pool passed the implemented machine checks.
+A separate `prime_power_observer_genesis_p3og_lifecycle` facade adds one
+authority-free raw-cycle first-return pressure lane without changing those
+machine/report bytes:
+
+- it starts an independent linear pressure state at `UNFORMED` and accepts no
+  caller-supplied symbol, closure index, target, result, or status;
+- each native tick consumes only the next value of the exact committed seed
+  cycle and binds a continuous before/after receipt chain;
+- it stops at the least return to the seed mode after a genuine departure;
+- its lifecycle source is the exact word fixed by the existing deterministic
+  selected-seed receipt, not a caller-chosen candidate or closure target;
+- a passing endpoint binds to the existing operational `ALIVE` pressure-entry
+  state digest, but the binding is fresh checker replay, not historical
+  authentication, event creation, or observer authority.
+
+This establishes only a bounded linear first-return **pressure analogue**. The
+operational pressure machine still begins `ALIVE`; the new lane is not a typed
+history `H`, source-ancestry proof, historical chronology, primitive Veyra
+genealogy, or the full `FirstClosure(M,H,t0,q0)` predicate below.
+
+These slices do **not** yet supply a typed history DAG, a full historical
+first-closure proof, a historical one-shot selector, a typed post-formation
+component ablation, an exact N1/N2/P3-T input bridge, a Lean theorem, an N0/HAP
+lift, or the full DEF-OG-001..010 conjunction. The lifecycle status concerns
+only the exact selected committed word; separately, a positive machine-pressure
+report still means that every candidate in one committed finite pool passed its
+implemented checks.
 
 ### 2.2 Implemented-obligation ledger
 
 | Proposed debt | Current executable status |
 |---|---|
-| DEF-OG-001 | partial parameterized finite machine; no formation genealogy |
+| DEF-OG-001 | partial parameterized finite machine plus separate raw-cycle linear pressure; no primitive/history genealogy |
 | DEF-OG-002 | `OPEN`; deterministic metadata is not historical blind/one-shot selection |
-| DEF-OG-003 | `OPEN`; initial state is already `ALIVE` |
+| DEF-OG-003 | partial bounded first-return pressure from `UNFORMED`; operational machine still starts `ALIVE`, and typed history/ancestry remain `OPEN` |
 | DEF-OG-004 | partial finite residue/sensitivity analogue; arithmetic provenance absent |
 | DEF-OG-005 | partial one-suffix transition-law analogue; no continuation catalog |
 | DEF-OG-006 | `OPEN`; synthetic pre-coupling flag control is not typed post-formation ablation |

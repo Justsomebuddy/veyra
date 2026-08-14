@@ -2,8 +2,9 @@
 
 ## Scope and status
 
-- **Version:** 0.1.1
+- **Version:** 0.2.0
 - **Facade:** `src.core.prime_power_observer_genesis_p3og`
+- **Lifecycle facade:** `src.core.prime_power_observer_genesis_p3og_lifecycle`
 - The implementation is an isolated, non-root-exported finite research
   candidate. It does not establish formation, an endogenous observer role,
   historical actualization, a theorem, certificate, object, or infinity.
@@ -30,11 +31,19 @@
   must agree. The checked, precomputed coupling states and receipts are the
   evidence consumed by suffix continuation; coupling is not rerun after the
   gate. Any mismatch has the narrow reason `matched-control-coupling-drift`.
+- The lifecycle lane is a separate digest namespace and must not change the
+  existing pressure source/report DTOs, facade exports, or pinned bytes. It
+  starts at exact `UNFORMED`, consumes only the committed raw seed cycle, stops
+  at the least return after a genuine departure, and binds a passing endpoint
+  only to the operational pressure-entry digest. It is fresh drift-checking
+  pressure, not historical authentication, primitive genealogy, full
+  `FirstClosure`, role, token, admission, or HAP/N0 evidence.
 - Keep `P3OG_NONCLAIMS`, the candidate status, and future obligations unchanged
   unless a separate proof-bearing design explicitly discharges them.
 
 ## Verification
 
-Run Ruff and PyCompile on the eight module files, then both focused P3-OG test
-files. Repository hygiene and publication gates remain separate; focused tests
-must not be described as full verification.
+Run Ruff and PyCompile on the eight machine-pressure modules plus the lifecycle
+module family, then both existing P3-OG and both lifecycle test files. Repository
+hygiene and publication gates remain separate; focused tests must not be
+described as full verification.

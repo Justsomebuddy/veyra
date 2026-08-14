@@ -41,8 +41,9 @@ complete registry; no local history is required.
 - N3 and N4 are `FORMALLY_PROVED + PUBLICLY_VALIDATED`; their formal sources,
   public aliases, certificates, and release-bundle entry are present.
 - N0, P3-OG, N6, and N6-W are `INTERNAL_RESEARCH_CANDIDATE`. Lean declarations
-  in N0/N6/N6-W and executable P3-OG pressure rows are research evidence, not
-  public theorem releases.
+  in N0/N6/N6-W and executable P3-OG machine/raw-cycle first-return pressure
+  rows are research evidence, not public theorem releases or a historical
+  formation judgment.
 - `PΩ1` and `PΩ2` assert completed carriers only relative to their explicit
   formation rules and assumption ledgers.
 - Candidate, executable, validated, and formally proved are distinct statuses;

@@ -1,6 +1,17 @@
 # Changelog
 
 ## [Unreleased] — Changed
+- Added a separate, non-root-exported P3-OG raw-cycle first-return pressure lane
+  without changing the existing machine-pressure source/report bytes or facade.
+  It starts an authority-free linear state at `UNFORMED`, consumes only the
+  exact committed seed cycle, records bounded native before/after receipts,
+  and stops at the least return after a genuine departure. The lifecycle source
+  is fixed by the existing deterministic selected-seed receipt rather than by
+  caller choice, and fresh replay validates the full result. A passing endpoint
+  binds only to the existing operational `ALIVE` pressure-entry digest. This is
+  not a typed history, primitive genealogy, full first-closure judgment, role,
+  birth/token, admission, N0/HAP bridge, theorem, certificate, physical claim,
+  or promotion.
 - Made the proof-core canonical JSON boundary strict: Python tuples are now
   rejected at every nesting depth instead of being silently serialized as JSON
   arrays, and all reviewed Core callers explicitly materialize intended arrays
