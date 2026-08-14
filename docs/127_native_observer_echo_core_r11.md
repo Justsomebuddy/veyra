@@ -183,15 +183,15 @@ objects, and the unchanged traced runtime
 closure of 2,365 files / 522,231,408 bytes
 (`990d68ab...2f761a`). The necessarily non-self-bound manual trust root is
 `observer_core_manifest.py`, externally recorded here at SHA-256
-`fb0f280af681a583c757a021f6503bc0ad1186ac5b76399619f82a83d9926c45`.
+`5ddf6cd03b2f1089e147a91cb080f98f6fde2512a4e7e64a184ef58586e16b4a`.
 The post-hardening focused replay checked all nine stages
 and produced the exact current bindings:
 
 ```text
 artifact = 2bcf57b5dda6b92569328da5de0b5477058dcde08f57a986ced8882b1f5c6c95
-r10      = 445bffcf753f29ae20b0e92799561c2e1c047ab4993ef9ac5b22921fc03d8264
-snapshot = 0f68fbfa0696f4c2e47c30042eafce7245da92310a9bc267700198ce44c0acc0
-binding  = ebacad7ae4334e1e2eb693e015d7417df266400ae18783cb1daa21218f649f30
+r10      = 291aed1ee8eb913b42c6d77be8701ee10c6429f625a5cd9dec53aab3e4317664
+snapshot = 1bc6a303307e093d350bcd48428da48ea5d7daeeb7d075862c9c94051d8091f9
+binding  = 79039a32670ea305a70129e80d6299eae0f2428393f2f28018b74ccbdbc8701f
 ```
 
 This R11 certificate does **not** renew or widen the R8 promotion contract.

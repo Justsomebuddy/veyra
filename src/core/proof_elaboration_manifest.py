@@ -19,10 +19,10 @@ EXPECTED_R10_TCB_DIGESTS = MappingProxyType({
     "surface_lowering": "3c8f780aff99ee2962e093b370b81619fbb4acf324b2800d4bb996b51fb626a9",
     "surface_validation": "9faf4e1f102853a56b63abf1f7562a52e04e8308574a37abdc0e2d2473e24515",
     "dependency_support": "e43cb633aca48b39c09e4d6c16b50813f3b86f2191d75db42b537357b0e26f5b",
-    "elaboration_artifact": "bd47b716074a530f5d8813e482c4672960d910cd65504aeb16f1bfb29756af75",
+    "elaboration_artifact": "effd184593de04603767b111741138105670bff6dd90a7eb62ce0c76a1f04766",
     "lean_renderer": "b9ed623f2386ae62778ca230eef68e8a3f21e7c8c50ba353411fb4da96bc2ce3",
     "bridge_snapshot": "1228c271ea5acee1ee13221d14ed24f5954ea0508e587fe2f4b6b568d3465b0d",
-    "bridge_io": "b6bd77b79432ba4686a05b4efac4a362a30cfac7cf5fe8099f25151c6bbee0c5",
+    "bridge_io": "c8f6ba31b201ddb9b4414bd26e1829f8fe5ade7e93d9bed34452a5e0dc298359",
     "toolchain_runtime": "63db421d5e91caf2f2437f28d626989ff4eb5efc283897986e6bb29d86881a0f",
     "runtime_guard": "56374cee0557bfe2590f231a9f8df7759a204cdba75cacfdb3b5b572ee874422",
     "reviewed_objects": "de1057ac81a4861cae44d0930078db842c58fb31651862aa7f8d27a945c6b601",
@@ -31,7 +31,7 @@ EXPECTED_R10_TCB_DIGESTS = MappingProxyType({
     "proof_types": "871dad8b0e62c4abcc8b439ad603abe29b3d2ae028afab7f145ff4f3fdc1c821",
     "proof_substitution": "3b70ee2c5745b6a8791283babe743d124e70bab1364da6d4a994ecc05903a879",
     "proof_kernel": "396303a63c4415f31ea48ab5010644f8c8fb345b767c3e0e044bf28212750b2d",
-    "proof_codec": "b8a5ec58e151ace0e44a2e3aa9ec57b0bb98cfa329ed0bf204299c2587053d15",
+    "proof_codec": "2adefdc8d198e62ba0a3285d992b8f4a24e7d5e072a8adcdd825d40ccefb1cad",
     "proof_artifact": "7df70edbb114f5e7d1c94f15a5428c0d1105905460e41719dc30cd4d65ac1e0c",
     "proof_artifact_decode": "849d2a8034dd6d4523977d1b9c89b4e379a810c4cab1e89d7da2d656cffdd4c6",
     "proof_lean_renderer": "2d1ce3f88828af8637384eda42083cc6fd9bb0b98a46f474ab14bc34836b6195",
@@ -45,7 +45,7 @@ EXPECTED_R10_TCB_DIGESTS = MappingProxyType({
     "lean_transport": "493e4662e295b526d5bb76b9ca528b834265142e91e0446e98af2b3b102fb16f",
     "lean_r9_export": "d9ac930c119f3126a858bf286bee32f4d5b9a3ac3fe8cb297316d9cc10dbcc26",
     "lean_elaboration": "ed24ec58377ef44b804444d5b330955c5f3601942d1740e5f23503f0ea121da5",
-    "lean_export": "5d92ed0a5d8fdcca2dd8245b937132854aed463fa4bb9332a0b958193fb0f14d",
+    "lean_export": "52269d4c9839b7178200e0a8e86acd4df6348302e457745eb86e58439feb265f",
 })
 MANIFEST_BOUNDARY = (
     "reviewed surface/R7/R9/Lean elaboration sources and deterministic intermediate "

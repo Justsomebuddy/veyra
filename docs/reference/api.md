@@ -70,7 +70,7 @@ This curated aggregate is not an inventory of every split implementation module.
 | `src.core.depth_packs` | Depth packs and Sage export adapters for Veyra school-core coverage. |
 | `src.core.equation` | Linear resonance constraints over Veyra ratio shadows. |
 | `src.core.essence` | Executable Essence/Core contract for Veyra. |
-| `src.core.formal_bridge`; internal `paths` / `platform_posix`; `src.platform_capabilities` | Mini-kernel and Lean bridge for `THM-F001`; validated-root artifact I/O; lazy real-host POSIX adapters; typed portable/hardened capability discovery. |
+| `src.core.formal_bridge`; internal `paths` / `platform_posix`; `src.platform_capabilities` | Mini-kernel and Lean bridge for `THM-F001`; validated-root artifact I/O; lazy real-host POSIX adapters; typed portable/hardened capability discovery, with portable CPython 3.11 kept distinct from the exact CPython 3.11.14/direct-Lean/R9-route theorem prerequisite. |
 | `src.core.formal_export_catalog` / `formal_export_evaluator` / `formal_export_completion` | X8 captured-byte/continuity bindings and all nineteen bounded rows across six Lean files; remaining metadata/wrappers append A004–A006/C002 while evaluator/public row identity/key order/checker patching remain compatible. |
 | `src.core.formal_export_prep` | X7 formal export-prep ledger: checked bridges plus stable-card candidates. |
 | `src.core.geometry` | Veyra geometry from anchored events and tremor corridors. |
@@ -84,8 +84,8 @@ This curated aggregate is not an inventory of every split implementation module.
 | `src.core.language_span` | Span-aware Veyra Core Language parsing diagnostics. |
 | `src.core.language_span_coverage` | Source-span diagnostic coverage for the Veyra Core Language parser. |
 | `src.core.semantic_kernel` | Strict Core-to-native elaboration, deterministic receipts, replay, and derived axiom closure. |
-| `src.core.layer_derivations` | Exact 35-layer theorem/witness/shadow/meta classification consuming validated theorem contracts with no fallback. |
-| `src.core.layer_theorem_contracts` / `layer_theorem_contract_executable` | Trusted immutable promotion contracts plus exact handler-code binding; R13 admits only the observer/recurrence/outcome-bounded readiness theorem and preserves the old R7 contract. |
+| `src.core.layer_derivations` | Exact current-layer theorem/witness/shadow/meta classification consuming validated theorem contracts with no fallback; unavailable proof tooling yields two explicit blocked theorem rows, a blocked count, and `complete=False` without constructing the bytecode-bound registry. |
+| `src.core.layer_theorem_contracts` / `layer_theorem_contract_executable` | Trusted immutable promotion contracts plus exact handler-code binding; production resolution raises root-exported `TheoremContractCapabilityBlocked` before registry construction when the exact prerequisite is unavailable, while caller-supplied registries retain independent validation semantics. R13 admits only the observer/recurrence/outcome-bounded readiness theorem and preserves the old R7 contract. |
 | `src.core.intrinsic_arithmetic` | Anchored recurrence zero/one, successor, stitch, weave, and structural power without school arithmetic in the theorem path. |
 | `src.core.intrinsic_arithmetic_division` | Structural quotient/residual reconstruction and product-plus-one escape witnesses. |
 | `src.core.intrinsic_arithmetic_types` | Proof datatypes for structural division and escape obstructions. |

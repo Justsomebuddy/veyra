@@ -1,5 +1,6 @@
 from dataclasses import replace
 from importlib import import_module
+import logging
 from types import MappingProxyType
 
 import pytest
@@ -13,11 +14,14 @@ from src.core.layer_theorem_contracts import (
     build_theorem_contract_registry, resolve_layer_theorem,
     theorem_contract_registry,
 )
+from src.core.layer_theorem_contract_types import TheoremContractCapabilityBlocked
 from src.core.proof_elaboration_bridge import proof_elaboration_bridge_report
 from src.core.intrinsic_mode_bridge import intrinsic_mode_bridge_report
 from src.core.proof_core_resonance import intrinsic_resonance_theorem
+from src.platform_capabilities import Capability, CapabilityStatus
 
 derivations_module = import_module("src.core.layer_derivations")
+logger = logging.getLogger(__name__)
 
 
 def _intrinsic_layer():
@@ -65,6 +69,61 @@ def test_intrinsic_layer_resolves_through_its_exact_contract():
     assert evidence.bridge_id == R10_LEAN_BRIDGE_ID
     assert evidence.bridge_digest == proof_elaboration_bridge_report().binding_digest
     assert len(evidence.statement_digest) == len(evidence.contract_digest) == 64
+
+
+def test_production_resolution_raises_typed_boundary_before_registry_build(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """Missing proof capability cannot trigger bytecode-bound construction."""
+    logger.debug("test typed theorem capability boundary entry")
+    blocked = CapabilityStatus(
+        Capability.THEOREM_PROOF_TOOLCHAIN,
+        False,
+        "requires-test-toolchain",
+    )
+    monkeypatch.setattr(
+        contracts_module,
+        "theorem_contract_capability_status",
+        lambda: blocked,
+    )
+
+    def reject_registry_build():
+        logger.error("test unexpected production theorem registry build")
+        raise AssertionError("production theorem registry must remain lazy")
+
+    monkeypatch.setattr(
+        contracts_module,
+        "_production_theorem_contract_registry",
+        reject_registry_build,
+    )
+    with pytest.raises(TheoremContractCapabilityBlocked) as caught:
+        resolve_layer_theorem(_intrinsic_layer())
+    assert caught.value.capability == Capability.THEOREM_PROOF_TOOLCHAIN.value
+    assert caught.value.detail == "requires-test-toolchain"
+    logger.debug("test typed theorem capability boundary exit")
+
+
+def test_custom_registry_validation_remains_available_without_host_capability(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """A caller-supplied registry retains deterministic validation semantics."""
+    logger.debug("test custom theorem registry portable validation entry")
+    renamed = MappingProxyType(
+        {"native-number": contracts_module._INTRINSIC_CONTRACT},
+    )
+    blocked = CapabilityStatus(
+        Capability.THEOREM_PROOF_TOOLCHAIN,
+        False,
+        "requires-test-toolchain",
+    )
+    monkeypatch.setattr(
+        contracts_module,
+        "theorem_contract_capability_status",
+        lambda: blocked,
+    )
+    with pytest.raises(ValueError, match="registry-key-mismatch"):
+        resolve_layer_theorem(_intrinsic_layer(), renamed)
+    logger.debug("test custom theorem registry portable validation exit")
 
 
 def test_arbitrary_layer_cannot_inherit_the_only_theorem():

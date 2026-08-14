@@ -138,8 +138,8 @@ keys, independent report/snapshot rehash, and fresh Lean replay.
 Frozen evidence:
 
 ```text
-snapshot = b91c2840f4b106f68f40988ced781aa8bb763d0bd03e813714c76e30a35f04bb
-binding  = 445bffcf753f29ae20b0e92799561c2e1c047ab4993ef9ac5b22921fc03d8264
+snapshot = bde6b2d5da19b35bdc7a5c224345e0f1666386bff8f3249df28c08dce5954bf7
+binding  = 291aed1ee8eb913b42c6d77be8701ee10c6429f625a5cd9dec53aab3e4317664
 ```
 
 The sole production promotion contract still promotes only R7

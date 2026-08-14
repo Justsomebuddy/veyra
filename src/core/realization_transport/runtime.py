@@ -53,10 +53,15 @@ def _join_partition(left: tuple[int, ...], right: tuple[int, ...]) -> tuple[int,
     """Compute the common refinement of two normalized partitions."""
     logger.debug("transport _join_partition entry states=%d", len(left))
     if len(left) != len(right):
-        logger.error("transport _join_partition carrier mismatch")
+        logger.error(
+            "transport _join_partition carrier mismatch left=%d right=%d",
+            len(left),
+            len(right),
+        )
         raise RealizationTransportValidationError("transport-join-carrier-mismatch")
     result = _normalize_partition(tuple(zip(left, right, strict=True)))
-    logger.debug("transport _join_partition exit classes=%d", 1 + max(result))
+    classes = 1 + max(result) if result else 0
+    logger.debug("transport _join_partition exit classes=%d", classes)
     return result
 
 

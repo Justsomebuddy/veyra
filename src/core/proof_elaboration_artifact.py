@@ -99,12 +99,15 @@ def _body(artifact: ProofElaborationArtifact) -> dict[str, object]:
         "statement": artifact.elaborated_statement,
         "r7_artifact": artifact.r7_artifact,
         "r7_artifact_digest": artifact.r7_artifact_digest,
-        "rules": artifact.rule_closure,
-        "native_laws": artifact.native_law_closure,
-        "support": artifact.dependency_support,
+        "rules": list(artifact.rule_closure),
+        "native_laws": list(artifact.native_law_closure),
+        "support": [
+            [category, list(items)]
+            for category, items in artifact.dependency_support
+        ],
         "r9_tcb_schema": artifact.r9_tcb_schema,
-        "r9_theorems": artifact.r9_theorem_ids,
-        "r9_sources": artifact.r9_source_digests,
+        "r9_theorems": list(artifact.r9_theorem_ids),
+        "r9_sources": [list(item) for item in artifact.r9_source_digests],
         "r9_binding": artifact.r9_binding_digest,
         "toolchain": artifact.toolchain,
         "boundary": artifact.boundary,

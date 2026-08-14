@@ -28,7 +28,7 @@ def _json_value(value: object) -> object:
     logger.debug("proof_core_codec._json_value entry type=%s", type(value).__name__)
     if value is None or type(value) in {bool, int, str}:
         result = value
-    elif type(value) in {list, tuple}:
+    elif type(value) is list:
         result = [_json_value(item) for item in value]
     elif type(value) is dict and all(type(key) is str for key in value):
         result = {key: _json_value(value[key]) for key in sorted(value)}
@@ -39,7 +39,12 @@ def _json_value(value: object) -> object:
 
 
 def canonical_json(value: object) -> str:
-    """Encode tagged integers/strings/lists/objects; never use repr or floats."""
+    """Encode tagged integers/strings/lists/objects; never use repr or floats.
+
+    A tuple is not JSON data and is therefore rejected instead of being
+    silently collapsed onto the same bytes as a list.  Trusted callers must
+    choose their JSON shape explicitly before entering this boundary.
+    """
     logger.debug("canonical_json entry type=%s", type(value).__name__)
     result = json.dumps(
         _json_value(value), sort_keys=True, separators=(",", ":"), ensure_ascii=False,

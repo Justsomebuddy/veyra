@@ -35,6 +35,7 @@ class LayerAxiomUse:
     axioms: tuple[str, ...]
     derivation: str
     boundary: str
+    status: str = "classified"
 
 @dataclass(frozen=True)
 class AxiomKernelReport:
@@ -49,7 +50,20 @@ class AxiomKernelReport:
     def ready(self) -> bool:
         """Return whether all axioms execute and every layer names dependencies."""
         logger.debug("AxiomKernelReport.ready entry")
-        result = not self.missing_axioms and not self.unnamed_layers and all(row.derivation in {"theorem-derived", "receipt-derived-witness", "shadow", "meta"} for row in self.layers)
+        allowed_statuses = {
+            "theorem-derived": "ready",
+            "receipt-derived-witness": "ready",
+            "shadow": "classified",
+            "meta": "classified",
+        }
+        result = (
+            not self.missing_axioms
+            and not self.unnamed_layers
+            and all(
+                allowed_statuses.get(row.derivation) == row.status
+                for row in self.layers
+            )
+        )
         logger.debug("AxiomKernelReport.ready exit result=%s", result)
         return result
 
@@ -61,6 +75,10 @@ class AxiomKernelReport:
             "witnesses": len(self.witnesses),
             "layers": len(self.layers),
             "theorem_derived": sum(row.derivation == "theorem-derived" for row in self.layers),
+            "theorem_blocked": sum(
+                row.derivation == "theorem-derived" and row.status == "blocked"
+                for row in self.layers
+            ),
             "receipt_derived_witness": sum(row.derivation == "receipt-derived-witness" for row in self.layers),
             "shadow": sum(row.derivation == "shadow" for row in self.layers),
             "meta": sum(row.derivation == "meta" for row in self.layers),
@@ -105,7 +123,19 @@ def layer_axiom_dependencies(layers: Iterable[VeyraCoreLayer] | None = None) -> 
     """Derive axiom use from checked receipts; never fill dependency tuples."""
     logger.debug("layer_axiom_dependencies entry")
     derived = layer_derivations(tuple(layers) if layers is not None else None)
-    result = tuple(LayerAxiomUse(row.layer, row.certificate, row.axioms, "receipt-derived-witness" if row.classification == "receipt-backed-witness" else row.classification, row.boundary) for row in derived)
+    result = tuple(
+        LayerAxiomUse(
+            row.layer,
+            row.certificate,
+            row.axioms,
+            "receipt-derived-witness"
+            if row.classification == "receipt-backed-witness"
+            else row.classification,
+            row.boundary,
+            row.status,
+        )
+        for row in derived
+    )
     logger.debug("layer_axiom_dependencies exit count=%d", len(result))
     return result
 

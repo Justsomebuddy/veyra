@@ -1,6 +1,16 @@
 # Changelog
 
 ## [Unreleased] — Changed
+- Made the proof-core canonical JSON boundary strict: Python tuples are now
+  rejected at every nesting depth instead of being silently serialized as JSON
+  arrays, and all reviewed Core callers explicitly materialize intended arrays
+  as lists. Added stable-byte/digest, nested-hostile and whole-`src/core`
+  direct-call syntax inventory regressions. The content-bound R9→R13
+  manifests, generated R10
+  export, source/evidence/theorem artifacts, snapshots, report bindings and R13
+  trusted contract were renewed by fresh staged replay; theorem statements,
+  proof rules, Lean declarations/object manifests, promotion count and taxonomy
+  are unchanged.
 - Integrated eight Lean research files as a separate
   `INTERNAL_RESEARCH_CANDIDATE`: a canonical manifest binds 48 stable
   dependencies, eight candidate sources, 65 declarations/axiom closures, and

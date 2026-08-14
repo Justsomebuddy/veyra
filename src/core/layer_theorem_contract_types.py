@@ -6,6 +6,8 @@ from dataclasses import dataclass
 import logging
 from typing import Protocol
 
+from src.platform_capabilities import CapabilityUnavailableError
+
 from .proof_core_codec import digest_data
 
 logger = logging.getLogger(__name__)
@@ -26,6 +28,25 @@ TheoremProvider = Callable[[], object]
 TheoremVerifier = Callable[["LayerTheoremContract", object], bool]
 BridgeProvider = Callable[[], object]
 BridgeVerifier = Callable[["LayerTheoremContract", object, str], bool]
+
+
+class TheoremContractCapabilityBlocked(CapabilityUnavailableError):
+    """A production theorem contract requires an unavailable exact toolchain."""
+
+    def __init__(self, capability: str, detail: str) -> None:
+        logger.debug(
+            "TheoremContractCapabilityBlocked.__init__ entry capability=%s",
+            capability,
+        )
+        self.capability = capability
+        self.detail = detail
+        super().__init__(
+            f"theorem-contract-capability-blocked:{capability}:{detail}",
+        )
+        logger.debug(
+            "TheoremContractCapabilityBlocked.__init__ exit capability=%s",
+            capability,
+        )
 
 
 @dataclass(frozen=True)
@@ -78,8 +99,8 @@ def contract_data(contract: LayerTheoremContract) -> dict[str, object]:
         "theorem_id": contract.theorem_id,
         "statement_digest": contract.statement_digest,
         "artifact_digest": contract.artifact_digest,
-        "proof_rules": contract.proof_rules,
-        "native_laws": contract.native_laws,
+        "proof_rules": list(contract.proof_rules),
+        "native_laws": list(contract.native_laws),
         "handler_id": contract.handler_id,
         "semantic_carrier": contract.semantic_carrier,
         "bridge_id": contract.bridge_id,

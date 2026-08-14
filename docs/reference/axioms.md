@@ -30,8 +30,12 @@ mixed Essence policy rows remain separately documented in
 
 - `src.core.axiom_kernel.unified_axiom_kernel()` returns the axiom rows.
 - `axiom_witness_rows()` checks each witness through Core Language inference.
-- `layer_axiom_dependencies()` names the kernel axioms used by each current executable layer.
-- `axiom_kernel_report()` reports readiness plus `kernel-native` versus `shadow-dependent` derivation boundaries.
+- `layer_axiom_dependencies()` names the kernel axioms used by each current
+  executable layer and preserves its `status`; a capability-blocked theorem row
+  cannot be rewritten as ready merely because it claims no primitive axioms.
+- `axiom_kernel_report()` reports derivation boundaries plus
+  `theorem_blocked`; readiness is false until every theorem-derived row is
+  actually ready.
 
 ## Current boundary
 

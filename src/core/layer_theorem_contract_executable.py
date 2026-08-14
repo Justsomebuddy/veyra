@@ -72,10 +72,10 @@ def _code_data(code: CodeType) -> dict[str, object]:
         "flags": code.co_flags,
         "bytecode": code.co_code.hex(),
         "constants": [_constant_data(item) for item in code.co_consts],
-        "names": code.co_names,
-        "varnames": code.co_varnames,
-        "freevars": code.co_freevars,
-        "cellvars": code.co_cellvars,
+        "names": list(code.co_names),
+        "varnames": list(code.co_varnames),
+        "freevars": list(code.co_freevars),
+        "cellvars": list(code.co_cellvars),
         "exceptiontable": code.co_exceptiontable.hex(),
     }
     logger.debug(

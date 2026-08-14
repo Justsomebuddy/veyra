@@ -104,7 +104,7 @@ The reviewed standalone Lean module now fixes five exact IDs:
 | THM-R13-004 | tail/silence domain-blocked boundary |
 | THM-R13-005 | crest nonreflection boundary |
 
-These statements compile in a fresh pinned ten-stage parent chain. `THM-R13-001`
+These statements compile in a fresh pinned eleven-stage parent chain. `THM-R13-001`
 is consumed through R7 checker soundness before `THM-R13-002` derives the
 unit-weave equality used by `THM-R13-003`; the Python surface/R10 artifact is
 still an external phase-one origin until the guarded bridge binds both sides.
@@ -113,8 +113,8 @@ still an external phase-one origin until the guarded bridge binds both sides.
 
 - `src/core/intrinsic_observer_echo_source.py` replays the exact source through
   the R10 surface, R7 kernel, and checked R9 artifact path.
-- Source/artifact pins are `1280f1c4...70f6` / `2ae21b67...cd1b`; the R10
-  binding is `d7d5d9c0...67f4`.
+- Source/artifact pins are `1280f1c4...70f6` / `6e2514f9...a4ef`; the source
+  elaboration binding is `ef569913...bd58`.
 - `proofs/lean/VeyraIntrinsicObserverEcho.lean` has exact source SHA-256
   `d9b86a1d...1df0` and no `sorry`, `admit`, `axiom`, or `unsafe`; the two
   fixed boundary rows discharge public `THM-R12-003/008` bounds directly.
@@ -218,12 +218,12 @@ exception may not exceed the absolute 2000-line maximum:
 
 Final reviewed bindings:
 
-- phase artifact: `2ae21b674aa54efd50630a6c764af47ed72ce973b9171fe8eea1a550f3c8cd1b`;
-- executable evidence: `f30763425eda0f400f65447a96f8030df29dc99ff837cf8d04d49759e33d5902`;
-- theorem artifact: `06531f09c4dddc7f04182a9ab5826623101351c3fa1066bf52717af1d2298e41`;
-- guarded snapshot/report: `bc8dc77c8debbe5efe03f0d0f05959033971c1b3eb96c33e7993e551603a5953`
-  / `e3a57712afd6b55f521b86b50b9543ab6317b135c23d3f4ecc9b41d89ee74957`;
-- new R8 contract: `a2c8e00f8f5d35334a6a616121d2aee13e9bb2a547cedc121b2bb6482b140a4f`;
+- phase artifact: `6e2514f93049be5b50b21f1af9051357461c039d14469950fb826322c0b3a4ef`;
+- executable evidence: `2e56772d2834a059a55536d7d0c6e042dc5b34ba7116c09eed4f49b80c5e5efb`;
+- theorem artifact: `89605a48cd32c0722bcd45b3ac59975adddcdb809d768afd241ff91668376e1d`;
+- guarded snapshot/report: `b2fba8b0f511dc700f53dbb9483147f5e99bdcea26848208425a631b0f2b1d72`
+  / `b9951c8eae61a10486ece42f897ed9c406e7de3fde7b3a7b72bc77309ec65180`;
+- new R8 contract: `0c71003a9114faad3e5fb497993030fa86155d3ef2aa155405cbd3050a2ea09e`;
 - direct executable-handler pin: `ee12d603d86b0a1387bcba3e9c6a76fbba983940908e5ec07a0b5d856a9d5673`;
 - preserved old R7 contract: `484534000ee59a28d0d131b777dcc775d56d24b82c70797954ba82c8570a8eba`.
 

@@ -199,15 +199,17 @@ def _report_body(local, r12, digests, snapshot, toolchain) -> dict[str, object]:
     logger.debug("r13_bridge_core._report_body entry")
     phase, evidence, registry, effect, _ = local
     result = {
-        "bridge_id": BRIDGE_ID, "theorem_ids": THEOREM_IDS,
+        "bridge_id": BRIDGE_ID, "theorem_ids": list(THEOREM_IDS),
         "phase_artifact_digest": phase.artifact_digest,
         "source_elaboration_binding_digest": phase.r10_binding_digest,
         "r11_binding_digest": r12.r11_binding_digest,
         "r12_binding_digest": r12.binding_digest,
         "executable_evidence_digest": evidence.digest,
         "effect_registry_digest": registry, "effect_digest": effect,
-        "source_digests": tuple(digests.items()),
-        "object_records": _EXPECTED_R13_OBJECT_ROWS,
+        "source_digests": [list(item) for item in digests.items()],
+        "object_records": [
+            [name, list(record)] for name, record in _EXPECTED_R13_OBJECT_ROWS
+        ],
         "snapshot_digest": snapshot,
         "capability": BridgeCapability.PRESERVES.value,
         "evidence_class": EvidenceClass.FORMAL_BRIDGE.value,

@@ -40,7 +40,7 @@ PROOF_RULES = (
 )
 NATIVE_LAWS = ("weave-unit-right",)
 EXPECTED_STATEMENT_DIGEST = "9aa80350921552fdd569bb54474c9f51bd12baee1d3e154dfa40e2dba882a497"
-EXPECTED_ARTIFACT_DIGEST = "06531f09c4dddc7f04182a9ab5826623101351c3fa1066bf52717af1d2298e41"
+EXPECTED_ARTIFACT_DIGEST = "89605a48cd32c0722bcd45b3ac59975adddcdb809d768afd241ff91668376e1d"
 BOUNDARY = (
     "general only under explicit R12 bounds: observer nodes<=2048/depth<=128, "
     "recurrence tacts<=128, and transported echo outcome nodes<=4096/depth<=128; "
@@ -81,8 +81,8 @@ def _body(theorem: IntrinsicObserverEchoTheorem) -> dict[str, object]:
         "source_proof_digest": theorem.source_proof_digest,
         "executable_evidence_digest": theorem.executable_evidence_digest,
         "effect_digest": theorem.effect_digest,
-        "proof_rules": theorem.proof_rules,
-        "native_laws": theorem.native_laws,
+        "proof_rules": list(theorem.proof_rules),
+        "native_laws": list(theorem.native_laws),
         "status": theorem.status,
         "boundary": theorem.boundary,
     }

@@ -73,11 +73,11 @@ Current checked identifiers:
 
 | Item | Digest |
 |---|---|
-| R11 binding | `ebacad7ae4334e1e2eb693e015d7417df266400ae18783cb1daa21218f649f30` |
+| R11 binding | `79039a32670ea305a70129e80d6299eae0f2428393f2f28018b74ccbdbc8701f` |
 | R12.1 registry | `6a62bf002948aa8f8acf30c8c3d01cfc5f1a3a87e97dbcdd6bb66e378210be41` |
 | R12.5 effect | `c9685e9cff5d201e86043aa0ba707aa5c98a42f502e5a9265fa0926b7f42560e` |
-| R12.5 snapshot | `70d306b45d9b0d167a1902543f86c139c51658e47f39a47e0cb1c5db72debaad` |
-| R12.5 report binding | `8ed0525ef44a442471864cab5d7929cf47d0f4cf612bfb4c859c1add0c00f02a` |
+| R12.5 snapshot | `4f8d887ea3cd4366cbfa26a2447f6738edf51b7997a11619f5d40edb2b1bff6e` |
+| R12.5 report binding | `201d8ae00224556c45a3a795c58aca025204bcdd8354e08ad05926f16c2ae802` |
 
 Local manifest/effect/snapshot shapes are rejected before inherited R11 work.
 Source bytes are captured from immutable canonical origin rows, compiled in a

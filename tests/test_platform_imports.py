@@ -10,6 +10,7 @@ import sys
 
 import pytest
 
+import src.platform_capabilities as capabilities_module
 from src.core.platform_posix import exclusive_file_lock, user_home
 from src.platform_capabilities import Capability, capability_status
 
@@ -52,6 +53,114 @@ def test_portable_python_capability_is_bounded_to_cpython_311() -> None:
     logger.debug("test portable Python capability exit")
 
 
+def test_theorem_toolchain_is_narrower_than_portable_python(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """Production promotion requires the exact runtime and direct Lean binary."""
+    logger.debug("test theorem toolchain boundary entry")
+    monkeypatch.setattr(capabilities_module, "_posix_lock_available", lambda: True)
+    monkeypatch.setattr(
+        capabilities_module,
+        "_linux_process_primitives_available",
+        lambda: True,
+    )
+    monkeypatch.setattr(capabilities_module, "_inotify_available", lambda: True)
+    monkeypatch.setattr(
+        capabilities_module,
+        "_exact_direct_lean_available",
+        lambda: True,
+    )
+    monkeypatch.setattr(
+        capabilities_module,
+        "_exact_elan_lean_available",
+        lambda: True,
+    )
+    exact = capability_status(
+        Capability.THEOREM_PROOF_TOOLCHAIN,
+        platform_name="linux",
+        machine="x86_64",
+        version=(3, 11, 14),
+    )
+    portable_patch = capability_status(
+        Capability.THEOREM_PROOF_TOOLCHAIN,
+        platform_name="linux",
+        machine="x86_64",
+        version=(3, 11, 9),
+    )
+    assert exact.available
+    assert "direct-lean-4.30.0-rc2" in exact.detail
+    assert "r9-elan-route-present" in exact.detail
+    assert capability_status(Capability.PORTABLE_PYTHON, version=(3, 11, 9)).available
+    assert not portable_patch.available
+    logger.debug("test theorem toolchain boundary exit")
+
+
+def test_theorem_toolchain_requires_direct_and_r9_routes(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """Neither the manager nor direct binary alone enables theorem promotion."""
+    logger.debug("test theorem direct Lean requirement entry")
+    monkeypatch.setattr(capabilities_module, "_posix_lock_available", lambda: True)
+    monkeypatch.setattr(
+        capabilities_module,
+        "_linux_process_primitives_available",
+        lambda: True,
+    )
+    monkeypatch.setattr(capabilities_module, "_inotify_available", lambda: True)
+    monkeypatch.setattr(capabilities_module, "_exact_direct_lean_available", lambda: False)
+    monkeypatch.setattr(capabilities_module, "_exact_elan_lean_available", lambda: True)
+    status = capability_status(
+        Capability.THEOREM_PROOF_TOOLCHAIN,
+        platform_name="linux",
+        machine="x86_64",
+        version=(3, 11, 14),
+    )
+    assert not status.available
+    assert "direct-lean-4.30.0-rc2" in status.detail
+    monkeypatch.setattr(capabilities_module, "_exact_direct_lean_available", lambda: True)
+    monkeypatch.setattr(capabilities_module, "_exact_elan_lean_available", lambda: False)
+    r9_missing = capability_status(
+        Capability.THEOREM_PROOF_TOOLCHAIN,
+        platform_name="linux",
+        machine="x86_64",
+        version=(3, 11, 14),
+    )
+    assert not r9_missing.available
+    assert "r9-elan-route" in r9_missing.detail
+    logger.debug("test theorem direct Lean requirement exit")
+
+
+@pytest.mark.parametrize(
+    ("reported", "expected"),
+    (
+        (
+            "Lean (version 4.30.0-rc2, x86_64-unknown-linux-gnu, "
+            "commit 3dc1a088, Release)",
+            True,
+        ),
+        ("Lean (version 4.30.0-rc20, x86_64-unknown-linux-gnu)", False),
+        ("fake version 4.30.0-rc2", False),
+    ),
+)
+def test_exact_lean_probe_rejects_version_substrings(
+    monkeypatch: pytest.MonkeyPatch,
+    reported: str,
+    expected: bool,
+) -> None:
+    """The prerequisite probe parses one exact Lean version record."""
+    logger.debug("test exact Lean version probe entry expected=%s", expected)
+
+    def completed(*_args, **_kwargs) -> subprocess.CompletedProcess[str]:
+        logger.debug("test exact Lean version fake subprocess entry")
+        result = subprocess.CompletedProcess([], 0, reported, "")
+        logger.debug("test exact Lean version fake subprocess exit")
+        return result
+
+    monkeypatch.setattr(capabilities_module.subprocess, "run", completed)
+    assert capabilities_module._lean_version_matches(["/fake/lean"], "test") is expected
+    logger.debug("test exact Lean version probe exit")
+
+
 def test_public_import_needs_no_posix_modules_and_hardening_fails_closed() -> None:
     """A Windows-shaped import neither installs shims nor enables Linux proof guards."""
     logger.debug("test Windows-shaped public import entry")
@@ -84,6 +193,25 @@ def test_public_import_needs_no_posix_modules_and_hardening_fails_closed() -> No
     assert result.returncode == 0, result.stderr
     assert result.stdout.strip() == "portable-import-ok"
     logger.debug("test Windows-shaped public import exit")
+
+
+def test_public_import_does_not_build_bytecode_bound_theorem_registry() -> None:
+    """Importing the portable barrel leaves executable contract validation lazy."""
+    logger.debug("test lazy theorem registry import entry")
+    script = "\n".join(
+        (
+            "import importlib",
+            "import src.core",
+            "contracts = importlib.import_module('src.core.layer_theorem_contracts')",
+            "assert contracts._THEOREM_CONTRACTS is None",
+            "assert src.core.TheoremContractCapabilityBlocked is not None",
+            "print('lazy-theorem-registry-ok')",
+        )
+    )
+    result = _run(script)
+    assert result.returncode == 0, result.stderr
+    assert result.stdout.strip() == "lazy-theorem-registry-ok"
+    logger.debug("test lazy theorem registry import exit")
 
 
 @pytest.mark.requires_linux_hardening
@@ -141,4 +269,8 @@ def test_hardened_user_home_ignores_environment_override(
 
     monkeypatch.setenv("HOME", str(tmp_path))
     assert user_home() == Path(pwd.getpwuid(os.getuid()).pw_dir)
+    assert capabilities_module._pinned_lean_binary() == (
+        user_home()
+        / ".elan/toolchains/leanprover--lean4---v4.30.0-rc2/bin/lean"
+    )
     logger.debug("test hardened user home exit")

@@ -3,6 +3,9 @@
 from __future__ import annotations
 
 from itertools import product
+import logging
+
+import pytest
 
 from src.core.observer_realization import (
     observer_realization_context,
@@ -18,6 +21,11 @@ from src.core.realization_transport import (
     realization_transport_scope_boundary,
     verify_realization_transport,
 )
+from src.core.realization_transport.runtime import _join_partition
+from src.core.realization_transport.validation import RealizationTransportValidationError
+
+
+logger = logging.getLogger(__name__)
 
 
 def _pulse(depth: int):
@@ -67,6 +75,30 @@ def _normalize(values: tuple[int, ...]) -> tuple[int, ...]:
             classes[value] = len(classes)
         output.append(classes[value])
     return tuple(output)
+
+
+def test_join_partition_normalizes_common_refinement():
+    logger.debug("test_join_partition_normalizes_common_refinement entry")
+    result = _join_partition((0, 0, 1, 1), (0, 1, 0, 1))
+    assert result == (0, 1, 2, 3)
+    logger.debug("test_join_partition_normalizes_common_refinement exit")
+
+
+def test_join_partition_accepts_empty_carrier():
+    logger.debug("test_join_partition_accepts_empty_carrier entry")
+    result = _join_partition((), ())
+    assert result == ()
+    logger.debug("test_join_partition_accepts_empty_carrier exit")
+
+
+def test_join_partition_rejects_carrier_mismatch():
+    logger.debug("test_join_partition_rejects_carrier_mismatch entry")
+    with pytest.raises(
+        RealizationTransportValidationError,
+        match="^transport-join-carrier-mismatch$",
+    ):
+        _join_partition((0,), ())
+    logger.debug("test_join_partition_rejects_carrier_mismatch exit")
 
 
 def test_reorder_receipt_replays_endpoints_and_exact_commuting_rows():

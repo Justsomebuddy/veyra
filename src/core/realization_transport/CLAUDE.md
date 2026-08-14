@@ -16,7 +16,9 @@ contravariantly by normalized pullback along `f`.
 - Full structured `Ready`/`Blocked` payload bytes commute for every observer and
   mapped state.
 - Every pulled-back target partition must be admitted by the source closure.
-- Bottom and every pairwise join are reconstructed and checked.
+- Bottom and every pairwise join are reconstructed and checked; the internal
+  join operation is total on the empty carrier and still rejects unequal
+  carrier sizes.
 - Source minimum cost may decrease after pullback but may never increase.
 - Identity and composition rebuild fresh receipts; they are executable bounded
   evidence, not a formal category/functor theorem.
@@ -38,4 +40,5 @@ are endpoint-local and are not transported.
 
 ## Version
 
-Internal research contract v1 (`p1-r16-context-morphism-v1`).
+Internal research contract v1 (`p1-r16-context-morphism-v1`); implementation
+revision 1.0.1.

@@ -3,12 +3,19 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 import logging
-from collections.abc import Iterable, Mapping
+from collections.abc import Collection, Iterable, Mapping
+
+from src.platform_capabilities import Capability, CapabilityStatus
 
 from .essence import VeyraCoreLayer, core_layers
 from .layer_theorem_contracts import (
-    LayerTheoremContract, resolve_layer_theorem, theorem_contract_registry,
+    LayerTheoremContract,
+    resolve_layer_theorem,
+    theorem_contract_layers,
+    theorem_contract_registry,
+    validate_production_theorem_layer_metadata,
 )
+from .layer_theorem_contract_types import TheoremContractCapabilityBlocked
 from .semantic_kernel import DerivationReceipt, axiom_closure, evaluate_native, replay_receipts
 
 logger = logging.getLogger(__name__)
@@ -60,38 +67,52 @@ class LayerDerivationReport:
     def summary(self) -> dict[str, int | bool]:
         """Return compact classification and receipt counters."""
         logger.debug("LayerDerivationReport.summary entry rows=%d", len(self.rows))
+        theorem_blocked = sum(
+            row.classification == "theorem-derived" and row.status == "blocked"
+            for row in self.rows
+        )
+        theorem_ready = all(
+            row.status == "ready"
+            for row in self.rows
+            if row.classification == "theorem-derived"
+        )
+        classifications_complete = all(
+            row.classification
+            in {"theorem-derived", "receipt-backed-witness", "shadow", "meta"}
+            for row in self.rows
+        )
         result: dict[str, int | bool] = {
             "layers": len(self.rows),
             "theorem_derived": sum(row.classification == "theorem-derived" for row in self.rows),
+            "theorem_blocked": theorem_blocked,
             "witness_backed": sum(row.classification == "receipt-backed-witness" for row in self.rows),
             "shadow": sum(row.classification == "shadow" for row in self.rows),
             "meta": sum(row.classification == "meta" for row in self.rows),
             "receipt_backed": sum(bool(row.receipts) for row in self.rows),
-            "complete": all(row.classification in {"theorem-derived", "receipt-backed-witness", "shadow", "meta"} for row in self.rows),
+            "complete": classifications_complete and theorem_ready,
         }
         logger.debug("LayerDerivationReport.summary exit result=%r", result)
         return result
 
 
 def _registry_names(
-    theorem_contracts: Mapping[str, LayerTheoremContract] | None = None,
+    theorem_layers: Collection[str],
 ) -> frozenset[str]:
     logger.debug("_registry_names entry")
-    contracts = theorem_contract_registry() if theorem_contracts is None else theorem_contracts
-    result = frozenset(contracts) | frozenset(WITNESS_SOURCES) | SHADOW_LAYERS | META_LAYERS
+    result = frozenset(theorem_layers) | frozenset(WITNESS_SOURCES) | SHADOW_LAYERS | META_LAYERS
     logger.debug("_registry_names exit count=%d", len(result))
     return result
 
 
 def _validate_registry(
     layers: tuple[VeyraCoreLayer, ...],
-    theorem_contracts: Mapping[str, LayerTheoremContract],
+    theorem_layers: Collection[str],
 ) -> None:
     logger.debug("_validate_registry entry layers=%d", len(layers))
-    groups = (frozenset(theorem_contracts), frozenset(WITNESS_SOURCES), SHADOW_LAYERS, META_LAYERS)
+    groups = (frozenset(theorem_layers), frozenset(WITNESS_SOURCES), SHADOW_LAYERS, META_LAYERS)
     overlap = frozenset(item for index, group in enumerate(groups) for other in groups[index + 1:] for item in group & other)
     actual = frozenset(layer.name for layer in layers)
-    expected = _registry_names(theorem_contracts)
+    expected = _registry_names(theorem_layers)
     errors = []
     if overlap:
         errors.append("overlap=" + ",".join(sorted(overlap)))
@@ -124,7 +145,7 @@ def _witness_row(layer: VeyraCoreLayer) -> LayerDerivation:
 
 def _theorem_row(
     layer: VeyraCoreLayer,
-    theorem_contracts: Mapping[str, LayerTheoremContract] | None = None,
+    theorem_contracts: Mapping[str, LayerTheoremContract],
 ) -> LayerDerivation:
     logger.debug("_theorem_row entry layer=%s", layer.name)
     theorem = resolve_layer_theorem(layer, theorem_contracts)
@@ -136,6 +157,33 @@ def _theorem_row(
         theorem.contract_digest,
     )
     logger.debug("_theorem_row exit theorem=%s digest=%s", result.theorem_id, result.proof_digest)
+    return result
+
+
+def _blocked_theorem_row(
+    layer: VeyraCoreLayer,
+    capability: CapabilityStatus,
+) -> LayerDerivation:
+    """Expose truthful non-readiness without constructing executable contracts."""
+    logger.debug(
+        "_blocked_theorem_row entry layer=%s capability=%s",
+        layer.name,
+        capability.capability.value,
+    )
+    validate_production_theorem_layer_metadata(layer)
+    result = LayerDerivation(
+        layer.name,
+        layer.certificate,
+        "theorem-derived",
+        "blocked",
+        "",
+        (),
+        (),
+        "production theorem evidence unavailable: "
+        f"{capability.capability.value}:{capability.detail}; "
+        "no theorem handler, bridge, or bytecode-bound registry was resolved",
+    )
+    logger.debug("_blocked_theorem_row exit layer=%s", layer.name)
     return result
 
 
@@ -153,12 +201,33 @@ def layer_derivations(layers: Iterable[VeyraCoreLayer] | None = None) -> tuple[L
     """Classify exactly all current layers, refusing registry drift or fallback."""
     logger.debug("layer_derivations entry custom=%s", layers is not None)
     current = tuple(core_layers() if layers is None else layers)
-    contracts = theorem_contract_registry()
-    _validate_registry(current, contracts)
+    theorem_layers = theorem_contract_layers()
+    capability = None
+    try:
+        contracts = theorem_contract_registry()
+    except TheoremContractCapabilityBlocked as blocked:
+        capability = CapabilityStatus(
+            Capability(blocked.capability),
+            False,
+            blocked.detail,
+        )
+        contracts = None
+        logger.warning(
+            "layer_derivations theorem registry blocked capability=%s detail=%s",
+            capability.capability.value,
+            capability.detail,
+        )
+    _validate_registry(current, theorem_layers if contracts is None else contracts)
     rows = []
     for layer in current:
-        if layer.name in contracts:
-            rows.append(_theorem_row(layer, contracts))
+        if layer.name in theorem_layers:
+            if contracts is not None:
+                rows.append(_theorem_row(layer, contracts))
+            elif capability is not None:
+                rows.append(_blocked_theorem_row(layer, capability))
+            else:  # pragma: no cover - try/except assigns one branch exactly.
+                logger.error("layer_derivations missing theorem registry state")
+                raise RuntimeError("missing-theorem-registry-state")
         elif layer.name in WITNESS_SOURCES:
             rows.append(_witness_row(layer))
         elif layer.name in SHADOW_LAYERS:

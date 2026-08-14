@@ -27,8 +27,8 @@ EXPECTED_THEOREM_DIGEST = "088ba0532cd323451adadc6e6be609eca0963954ba191cec12639
 EXPECTED_SYNTAX_DIGEST = "768b387de013190381ac86cab8b9311f37eb04a3141b5aa37d27b34647ef3ae8"
 EXPECTED_SEMANTIC_DIGEST = "8784be9b8ed5c56388542e14a91263336f17b3c79d3dbacb7291e9426779810b"
 EXPECTED_PROOF_DIGEST = "290865c60b7d4013f890afc673d9dc8d26dd2c2259880970f35430d67449d9a2"
-EXPECTED_R10_BINDING_DIGEST = "91305d57bbab7e49549780bb7d564ed01613ec66b375d2db7d80187761767d93"
-EXPECTED_ARTIFACT_DIGEST = "7b013529908cf6f471200621e6a6ffdcbdf543ca284d1a5deefc6efe5f64adca"
+EXPECTED_R10_BINDING_DIGEST = "ef56991387741cfc931ef7f2ce9f8887730bd8720daecdd1d80a93e08f3bbd58"
+EXPECTED_ARTIFACT_DIGEST = "6e2514f93049be5b50b21f1af9051357461c039d14469950fb826322c0b3a4ef"
 BOUNDARY = (
     "parser- and kernel-accepted unit-weave equality source only; no R13 "
     "observer-echo theorem, Lean bridge, effect, promotion, taxonomy, or certificate"
@@ -86,8 +86,8 @@ def _body(artifact: IntrinsicObserverEchoSourceArtifact) -> dict[str, object]:
         "proof_digest": artifact.proof_digest,
         "r10_binding_digest": artifact.r10_binding_digest,
         "statement": artifact.statement,
-        "rules": artifact.rule_closure,
-        "native_laws": artifact.native_law_closure,
+        "rules": list(artifact.rule_closure),
+        "native_laws": list(artifact.native_law_closure),
         "boundary": artifact.boundary,
     }
     logger.debug("_body exit fields=%d", len(result))

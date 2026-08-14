@@ -8,13 +8,18 @@ from enum import Enum
 from importlib import import_module
 from importlib.util import find_spec
 import logging
+import os
 import platform as host_platform
 from pathlib import Path
+import re
 import shutil
 import subprocess
 import sys
 
 logger = logging.getLogger(__name__)
+PINNED_THEOREM_PYTHON = (3, 11, 14)
+PINNED_LEAN_TOOLCHAIN = "leanprover/lean4:v4.30.0-rc2"
+PINNED_LEAN_VERSION = "4.30.0-rc2"
 
 
 class Capability(str, Enum):
@@ -24,6 +29,7 @@ class Capability(str, Enum):
     POSIX_FILE_LOCKS = "posix-file-locks"
     LINUX_HARDENING = "linux-x86_64-hardening"
     LEAN_TOOLCHAIN_CANDIDATE = "lean-toolchain-candidate"
+    THEOREM_PROOF_TOOLCHAIN = "theorem-proof-toolchain"
     SAGE_RUNTIME = "sage-runtime"
     RUST_1_95 = "rust-1.95-toolchain"
 
@@ -130,6 +136,94 @@ def _rust_1_95_available() -> bool:
     return result
 
 
+def _pinned_lean_binary() -> Path | None:
+    """Return the passwd-rooted direct Lean binary consumed by theorem bridges."""
+    logger.debug("capabilities._pinned_lean_binary entry")
+    try:
+        pwd = import_module("pwd")
+        home = Path(pwd.getpwuid(os.getuid()).pw_dir)
+    except (ImportError, KeyError, OSError) as exc:
+        logger.error(
+            "capabilities._pinned_lean_binary unavailable error=%s",
+            type(exc).__name__,
+        )
+        logger.debug("capabilities._pinned_lean_binary exit path=None")
+        return None
+    result = (
+        home
+        / ".elan/toolchains"
+        / "leanprover--lean4---v4.30.0-rc2"
+        / "bin/lean"
+    )
+    logger.debug("capabilities._pinned_lean_binary exit path=%s", result)
+    return result
+
+
+def _lean_version_matches(command: list[str], probe: str) -> bool:
+    """Run one concrete Lean route and require the exact pinned version."""
+    logger.debug("capabilities._lean_version_matches entry probe=%s", probe)
+    try:
+        completed = subprocess.run(
+            [*command, "--version"],
+            capture_output=True,
+            check=False,
+            text=True,
+            timeout=15,
+        )
+    except (OSError, subprocess.TimeoutExpired) as exc:
+        logger.error(
+            "capabilities Lean probe failed probe=%s error=%s",
+            probe,
+            type(exc).__name__,
+        )
+        logger.debug(
+            "capabilities._lean_version_matches exit probe=%s available=False",
+            probe,
+        )
+        return False
+    version = (completed.stdout or completed.stderr).strip()
+    match = re.fullmatch(r"Lean \(version ([^,\s)]+)(?:,.*)?\)", version)
+    result = (
+        completed.returncode == 0
+        and match is not None
+        and match.group(1) == PINNED_LEAN_VERSION
+    )
+    logger.debug(
+        "capabilities._lean_version_matches exit probe=%s available=%s rc=%d",
+        probe,
+        result,
+        completed.returncode,
+    )
+    return result
+
+
+def _exact_direct_lean_available() -> bool:
+    """Execute the bridge's direct Lean binary and require its exact version."""
+    logger.debug("capabilities._exact_direct_lean_available entry")
+    binary = _pinned_lean_binary()
+    if binary is None or not binary.is_file():
+        logger.debug("capabilities._exact_direct_lean_available exit available=False reason=missing")
+        return False
+    result = _lean_version_matches([str(binary)], "direct")
+    logger.debug("capabilities._exact_direct_lean_available exit available=%s", result)
+    return result
+
+
+def _exact_elan_lean_available() -> bool:
+    """Require the exact elan-routed Lean still consumed by the R9 prerequisite."""
+    logger.debug("capabilities._exact_elan_lean_available entry")
+    elan = shutil.which("elan")
+    if elan is None:
+        logger.debug("capabilities._exact_elan_lean_available exit available=False reason=missing")
+        return False
+    result = _lean_version_matches(
+        [elan, "run", PINNED_LEAN_TOOLCHAIN, "lean"],
+        "elan-r9",
+    )
+    logger.debug("capabilities._exact_elan_lean_available exit available=%s", result)
+    return result
+
+
 def capability_status(
     capability: Capability,
     *,
@@ -164,6 +258,34 @@ def capability_status(
         ).available
         available = hardened and selected_version == (3, 11, 14) and shutil.which("elan") is not None
         detail = "lean-candidate-present-full-attestation-required" if available else "requires-linux-x86_64-cpython-3.11.14-elan"
+    elif capability is Capability.THEOREM_PROOF_TOOLCHAIN:
+        hardened = capability_status(
+            Capability.LINUX_HARDENING,
+            platform_name=selected_platform,
+            machine=selected_machine,
+            version=selected_version,
+        ).available
+        exact_python = (
+            sys.implementation.name == "cpython"
+            and selected_version == PINNED_THEOREM_PYTHON
+        )
+        direct_lean = _exact_direct_lean_available() if hardened and exact_python else False
+        elan_lean = (
+            _exact_elan_lean_available()
+            if hardened and exact_python and direct_lean
+            else False
+        )
+        available = hardened and exact_python and direct_lean and elan_lean
+        if available:
+            detail = (
+                "cpython-3.11.14-direct-lean-4.30.0-rc2-and-r9-elan-route-"
+                "present-full-attestation-required"
+            )
+        else:
+            detail = (
+                "requires-linux-x86_64-cpython-3.11.14-"
+                "direct-lean-4.30.0-rc2-and-r9-elan-route"
+            )
     elif capability is Capability.SAGE_RUNTIME:
         available = _module_available("sage.all") and import_module("sage.all") is not None
         detail = "sage-imported" if available else "sage-unavailable"

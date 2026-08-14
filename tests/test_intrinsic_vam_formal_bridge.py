@@ -30,6 +30,7 @@ from src.core.intrinsic_vam_formal_lean_render import (
 )
 from src.core.intrinsic_vam_formal_manifest import (
     BRIDGE_ID,
+    EXPECTED_R11_BINDING,
     EXPECTED_R12_5_TCB_DIGESTS,
     EXPECTED_TOOLCHAIN_IDENTITY,
 )
@@ -55,7 +56,7 @@ from src.core.shadow_effects import shadow_effect_registry_digest
 
 
 LOGGER = logging.getLogger(__name__)
-R11_BINDING = "d98318066dc015ca7d0d0be36d2b07b38d50c7715f4e2a494d70ff842262c53a"
+R11_BINDING = EXPECTED_R11_BINDING
 SOURCE_NAMES = (*tuple(SOURCE_PATHS), "lean_export")
 OBJECT_NAMES = tuple(name for name, _ in _SNAPSHOT_NAME_ROWS[:-1])
 

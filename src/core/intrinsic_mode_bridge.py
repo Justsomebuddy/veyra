@@ -180,7 +180,7 @@ def _binding(digests: Mapping[str, str], artifact: str, r7_bridge: str, toolchai
     logger.debug("intrinsic_mode_bridge._binding entry")
     result = _sha(canonical_json({
         "schema": "veyra-intrinsic-mode-binding-v1", "tcb_schema": TCB_SCHEMA,
-        "theorems": THEOREM_IDS, "sources": dict(digests), "r7_artifact": artifact,
+        "theorems": list(THEOREM_IDS), "sources": dict(digests), "r7_artifact": artifact,
         "r7_bridge": r7_bridge, "toolchain": toolchain,
     }).encode())
     logger.debug("intrinsic_mode_bridge._binding exit result=%s", result)
@@ -260,7 +260,7 @@ def _default_trust_key() -> str:
             raise ValueError("r9-pinned-elan-not-found")
         result = _sha(canonical_json({
             "sources": {name: _sha(source) for name, source in sources.items()},
-            "r7": (r7.artifact_digest, r7.binding_digest),
+            "r7": [r7.artifact_digest, r7.binding_digest],
             "toolchain": _toolchain_identity(command),
         }).encode())
     except (OSError, ValueError) as exc:

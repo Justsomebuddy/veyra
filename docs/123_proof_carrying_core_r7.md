@@ -57,7 +57,11 @@ They are mirrored in `VeyraProofKernel.lean`, and `nativeConclusion_sound` prove
 
 ## Canonical proof artifact
 
-`proof_core_artifact.py` emits tagged canonical JSON only. It binds:
+`proof_core_artifact.py` emits tagged canonical JSON only. The shared codec
+accepts only actual JSON containers: arrays must be explicit Python `list`
+values, while tuples are rejected at every nesting depth instead of silently
+colliding with arrays. Trusted callers normalize their immutable tuples to
+lists before hashing. It binds:
 
 - theorem ID;
 - complete typed context;

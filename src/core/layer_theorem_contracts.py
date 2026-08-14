@@ -3,8 +3,11 @@ from __future__ import annotations
 
 from collections.abc import Iterable, Mapping
 import logging
+from threading import Lock
 from types import MappingProxyType
 from typing import NoReturn
+
+from src.platform_capabilities import Capability, CapabilityStatus, capability_status
 
 from .layer_theorem_contract_handlers import (
     INTRINSIC_TRANSPORT_CARRIER,
@@ -23,6 +26,7 @@ from .layer_theorem_contract_handlers import (
 from .layer_theorem_contract_types import (
     LayerLike,
     LayerTheoremContract,
+    TheoremContractCapabilityBlocked,
     VerifiedLayerTheorem,
     theorem_contract_digest,
 )
@@ -154,16 +158,98 @@ _INTRINSIC_OBSERVER_ECHO_CONTRACT = LayerTheoremContract(
     bridge_verifier=verify_r13_bridge,
     executable_digest="ee12d603d86b0a1387bcba3e9c6a76fbba983940908e5ec07a0b5d856a9d5673",
 )
-THEOREM_CONTRACTS = build_theorem_contract_registry(
-    (_INTRINSIC_CONTRACT, _INTRINSIC_OBSERVER_ECHO_CONTRACT),
+_PRODUCTION_CONTRACTS = (
+    _INTRINSIC_CONTRACT,
+    _INTRINSIC_OBSERVER_ECHO_CONTRACT,
 )
+_THEOREM_CONTRACTS: Mapping[str, LayerTheoremContract] | None = None
+_THEOREM_CONTRACTS_LOCK = Lock()
+
+
+def theorem_contract_capability_status() -> CapabilityStatus:
+    """Return the exact host/toolchain prerequisite for production promotion."""
+    logger.debug("theorem_contract_capability_status entry")
+    result = capability_status(Capability.THEOREM_PROOF_TOOLCHAIN)
+    logger.debug(
+        "theorem_contract_capability_status exit available=%s detail=%s",
+        result.available,
+        result.detail,
+    )
+    return result
+
+
+def theorem_contract_layers() -> frozenset[str]:
+    """Return production theorem layer names without executable validation."""
+    logger.debug("theorem_contract_layers entry")
+    result = frozenset(contract.layer for contract in _PRODUCTION_CONTRACTS)
+    if len(result) != len(_PRODUCTION_CONTRACTS):
+        logger.error("theorem_contract_layers duplicate production layer")
+        raise ValueError("duplicate-production-theorem-layer")
+    logger.debug("theorem_contract_layers exit count=%d", len(result))
+    return result
+
+
+def validate_production_theorem_layer_metadata(layer: LayerLike) -> None:
+    """Validate static production-layer identity without executable handlers."""
+    logger.debug(
+        "validate_production_theorem_layer_metadata entry type=%s",
+        type(layer).__name__,
+    )
+    actual = (layer.name, layer.role, layer.certificate, layer.status)
+    if any(type(item) is not str for item in actual):
+        _reject_type("layer-theorem-contract-metadata-type")
+    contract = next(
+        (candidate for candidate in _PRODUCTION_CONTRACTS if candidate.layer == layer.name),
+        None,
+    )
+    if contract is None:
+        _reject("unbound-theorem-contract")
+    expected = (contract.layer, contract.role, contract.certificate, "ready")
+    if actual != expected:
+        logger.error(
+            "validate_production_theorem_layer_metadata mismatch actual=%r",
+            actual,
+        )
+        _reject("layer-theorem-contract-metadata-mismatch")
+    logger.debug(
+        "validate_production_theorem_layer_metadata exit layer=%s",
+        layer.name,
+    )
+
+
+def _production_theorem_contract_registry() -> Mapping[str, LayerTheoremContract]:
+    """Build and cache the bytecode-bound production registry on exact hosts."""
+    logger.debug("_production_theorem_contract_registry entry")
+    global _THEOREM_CONTRACTS
+    if _THEOREM_CONTRACTS is None:
+        with _THEOREM_CONTRACTS_LOCK:
+            if _THEOREM_CONTRACTS is None:
+                logger.debug("_production_theorem_contract_registry building")
+                _THEOREM_CONTRACTS = build_theorem_contract_registry(
+                    _PRODUCTION_CONTRACTS,
+                )
+    result = _THEOREM_CONTRACTS
+    if result is None:  # pragma: no cover - guarded assignment is exhaustive.
+        logger.error("_production_theorem_contract_registry cache unavailable")
+        raise RuntimeError("theorem-contract-registry-cache-unavailable")
+    logger.debug("_production_theorem_contract_registry exit count=%d", len(result))
+    return result
 
 
 def theorem_contract_registry() -> Mapping[str, LayerTheoremContract]:
-    """Return the immutable production theorem-promotion registry."""
+    """Return the immutable bytecode-validated production registry."""
     logger.debug("theorem_contract_registry entry")
-    logger.debug("theorem_contract_registry exit count=%d", len(THEOREM_CONTRACTS))
-    return THEOREM_CONTRACTS
+    status = theorem_contract_capability_status()
+    if not status.available:
+        logger.error(
+            "theorem_contract_registry blocked capability=%s detail=%s",
+            status.capability.value,
+            status.detail,
+        )
+        raise TheoremContractCapabilityBlocked(status.capability.value, status.detail)
+    result = _production_theorem_contract_registry()
+    logger.debug("theorem_contract_registry exit count=%d", len(result))
+    return result
 
 
 def resolve_layer_theorem(
@@ -175,6 +261,8 @@ def resolve_layer_theorem(
     if any(type(item) is not str for item in actual_layer):
         _reject_type("layer-theorem-contract-metadata-type")
     logger.debug("resolve_layer_theorem metadata layer=%s", actual_layer[0])
+    # Caller-supplied registries remain independently testable. Only the
+    # production registry is gated on the exact interpreter/toolchain lane.
     contracts = theorem_contract_registry() if registry is None else registry
     validated = build_theorem_contract_registry(contracts.values())
     if set(contracts) != set(validated):

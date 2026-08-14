@@ -209,10 +209,12 @@ def _report_body(
     logger.debug("intrinsic_vam_formal_bridge._report_body entry")
     result = {
         "bridge_id": BRIDGE_ID,
-        "theorem_ids": THEOREM_IDS,
+        "theorem_ids": list(THEOREM_IDS),
         "r11_binding_digest": r11.binding_digest,
-        "source_digests": tuple(digests.items()),
-        "object_records": _EXPECTED_R12_5_OBJECT_ROWS,
+        "source_digests": [list(item) for item in digests.items()],
+        "object_records": [
+            [name, list(record)] for name, record in _EXPECTED_R12_5_OBJECT_ROWS
+        ],
         "snapshot_digest": snapshot,
         "effect_registry_digest": registry,
         "effect_digest": effect,

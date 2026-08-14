@@ -290,7 +290,7 @@ def binding_digest(
     logger.debug("observer_core_bridge_io.binding_digest entry")
     result = sha_digest(canonical_json({
         "schema": "veyra-observer-core-binding-v1", "tcb_schema": tcb_schema,
-        "bridge_id": bridge_id, "theorems": theorem_ids, "sources": dict(digests),
+        "bridge_id": bridge_id, "theorems": list(theorem_ids), "sources": dict(digests),
         "snapshot": snapshot, "artifact": artifact, "r10": r10,
         "toolchain": toolchain,
     }).encode())

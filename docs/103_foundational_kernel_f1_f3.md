@@ -30,7 +30,13 @@ Implemented in `src/core/axiom_kernel.py`.
 | `AX-ECHO` | echo | `echo(nod:a,nod:b,observer:kind)` |
 | `AX-OBSTRUCTION` | obstruction | `echo(nod:a,nod:b,observer:trace)` blocks with mismatch |
 
-`axiom_kernel_report()` now returns witness rows and layer-dependency rows. The important honest field is `derivation`:
+`axiom_kernel_report()` now returns witness rows and layer-dependency rows. The
+honest boundary is the pair of `derivation` and `status`: a theorem-derived row
+whose exact proof toolchain is unavailable remains `blocked`, contributes to
+`theorem_blocked`, and makes kernel readiness false rather than being promoted
+by the dependency projection.
+
+The derivation field distinguishes:
 
 - `kernel-native` means the row is an internal rule/proof/diagnostic layer;
 - `shadow-dependent` means the row uses kernel axioms through finite observer shadows and is not yet a deduction from a native ontology.

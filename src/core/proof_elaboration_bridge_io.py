@@ -273,7 +273,7 @@ def binding_digest(
     logger.debug("proof_elaboration_bridge_io.binding_digest entry")
     result = sha_digest(canonical_json({
         "schema": "veyra-proof-elaboration-binding-v1", "tcb_schema": tcb_schema,
-        "theorems": theorem_ids, "sources": dict(digests), "snapshot": snapshot,
+        "theorems": list(theorem_ids), "sources": dict(digests), "snapshot": snapshot,
         "artifact": artifact, "r9": r9, "toolchain": toolchain,
     }).encode())
     logger.debug("proof_elaboration_bridge_io.binding_digest exit result=%s", result)
