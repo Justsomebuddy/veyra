@@ -135,6 +135,12 @@ cost/closure action, endpoint replay, or witness transport.  A future P1-A
 commuting square would need an all-status transformation preserving complete
 structured `Ready|Blocked` payloads and separate composition laws.
 
+[RFC 169](169_p1a_all_status_transport_rfc.md) now fixes that future boundary
+without changing v1: projection of `Blocked` must retain exact obstruction
+code/path/order/multiplicity, discarded-branch-only blockage is explicitly
+undefined rather than fabricated as a coarse value, and a sibling v2 arrow is
+admitted only when every finite row commutes against fresh coarse replay.
+
 Cross-doctrine transport is likewise outside v1.  It would require an explicit
 doctrine morphism, total and composable response transformation, recurrence
 conversion, policy and cost laws, and an authoritative witness-transport rule.
@@ -199,5 +205,7 @@ This slice does not establish:
 - focused tests: [`test_realization_transport.py`](../tests/test_realization_transport.py),
   [`test_realization_transport_adversarial.py`](../tests/test_realization_transport_adversarial.py)
 - source realization: [document 161](161_p1_r16_realization_contract.md)
+- future P1-A sibling design:
+  [RFC 169](169_p1a_all_status_transport_rfc.md)
 - abstract formal laws:
   [`VeyraRealizationTransport.lean`](../proofs/lean/VeyraRealizationTransport.lean)

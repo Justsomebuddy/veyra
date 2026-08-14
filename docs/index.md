@@ -283,6 +283,11 @@ No metaphysical claim is accepted as mathematics until it becomes a definition, 
   raw-cycle first-return pressure; the operational entry binding does not prove
   invariance, and no typed history, full formation judgment, role theorem,
   certificate, N0/HAP lift, object, infinity, or promotion follows.
+- `docs/169_p1a_all_status_transport_rfc.md` — documentation-only future
+  sibling-v2 design for exact same-doctrine P1-A transport over complete
+  `Ready|Blocked` payloads; discarded-branch blockage is an explicit
+  information obstruction, v1 stays unchanged, and cross-doctrine remains
+  NO-GO.
 - `docs/163_adaptive_research_line_validity.md` — canonical bounded declared
   experiment-family history, orthogonal local/family/adaptive validity, and an
   exact independent-null retry counterexample; family inference remains open.

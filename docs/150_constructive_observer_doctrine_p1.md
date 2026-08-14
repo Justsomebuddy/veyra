@@ -295,6 +295,11 @@ now binds a finite state/input context, structured Ready/Blocked totalization,
 explicit costs, derived join completion, and authoritative all-row replay. It
 does not make R16 canonical from P1 or establish functoriality, quotient
 transport, an image theorem, or promotion.
+The documentation-only [same-doctrine all-status P1-A RFC](169_p1a_all_status_transport_rfc.md)
+specifies a future sibling-v2 acceptance boundary while leaving current P1-A
+and realization transport bytes/APIs unchanged. In particular, a blocked fine
+pair whose selected branch value was discarded cannot be relabeled or repaired;
+cross-doctrine transport remains NO-GO.
 ## 13. Explicit non-claims
 P1 is not a theory of consciousness, a proof that observers physically emerge,
 a view from nowhere, universal refinement, global Church-Rosser confluence, a

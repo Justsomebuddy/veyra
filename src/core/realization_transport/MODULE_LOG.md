@@ -1,5 +1,18 @@
 # Realization Transport Module Log
 
+### [1.0.1-doc] RFC 169 — Freeze future all-status P1-A sibling boundary
+- **Type:** 📚 Documentation / 🔒 Security
+- **Files:** `docs/169_p1a_all_status_transport_rfc.md`,
+  `docs/167_realization_context_transport.md`, `CLAUDE.md`
+- **What:** Specified a future separate versioned P1-A transport design over
+  complete `Ready|Blocked` payloads, four-vertex commuting replay, exact
+  obstruction-path projection, finite `STRONG` admission, separate horizontal
+  partition laws, no vertical cost law, bounds and stop conditions.
+- **Why:** A blocked fine pair does not retain a discarded branch's successful
+  value, so a ready-only extension or status relabel would create false
+  commuting evidence.
+- **Module version:** 1.0.1 unchanged; no runtime or DTO exists
+
 ### [1.0.1] runtime.py:52 — Make partition join total on the empty carrier
 - **Type:** 🐛 Fix
 - **Files:** `runtime.py`, `tests/test_realization_transport.py`, `CLAUDE.md`

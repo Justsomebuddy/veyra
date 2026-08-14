@@ -30,6 +30,11 @@ naturality, canonical quotient representatives, authentication, theorem, or
 promotion is claimed.  Names, ordinals, generator IDs and representative indices
 are endpoint-local and are not transported.
 
+RFC 169 specifies only a future sibling-v2 design. It does not widen this v1
+package. The critical obstruction is that a fine `Blocked` outcome does not
+retain the successful value of a discarded pair branch; no implementation may
+fabricate or replay-lookup that value as if it were derived by P1-A transport.
+
 ## Files
 
 - `types.py`: immutable exact DTOs.

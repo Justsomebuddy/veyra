@@ -1,6 +1,15 @@
 # Changelog
 
 ## [Unreleased] — Changed
+- Added a documentation-only RFC for a future same-doctrine all-status P1-A
+  realization-transport sibling. It identifies the current `Blocked` information
+  obstruction, admits only freshly reconstructed `STRONG` judgments, specifies
+  a four-vertex exact-payload square plus obstruction-path projection, and fixes
+  replay, composition, resource, hostile-test and stop conditions. Raw fine
+  partitions only refine projected/coarse partitions and no vertical P1-A cost
+  law is claimed. Existing P1-A and realization-transport v1 DTOs, digests,
+  exports, runtime, status and theorem registries are unchanged; cross-doctrine
+  transport remains NO-GO.
 - Added a separate non-root strict-v3 categorical ingestion facade that converts
   three caller-declared CSV or JSONL byte payloads into the existing canonical
   `ThreeWayPresentation`. Every row supplies exact stable identity, feature and
