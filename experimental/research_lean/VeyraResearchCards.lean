@@ -3,11 +3,12 @@ import VeyraCyclic
 
 namespace Veyra
 
-/- General-case upgrades of the fixed finite theorem cards.
+/- Classical Nat identities adjacent to several fixed finite theorem cards.
 
-These statements are the honest general forms of the `decide`-checked fixed
-cards in the pinned tree (B001 fixed 6,2; C002 fixed 12,0,3,9; P001 fixed
-1+3=4). All are checked with the same pinned toolchain and no axioms.
+The shared `choose` and cyclic definitions make some rows useful candidate
+generalizations of B001/C002. The bare counting equalities are only arithmetic
+lemmas: without finite-set/event semantics they do not generalize the P001-P003
+probability cards. Compilation alone adds no registry status or axiom audit.
 -/
 
 -- Helper: choose n k vanishes above the diagonal.
@@ -148,20 +149,20 @@ theorem RESEARCH_T005_chord_reflection (m p : Nat) (hp : p ≤ m) :
       _ = 4 * ((m - p) * p) := by rw [Nat.mul_comm p (m - p)]
       _ = 4 * (m - p) * p := by rw [Nat.mul_assoc]
 
--- T6: general probability-complement counting law (P001 fixed 1+3=4).
+-- Arithmetic complement-count rearrangement; no probability/event model.
 theorem RESEARCH_T006_complement_counts (t e : Nat) (h : e ≤ t) :
     (t - e) + e = t := by
   exact Nat.sub_add_cancel h
 
--- T6b: general two-event union counting law (P002 fixed 3+1=2+2).
+-- Arithmetic overlap-count rearrangement; no set-union semantics.
 theorem RESEARCH_T007_union_counts (a b c : Nat) (ha : c ≤ a) (hb : c ≤ b) :
     (a - c) + (b - c) + c + c = a + b := by
   calc
     (a - c) + (b - c) + c + c = (a - c) + c + ((b - c) + c) := by ac_rfl
     _ = a + b := by rw [Nat.sub_add_cancel ha, Nat.sub_add_cancel hb]
 
--- T6c: general independence cross-product counting law (P003 fixed 1*4=2*2).
-theorem RESEARCH_T008_independence_counts (a b t : Nat) :
+-- Commutative-semiring cross-product reassociation; no independence semantics.
+theorem RESEARCH_T008_cross_product_reassociation (a b t : Nat) :
     (a * b) * t = (a * t) * b := by
   calc
     (a * b) * t = a * (b * t) := by rw [Nat.mul_assoc]
@@ -178,7 +179,7 @@ theorem RESEARCH_T009_reflected_period (m p : Nat) (hp : p ≤ m) :
 #check RESEARCH_T005_chord_reflection
 #check RESEARCH_T006_complement_counts
 #check RESEARCH_T007_union_counts
-#check RESEARCH_T008_independence_counts
+#check RESEARCH_T008_cross_product_reassociation
 #check RESEARCH_T009_reflected_period
 
 end Veyra

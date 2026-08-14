@@ -2,8 +2,10 @@ import VeyraResearchPrimes
 
 namespace Veyra
 
-/- Euclidean-algorithm machinery, mathlib-free, built toward the unbounded
-Fermat repair-track item. No axioms are added; only the pinned Std surface.
+/- Classical Euclidean gcd and Bezout laws over Nat/Int.
+
+These declarations support the local classical-prime lemmas only. They do not
+bridge to Veyra resonance-prime modes, and compilation is not an axiom audit.
 -/
 
 theorem RESEARCH_G_L001_mod_lt (m n : Nat) (h : 0 < n) : m % n < n := by

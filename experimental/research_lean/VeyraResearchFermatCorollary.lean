@@ -3,9 +3,10 @@ import VeyraResearchGcd
 
 namespace Veyra
 
-/- The classical Fermat corollary: for prime p and p ∤ a,
-a^(p-1) ≡ 1 (mod p). This is the form of the theorem quoted in textbooks;
-it follows from the unbounded little theorem plus Euclid's lemma.
+/- A classical Nat Fermat corollary for the local `Prime` predicate.
+
+It is separate candidate research, not a native resonance-prime theorem or
+registry promotion.
 -/
 
 -- mod-equality bridge: x % p = y % p with y ≤ x forces p ∣ x - y.

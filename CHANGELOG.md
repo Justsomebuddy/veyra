@@ -1,6 +1,14 @@
 # Changelog
 
 ## [Unreleased] — Changed
+- Integrated eight Lean research files as a separate
+  `INTERNAL_RESEARCH_CANDIDATE`: a canonical manifest binds 48 stable
+  dependencies, eight candidate sources, 65 declarations/axiom closures, and
+  33 literal headline claim boundaries, domain-separated evidence roots, and
+  the exact Lean toolchain. Fresh temporary-tree verification, hostile checker
+  tests, an explicit `lean-toolchain`, hash-pinned hosted Lean bootstrap, and
+  sdist-only packaging replace persistent artifacts; stable theorem statuses and default
+  `make verify` are unchanged.
 - Hardened P3-OG matched maintenance-control pressure before suffix execution:
   both calibration inputs now require expected active/disabled flags, equal
   coupling responses, equal schema-derived semantic state excluding only the

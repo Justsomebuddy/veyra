@@ -20,6 +20,7 @@ TMP_ROOT = ROOT / "data" / "tmp"
 REQUIRED_SDIST_PREFIXES = (
     ".github/workflows/",
     "docs/",
+    "experimental/research_lean/",
     "proofs/lean/",
     "requirements/",
     "scripts/",
@@ -41,8 +42,14 @@ def expected_source_only_payload() -> frozenset[str]:
         native_root / name
         for name in ("Cargo.toml", "Cargo.lock", "rust-toolchain.toml", "README.md")
     )
+    research_root = ROOT / "experimental" / "research_lean"
+    research = tuple(sorted(research_root.glob("*.lean"))) + tuple(
+        research_root / name for name in ("manifest.json", "README.md", "CLAUDE.md", "MODULE_LOG.md")
+    )
+    if len(tuple(research_root.glob("*.lean"))) != 8:
+        raise RuntimeError("research-lean-source-inventory-mismatch")
     differential = ROOT / "tests/fixtures/observer_synthesis_python_rust_v1.json"
-    files = (*lean, *native, differential)
+    files = (ROOT / "lean-toolchain", *lean, *research, *native, differential)
     if any(not path.is_file() or path.is_symlink() for path in files):
         raise RuntimeError("source-only-payload-invalid")
     result = frozenset(path.relative_to(ROOT).as_posix() for path in files)
@@ -93,7 +100,7 @@ def inspect_archives(dist: Path) -> tuple[Path, Path]:
     )
     if any(not any(name.startswith(prefix) for name in names) for prefix in required_wheel):
         raise RuntimeError("wheel-required-payload-missing")
-    if any(name.startswith(("vam/docs/", "vam/native/", "tests/")) for name in names):
+    if any(name.startswith(("vam/docs/", "vam/native/", "tests/", "experimental/")) for name in names):
         raise RuntimeError("wheel-source-only-payload-present")
     with tarfile.open(sdist, "r:gz") as archive:
         members = tuple(member.name.split("/", 1)[1] for member in archive if "/" in member.name)

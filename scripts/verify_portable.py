@@ -44,6 +44,7 @@ PORTABLE_TESTS = (
     "tests/test_project_paths.py",
     "tests/test_package_metadata.py",
     "tests/test_check_lean_sources.py",
+    "tests/test_check_research_lean.py",
     "tests/test_vam_reference.py",
     "tests/test_vam_highlevel.py",
     "tests/test_vam_highlevel_v1.py",

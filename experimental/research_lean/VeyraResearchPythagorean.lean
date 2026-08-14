@@ -2,10 +2,10 @@ import Std.Tactic
 
 namespace Veyra
 
-/- General Pythagorean-triple law (Euclid's formula) for all integers m n:
-the triple (m² - n², 2mn, m² + n²) is Pythagorean. The pinned tree registers
-only the fixed 3-4-5 card (THM_G001). All identities are proven by explicit
-ring-law rewriting; no ring tactic and no axioms are used.
+/- A standalone algebraic identity over Int with the Euclid-formula terms
+`m² - n²`, `2mn`, and `m² + n²`. It proves no primitivity, positivity,
+converse, or geometric classification. The pinned tree registers only the
+fixed 3-4-5 Nat card (THM_G001); this candidate does not promote or bridge it.
 -/
 
 theorem RESEARCH_PY_L001_sq_add (x y : Int) :

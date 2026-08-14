@@ -3,9 +3,9 @@ import VeyraResearchGcd
 
 namespace Veyra
 
-/- Steps toward the unbounded Fermat little theorem (the named repair-track
-item in docs/102). This module proves the binomial factor identity and the
-divisibility of every middle binomial coefficient; both are mathlib-free.
+/- Classical Nat steps toward Fermat's little theorem. They do not discharge
+the native resonance-prime repair track in docs/102. This module proves the
+binomial factor identity and divisibility of every middle coefficient.
 -/
 
 theorem RESEARCH_F_L001_choose_one (n : Nat) : choose (n + 1) 1 = n + 1 := by

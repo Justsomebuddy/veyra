@@ -2,13 +2,12 @@ import VeyraNativeArithmetic
 
 namespace Veyra
 
-/- The founding shadow conjecture (registry THM-001/002/003, W-001): in the
-one-nod one-tact shadow, Veyra modes with stitch and weave reproduce ordinary
-natural-number arithmetic. The pinned tree proves only associativity of stitch
-and single-pulse resonance (R3); this module proves the general shadow
-homomorphism laws: stitch shadows addition, weave shadows multiplication,
-the shadow is injective, and addition/multiplication laws transport through
-it (commutativity, associativity, distributivity, zero/one units).
+/- Unary image laws for the closed `Recurrence` calculus.
+
+The map below proves addition/multiplication behavior only for the pulse/silence
+image of `VeyraNativeArithmetic`. It does not construct the AX-007/LEM-001
+one-nod/one-tact Mode bridge required by registry THM-001..003 or W-001, so
+those registry rows remain conjectures.
 -/
 
 def shadow : Nat → Recurrence

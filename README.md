@@ -91,6 +91,7 @@ snapshot-wide result.
 |---|---|
 | `src/core/` | executable semantics, certificates, and bounded constructions |
 | `proofs/lean/` | exact Lean sources and proof notes |
+| `experimental/research_lean/` | manifest-bound Lean research candidate; separate from the stable proof inventory |
 | `docs/` | research compendium and status boundaries |
 | `tests/` | unit, adversarial, and certificate tests |
 | `vam/` | Veyra Abstract Machine experiments |

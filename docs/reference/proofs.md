@@ -12,6 +12,15 @@ an explicit non-claim boundary.
 
 - Formal bridge entry point: `src/core/formal_bridge.py`.
 - Lean files include `proofs/lean/VeyraEcho.lean`, theorem-card files, R7–R13 files, and `VeyraOptimizer.lean`.
+
+## Experimental research candidate
+
+`experimental/research_lean/` is separate from the stable 48-source inventory.
+Its manifest binds eight sources, 65 declarations (33 headlines), imports,
+digests, exact Lean `4.30.0-rc2` commit, and every printed axiom closure.
+`make research-lean` verifies a fresh temporary snapshot. It does not promote
+stable IDs: THM-001–003 remain conjectures, number theory remains classical
+local `Nat`/`Int`, and the shadow result covers only unary `Recurrence`.
 - `VeyraObserverSynthesisReplay.lean` is an `INTERNAL_RESEARCH_CANDIDATE`
   abstract slice: it proves functional replay determinism/sound acceptance,
   pointwise target preservation under an explicitly supplied bijective

@@ -1,0 +1,904 @@
+{
+  "schema": "veyra.research-lean-manifest.v1",
+  "status": "INTERNAL_RESEARCH_CANDIDATE",
+  "toolchain": {
+    "name": "leanprover/lean4:v4.30.0-rc2",
+    "version": "4.30.0-rc2",
+    "commit": "3dc1a088b6d2d8eafe25a7cd7ec7b58d731bd7cc"
+  },
+  "base_sources": [
+    {
+      "path": "proofs/lean/VeyraAlgebra.lean",
+      "sha256": "3644d6e09540055316bb250f58836d5411134651dbdf0fa9e300250401ca41c0",
+      "imports": [],
+      "declarations": []
+    },
+    {
+      "path": "proofs/lean/VeyraAllDepthFamily.lean",
+      "sha256": "4766c63f1d398eff41d490218acbaa56a396ce61ec06a14fe85b1814cc64a70b",
+      "imports": [],
+      "declarations": []
+    },
+    {
+      "path": "proofs/lean/VeyraClaimComposition.lean",
+      "sha256": "dcc468481c875f654a8cb4ca4cc1b4942ac4272aaf0c6aec4fc2034940cc1568",
+      "imports": [
+        "Std"
+      ],
+      "declarations": []
+    },
+    {
+      "path": "proofs/lean/VeyraCoherentTowers.lean",
+      "sha256": "7be8b425c0cefb243706d71d4774fa886df5ddb75c611cf6e2fb848930a75975",
+      "imports": [],
+      "declarations": []
+    },
+    {
+      "path": "proofs/lean/VeyraCombinatorics.lean",
+      "sha256": "1b61326de0dab1522f18441211e00d6b978e699c38898ffdbd880dd96df16b8d",
+      "imports": [],
+      "declarations": []
+    },
+    {
+      "path": "proofs/lean/VeyraCyclic.lean",
+      "sha256": "26dc64a3dcdeaeb11235f33e18aa6482b81e03ec19415161e3c48d7d0856dc9b",
+      "imports": [],
+      "declarations": []
+    },
+    {
+      "path": "proofs/lean/VeyraEcho.lean",
+      "sha256": "39585c4adffe182c5c7f33c2e59e73894b9a24f20ca82c656f3917306815ea77",
+      "imports": [],
+      "declarations": []
+    },
+    {
+      "path": "proofs/lean/VeyraElaborationSemantics.lean",
+      "sha256": "ed24ec58377ef44b804444d5b330955c5f3601942d1740e5f23503f0ea121da5",
+      "imports": [
+        "VeyraProofSoundness",
+        "VeyraRecurrenceModeBridge"
+      ],
+      "declarations": []
+    },
+    {
+      "path": "proofs/lean/VeyraGeneratedConfluence.lean",
+      "sha256": "6c11906659de1e3e87bd7d16a47a0993ebcf601e8e48263bfb606fde3734d8bf",
+      "imports": [],
+      "declarations": []
+    },
+    {
+      "path": "proofs/lean/VeyraGeometry.lean",
+      "sha256": "0eeb7eb904032b71b0ebcee1b1bf67b8c18768655a1c1c9b3920f65d02f7630e",
+      "imports": [],
+      "declarations": []
+    },
+    {
+      "path": "proofs/lean/VeyraIntrinsicObserverEcho.lean",
+      "sha256": "d9b86a1de1f1ea558a60f730adb5587c64ae540730b72593f694d3f19ab91df0",
+      "imports": [
+        "VeyraProofKernel",
+        "VeyraProofSoundness",
+        "VeyraRecurrenceModeBridge",
+        "VeyraObserverProof",
+        "VeyraIntrinsicVamBridge"
+      ],
+      "declarations": []
+    },
+    {
+      "path": "proofs/lean/VeyraIntrinsicRuntime.lean",
+      "sha256": "ec0df6b350054cdda45b043fc07581f817996ecbe8e3d24bdfc82bb44d7db121",
+      "imports": [
+        "VeyraNativeSemantics"
+      ],
+      "declarations": []
+    },
+    {
+      "path": "proofs/lean/VeyraIntrinsicVamBridge.lean",
+      "sha256": "770ab54aed74ed394162e249f034a87ff13609d037432a26d5e4bf0971a37e0d",
+      "imports": [
+        "VeyraObserverProof"
+      ],
+      "declarations": []
+    },
+    {
+      "path": "proofs/lean/VeyraNativeArithmetic.lean",
+      "sha256": "e85fa215ae8cba4901620f452efd008efb4787f3373154814d897d66a45373f3",
+      "imports": [],
+      "declarations": []
+    },
+    {
+      "path": "proofs/lean/VeyraNativeSemantics.lean",
+      "sha256": "dc5ddc3b9a3f16c6c5fbbb988b737b806115122d8d2a3f705654e0ee63200a8b",
+      "imports": [],
+      "declarations": []
+    },
+    {
+      "path": "proofs/lean/VeyraObserverCore.lean",
+      "sha256": "fef5db4a94f40b7ba478c5e9d28c5680f736672d5caaea5ac97a823d3e2359d2",
+      "imports": [
+        "VeyraRecurrenceModeBridge"
+      ],
+      "declarations": []
+    },
+    {
+      "path": "proofs/lean/VeyraObserverDescent.lean",
+      "sha256": "5057fcbc2db515eb6ce0e8b3e5e49c2b378a09d042e33c9f060ed3fbe3adbae7",
+      "imports": [],
+      "declarations": []
+    },
+    {
+      "path": "proofs/lean/VeyraObserverPatchAtlas.lean",
+      "sha256": "6e0b011f61c8f6093973efe61577aac82b2848564ea87675fdfdd5fe5f07038c",
+      "imports": [],
+      "declarations": []
+    },
+    {
+      "path": "proofs/lean/VeyraObserverProof.lean",
+      "sha256": "7ef4905cc7923ee0c5d057abbada8c3f6b97c8e181b7d73fba0ad7c21653c1d2",
+      "imports": [
+        "VeyraObserverCore",
+        "VeyraProofSoundness"
+      ],
+      "declarations": []
+    },
+    {
+      "path": "proofs/lean/VeyraObserverSynthesis.lean",
+      "sha256": "750c8d12221b98bf6b9842ca83fe7e36f2e9e78f22cb342942e5b39e350cbaac",
+      "imports": [],
+      "declarations": []
+    },
+    {
+      "path": "proofs/lean/VeyraObserverSynthesisReplay.lean",
+      "sha256": "a097619854b2b799f8685f1c82e0ec39897f2a3d10dc1d99f49850258b218b9f",
+      "imports": [],
+      "declarations": []
+    },
+    {
+      "path": "proofs/lean/VeyraObserverSynthesisV3.lean",
+      "sha256": "872bf25f39c2170fa28c7f37311796f529633e72a716e38e5afd74a222baa0ed",
+      "imports": [],
+      "declarations": []
+    },
+    {
+      "path": "proofs/lean/VeyraObserverSynthesisV4.lean",
+      "sha256": "a24255a290fe5a4f531beedf9d4c0b88108b3523cb07a90cda16ea13d36930a0",
+      "imports": [],
+      "declarations": []
+    },
+    {
+      "path": "proofs/lean/VeyraObserverSynthesisV5.lean",
+      "sha256": "7fa530b04098314b8f6cfe6f7f94d21e11c5af16c434f190aaff79c0008e197c",
+      "imports": [],
+      "declarations": []
+    },
+    {
+      "path": "proofs/lean/VeyraOptimizer.lean",
+      "sha256": "5fcd3c93aaa384fef6852603e2863c7fbafd3535311f36a94084bbd293491258",
+      "imports": [],
+      "declarations": []
+    },
+    {
+      "path": "proofs/lean/VeyraPadicAllDepthEquality.lean",
+      "sha256": "3d59ef92d345266d62eedba5418b24fa309a9106c8d8ee0544a934ee043ac27a",
+      "imports": [
+        "VeyraPadicLocalRealization"
+      ],
+      "declarations": []
+    },
+    {
+      "path": "proofs/lean/VeyraPadicCompletion.lean",
+      "sha256": "28052d0260b1535e484ddd8e70f97fea945ca3ff9a23c358bb45d209a071a18f",
+      "imports": [
+        "Std.Tactic",
+        "Init.GrindInstances.Ring.Fin"
+      ],
+      "declarations": []
+    },
+    {
+      "path": "proofs/lean/VeyraPadicFamilyIntroduction.lean",
+      "sha256": "b8540c65b555bd8407d558b3a16cc7cd25ab27ca636083451162f1a8a5490b48",
+      "imports": [
+        "VeyraPadicCompletion"
+      ],
+      "declarations": []
+    },
+    {
+      "path": "proofs/lean/VeyraPadicLocalRealization.lean",
+      "sha256": "db273191f8ca9ab23e182e5ed30c6cd1e328b7c87698fedd6c0992e7b180d2da",
+      "imports": [
+        "VeyraPadicFamilyIntroduction"
+      ],
+      "declarations": []
+    },
+    {
+      "path": "proofs/lean/VeyraPrimePowerInformation.lean",
+      "sha256": "f7a3a0fd6d21987d691261a348aebe9916fc564d23892872740546b49beb8b36",
+      "imports": [
+        "VeyraPrimePowerUnbounded"
+      ],
+      "declarations": []
+    },
+    {
+      "path": "proofs/lean/VeyraPrimePowerObserverActualization.lean",
+      "sha256": "ba85eeb0911ffefc24da055df70bb3c0624d068fdc82db407233ee63171990e9",
+      "imports": [
+        "VeyraPrimePowerReductionNetwork"
+      ],
+      "declarations": []
+    },
+    {
+      "path": "proofs/lean/VeyraPrimePowerProductiveBridge.lean",
+      "sha256": "f0382dee0f2f0fe9434feca7357a25abd27f47d5f16b278302d83f7d31d0382e",
+      "imports": [
+        "VeyraPadicFamilyIntroduction"
+      ],
+      "declarations": []
+    },
+    {
+      "path": "proofs/lean/VeyraPrimePowerProductiveBridgePressure.lean",
+      "sha256": "bb21c6a16d19af66dbc58109bd8d4882619152e795115c15b5519445c3c1f7b5",
+      "imports": [
+        "VeyraPrimePowerProductiveBridge"
+      ],
+      "declarations": []
+    },
+    {
+      "path": "proofs/lean/VeyraPrimePowerReductionNetwork.lean",
+      "sha256": "77f5a9891115122967036b99245cf410662d251bdf92f79da150f384cb2410cf",
+      "imports": [
+        "VeyraPadicFamilyIntroduction"
+      ],
+      "declarations": []
+    },
+    {
+      "path": "proofs/lean/VeyraPrimePowerUnbounded.lean",
+      "sha256": "d35ead8dca26e0a07842ad830a143dab36b94b6ff201e79fd16dce9a81305b1c",
+      "imports": [
+        "VeyraPadicFamilyIntroduction"
+      ],
+      "declarations": []
+    },
+    {
+      "path": "proofs/lean/VeyraProbability.lean",
+      "sha256": "b41611ae5d42575211526fd3e9c7fa97b97eb9ab6c47e9b3f2b2dbc8b5f03542",
+      "imports": [],
+      "declarations": []
+    },
+    {
+      "path": "proofs/lean/VeyraProductivityCounterpressure.lean",
+      "sha256": "32ebbb960c6a3091402f3dcddf6753c5cf451a7c98357b68ff08fd13e390fcec",
+      "imports": [
+        "Lean.Elab.Tactic.Omega"
+      ],
+      "declarations": []
+    },
+    {
+      "path": "proofs/lean/VeyraProofElaboration.lean",
+      "sha256": "5d92ed0a5d8fdcca2dd8245b937132854aed463fa4bb9332a0b958193fb0f14d",
+      "imports": [
+        "VeyraElaborationSemantics"
+      ],
+      "declarations": []
+    },
+    {
+      "path": "proofs/lean/VeyraProofKernel.lean",
+      "sha256": "a3a89c7aa52a978cbe3fb7aa5b5089963b7eff61c3ab3f95ff2d38e4cce2bd53",
+      "imports": [
+        "VeyraNativeArithmetic"
+      ],
+      "declarations": []
+    },
+    {
+      "path": "proofs/lean/VeyraProofModeTransport.lean",
+      "sha256": "d9ac930c119f3126a858bf286bee32f4d5b9a3ac3fe8cb297316d9cc10dbcc26",
+      "imports": [
+        "VeyraProofResonance",
+        "VeyraRecurrenceModeBridge"
+      ],
+      "declarations": []
+    },
+    {
+      "path": "proofs/lean/VeyraProofResonance.lean",
+      "sha256": "f4d76b33b25d81140ed262fcf760a800208b495bc3dcb3e62ef4860f15ac3d9d",
+      "imports": [
+        "VeyraProofSoundness"
+      ],
+      "declarations": []
+    },
+    {
+      "path": "proofs/lean/VeyraProofSoundness.lean",
+      "sha256": "225056f1820899edcaebe1d7876f325fcf90903be29c823fede88c1dabb17f14",
+      "imports": [
+        "VeyraProofKernel"
+      ],
+      "declarations": []
+    },
+    {
+      "path": "proofs/lean/VeyraQuantumTensor.lean",
+      "sha256": "8eb44a35151849f36256235aae73390af6371d9ce600a6cdb8391fcb0c1197dd",
+      "imports": [],
+      "declarations": []
+    },
+    {
+      "path": "proofs/lean/VeyraRealizationTransport.lean",
+      "sha256": "6020d7d10f7736ab41084b31592bb1be2104de9ecb5e695c533d50f110225171",
+      "imports": [],
+      "declarations": []
+    },
+    {
+      "path": "proofs/lean/VeyraRecurrenceModeBridge.lean",
+      "sha256": "493e4662e295b526d5bb76b9ca528b834265142e91e0446e98af2b3b102fb16f",
+      "imports": [
+        "VeyraNativeArithmetic",
+        "VeyraIntrinsicRuntime"
+      ],
+      "declarations": []
+    },
+    {
+      "path": "proofs/lean/VeyraStatistics.lean",
+      "sha256": "4e39dea022ec7b268e1a6bb52bda34acc0a7b40d02d730a73570cf60bba006f0",
+      "imports": [],
+      "declarations": []
+    },
+    {
+      "path": "proofs/lean/VeyraStreamCompletion.lean",
+      "sha256": "98a69a3e0d5886ffb4746e9fc203eff515cdeec99d4f5c820fb4ebd8220751cd",
+      "imports": [],
+      "declarations": []
+    },
+    {
+      "path": "proofs/lean/VeyraTransportCoherence.lean",
+      "sha256": "4804c5637e89530a4a00ec6ad905c20d0a93c2b63fb941f1cffc70d7a3c7e395",
+      "imports": [
+        "Std.Tactic"
+      ],
+      "declarations": []
+    }
+  ],
+  "research_sources": [
+    {
+      "path": "experimental/research_lean/VeyraResearchBinomSum.lean",
+      "sha256": "b53f751e3e6022ee0256fed72ba4367b00bcad0036ee06068e7b13100ca9f77c",
+      "imports": [
+        "VeyraResearchCards",
+        "VeyraResearchFermat",
+        "Std.Tactic"
+      ],
+      "declarations": [
+        "RESEARCH_BS_L001_foldl_append",
+        "RESEARCH_BS_L002_foldl_congr",
+        "RESEARCH_BS_L003_foldl_add",
+        "RESEARCH_BS_L004_foldl_mul",
+        "RESEARCH_BS_L005_range_succ",
+        "RESEARCH_BS_L005b_range_succ_head",
+        "RESEARCH_BS_L006_shift_aux",
+        "RESEARCH_BS_L006_shift",
+        "RESEARCH_BS_L007_foldl_dvd",
+        "RESEARCH_BS_L008_foldl_init",
+        "RESEARCH_BS_T001_binomial_sum",
+        "RESEARCH_BS_T002_freshman_dream",
+        "RESEARCH_BS_T003_fermat"
+      ]
+    },
+    {
+      "path": "experimental/research_lean/VeyraResearchCards.lean",
+      "sha256": "d0717cbea372dc07b20acc9c5a4e5d8a985788f115316d4937526d4961bc4e61",
+      "imports": [
+        "VeyraCombinatorics",
+        "VeyraCyclic"
+      ],
+      "declarations": [
+        "RESEARCH_L001_choose_above",
+        "RESEARCH_L002_choose_diag",
+        "RESEARCH_L003_sub_succ",
+        "RESEARCH_L004_sub_eq_zero_of",
+        "RESEARCH_L005_sub_pos",
+        "RESEARCH_T001_choose_sym",
+        "RESEARCH_T005_chord_reflection",
+        "RESEARCH_T006_complement_counts",
+        "RESEARCH_T007_union_counts",
+        "RESEARCH_T008_cross_product_reassociation",
+        "RESEARCH_T009_reflected_period"
+      ]
+    },
+    {
+      "path": "experimental/research_lean/VeyraResearchFermat.lean",
+      "sha256": "04ad4692f74485c4002b865b019ad1a81a2cf18d9daaf4c42b140fb252d2adc1",
+      "imports": [
+        "VeyraResearchCards",
+        "VeyraResearchGcd"
+      ],
+      "declarations": [
+        "RESEARCH_F_L001_choose_one",
+        "RESEARCH_F_L003_succ_mul_add",
+        "RESEARCH_F_T001_step5",
+        "RESEARCH_F_T001_choose_factor",
+        "RESEARCH_F_T002_middle_choose_divisible"
+      ]
+    },
+    {
+      "path": "experimental/research_lean/VeyraResearchFermatCorollary.lean",
+      "sha256": "84b2e15f47942d39196d319a8d9c36fd428c5d41a8353b7642706492191aef0b",
+      "imports": [
+        "VeyraResearchBinomSum",
+        "VeyraResearchGcd"
+      ],
+      "declarations": [
+        "RESEARCH_FC_L001_dvd_sub_of_mod_eq",
+        "RESEARCH_FC_L002_prime_cancel_mod",
+        "RESEARCH_FC_T001_fermat_corollary",
+        "RESEARCH_FC_T002_fermat_corollary_one"
+      ]
+    },
+    {
+      "path": "experimental/research_lean/VeyraResearchGcd.lean",
+      "sha256": "8d926c7649e8bbc05ac44fadabcaa86eadbb5d6a21810687cce9e2b1fa17a091",
+      "imports": [
+        "VeyraResearchPrimes"
+      ],
+      "declarations": [
+        "RESEARCH_G_L001_mod_lt",
+        "RESEARCH_G_L002_gcd_dvd",
+        "RESEARCH_G_L002_gcd_dvd_left",
+        "RESEARCH_G_L003_gcd_dvd_right",
+        "RESEARCH_G_L004_dvd_gcd",
+        "RESEARCH_G_L005_natAbs_ofNat",
+        "RESEARCH_G_T001_bezout",
+        "RESEARCH_G_T002_prime_gcd_one_or_p",
+        "RESEARCH_G_T003_prime_dvd_mul"
+      ]
+    },
+    {
+      "path": "experimental/research_lean/VeyraResearchPrimes.lean",
+      "sha256": "80cf2f3a0c80e097bbb6533900e5a6fcba208e03d61807b24a96107291af2ff9",
+      "imports": [
+        "Std.Tactic"
+      ],
+      "declarations": [
+        "RESEARCH_P_L001_prime_positive",
+        "RESEARCH_P_L002_mem_dvd_listProd",
+        "RESEARCH_P_T001_exists_prime_divisor",
+        "RESEARCH_P_T002_dvd_one_of_dvd_prod_succ",
+        "RESEARCH_P_T003_euclid",
+        "RESEARCH_P_T004_two_prime"
+      ]
+    },
+    {
+      "path": "experimental/research_lean/VeyraResearchPythagorean.lean",
+      "sha256": "42f9d69efbe2aa5f4e1d1b84a0027894c345ad6c5fd36f5de2e2df782628586d",
+      "imports": [
+        "Std.Tactic"
+      ],
+      "declarations": [
+        "RESEARCH_PY_L001_sq_add",
+        "RESEARCH_PY_L002_sq_sub",
+        "RESEARCH_PY_L003_sq_mul_two",
+        "RESEARCH_PY_L004_mul_sq",
+        "RESEARCH_PY_L005_ring_tail",
+        "RESEARCH_PY_T001_pythagorean_triple_formula"
+      ]
+    },
+    {
+      "path": "experimental/research_lean/VeyraResearchShadow.lean",
+      "sha256": "54dabb7955316a8ed4d4b382b3b2566083bc8dc96d58b1d49001dae751514dd6",
+      "imports": [
+        "VeyraNativeArithmetic"
+      ],
+      "declarations": [
+        "RESEARCH_S_T001_stitch_shadows_add",
+        "RESEARCH_S_T002_weave_shadows_mul",
+        "RESEARCH_S_T003_shadow_injective",
+        "RESEARCH_S_T004_stitch_commutes",
+        "RESEARCH_S_T005_stitch_assoc_shadows",
+        "RESEARCH_S_T006_weave_commutes",
+        "RESEARCH_S_T007_weave_assoc_shadows",
+        "RESEARCH_S_T008_weave_distributes",
+        "RESEARCH_S_T009_zero_is_silence",
+        "RESEARCH_S_T010_stitch_units",
+        "RESEARCH_S_T011_weave_units"
+      ]
+    }
+  ],
+  "declaration_count": 65,
+  "headline_declarations": [
+    "RESEARCH_BS_T001_binomial_sum",
+    "RESEARCH_BS_T002_freshman_dream",
+    "RESEARCH_BS_T003_fermat",
+    "RESEARCH_T001_choose_sym",
+    "RESEARCH_T005_chord_reflection",
+    "RESEARCH_T006_complement_counts",
+    "RESEARCH_T007_union_counts",
+    "RESEARCH_T008_cross_product_reassociation",
+    "RESEARCH_T009_reflected_period",
+    "RESEARCH_F_T001_step5",
+    "RESEARCH_F_T001_choose_factor",
+    "RESEARCH_F_T002_middle_choose_divisible",
+    "RESEARCH_FC_T001_fermat_corollary",
+    "RESEARCH_FC_T002_fermat_corollary_one",
+    "RESEARCH_G_T001_bezout",
+    "RESEARCH_G_T002_prime_gcd_one_or_p",
+    "RESEARCH_G_T003_prime_dvd_mul",
+    "RESEARCH_P_T001_exists_prime_divisor",
+    "RESEARCH_P_T002_dvd_one_of_dvd_prod_succ",
+    "RESEARCH_P_T003_euclid",
+    "RESEARCH_P_T004_two_prime",
+    "RESEARCH_PY_T001_pythagorean_triple_formula",
+    "RESEARCH_S_T001_stitch_shadows_add",
+    "RESEARCH_S_T002_weave_shadows_mul",
+    "RESEARCH_S_T003_shadow_injective",
+    "RESEARCH_S_T004_stitch_commutes",
+    "RESEARCH_S_T005_stitch_assoc_shadows",
+    "RESEARCH_S_T006_weave_commutes",
+    "RESEARCH_S_T007_weave_assoc_shadows",
+    "RESEARCH_S_T008_weave_distributes",
+    "RESEARCH_S_T009_zero_is_silence",
+    "RESEARCH_S_T010_stitch_units",
+    "RESEARCH_S_T011_weave_units"
+  ],
+  "headline_claims": {
+    "RESEARCH_BS_T001_binomial_sum": {
+      "statement": "(n : Nat) : ∀ x, (x + 1) ^ n = binomSum n x",
+      "scope": "standalone classical Nat binomial/Fermat identity using local Veyra.Prime",
+      "registry_relation": "No native resonance-prime bridge, THM-F003 promotion, or general two-variable binomial claim."
+    },
+    "RESEARCH_BS_T002_freshman_dream": {
+      "statement": "(p a : Nat) (hp : Prime p) : (a + 1) ^ p % p = (a ^ p + 1) % p",
+      "scope": "standalone classical Nat binomial/Fermat identity using local Veyra.Prime",
+      "registry_relation": "No native resonance-prime bridge, THM-F003 promotion, or general two-variable binomial claim."
+    },
+    "RESEARCH_BS_T003_fermat": {
+      "statement": "(p a : Nat) (hp : Prime p) : a ^ p % p = a % p",
+      "scope": "standalone classical Nat binomial/Fermat identity using local Veyra.Prime",
+      "registry_relation": "No native resonance-prime bridge, THM-F003 promotion, or general two-variable binomial claim."
+    },
+    "RESEARCH_T001_choose_sym": {
+      "statement": "(n : Nat) : ∀ k, k ≤ n → choose n k = choose n (n - k)",
+      "scope": "general Nat choose symmetry",
+      "registry_relation": "Candidate arithmetic adjacency only; no stable B001 promotion."
+    },
+    "RESEARCH_T005_chord_reflection": {
+      "statement": "(m p : Nat) (hp : p ≤ m) : Nat.min p (m - p) = Nat.min (m - p) p ∧ m - (m - p) = p ∧ 4 * p * (m - p) = 4 * (m - p) * (m - (m - p))",
+      "scope": "Nat reflection/product identity",
+      "registry_relation": "No chord geometry, trigonometry, or stable C002 promotion."
+    },
+    "RESEARCH_T006_complement_counts": {
+      "statement": "(t e : Nat) (h : e ≤ t) : (t - e) + e = t",
+      "scope": "Nat subtraction/addition reassembly identity",
+      "registry_relation": "No event space, probability measure, or P001 promotion."
+    },
+    "RESEARCH_T007_union_counts": {
+      "statement": "(a b c : Nat) (ha : c ≤ a) (hb : c ≤ b) : (a - c) + (b - c) + c + c = a + b",
+      "scope": "Nat overlap-count reassembly identity",
+      "registry_relation": "No set union, event space, probability measure, or P002 promotion."
+    },
+    "RESEARCH_T008_cross_product_reassociation": {
+      "statement": "(a b t : Nat) : (a * b) * t = (a * t) * b",
+      "scope": "Nat multiplication reassociation identity",
+      "registry_relation": "No independence semantics, probability law, or P003 promotion."
+    },
+    "RESEARCH_T009_reflected_period": {
+      "statement": "(m p : Nat) (hp : p ≤ m) : (m - p + p) % m = 0",
+      "scope": "Nat reflected-period remainder identity",
+      "registry_relation": "No cyclic geometry or stable C002 promotion."
+    },
+    "RESEARCH_F_T001_step5": {
+      "statement": "(p : Nat) : ∀ k', 0 < k' + 1 → k' + 1 < p → p * (choose (p - 1) k' + choose (p - 1) (k' + 1)) + choose p (k' + 1) = (p + 1) * choose p (k' + 1)",
+      "scope": "standalone classical Nat binomial-divisibility identity using local Veyra.Prime",
+      "registry_relation": "No native resonance-prime bridge or stable theorem promotion."
+    },
+    "RESEARCH_F_T001_choose_factor": {
+      "statement": ": ∀ p k, 0 < k → k ≤ p → k * choose p k = p * choose (p - 1) (k - 1)",
+      "scope": "standalone classical Nat binomial-divisibility identity using local Veyra.Prime",
+      "registry_relation": "No native resonance-prime bridge or stable theorem promotion."
+    },
+    "RESEARCH_F_T002_middle_choose_divisible": {
+      "statement": "(p k : Nat) (hp : Prime p) (h1 : 0 < k) (h2 : k < p) : p ∣ choose p k",
+      "scope": "standalone classical Nat binomial-divisibility identity using local Veyra.Prime",
+      "registry_relation": "No native resonance-prime bridge or stable theorem promotion."
+    },
+    "RESEARCH_FC_T001_fermat_corollary": {
+      "statement": "(p a : Nat) (hp : Prime p) (hpa : ¬ p ∣ a) : a ^ (p - 1) % p = 1 % p",
+      "scope": "standalone classical Nat Fermat corollary using local Veyra.Prime",
+      "registry_relation": "No native resonance-prime bridge or stable theorem promotion."
+    },
+    "RESEARCH_FC_T002_fermat_corollary_one": {
+      "statement": "(p a : Nat) (hp : Prime p) (hpa : ¬ p ∣ a) : a ^ (p - 1) % p = 1",
+      "scope": "standalone classical Nat Fermat corollary using local Veyra.Prime",
+      "registry_relation": "No native resonance-prime bridge or stable theorem promotion."
+    },
+    "RESEARCH_G_T001_bezout": {
+      "statement": ": ∀ a b, ∃ x y : Int, (gcd a b : Int) = (a : Int) * x + (b : Int) * y",
+      "scope": "standalone classical Nat/Int gcd and Euclid identity using local Veyra.Prime",
+      "registry_relation": "No native resonance-prime bridge or stable theorem promotion."
+    },
+    "RESEARCH_G_T002_prime_gcd_one_or_p": {
+      "statement": "(p a : Nat) (hp : Prime p) : gcd p a = 1 ∨ gcd p a = p",
+      "scope": "standalone classical Nat/Int gcd and Euclid identity using local Veyra.Prime",
+      "registry_relation": "No native resonance-prime bridge or stable theorem promotion."
+    },
+    "RESEARCH_G_T003_prime_dvd_mul": {
+      "statement": "(p a b : Nat) (hp : Prime p) (h : p ∣ a * b) : p ∣ a ∨ p ∣ b",
+      "scope": "standalone classical Nat/Int gcd and Euclid identity using local Veyra.Prime",
+      "registry_relation": "No native resonance-prime bridge or stable theorem promotion."
+    },
+    "RESEARCH_P_T001_exists_prime_divisor": {
+      "statement": ": ∀ n, 2 ≤ n → ∃ p, Prime p ∧ p ∣ n",
+      "scope": "standalone classical Nat prime identity using local Veyra.Prime",
+      "registry_relation": "No native resonance-prime bridge or stable theorem promotion."
+    },
+    "RESEARCH_P_T002_dvd_one_of_dvd_prod_succ": {
+      "statement": "(L : List Nat) (q : Nat) : q ∣ listProd L → q ∣ listProd L + 1 → q ∣ 1",
+      "scope": "standalone classical Nat prime identity using local Veyra.Prime",
+      "registry_relation": "No native resonance-prime bridge or stable theorem promotion."
+    },
+    "RESEARCH_P_T003_euclid": {
+      "statement": "(L : List Nat) (hL : ∀ p ∈ L, Prime p) : ∃ q, Prime q ∧ ∀ p ∈ L, q ≠ p",
+      "scope": "standalone classical Nat prime identity using local Veyra.Prime",
+      "registry_relation": "No native resonance-prime bridge or stable theorem promotion."
+    },
+    "RESEARCH_P_T004_two_prime": {
+      "statement": ": Prime 2",
+      "scope": "standalone classical Nat prime identity using local Veyra.Prime",
+      "registry_relation": "No native resonance-prime bridge or stable theorem promotion."
+    },
+    "RESEARCH_PY_T001_pythagorean_triple_formula": {
+      "statement": "(m n : Int) : (m * m - n * n) * (m * m - n * n) + (2 * m * n) * (2 * m * n) = (m * m + n * n) * (m * m + n * n)",
+      "scope": "standalone algebraic identity over Int",
+      "registry_relation": "No primitivity, converse, geometric classification, or stable THM_G001 promotion."
+    },
+    "RESEARCH_S_T001_stitch_shadows_add": {
+      "statement": "(a b : Nat) : stitch (shadow a) (shadow b) = shadow (a + b)",
+      "scope": "unary Recurrence pulse/silence image law",
+      "registry_relation": "No AX-007/LEM-001 Mode bridge; THM-001..003 and W-001 remain open."
+    },
+    "RESEARCH_S_T002_weave_shadows_mul": {
+      "statement": "(a b : Nat) : weave (shadow a) (shadow b) = shadow (a * b)",
+      "scope": "unary Recurrence pulse/silence image law",
+      "registry_relation": "No AX-007/LEM-001 Mode bridge; THM-001..003 and W-001 remain open."
+    },
+    "RESEARCH_S_T003_shadow_injective": {
+      "statement": ": Function.Injective shadow",
+      "scope": "unary Recurrence pulse/silence image law",
+      "registry_relation": "No AX-007/LEM-001 Mode bridge; THM-001..003 and W-001 remain open."
+    },
+    "RESEARCH_S_T004_stitch_commutes": {
+      "statement": "(a b : Nat) : stitch (shadow a) (shadow b) = stitch (shadow b) (shadow a)",
+      "scope": "unary Recurrence pulse/silence image law",
+      "registry_relation": "No AX-007/LEM-001 Mode bridge; THM-001..003 and W-001 remain open."
+    },
+    "RESEARCH_S_T005_stitch_assoc_shadows": {
+      "statement": "(a b c : Nat) : stitch (stitch (shadow a) (shadow b)) (shadow c) = stitch (shadow a) (stitch (shadow b) (shadow c))",
+      "scope": "unary Recurrence pulse/silence image law",
+      "registry_relation": "No AX-007/LEM-001 Mode bridge; THM-001..003 and W-001 remain open."
+    },
+    "RESEARCH_S_T006_weave_commutes": {
+      "statement": "(a b : Nat) : weave (shadow a) (shadow b) = weave (shadow b) (shadow a)",
+      "scope": "unary Recurrence pulse/silence image law",
+      "registry_relation": "No AX-007/LEM-001 Mode bridge; THM-001..003 and W-001 remain open."
+    },
+    "RESEARCH_S_T007_weave_assoc_shadows": {
+      "statement": "(a b c : Nat) : weave (weave (shadow a) (shadow b)) (shadow c) = weave (shadow a) (weave (shadow b) (shadow c))",
+      "scope": "unary Recurrence pulse/silence image law",
+      "registry_relation": "No AX-007/LEM-001 Mode bridge; THM-001..003 and W-001 remain open."
+    },
+    "RESEARCH_S_T008_weave_distributes": {
+      "statement": "(a b c : Nat) : weave (shadow a) (stitch (shadow b) (shadow c)) = stitch (weave (shadow a) (shadow b)) (weave (shadow a) (shadow c))",
+      "scope": "unary Recurrence pulse/silence image law",
+      "registry_relation": "No AX-007/LEM-001 Mode bridge; THM-001..003 and W-001 remain open."
+    },
+    "RESEARCH_S_T009_zero_is_silence": {
+      "statement": ": shadow 0 = Recurrence.silence",
+      "scope": "unary Recurrence pulse/silence image law",
+      "registry_relation": "No AX-007/LEM-001 Mode bridge; THM-001..003 and W-001 remain open."
+    },
+    "RESEARCH_S_T010_stitch_units": {
+      "statement": "(a : Nat) : stitch (shadow 0) (shadow a) = shadow a ∧ stitch (shadow a) (shadow 0) = shadow a",
+      "scope": "unary Recurrence pulse/silence image law",
+      "registry_relation": "No AX-007/LEM-001 Mode bridge; THM-001..003 and W-001 remain open."
+    },
+    "RESEARCH_S_T011_weave_units": {
+      "statement": "(a : Nat) : weave (shadow 1) (shadow a) = shadow a ∧ weave (shadow a) (shadow 1) = shadow a",
+      "scope": "unary Recurrence pulse/silence image law",
+      "registry_relation": "No AX-007/LEM-001 Mode bridge; THM-001..003 and W-001 remain open."
+    }
+  },
+  "axiom_closure": {
+    "RESEARCH_BS_L001_foldl_append": [
+      "propext"
+    ],
+    "RESEARCH_BS_L002_foldl_congr": [],
+    "RESEARCH_BS_L003_foldl_add": [
+      "propext",
+      "Quot.sound"
+    ],
+    "RESEARCH_BS_L004_foldl_mul": [
+      "propext"
+    ],
+    "RESEARCH_BS_L005_range_succ": [
+      "propext"
+    ],
+    "RESEARCH_BS_L005b_range_succ_head": [
+      "propext"
+    ],
+    "RESEARCH_BS_L006_shift_aux": [
+      "propext",
+      "Quot.sound"
+    ],
+    "RESEARCH_BS_L006_shift": [
+      "propext",
+      "Quot.sound"
+    ],
+    "RESEARCH_BS_L007_foldl_dvd": [
+      "propext"
+    ],
+    "RESEARCH_BS_L008_foldl_init": [
+      "propext",
+      "Quot.sound"
+    ],
+    "RESEARCH_BS_T001_binomial_sum": [
+      "propext",
+      "Quot.sound"
+    ],
+    "RESEARCH_BS_T002_freshman_dream": [
+      "propext",
+      "Quot.sound"
+    ],
+    "RESEARCH_BS_T003_fermat": [
+      "propext",
+      "Quot.sound"
+    ],
+    "RESEARCH_L001_choose_above": [],
+    "RESEARCH_L002_choose_diag": [],
+    "RESEARCH_L003_sub_succ": [
+      "propext"
+    ],
+    "RESEARCH_L004_sub_eq_zero_of": [
+      "propext"
+    ],
+    "RESEARCH_L005_sub_pos": [
+      "propext"
+    ],
+    "RESEARCH_T001_choose_sym": [
+      "propext"
+    ],
+    "RESEARCH_T005_chord_reflection": [
+      "propext"
+    ],
+    "RESEARCH_T006_complement_counts": [
+      "propext"
+    ],
+    "RESEARCH_T007_union_counts": [
+      "propext",
+      "Quot.sound"
+    ],
+    "RESEARCH_T008_cross_product_reassociation": [
+      "propext"
+    ],
+    "RESEARCH_T009_reflected_period": [
+      "propext"
+    ],
+    "RESEARCH_F_L001_choose_one": [],
+    "RESEARCH_F_L003_succ_mul_add": [
+      "propext"
+    ],
+    "RESEARCH_F_T001_step5": [
+      "propext"
+    ],
+    "RESEARCH_F_T001_choose_factor": [
+      "propext"
+    ],
+    "RESEARCH_F_T002_middle_choose_divisible": [
+      "propext",
+      "Quot.sound"
+    ],
+    "RESEARCH_FC_L001_dvd_sub_of_mod_eq": [
+      "propext"
+    ],
+    "RESEARCH_FC_L002_prime_cancel_mod": [
+      "propext",
+      "Quot.sound"
+    ],
+    "RESEARCH_FC_T001_fermat_corollary": [
+      "propext",
+      "Quot.sound"
+    ],
+    "RESEARCH_FC_T002_fermat_corollary_one": [
+      "propext",
+      "Quot.sound"
+    ],
+    "RESEARCH_G_L001_mod_lt": [
+      "propext"
+    ],
+    "RESEARCH_G_L002_gcd_dvd": [
+      "propext",
+      "Quot.sound"
+    ],
+    "RESEARCH_G_L002_gcd_dvd_left": [
+      "propext",
+      "Quot.sound"
+    ],
+    "RESEARCH_G_L003_gcd_dvd_right": [
+      "propext",
+      "Quot.sound"
+    ],
+    "RESEARCH_G_L004_dvd_gcd": [
+      "propext",
+      "Quot.sound"
+    ],
+    "RESEARCH_G_L005_natAbs_ofNat": [
+      "propext"
+    ],
+    "RESEARCH_G_T001_bezout": [
+      "propext",
+      "Quot.sound"
+    ],
+    "RESEARCH_G_T002_prime_gcd_one_or_p": [
+      "propext",
+      "Quot.sound"
+    ],
+    "RESEARCH_G_T003_prime_dvd_mul": [
+      "propext",
+      "Quot.sound"
+    ],
+    "RESEARCH_P_L001_prime_positive": [],
+    "RESEARCH_P_L002_mem_dvd_listProd": [
+      "propext"
+    ],
+    "RESEARCH_P_T001_exists_prime_divisor": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "RESEARCH_P_T002_dvd_one_of_dvd_prod_succ": [
+      "propext"
+    ],
+    "RESEARCH_P_T003_euclid": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "RESEARCH_P_T004_two_prime": [
+      "propext"
+    ],
+    "RESEARCH_PY_L001_sq_add": [
+      "propext",
+      "Quot.sound"
+    ],
+    "RESEARCH_PY_L002_sq_sub": [
+      "propext",
+      "Quot.sound"
+    ],
+    "RESEARCH_PY_L003_sq_mul_two": [
+      "propext"
+    ],
+    "RESEARCH_PY_L004_mul_sq": [
+      "propext"
+    ],
+    "RESEARCH_PY_L005_ring_tail": [
+      "propext",
+      "Quot.sound"
+    ],
+    "RESEARCH_PY_T001_pythagorean_triple_formula": [
+      "propext",
+      "Quot.sound"
+    ],
+    "RESEARCH_S_T001_stitch_shadows_add": [],
+    "RESEARCH_S_T002_weave_shadows_mul": [],
+    "RESEARCH_S_T003_shadow_injective": [],
+    "RESEARCH_S_T004_stitch_commutes": [],
+    "RESEARCH_S_T005_stitch_assoc_shadows": [],
+    "RESEARCH_S_T006_weave_commutes": [],
+    "RESEARCH_S_T007_weave_assoc_shadows": [
+      "propext"
+    ],
+    "RESEARCH_S_T008_weave_distributes": [],
+    "RESEARCH_S_T009_zero_is_silence": [],
+    "RESEARCH_S_T010_stitch_units": [],
+    "RESEARCH_S_T011_weave_units": []
+  },
+  "source_roots": {
+    "base": "76b80b19ef179fe66ea3bb55883ff9721bfe466b32574e97a1d9a5f16147bd2e",
+    "research": "9c38a3d665774ec860fff1ca79d1280500df3554df266d7288c3de6208e14514"
+  },
+  "proof_root": "212ca6259c52d023fedddc785fc7f77f2968b92dd7d427c5b0ea9742e529f22d"
+}

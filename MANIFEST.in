@@ -1,9 +1,9 @@
 include CHANGELOG.md CITATION.cff CODE_OF_CONDUCT.md CONTRIBUTING.md LICENSE
-include Makefile NOTATION.md README.md SECURITY.md THEOREMS.md environment.yml
+include Makefile NOTATION.md README.md SECURITY.md THEOREMS.md environment.yml lean-toolchain
 include pyproject.toml
 recursive-include .github *.yml
 recursive-include docs *.md
-recursive-include experimental *.md *.py *.ini
+recursive-include experimental *.md *.py *.ini *.lean *.json
 recursive-include notebooks *.md
 recursive-include requirements *.txt
 recursive-include proofs *.md *.lean *.tex

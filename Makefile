@@ -11,7 +11,7 @@ RUST_TEST_CARGO ?= $(CARGO) +1.95.0
 LEAN_JOBS ?= 8
 ACTIVE_IGNORE ?=
 
-.PHONY: help status lint test cert sage-smoke sage-required sage-doctest rust lean package-smoke portable hygiene diff-check verify omegaa-collect tables notebooks
+.PHONY: help status lint test cert sage-smoke sage-required sage-doctest rust lean research-lean package-smoke portable hygiene diff-check verify omegaa-collect tables notebooks
 
 help:
 	@printf '%s\n' \
@@ -32,6 +32,7 @@ help:
 	  '  make verify        Run the complete Linux source lane' \
 	  '' \
 	  'Experimental (not part of make verify):' \
+	  '  make research-lean  Freshly verify the manifest-bound research Lean candidate' \
 	  '  make omegaa-collect  Collect isolated Omega-A tests without running them' \
 	  '' \
 	  'Artifacts:' \
@@ -79,6 +80,10 @@ rust:
 lean:
 	@echo '[1/1] Compiling the complete pinned Lean source graph'
 	@$(PYTHON) scripts/check_lean_sources.py --jobs $(LEAN_JOBS)
+
+research-lean:
+	@echo '[1/1] Freshly compiling the manifest-bound research Lean candidate'
+	@$(PYTHON) scripts/check_research_lean.py --jobs $(LEAN_JOBS)
 
 package-smoke:
 	@echo '[1/1] Building and inspecting Python distributions'

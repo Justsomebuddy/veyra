@@ -12,6 +12,58 @@ permissions:
   contents: read
 
 jobs:
+  research-lean:
+    name: Research Lean candidate / exact toolchain
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.11.14"
+      - name: Verify exact checkout identity
+        env:
+          EXPECTED_WORKFLOW_SHA: ${{ github.sha }}
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$EXPECTED_WORKFLOW_SHA"
+          test -z "$(git status --porcelain --untracked-files=all)"
+          printf '[attest] workflow_sha=%s clean=yes\n' "$EXPECTED_WORKFLOW_SHA"
+      - name: Install hash-pinned Lean archive
+        env:
+          LEAN_ARCHIVE_SHA256: 5b51625f154f0a13b37bd892f1d95f79e9fd5b9f0d095b4126215ee2bc8dbe86
+          LEAN_ARCHIVE_URL: https://github.com/leanprover/lean4/releases/download/v4.30.0-rc2/lean-4.30.0-rc2-linux.tar.zst
+        run: |
+          set -euo pipefail
+          archive="$RUNNER_TEMP/lean-4.30.0-rc2-linux.tar.zst"
+          curl --proto '=https' --tlsv1.2 --fail --location --retry 3 \
+            --progress-bar --output "$archive" "$LEAN_ARCHIVE_URL"
+          printf '%s  %s\n' "$LEAN_ARCHIVE_SHA256" "$archive" | sha256sum --check --strict
+          tar --zstd -xf "$archive" -C "$RUNNER_TEMP"
+          lean_root="$RUNNER_TEMP/lean-4.30.0-rc2-linux"
+          test -x "$lean_root/bin/lean"
+          printf '%s\n' "$lean_root/bin" >> "$GITHUB_PATH"
+          "$lean_root/bin/lean" --version
+      - name: Install exact hosted verification tools
+        run: python -m pip install --no-deps --requirement requirements/ci-py311.txt
+      - name: Verify research checker policy
+        env:
+          PYTEST_DISABLE_PLUGIN_AUTOLOAD: "1"
+        run: >-
+          python -m ruff check scripts/check_research_lean.py tests/test_check_research_lean.py
+          && python -m pytest -q -p no:cacheprovider tests/test_check_research_lean.py
+      - name: Fresh research Lean verification
+        env:
+          EXPECTED_WORKFLOW_SHA: ${{ github.sha }}
+        run: |
+          set -euo pipefail
+          make research-lean LEAN_JOBS=8
+          test "$(git rev-parse HEAD)" = "$EXPECTED_WORKFLOW_SHA"
+          test -z "$(git status --porcelain --untracked-files=all)"
+          printf '[attest] workflow_sha=%s clean=yes postcheck=yes\n' "$EXPECTED_WORKFLOW_SHA"
+
   python:
     name: Portable Python ${{ matrix.python }} / ${{ matrix.os }}
     runs-on: ${{ matrix.os }}

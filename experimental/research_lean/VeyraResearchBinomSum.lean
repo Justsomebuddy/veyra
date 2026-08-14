@@ -4,8 +4,10 @@ import Std.Tactic
 
 namespace Veyra
 
-/- Binomial theorem as a sum identity and the unbounded Fermat little
-theorem, mathlib-free. This is the last structural piece of the campaign.
+/- Classical Nat binomial and Fermat-little-theorem identities.
+
+The local `Prime` predicate is not a Veyra resonance-prime bridge, so these
+results do not close the native number-theory repair track.
 -/
 
 def binomSum (n x : Nat) : Nat :=

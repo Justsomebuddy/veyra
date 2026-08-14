@@ -225,16 +225,39 @@ def test_hosted_matrix_is_fixed_bounded_and_immutable():
     assert uses and all(re.fullmatch(r"[0-9a-f]{40}", revision) for revision in uses)
     assert workflow.count(
         "actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1"
-    ) == 3
+    ) == 4
     assert workflow.count(
         "actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0"
-    ) == 2
-    assert workflow.count("persist-credentials: false") == 3
+    ) == 3
+    assert workflow.count("persist-credentials: false") == 4
+    assert "leanprover/lean-action" not in workflow
+    assert "5b51625f154f0a13b37bd892f1d95f79e9fd5b9f0d095b4126215ee2bc8dbe86" in workflow
+    assert "lean-4.30.0-rc2-linux.tar.zst" in workflow
+    assert "sha256sum --check --strict" in workflow
+    assert "make research-lean LEAN_JOBS=8" in workflow
+    assert workflow.count('test "$(git rev-parse HEAD)" = "$EXPECTED_WORKFLOW_SHA"') == 2
+    assert (ROOT / "lean-toolchain").read_text(encoding="utf-8") == (
+        "leanprover/lean4:v4.30.0-rc2\n"
+    )
     assert re.search(r"(?m)^permissions:\n  contents: read$", workflow)
     assert "11bd71901bbe5b1630ceea73d27597364c9af683" not in workflow
     assert "42375524e23c412d93fb67b49958b491fce71c38" not in workflow
     assert "pull_request_target" not in workflow
     logger.debug("test hosted matrix contract exit actions=%d", len(uses))
+
+
+def test_research_lean_is_sdist_only_and_portably_policy_tested():
+    """Candidate sources ship in sdists, never wheels, and retain policy tests."""
+    logger.debug("test research Lean packaging boundary entry")
+    manifest = (ROOT / "MANIFEST.in").read_text(encoding="utf-8")
+    package_smoke = (ROOT / "scripts/package_smoke.py").read_text(encoding="utf-8")
+    portable = next(step for step in portable_steps() if step.name == "Portable pytest")
+    assert "recursive-include experimental *.md *.py *.ini *.lean *.json" in manifest
+    assert "lean-toolchain" in manifest
+    assert '"experimental/research_lean/"' in package_smoke
+    assert '"experimental/"' in package_smoke
+    assert "tests/test_check_research_lean.py" in portable.command
+    logger.debug("test research Lean packaging boundary exit")
 
 
 def test_ci_requirement_rows_are_exact_and_unique():

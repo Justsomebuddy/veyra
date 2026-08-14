@@ -175,6 +175,13 @@ or imported-module dependencies, and its source location. A dependency entry of
 | `THM_P3C2_002_natop_reduction_identity` | `theorem` | `FORMALLY_PROVED` | imports `Std.Tactic` | `proofs/lean/VeyraTransportCoherence.lean:136` |
 | `THM_P3C2_003_natop_reduction_composition` | `theorem` | `FORMALLY_PROVED` | imports `Std.Tactic` | `proofs/lean/VeyraTransportCoherence.lean:141` |
 
+## Experimental research appendix
+
+The 65 declarations in `experimental/research_lean/manifest.json` are a
+separate `INTERNAL_RESEARCH_CANDIDATE` appendix, not stable theorem rows. Their
+exact digests, import graph, toolchain commit, and axiom closures are checked by
+`make research-lean`; THM-001–003 and all X8 statuses below are unchanged.
+
 ## Stable nonformal and bounded theorem-card status
 
 | ID family | Status | Dependencies | Evidence | Exact boundary |

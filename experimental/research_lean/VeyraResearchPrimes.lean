@@ -2,12 +2,11 @@ import Std.Tactic
 
 namespace Veyra
 
-/- General prime-number theory on Nat, mathlib-free.
+/- Classical prime-number theory over Nat using the local predicate below.
 
-The pinned tree registers only fixed finite cards (THM_F002_euclid_escape_mod).
-This module proves the general laws: every number above one has a prime
-divisor, Euclid's product-plus-one argument, and the classical consequence
-that every finite list of primes misses a prime. No axioms are added.
+These declarations do not identify this predicate with Veyra resonance-prime
+or numeric-prime modes and do not close the native number-theory repair track.
+The checker reports dependency closure separately from source compilation.
 -/
 
 def Prime (n : Nat) : Prop := 2 ≤ n ∧ ∀ d, d ∣ n → d = 1 ∨ d = n

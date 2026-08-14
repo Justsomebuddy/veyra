@@ -55,3 +55,11 @@ complete registry; no local history is required.
   independent-null retry inflation witness. Its Python/Sage arithmetic is
   executable counterpressure, not a registered theorem, verified adaptive
   policy, significance license, or population claim.
+
+## Experimental research Lean appendix
+
+The eight files under `experimental/research_lean/` contain 65 manifest-bound
+declarations with status `INTERNAL_RESEARCH_CANDIDATE`. They are not stable
+registry IDs, do not change any X8 card, and do not promote THM-001–003 from
+`CONJECTURE`. Their exact observed axiom closure is in the candidate manifest;
+compilation is not public validation or a native Veyra proof.

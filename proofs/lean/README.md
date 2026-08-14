@@ -2,6 +2,11 @@
 
 This directory contains 48 Lean source modules. The table is exhaustive: status refers to the public claim supported by the source, not merely to the presence of compilable declarations. Exact released declaration locations and dependencies are listed in `../../THEOREMS.md`.
 
+The separate [`experimental/research_lean/`](../../experimental/research_lean/)
+candidate is not a 49th stable module. Its eight files and 65 declarations are
+manifest-bound and freshly checked by `make research-lean`, but retain
+`INTERNAL_RESEARCH_CANDIDATE` status and do not alter this inventory.
+
 ## Status vocabulary
 
 - `FORMALLY_PROVED` — the listed theorem or lemma has a Lean proof in this tree.
