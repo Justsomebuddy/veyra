@@ -228,14 +228,31 @@ def _branch_trace_validated(
     """Run a trace over already validated source, seed, state, and input."""
     logger.debug("p3og.internal.branch_trace entry")
     state, coupling_receipt = _couple_validated(source, seed, initial, input_value)
+    result = _branch_trace_from_coupling_validated(
+        source, seed, initial, state, coupling_receipt,
+    )
+    logger.debug("p3og.internal.branch_trace exit boundary=%s", result.final_state.boundary.value)
+    return result
+
+
+def _branch_trace_from_coupling_validated(
+    source: P3OGSource, seed: PrimitiveModeSeed, initial: CandidateMachineState,
+    coupled: CandidateMachineState, coupling_receipt: CouplingReceipt,
+) -> BranchTrace:
+    """Continue one fixed suffix from an already accepted coupling probe."""
+    logger.debug("p3og.internal.branch_trace_from_coupling entry")
+    state = coupled
     receipts = []
     for kind in source.suffix:
         state, receipt = _transition_validated(source, seed, state, kind)
         receipts.append(receipt)
     fields = (
-        input_value, initial.maintenance_control, coupling_receipt, tuple(receipts),
-        state,
+        coupling_receipt.input_value, initial.maintenance_control,
+        coupling_receipt, tuple(receipts), state,
     )
     result = BranchTrace(*fields, digest("branch-trace", *fields))
-    logger.debug("p3og.internal.branch_trace exit boundary=%s", state.boundary.value)
+    logger.debug(
+        "p3og.internal.branch_trace_from_coupling exit boundary=%s",
+        state.boundary.value,
+    )
     return result

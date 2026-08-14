@@ -1,5 +1,35 @@
 # P3-OG Machine-Pressure Module Log
 
+## 0.1.1 — 2026-08-14
+
+### Matched maintenance-control coupling — fail-closed paired evidence
+- **Type:** 🐛 Fix / 🔒 Security
+- **Files:** `src/core/prime_power_observer_genesis_p3og_runtime.py`,
+  `src/core/prime_power_observer_genesis_p3og_machine_internal.py`,
+  `tests/test_prime_power_observer_genesis_p3og.py`,
+  `tests/test_prime_power_observer_genesis_p3og_adversarial.py`
+- **What:** Added a schema-derived semantic state projection excluding only the
+  maintenance flag and state digest, then gated both calibration inputs on
+  expected flags, equal responses/states, exact bounded receipt scalars, and
+  exact input/state-link/receipt digests. Accepted precomputed coupling outputs
+  now continue through the shared suffix helper without recoupling. Added
+  baseline-byte pins plus response, semantic-state, flag, right-arm, priority,
+  malformed-output, hostile-scalar, broken-link, and future-field regressions.
+- **Why:** Ensure the active/control arms remain matched at the coupling
+  boundary and fail narrowly as `matched-control-coupling-drift` before any
+  downstream reason, including under future coupling/state refactors.
+- **Module version:** 0.1.0 → 0.1.1
+
+### Public finite-slice wording — matched-coupling boundary
+- **Type:** 📝 Documentation
+- **Files:** `CHANGELOG.md`,
+  `docs/168_endogenous_arithmetic_observer_p3og.md`, module memory/log
+- **What:** Documented the paired-coupling gate and unchanged byte/status/export/
+  theorem/nonclaim boundaries without altering the facade or public schemas.
+- **Why:** Keep the executable finite pressure claim and its public limitations
+  synchronized.
+- **Module version:** 0.1.1
+
 ## 0.1.0 — 2026-08-13
 
 ### Flat P3-OG module family — bounded candidate integration

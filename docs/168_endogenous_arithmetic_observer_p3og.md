@@ -57,6 +57,14 @@ finite machine experiment:
 - a retained finite residue affects a later `ADVANCE` phase, while native
   maintenance-credit reset/decay is compared with a synthetic pre-coupling
   maintenance-flag control under the same externally driven suffix;
+- before suffix execution, both calibration inputs must produce the same
+  response and the same semantic post-coupling state on the active and disabled
+  arms. The semantic projection is derived from the state schema and excludes
+  only `maintenance_control` and `state_digest`, so future semantic fields are
+  compared by default. Expected flags and exact input, state-link, and digest-
+  bound receipts are also required; the accepted precomputed coupling evidence
+  feeds the suffix trace directly. Any mismatch refutes the candidate as
+  `matched-control-coupling-drift` before downstream discrimination;
 - exact bounded replay validation rejects structural/source/result drift, keeps
   role status `OPEN`, and keeps promotions at zero; the accepted 64-candidate by
   64-step envelope executes under separate fixed source and evidence budgets;

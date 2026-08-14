@@ -1,6 +1,14 @@
 # Changelog
 
 ## [Unreleased] — Changed
+- Hardened P3-OG matched maintenance-control pressure before suffix execution:
+  both calibration inputs now require expected active/disabled flags, equal
+  coupling responses, equal schema-derived semantic state excluding only the
+  control flag and state digest, and exact input/link/digest-bound receipts.
+  Accepted precomputed couplings feed the suffix traces without a second
+  coupling call; any mismatch refutes with `matched-control-coupling-drift`
+  before downstream discrimination. DTO/report bytes, exports, candidate
+  status, nonclaims, theorem/notation ledgers, and promotion count are unchanged.
 - Added an isolated P3-OG all-candidate machine-pressure research slice with a
   nonce-free canonical selector, bounded retained-residue transitions, native
   maintenance-credit decay, a synthetic pre-coupling maintenance control, and
