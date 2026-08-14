@@ -87,7 +87,21 @@ machine/report bytes:
   selected-seed receipt, not a caller-chosen candidate or closure target;
 - a passing endpoint binds to the existing operational `ALIVE` pressure-entry
   state digest, but the binding is fresh checker replay, not historical
-  authentication, event creation, or observer authority.
+  authentication, event creation, observer authority, or a theorem that the
+  raw-cycle return predicate is invariant under operational machine semantics.
+
+The terminal seed coordinate exposes the distinction. The low-level
+operational machine reads `cycle[:-1]`: its response lookup and `ADVANCE`
+period are unchanged between `(0,1,0)` and `(0,1,2)`, and `MAINTAIN`/`IDLE`
+do not inspect cycle values. Across the fixed bounded input/schedule regression,
+those words therefore have the same response and semantic state evolution once
+source/seed identity digests are excluded. The lifecycle lane intentionally
+reads the full committed word: the first is `WITNESSED` at index 2 and the
+second is `REFUTED`. Thus `pressure_entry_state_digest` is an exact identity and
+replay link for witnessed evidence, not an operational-representation-
+invariance result. Any future semantic formation layer must define and validate
+its own native transition-state closure contract rather than reinterpret this
+raw-cycle v1 evidence.
 
 This establishes only a bounded linear first-return **pressure analogue**. The
 operational pressure machine still begins `ALIVE`; the new lane is not a typed
@@ -305,7 +319,8 @@ No P3-OG result may claim necessity of this observer criterion, universal
 observer genesis, arbitrary refinement, observer-independent identity,
 consciousness, biological or physical emergence, free will, absolute causation,
 metaphysical being, object adoption, p-adic carrier formation, completed infinity,
-or promotion of N0/HAP/P3-OG into one theorem.
+operational representation invariance for raw-cycle lifecycle evidence, or
+promotion of N0/HAP/P3-OG into one theorem.
 ## 9. Release threshold
 Before any public theorem status:
 1. definitions and exact theorem statements exist in Lean or another declared

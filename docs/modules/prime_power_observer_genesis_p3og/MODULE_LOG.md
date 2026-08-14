@@ -1,5 +1,30 @@
 # P3-OG Machine-Pressure Module Log
 
+## 0.2.1 — 2026-08-14
+
+### Raw-cycle versus operational semantics — explicit nonclaim regression
+- **Type:** 🐛 Fix / 📝 Documentation
+- **Files:** `tests/test_prime_power_observer_genesis_p3og_lifecycle.py`,
+  `docs/168_endogenous_arithmetic_observer_p3og.md`, active registry,
+  API/index/changelog and module memory
+- **What:** Pinned `(0,1,0)` versus `(0,1,2)`: all 41 tested low-level coupling
+  responses and fixed-schedule semantic state transitions agree after
+  source/seed identity is excluded, while the full-word lifecycle judgments are
+  respectively witnessed and refuted. The complete pressure runtime remains
+  distinct and rejects the second word at its explicit terminal-recurrence
+  gate. Documented the pressure-entry digest as identity/replay binding, not
+  operational representation invariance.
+- **Why:** Close issue #46's valid semantic-boundary gap before any future role
+  consumer can misread raw-cycle v1 evidence as a machine-semantic property.
+- **Verification:** Focused P3-OG tests pass `121/121`; package/path policy tests
+  pass `26/26`; Ruff, formatting, PyCompile, hygiene `1756/0`, diff and
+  non-echoing publication-safety gates pass. The portable pytest stage passes;
+  local package smoke remains `UNAVAILABLE` because setuptools 80.10.2 is below
+  the declared `>=83,<84` build floor, so hosted CI must supply that clean gate.
+  Independent final review is GO with blocker/high/medium/low `0/0/0/0`. Full
+  `make verify` was not run.
+- **Module version:** 0.2.0 → 0.2.1
+
 ## 0.2.0 — 2026-08-14
 
 ### Raw-cycle first-return pressure — authority-free bounded genealogy analogue

@@ -11,7 +11,11 @@
   binds only to the existing operational `ALIVE` pressure-entry digest. This is
   not a typed history, primitive genealogy, full first-closure judgment, role,
   birth/token, admission, N0/HAP bridge, theorem, certificate, physical claim,
-  or promotion.
+  or promotion. A fixed `(0,1,0)` versus `(0,1,2)` regression now makes the
+  raw-representation boundary explicit: the low-level machine has equal
+  response/state semantics modulo identity, while lifecycle first-return
+  statuses differ. The pressure-entry digest is therefore documented only as
+  an identity/replay link, never an operational-representation-invariance claim.
 - Made the proof-core canonical JSON boundary strict: Python tuples are now
   rejected at every nesting depth instead of being silently serialized as JSON
   arrays, and all reviewed Core callers explicitly materialize intended arrays

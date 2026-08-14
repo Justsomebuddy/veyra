@@ -2,7 +2,7 @@
 
 ## Scope and status
 
-- **Version:** 0.2.0
+- **Version:** 0.2.1
 - **Facade:** `src.core.prime_power_observer_genesis_p3og`
 - **Lifecycle facade:** `src.core.prime_power_observer_genesis_p3og_lifecycle`
 - The implementation is an isolated, non-root-exported finite research
@@ -37,7 +37,11 @@
   at the least return after a genuine departure, and binds a passing endpoint
   only to the operational pressure-entry digest. It is fresh drift-checking
   pressure, not historical authentication, primitive genealogy, full
-  `FirstClosure`, role, token, admission, or HAP/N0 evidence.
+  `FirstClosure`, role, token, admission, or HAP/N0 evidence. It is also not
+  invariant under the operational machine's `cycle[:-1]` semantics: terminal-
+  coordinate mutations can preserve operational response/state evolution while
+  changing the raw-word first-return result. The entry digest binds identity
+  and replay only; it does not prove semantic invariance.
 - Keep `P3OG_NONCLAIMS`, the candidate status, and future obligations unchanged
   unless a separate proof-bearing design explicitly discharges them.
 

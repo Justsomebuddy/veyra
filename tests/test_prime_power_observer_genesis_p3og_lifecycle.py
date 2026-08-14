@@ -11,6 +11,7 @@ import src.core.prime_power_observer_genesis_p3og as pressure_facade
 import src.core.prime_power_observer_genesis_p3og_lifecycle as lifecycle_facade
 from src.core.prime_power_observer_genesis_p3og import (
     P3OG_NONCLAIMS,
+    PressureStatus,
     TransitionKind,
     deterministic_select,
     p3og_source,
@@ -31,7 +32,12 @@ from src.core.prime_power_observer_genesis_p3og_lifecycle import (
 from src.core.prime_power_observer_genesis_p3og_lifecycle_codec import (
     lifecycle_digest,
 )
-from src.core.prime_power_observer_genesis_p3og_machine import initial_state
+from src.core.prime_power_observer_genesis_p3og_machine import (
+    couple,
+    initial_state,
+    transition,
+)
+from src.core.prime_power_observer_genesis_p3og_types import CandidateMachineState
 
 logger = logging.getLogger(__name__)
 GOOD_SUFFIX = (
@@ -71,6 +77,21 @@ def _run(word: tuple[int, ...] = (0, 1, 0)):
     return source, formation, evidence
 
 
+def _operational_state_projection(state: CandidateMachineState) -> tuple[object, ...]:
+    """Drop source/seed/digest identity while retaining machine semantics."""
+    logger.debug("test_p3og_lifecycle operational projection entry")
+    result = (
+        state.boundary,
+        state.maintenance_control,
+        state.phase,
+        state.retained_residue,
+        state.maintenance_credit,
+        state.transition_count,
+    )
+    logger.debug("test_p3og_lifecycle operational projection exit fields=%d", len(result))
+    return result
+
+
 def test_seed_is_unformed_and_nonempty_native_replay_reaches_alive():
     logger.debug("test_p3og_lifecycle native replay entry")
     _, _, evidence = _run()
@@ -95,6 +116,43 @@ def test_witness_binds_existing_operational_alive_pressure_entry_digest():
     assert evidence.pressure_entry_state_digest == pressure_entry.state_digest
     assert pressure_entry.boundary.value == "alive"
     logger.debug("test_p3og_lifecycle pressure entry binding exit")
+
+
+def test_raw_cycle_first_return_is_not_low_level_coupling_transition_invariant():
+    """Pin terminal-symbol sensitivity absent from low-level coupling/transition evolution."""
+    logger.debug("test_p3og_lifecycle representation sensitivity entry")
+    source_a, formation_a, evidence_a = _run((0, 1, 0))
+    source_b, formation_b, evidence_b = _run((0, 1, 2))
+    seed_a = source_a.seeds[formation_a.selection.selected_index]
+    seed_b = source_b.seeds[formation_b.selection.selected_index]
+
+    initial_a = initial_state(source_a, seed_a)
+    initial_b = initial_state(source_b, seed_b)
+    assert _operational_state_projection(initial_a) == _operational_state_projection(initial_b)
+    for input_value in range(-20, 21):
+        state_a, receipt_a = couple(source_a, seed_a, initial_a, input_value)
+        state_b, receipt_b = couple(source_b, seed_b, initial_b, input_value)
+        assert receipt_a.response == receipt_b.response
+        assert _operational_state_projection(state_a) == _operational_state_projection(state_b)
+        for kind in GOOD_SUFFIX:
+            state_a, _ = transition(source_a, seed_a, state_a, kind)
+            state_b, _ = transition(source_b, seed_b, state_b, kind)
+            assert _operational_state_projection(state_a) == _operational_state_projection(state_b)
+
+    assert evidence_a.status is FirstClosureStatus.WITNESSED
+    assert evidence_a.first_closure_index == 2
+    assert evidence_a.evidence_digest == ("70e15f1b8ec8a2b045302cb839bdf600a870081386440754f1250417ff702c7d")
+    assert evidence_a.pressure_entry_state_digest == initial_a.state_digest
+    assert evidence_b.status is FirstClosureStatus.REFUTED
+    assert evidence_b.first_closure_index is None
+    assert evidence_b.evidence_digest == ("2775f910b3f547dd78c7b0b3728e4dbc2f012b58c4131224ce25d8860b73fa87")
+    assert evidence_b.pressure_entry_state_digest is None
+    report_a = run_p3og_pressure(source_a)
+    report_b = run_p3og_pressure(source_b)
+    assert report_a.status is PressureStatus.PASSED
+    assert report_b.status is PressureStatus.REFUTED
+    assert report_b.reason == "nonrecurrent-seed"
+    logger.debug("test_p3og_lifecycle representation sensitivity exit inputs=%d", 41)
 
 
 def test_first_return_is_least_even_when_later_return_exists():

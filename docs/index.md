@@ -42,8 +42,10 @@ RT. `167_realization_context_transport.md` — restricted same-doctrine finite
     extensional closure action; no cross-doctrine or functor claim.
 POG. `168_endogenous_arithmetic_observer_p3og.md` — P3-OG design-debt ledger,
     bounded internal-candidate all-pool machine pressure, and a separate
-    raw-cycle least-first-return pressure analogue; no typed history, full
-    formation judgment, observer-role theorem, or N0/HAP promotion.
+    representation-sensitive raw-cycle least-first-return pressure analogue;
+    its operational entry digest is not an invariance theorem, and no typed
+    history, full formation judgment, observer-role theorem, or N0/HAP promotion
+    follows.
 CB. `162_comparative_bridge_separation_ledger.md` — a sibling structural
     bridge/separation ledger, finite G4→EqRel amalgamation reduction,
     quotient-conflict uniqueness classification, and independent Sage oracle.
@@ -274,9 +276,10 @@ No metaphysical claim is accepted as mathematics until it becomes a definition, 
   no cross-doctrine transport, category, functor, or naturality claim follows.
 - `docs/168_endogenous_arithmetic_observer_p3og.md` — proposed endogenous
   arithmetic-observer obligations plus a bounded nonce-free all-candidate
-  machine-pressure implementation and separate raw-cycle first-return pressure;
-  no typed history, full formation judgment, role theorem, certificate, N0/HAP
-  lift, object, infinity, or promotion follows.
+  machine-pressure implementation and separate representation-sensitive
+  raw-cycle first-return pressure; the operational entry binding does not prove
+  invariance, and no typed history, full formation judgment, role theorem,
+  certificate, N0/HAP lift, object, infinity, or promotion follows.
 - `docs/163_adaptive_research_line_validity.md` — canonical bounded declared
   experiment-family history, orthogonal local/family/adaptive validity, and an
   exact independent-null retry counterexample; family inference remains open.

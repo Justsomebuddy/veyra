@@ -257,7 +257,10 @@ An additive, separately namespaced lifecycle facade replays the deterministic
 selected committed raw seed cycle from an `UNFORMED` pressure state, records
 continuous native tick receipts, stops at the least nontrivial return, and binds
 only a passing endpoint to the existing operational `ALIVE` pressure-entry
-digest. Existing machine source/report bytes and exports are unchanged.
+digest. That link binds the witnessed source/seed identity and fresh replay; it
+does not prove that full raw-cycle closure is invariant under the low-level
+machine's `cycle[:-1]` response/transition semantics. Existing machine and
+lifecycle bytes, statuses, nonclaims, promotions and exports are unchanged.
 This inventory intentionally receives no stable `DEF` numbers while the semantic
 API remains internal. A nonce-free selector records canonical metadata, while
 the verdict conservatively requires every pool candidate to pass recurrence-shape,
