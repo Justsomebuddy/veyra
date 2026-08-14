@@ -7,6 +7,7 @@ import logging
 
 import pytest
 
+import src.core.prime_power_observer_genesis_p3og_runtime as runtime_module
 from src.core.prime_power_observer_genesis_p3og import (
     P3OGPressureReport, P3OGSource, PressureStatus, TransitionKind,
     deterministic_select, p3og_source, run_p3og_pressure, validate_source,
@@ -53,6 +54,30 @@ def test_all_candidate_pressure_passes_without_observer_role_claim():
     assert not {"token_id", "birth_core_digest"}.intersection(
         item.name for item in fields(P3OGPressureReport)
     )
+
+
+def test_matched_control_coupling_accepts_both_inputs_without_digest_drift():
+    """Current paired pre/post coupling semantics preserve published evidence."""
+    logger.debug("test_p3og matched coupling positive entry")
+    source = _source()
+    seed = source.seeds[0]
+    active = runtime_module._initial_state_validated(source, seed)
+    controlled, _ = runtime_module._apply_maintenance_control_validated(active)
+    assert runtime_module._matched_control_coupling(
+        source, seed, active, controlled, source.calibration_inputs,
+    ) is not None
+    report = run_p3og_pressure(source)
+    assert source.source_digest == (
+        "0238df62dd849ecd51df3e017720237491e191c10daf9b91ca4570b54fd76010"
+    )
+    assert report.report_digest == (
+        "6cb296c650deaf458649b0211546815490a46aa0ab8d7606362daea3fc38faf7"
+    )
+    assert tuple(candidate.result_digest for candidate in report.candidates) == (
+        "ec20a443a486f82525b0fca69edeacae7c049a55cd8cc9c20f31b6cf01a1e620",
+        "69f0a73530c5b727d6edac47390742069a50bdcf90c9513055012d7d9b079996",
+    )
+    logger.debug("test_p3og matched coupling positive exit")
 
 
 def test_selection_has_no_nonce_and_pool_order_is_canonical():

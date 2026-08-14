@@ -9,6 +9,7 @@ import pytest
 
 import src.core.prime_power_observer_genesis_p3og as facade
 import src.core.prime_power_observer_genesis_p3og_codec as codec_module
+import src.core.prime_power_observer_genesis_p3og_runtime as runtime_module
 import src.core.prime_power_observer_genesis_p3og_source as source_module
 from src.core.prime_power_observer_genesis_p3og import (
     CandidatePressureResult, P3OGPressureReport, P3OGSource, PrimitiveModeSeed,
@@ -16,7 +17,7 @@ from src.core.prime_power_observer_genesis_p3og import (
     validate_source,
 )
 from src.core.prime_power_observer_genesis_p3og_codec import (
-    bounded_text, canonical_bytes,
+    bounded_text, canonical_bytes, digest,
 )
 from src.core.prime_power_observer_genesis_p3og_machine import (
     apply_pre_coupling_maintenance_control, branch_trace, couple, initial_state,
@@ -27,6 +28,7 @@ from src.core.prime_power_observer_genesis_p3og_machine_internal import (
 )
 from src.core.prime_power_observer_genesis_p3og_runtime import candidate_pressure
 from src.core.prime_power_observer_genesis_p3og_source import validate_seed
+from src.core.prime_power_observer_genesis_p3og_types import MaintenanceControlState
 
 logger = logging.getLogger(__name__)
 SUFFIX = (
@@ -310,6 +312,207 @@ def test_private_complete_suffix_consumes_terminal_steps_and_budget():
     with pytest.raises(ValueError, match="p3og-transition-budget"):
         _transition_validated(source, seed, capped, TransitionKind.ADVANCE)
     logger.debug("test_p3og private terminal suffix exit")
+
+
+@pytest.mark.parametrize("drift", ["response", "state", "flag"])
+def test_flag_sensitive_coupling_is_refuted(monkeypatch, drift):
+    """Control-sensitive response or state semantics fail the matched gate."""
+    logger.debug("test_p3og flag-sensitive coupling entry drift=%s", drift)
+    original = runtime_module._couple_validated
+
+    def flag_sensitive(source, seed, state, input_value):
+        logger.debug("test_p3og flag-sensitive probe entry drift=%s", drift)
+        after, receipt = original(source, seed, state, input_value)
+        if state.maintenance_control is MaintenanceControlState.DISABLED:
+            response = receipt.response
+            if drift == "response":
+                response = 1 if response is None else response + 1
+            else:
+                after = _state(
+                    after.run_id, after.seed_digest, after.boundary,
+                    (MaintenanceControlState.ACTIVE if drift == "flag"
+                     else after.maintenance_control),
+                    (after.phase if drift == "flag"
+                     else (after.phase + 1) % (len(seed.cycle) - 1)),
+                    after.retained_residue, after.maintenance_credit,
+                    after.transition_count,
+                )
+            receipt_fields = (
+                input_value, state.state_digest, after.state_digest, response,
+            )
+            receipt = replace(
+                receipt, after_digest=after.state_digest, response=response,
+                receipt_digest=digest("coupling", *receipt_fields),
+            )
+        logger.debug("test_p3og flag-sensitive probe exit drift=%s", drift)
+        return after, receipt
+
+    monkeypatch.setattr(runtime_module, "_couple_validated", flag_sensitive)
+    source = _source()
+    result = candidate_pressure(source, source.seeds[0])
+    assert result.reason == "matched-control-coupling-drift"
+    logger.debug("test_p3og flag-sensitive coupling exit drift=%s", drift)
+
+
+def test_right_input_only_coupling_drift_is_refuted(monkeypatch):
+    """The second calibration arm is independently protected by the gate."""
+    logger.debug("test_p3og right-input coupling drift entry")
+    source = _source()
+    right_input = source.calibration_inputs[1]
+    original = runtime_module._couple_validated
+
+    def right_only_drift(source_arg, seed, state, input_value):
+        logger.debug("test_p3og right-only coupling probe entry")
+        after, receipt = original(source_arg, seed, state, input_value)
+        if (
+            state.maintenance_control is MaintenanceControlState.DISABLED
+            and input_value == right_input
+        ):
+            response = 1 if receipt.response is None else receipt.response + 1
+            receipt_fields = (
+                input_value, state.state_digest, after.state_digest, response,
+            )
+            receipt = replace(
+                receipt, response=response,
+                receipt_digest=digest("coupling", *receipt_fields),
+            )
+        logger.debug("test_p3og right-only coupling probe exit")
+        return after, receipt
+
+    monkeypatch.setattr(runtime_module, "_couple_validated", right_only_drift)
+    result = candidate_pressure(source, source.seeds[0])
+    assert result.reason == "matched-control-coupling-drift"
+    logger.debug("test_p3og right-input coupling drift exit")
+
+
+def test_unrelated_precontrol_drift_has_priority_over_discrimination(monkeypatch):
+    """Pre-coupling semantic drift wins before a downstream calibration failure."""
+    logger.debug("test_p3og precontrol drift priority entry")
+    original = runtime_module._apply_maintenance_control_validated
+
+    def unrelated_drift(active):
+        logger.debug("test_p3og unrelated control drift entry")
+        controlled, receipt = original(active)
+        controlled = _state(
+            controlled.run_id, controlled.seed_digest, controlled.boundary,
+            controlled.maintenance_control, controlled.phase + 1,
+            controlled.retained_residue, controlled.maintenance_credit,
+            controlled.transition_count,
+        )
+        receipt_fields = (
+            receipt.enabled_state_digest, controlled.state_digest,
+            receipt.unchanged_fields_digest,
+        )
+        receipt = replace(
+            receipt, disabled_state_digest=controlled.state_digest,
+            receipt_digest=digest("maintenance-control", *receipt_fields),
+        )
+        logger.debug("test_p3og unrelated control drift exit")
+        return controlled, receipt
+
+    monkeypatch.setattr(
+        runtime_module, "_apply_maintenance_control_validated", unrelated_drift,
+    )
+    def forbidden_trace(*_args, **_kwargs):
+        raise AssertionError("matched-control drift reached suffix continuation")
+
+    monkeypatch.setattr(
+        runtime_module, "_branch_trace_from_coupling_validated", forbidden_trace,
+    )
+    source = p3og_source(
+        prime=3, depth=1, source_instance_label="priority", seed_rows=SEEDS,
+        calibration_inputs=(0, 9), maintenance_credit=2, suffix=SUFFIX,
+    )
+    result = candidate_pressure(source, source.seeds[0])
+    assert result.reason == "matched-control-coupling-drift"
+    assert result.active_left is None and result.control_left is None
+    logger.debug("test_p3og precontrol drift priority exit")
+
+
+def test_malformed_coupling_probe_is_narrowly_refuted(monkeypatch):
+    """Malformed future coupling output cannot escape as an attribute error."""
+    logger.debug("test_p3og malformed coupling probe entry")
+    original = runtime_module._couple_validated
+
+    def malformed_output(source, seed, state, input_value):
+        logger.debug("test_p3og malformed coupling output entry")
+        if state.maintenance_control is MaintenanceControlState.DISABLED:
+            result = (object(), object())
+        else:
+            result = original(source, seed, state, input_value)
+        logger.debug("test_p3og malformed coupling output exit")
+        return result
+
+    def forbidden_trace(*_args, **_kwargs):
+        raise AssertionError("malformed coupling reached suffix continuation")
+
+    monkeypatch.setattr(runtime_module, "_couple_validated", malformed_output)
+    monkeypatch.setattr(
+        runtime_module, "_branch_trace_from_coupling_validated", forbidden_trace,
+    )
+    source = _source()
+    result = candidate_pressure(source, source.seeds[0])
+    assert result.reason == "matched-control-coupling-drift"
+    assert result.active_left is None and result.control_left is None
+    logger.debug("test_p3og malformed coupling probe exit")
+
+
+@pytest.mark.parametrize("malformation", ["hostile-response", "broken-link"])
+def test_malformed_exact_coupling_receipt_is_narrowly_refuted(
+    monkeypatch, malformation,
+):
+    """Exact receipts are scalar-preflighted before equality and re-digest."""
+    logger.debug(
+        "test_p3og malformed exact receipt entry malformation=%s", malformation,
+    )
+    original = runtime_module._couple_validated
+
+    def malformed_receipt(source, seed, state, input_value):
+        logger.debug("test_p3og malformed exact receipt probe entry")
+        after, receipt = original(source, seed, state, input_value)
+        if state.maintenance_control is MaintenanceControlState.DISABLED:
+            if malformation == "hostile-response":
+                receipt = replace(receipt, response=ExplosiveEquality())
+            else:
+                receipt = replace(receipt, before_digest="0" * 64)
+        logger.debug("test_p3og malformed exact receipt probe exit")
+        return after, receipt
+
+    monkeypatch.setattr(runtime_module, "_couple_validated", malformed_receipt)
+    source = _source()
+    result = candidate_pressure(source, source.seeds[0])
+    assert result.reason == "matched-control-coupling-drift"
+    assert result.active_left is None and result.control_left is None
+    logger.debug(
+        "test_p3og malformed exact receipt exit malformation=%s", malformation,
+    )
+
+
+def test_matched_projection_includes_future_semantic_fields():
+    """Future state fields are compared unless deliberately excluded by name."""
+    logger.debug("test_p3og matched projection schema entry")
+    source = _source()
+    base = runtime_module._initial_state_validated(source, source.seeds[0])
+    extended_type = make_dataclass(
+        "ExtendedCandidateState", [("future_semantic", int)],
+        bases=(type(base),), frozen=True,
+    )
+    base_values = {field.name: getattr(base, field.name) for field in fields(base)}
+    base_projection = runtime_module._matched_state_projection(base)
+    assert {name for name, _ in base_projection} == {
+        field.name for field in fields(type(base))
+    } - {"maintenance_control", "state_digest"}
+    left = extended_type(**base_values, future_semantic=1)
+    right = extended_type(**base_values, future_semantic=2)
+    left_projection = runtime_module._matched_state_projection(left)
+    right_projection = runtime_module._matched_state_projection(right)
+    names = {name for name, _ in left_projection}
+    assert names == {
+        field.name for field in fields(left)
+    } - {"maintenance_control", "state_digest"}
+    assert "future_semantic" in names
+    assert left_projection != right_projection
+    logger.debug("test_p3og matched projection schema exit")
 
 
 @pytest.mark.parametrize(

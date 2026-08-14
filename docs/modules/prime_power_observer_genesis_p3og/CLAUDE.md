@@ -2,7 +2,7 @@
 
 ## Scope and status
 
-- **Version:** 0.1.0
+- **Version:** 0.1.1
 - **Facade:** `src.core.prime_power_observer_genesis_p3og`
 - The implementation is an isolated, non-root-exported finite research
   candidate. It does not establish formation, an endogenous observer role,
@@ -23,6 +23,13 @@
   consuming removed-state receipts so matched schedules stay complete.
 - Source/report validation freshly rebuilds canonical evidence; it is drift
   checking, not historical authentication.
+- Matched maintenance-control pressure compares every state field supplied by
+  the dataclass schema except `maintenance_control` and `state_digest`, on both
+  calibration inputs before any suffix work. Exact bounded coupling receipt
+  scalars, state links, response equality, and expected active/disabled flags
+  must agree. The checked, precomputed coupling states and receipts are the
+  evidence consumed by suffix continuation; coupling is not rerun after the
+  gate. Any mismatch has the narrow reason `matched-control-coupling-drift`.
 - Keep `P3OG_NONCLAIMS`, the candidate status, and future obligations unchanged
   unless a separate proof-bearing design explicitly discharges them.
 
