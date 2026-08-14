@@ -1,6 +1,16 @@
 # Changelog
 
 ## [Unreleased] — Changed
+- Added a separate non-root strict-v3 categorical ingestion facade that converts
+  three caller-declared CSV or JSONL byte payloads into the existing canonical
+  `ThreeWayPresentation`. Every row supplies exact stable identity, feature and
+  target columns; CSV values use explicit string/integer/boolean tags and JSONL
+  preserves native scalar types. Strict UTF-8, byte/record/row/cell and existing
+  schema bounds fail closed before canonical construction. The adapter performs
+  no schema/type/category inference, missing-value imputation, ID generation,
+  automatic split, row recovery, ordinal/continuous interpretation, raw-file
+  provenance, custody, statistical claim, theorem, certificate or promotion;
+  existing schema/DTO/digest/root exports and Phase-II behavior are unchanged.
 - Added a separate, non-root-exported P3-OG raw-cycle first-return pressure lane
   without changing the existing machine-pressure source/report bytes or facade.
   It starts an authority-free linear state at `UNFORMED`, consumes only the

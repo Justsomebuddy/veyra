@@ -159,7 +159,7 @@ def _canonical_field(field: RepresentationField) -> RepresentationField:
         _reject("invalid-schema", "field-kind")
     categories = _canonical_categories(field.categories, "field", binary=field.kind == "binary")
     result = RepresentationField(str(field.name), str(field.kind), categories)
-    logger.debug("_canonical_field exit name=%s categories=%d", result.name, len(categories))
+    logger.debug("_canonical_field exit categories=%d", len(categories))
     return result
 
 

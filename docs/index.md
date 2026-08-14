@@ -28,6 +28,7 @@ OD. `157_certified_observer_discovery_mvp.md` through
     `165_composition_licensed_claims.md` and
     `166_provenance_independent_corroboration.md` — bounded categorical observer
     search, its nonpromoting Phase-II claim tuple and fixed-winner replication,
+    explicit strict-v3 categorical CSV/JSONL byte ingestion,
     plus the separate strict-v3 canonical transport, closed-worker, local
     governance, authenticated-root experiment, and document 165's bounded
     composition-license boundary immediately upstream of P2-S plus a separate
@@ -257,9 +258,11 @@ No metaphysical claim is accepted as mathematics until it becomes a definition, 
   no-reranking replication of a frozen observer on a third declared test set;
   logical in-process discipline only, not authenticated one-shot isolation.
 - `docs/160_governed_observer_discovery_v3.md` — separate strict-v3 canonical
-  representation/commuting-square checks, closed logical subprocess, local
-  burn-before-evaluation governance, and HMAC/optional-Ed25519 root-only audit
-  receipts; not a syscall sandbox, production custody, full replay, or theorem.
+  representation and explicit categorical CSV/JSONL byte ingestion,
+  commuting-square checks, closed logical subprocess, local burn-before-
+  evaluation governance, and HMAC/optional-Ed25519 root-only audit receipts;
+  no schema/type/split inference, raw-file provenance, syscall sandbox,
+  production custody, full replay, or theorem follows.
 - `vam/docs/042_native_observer_synthesis_v4.md` — append-only finite
   representation/observer search, truthful namespace/seccomp/cgroup custody,
   state-free signed replay, and an abstract Lean boundary; not general

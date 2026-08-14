@@ -127,6 +127,7 @@ def test_wheel_package_discovery_is_explicit_and_bounded():
         "src.core.construction.finite_builder",
         "src.core.observer_discovery_v3",
         "src.core.observer_discovery_v3.dsl",
+        "src.core.observer_discovery_v3.ingestion",
         "src.core.observer_discovery_v3.ledger",
         "src.core.observer_discovery_v3.lineage",
         "src.core.observer_discovery_v3.replay",
@@ -201,6 +202,19 @@ def test_portable_verification_includes_claim_composition_behavior():
     logger.debug("test portable claim composition coverage exit")
 
 
+def test_portable_verification_includes_observer_v3_ingestion_behavior():
+    """Hosted CI and installed-wheel smoke must exercise the strict v3 adapter."""
+    logger.debug("test portable observer v3 ingestion coverage entry")
+    portable_pytest = next(step for step in portable_steps() if step.name == "Portable pytest")
+    assert {
+        "tests/test_observer_discovery_v3_ingestion.py",
+        "tests/test_observer_discovery_v3_ingestion_adversarial.py",
+    } <= set(portable_pytest.command)
+    package_smoke = (ROOT / "scripts/package_smoke.py").read_text(encoding="utf-8")
+    assert "import src.core.observer_discovery_v3.ingestion" in package_smoke
+    logger.debug("test portable observer v3 ingestion coverage exit")
+
+
 def test_hosted_matrix_is_fixed_bounded_and_immutable():
     """Portable CI must name hosts, Python patches, bounds, and action objects."""
     logger.debug("test hosted matrix contract entry")
@@ -223,12 +237,8 @@ def test_hosted_matrix_is_fixed_bounded_and_immutable():
         assert row in workflow
     uses = re.findall(r"uses:\s+[^@\s]+@([^\s#]+)", workflow)
     assert uses and all(re.fullmatch(r"[0-9a-f]{40}", revision) for revision in uses)
-    assert workflow.count(
-        "actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1"
-    ) == 4
-    assert workflow.count(
-        "actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0"
-    ) == 3
+    assert workflow.count("actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1") == 4
+    assert workflow.count("actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0") == 3
     assert workflow.count("persist-credentials: false") == 4
     assert "leanprover/lean-action" not in workflow
     assert "5b51625f154f0a13b37bd892f1d95f79e9fd5b9f0d095b4126215ee2bc8dbe86" in workflow
@@ -236,9 +246,7 @@ def test_hosted_matrix_is_fixed_bounded_and_immutable():
     assert "sha256sum --check --strict" in workflow
     assert "make research-lean LEAN_JOBS=8" in workflow
     assert workflow.count('test "$(git rev-parse HEAD)" = "$EXPECTED_WORKFLOW_SHA"') == 2
-    assert (ROOT / "lean-toolchain").read_text(encoding="utf-8") == (
-        "leanprover/lean4:v4.30.0-rc2\n"
-    )
+    assert (ROOT / "lean-toolchain").read_text(encoding="utf-8") == ("leanprover/lean4:v4.30.0-rc2\n")
     assert re.search(r"(?m)^permissions:\n  contents: read$", workflow)
     assert "11bd71901bbe5b1630ceea73d27597364c9af683" not in workflow
     assert "42375524e23c412d93fb67b49958b491fce71c38" not in workflow

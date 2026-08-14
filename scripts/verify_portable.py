@@ -37,6 +37,8 @@ PORTABLE_TESTS = (
     "tests/test_claim_composition_properties.py",
     "tests/test_claim_composition_replay.py",
     "tests/test_observer_provenance.py",
+    "tests/test_observer_discovery_v3_ingestion.py",
+    "tests/test_observer_discovery_v3_ingestion_adversarial.py",
     "tests/test_prime_power_observer_genesis_p3og.py",
     "tests/test_prime_power_observer_genesis_p3og_adversarial.py",
     "tests/test_prime_power_observer_genesis_p3og_lifecycle.py",

@@ -6,7 +6,7 @@
 It does not replace or silently strengthen the Phase-I/II APIs described in
 documents 157–159. The package root exports nothing; public names are exposed
 through its narrow `schema`, `transport`, `dsl`, `ledger`, `service`, `replay`,
-and `lineage` subpackages or the explicit `worker.runtime` module.
+`lineage`, and `ingestion` subpackages or the explicit `worker.runtime` module.
 
 Phase III adds bounded engineering controls around canonical representations,
 closed observers, local one-shot governance, and authenticated evidence roots.
@@ -56,6 +56,54 @@ The strict schema has no Phase-II dependency. The optional
 `schema.phase2_compat` module is deliberately quarantined: it can export
 detached Phase-II row objects, but doing so establishes no locked-test custody,
 isolation, E4 status, or claim promotion.
+
+### 1.1 Explicit categorical byte ingestion
+
+The separate non-root `ingestion` facade converts strict CSV or JSONL byte
+payloads into the existing `ThreeWayPresentation`; it does not define another
+schema, row, presentation, receipt, or digest contract. The caller supplies the
+exact `RepresentationSchema` and separately names the `train`, `validation`,
+and `test` byte payloads. Those three arguments are the complete split
+declaration: no column, file name, randomizer, target, or row hash selects a
+partition.
+
+Every record has exactly these declared columns or JSON keys, in this order:
+
+```text
+row_id, source_id, content_id, group_id,
+<one column per schema field in schema order>, target
+```
+
+All identities are caller values and record order is preserved within each
+split. The adapter never generates IDs, trims or normalizes values, reorders
+rows, deduplicates records, imputes missing cells, or skips malformed records.
+Feature names that collide with the five reserved identity/target names are
+rejected rather than aliased.
+
+CSV uses fixed comma/quote rules and explicit scalar tags: `s:<text>`,
+`i:<canonical-decimal>`, and `b:true`/`b:false`. Therefore the categorical
+labels `"1"`, `1`, and `true` remain distinct. JSONL uses exact native JSON
+string, integer, or boolean values and rejects duplicate keys, floats, `null`,
+containers, non-finite constants, comments, and blank records. Neither format
+infers a schema, type, category, delimiter, missing-value policy, ordinal
+meaning, metric, arithmetic interpretation, or continuous variable.
+
+Each split is an exact nonempty `bytes` object, strict UTF-8 without BOM or NUL,
+at most 16 MiB, with physical and logical records capped at 32 KiB. Existing
+field/category/row/cell/text/integer bounds still apply, and the existing
+canonical presentation plus three-way lineage validators remain authoritative.
+The adapter bounds are intentionally tighter than every theoretically possible
+text rendering of the schema envelope.
+
+The result binds only the existing typed schema, ordered canonical rows, and
+three semantic payload roots. Raw CSV/JSONL bytes, quoting, line endings,
+format, paths, filenames, inode/mtime, environment, and read chronology are not
+present in that digest. This facade consequently proves no byte provenance,
+source fidelity, label custody/secrecy, one-shot access, sampling validity,
+leakage freedom beyond declared ID disjointness, statistical generalization,
+observer admission, theorem, certificate, or promotion. Path/stream, missing-
+data, continuous-data, inferred-schema, automatic-split, and provenance-receipt
+policies require separate versioned designs.
 
 ## 2. Exact representation transport
 
