@@ -1,7 +1,7 @@
 # 172 — Explicit Masked Missing-Data Preprocessing V1 RFC
 
 **Date:** 2026-08-15  
-**Status:** accepted documentation contract; runtime not implemented  
+**Status:** accepted contract; additive runtime implemented in document 175  
 **Issue:** [#55](https://github.com/Justsomebuddy/veyra/issues/55)  
 **Future package:** `src.core.observer_discovery_v3.missing_data`
 
@@ -57,7 +57,17 @@ Raw exact type and 16 MiB split/32 KiB physical-record caps, policy cardinality,
 
 The projected output remains within the existing 32-field, 8192-row-per-split, 262144-cell, scalar/text/integer and lineage limits. Combined source, policy, mask, receipt, and projected-wrapper material is capped at 65536 nodes and 1 MiB nonpayload UTF-8/canonical JSON. Exceeding any cap rejects rather than truncates. Logs contain only fixed reason codes, safe type names, and aggregate counts.
 
-## Required evidence for a later implementation
+## Runtime realization
+
+The additive implementation is documented by
+[`175_observer_v3_missing_data_runtime.md`](175_observer_v3_missing_data_runtime.md).
+It lives only in the named non-root sibling, retains the complete policy and
+receipt beside the projected presentation, binds the exact wire-format enum,
+and uses `SHA256(domain_utf8 || NUL || exact_bytes)` for each raw split. The
+structural decoder accepts only `EXTERNAL_BINDING_ONLY`; native authority is
+available only through complete fresh source-backed replay.
+
+## Required implementation evidence
 
 - exact v1 byte/digest/export/error pins and root nonexport;
 - CSV/JSONL semantic parity and split-order preservation;
@@ -75,4 +85,8 @@ Stop and redesign if implementation requires changing old ingestion source/`__al
 
 ## Publication scope
 
-This issue and its RFC document are documentation-only. Any executable sibling is a later independently reviewed issue/PR. Continuous numeric interpretation and missing×continuous composition are explicitly out of scope and belong to separate independently reversible RFC work.
+The original issue and RFC publication were documentation-only. The executable
+sibling is a later independently reviewed implementation and does not widen the
+old ingestion package. Continuous numeric interpretation and missing×continuous
+composition remain explicitly out of scope and belong to separate independently
+reversible work.

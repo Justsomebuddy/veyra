@@ -1,4 +1,5 @@
 """Strict tagged JSON codec shared by R7 proof artifacts and bindings."""
+
 from __future__ import annotations
 
 from hashlib import sha256
@@ -7,8 +8,19 @@ import logging
 from typing import NoReturn
 
 from .proof_core_types import (
-    Bound, CoreProp, CoreTerm, CoreType, Equal, Forall, Implies, ProofContext,
-    Pulse, Resonates, Silence, Stitch, Weave,
+    Bound,
+    CoreProp,
+    CoreTerm,
+    CoreType,
+    Equal,
+    Forall,
+    Implies,
+    ProofContext,
+    Pulse,
+    Resonates,
+    Silence,
+    Stitch,
+    Weave,
 )
 
 logger = logging.getLogger(__name__)
@@ -47,7 +59,10 @@ def canonical_json(value: object) -> str:
     """
     logger.debug("canonical_json entry type=%s", type(value).__name__)
     result = json.dumps(
-        _json_value(value), sort_keys=True, separators=(",", ":"), ensure_ascii=False,
+        _json_value(value),
+        sort_keys=True,
+        separators=(",", ":"),
+        ensure_ascii=False,
     )
     logger.debug("canonical_json exit bytes=%d", len(result.encode()))
     return result
@@ -60,7 +75,7 @@ def digest_data(value: object, domain: str) -> str:
         _value("invalid-digest-domain")
     payload = domain.encode() + b"\0" + canonical_json(value).encode()
     result = sha256(payload).hexdigest()
-    logger.debug("digest_data exit result=%s", result)
+    logger.debug("digest_data exit")
     return result
 
 

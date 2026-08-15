@@ -54,7 +54,7 @@ def representation_schema_digest(schema: RepresentationSchema) -> str:
     logger.debug("representation_schema_digest entry")
     canonical = canonical_representation_schema(schema)
     result = digest_data(_schema_data(canonical), SCHEMA_VERSION)
-    logger.debug("representation_schema_digest exit digest=%s", result[:12])
+    logger.debug("representation_schema_digest exit")
     return result
 
 
@@ -81,7 +81,7 @@ def canonical_presentation(
         payload_digest,
         REPRESENTATION_BOUNDARY,
     )
-    logger.debug("canonical_presentation exit rows=%d digest=%s", len(canonical_rows), payload_digest[:12])
+    logger.debug("canonical_presentation exit rows=%d", len(canonical_rows))
     return result
 
 
@@ -129,7 +129,7 @@ def canonical_three_way_presentation(
         THREE_WAY_VERSION,
     )
     result = ThreeWayPresentation(train, validation, test, protocol, REPRESENTATION_BOUNDARY)
-    logger.debug("canonical_three_way_presentation exit digest=%s", protocol[:12])
+    logger.debug("canonical_three_way_presentation exit")
     return result
 
 

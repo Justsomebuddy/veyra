@@ -156,6 +156,7 @@ def test_wheel_package_discovery_is_explicit_and_bounded():
         "src.core.observer_discovery_v3",
         "src.core.observer_discovery_v3.dsl",
         "src.core.observer_discovery_v3.ingestion",
+        "src.core.observer_discovery_v3.missing_data",
         "src.core.observer_discovery_v3.ledger",
         "src.core.observer_discovery_v3.lineage",
         "src.core.observer_discovery_v3.replay",
@@ -243,6 +244,20 @@ def test_portable_verification_includes_observer_v3_ingestion_behavior():
     package_smoke = (ROOT / "scripts/package_smoke.py").read_text(encoding="utf-8")
     assert "import src.core.observer_discovery_v3.ingestion" in package_smoke
     logger.debug("test portable observer v3 ingestion coverage exit")
+
+
+def test_portable_verification_includes_observer_v3_missing_data_behavior():
+    """Hosted CI and installed-wheel smoke must cover the RFC 172 sibling."""
+    logger.debug("test portable observer v3 missing-data coverage entry")
+    portable_pytest = next(step for step in portable_steps() if step.name == "Portable pytest")
+    assert {
+        "tests/test_observer_discovery_v3_missing_data.py",
+        "tests/test_observer_discovery_v3_missing_data_adversarial.py",
+        "tests/test_observer_discovery_v3_missing_data_codec.py",
+    } <= set(portable_pytest.command)
+    package_smoke = (ROOT / "scripts/package_smoke.py").read_text(encoding="utf-8")
+    assert "import src.core.observer_discovery_v3.missing_data" in package_smoke
+    logger.debug("test portable observer v3 missing-data coverage exit")
 
 
 def test_portable_verification_includes_p1a_transport_v2_behavior():

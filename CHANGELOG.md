@@ -1,6 +1,34 @@
 # Changelog
 
 ## [Unreleased] — Changed
+- Implemented RFC 172 as an additive, non-root
+  `src.core.observer_discovery_v3.missing_data` runtime. Exact CSV/JSONL wire
+  format, raw bytes, ordered typed semantic masks, projected assignments,
+  output payloads, row counts, schemas, policy and permanent nonclaims are
+  retained in a separate wrapper. Structural JSON decode is permanently
+  `EXTERNAL_BINDING_ONLY`; `NATIVE_POLICY_REPLAY` requires complete fresh
+  policy/schema/source replay, including the issue #55 equal-legacy-split
+  regression. Existing strict ingestion exports, bytes, digests, errors and
+  Phase-II behavior remain unchanged; no imputation, missingness mechanism,
+  provenance, statistical validity, theorem, certificate or promotion is
+  claimed. Adversarial review additionally hardened whole-policy shallow
+  resource gates before copying/UTF-8 work, exact bool/int-aware policy and
+  authority comparison, callback-free type admission, digest-free logs and
+  detached codec snapshots; fixed v1 export/error/root/canonical-JSON pins
+  protect those boundaries. Final adversarial closure adds pre-transcoding
+  codec/source record caps, snapshot-boundary row/scalar rechecks, shallow
+  top/rule/global-node traversal stops and one combined retained-policy/wrapper
+  resource ledger rather than independent component budgets. The ledger counts
+  every simultaneous identity, observed string, missing fallback and target
+  materialization, closing the final aggregate-text undercharge. Second review
+  also applies that ledger to direct structural/codec paths, bounds every codec
+  list before nested decoding, performs exact callback-free nonallocating UTF-8
+  byte preflight before policy capture, and removes digest values from shared
+  canonical/digest exit logs. The shared seed charges the exact retained
+  authority spelling, including the external binding's one additional byte.
+  Complete-policy preflight also includes the policy container and all five
+  actual/generated top fields before detachment, while downgrading recharges
+  the completed external result before return.
 - Added an explicit repository-wide Mypy discovery scope for maintained Python
   roots and hardened source-distribution extraction with pre-extraction member
   and expanded-byte ceilings, explicit path/type checks, and the standard
