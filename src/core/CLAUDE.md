@@ -1,6 +1,6 @@
 # Core module memory
 
-Version: **0.1.0**. Scope: the stable Python engine and its executable
+Version: **0.2.0**. Scope: the stable Python engine and its executable
 certificate surfaces.
 
 ## Contracts
@@ -17,6 +17,16 @@ certificate surfaces.
   2,000-line hard maximum.
 
 ## Session Notes (2026-08-15)
+
+- The second bounded assertion-hardening wave replaces exactly seven core
+  runtime assertions. Public C1 with both joins absent stays total `OPEN`, a
+  one-sided partial join rejects earlier, and private complete-cell construction
+  fails stably for either absent side; R13 verification remains
+  nonthrowing; provenance gates exact strings before digest predicates; formal
+  capture cleans an impossible missing pipe exactly once without command
+  disclosure; and translated C3 resolves narrowed join IDs or raises its
+  existing domain error. Valid artifacts, bytes, digests, receipts and claim
+  levels remain unchanged.
 
 - The first bounded assertion-hardening wave replaces exactly four
   observer-genesis and eight productivity certificate result assertions with

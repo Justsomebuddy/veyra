@@ -205,22 +205,28 @@ def verify_intrinsic_observer_echo_source_artifact(
 ) -> IntrinsicObserverEchoSourceCheck:
     """Fail closed unless every reviewed source, theorem, and proof binding replays."""
     logger.debug(
-        "verify_intrinsic_observer_echo_source_artifact entry type=%s",
-        type(artifact).__name__,
+        "verify_intrinsic_observer_echo_source_artifact entry exact_type=%s",
+        type(artifact) is IntrinsicObserverEchoSourceArtifact,
     )
     errors: list[str] = []
-    try:
-        errors.extend(_shape_errors(artifact))
-        if not errors:
-            assert type(artifact) is IntrinsicObserverEchoSourceArtifact
-            errors.extend(_pin_errors(artifact))
-            if not errors and artifact != _build_source_artifact():
-                errors.append("r13-source-artifact-replay-mismatch")
-            if not errors and artifact.artifact_digest != digest_data(_body(artifact), ARTIFACT_DOMAIN):
-                errors.append("r13-source-artifact-binding-mismatch")
-    except (AssertionError, AttributeError, TypeError, ValueError, UnicodeDecodeError, json.JSONDecodeError) as exc:
-        logger.error("verify_intrinsic_observer_echo_source_artifact error=%s", exc)
-        errors.append("invalid-r13-source-artifact-shape")
+    if type(artifact) is not IntrinsicObserverEchoSourceArtifact:
+        errors.append("invalid-r13-source-artifact-type")
+    else:
+        try:
+            errors.extend(_shape_errors(artifact))
+            if not errors:
+                errors.extend(_pin_errors(artifact))
+                if not errors and artifact != _build_source_artifact():
+                    errors.append("r13-source-artifact-replay-mismatch")
+                if not errors and artifact.artifact_digest != digest_data(
+                    _body(artifact), ARTIFACT_DOMAIN
+                ):
+                    errors.append("r13-source-artifact-binding-mismatch")
+        except Exception:
+            logger.error(
+                "verify_intrinsic_observer_echo_source_artifact blocked stage=validation"
+            )
+            errors.append("invalid-r13-source-artifact-shape")
     result = IntrinsicObserverEchoSourceCheck(not errors, tuple(errors))
     if errors:
         logger.error("verify_intrinsic_observer_echo_source_artifact blocked errors=%r", errors)

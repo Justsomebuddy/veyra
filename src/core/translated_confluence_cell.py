@@ -11,30 +11,39 @@ from .observer_core_codec import decode_observer
 from .observer_core_semantics import observe
 from .observer_core_types import Blocked, Ready
 from .observer_morphism_runtime import translate_response
+from .observer_morphism_types import ResponseTranslation
 from .observer_relation_replay import observation_bytes
+from .positive_ontology_types import OntologyStage
 from .translated_confluence_digest import digest, sequence
 from .translated_confluence_preflight import TranslatedConfluenceRequest
 from .translated_confluence_types import (
     TranslatedResponseRow, TranslatedTransport2CellArtifact, TranslationDirection,
 )
+from .translated_confluence_validation import reject
 
 logger = logging.getLogger(__name__)
 
 
-def _side_ids(request: TranslatedConfluenceRequest) -> tuple[tuple[str, ...], tuple[str, ...]]:
+def _side_ids(
+    request: TranslatedConfluenceRequest,
+) -> tuple[tuple[str, ...], tuple[str, ...], str, str]:
     """Resolve complete history stage occurrences without deleting repeats."""
     logger.debug("c3 side_ids entry")
     plan, source = request.plan, request.diagram
-    assert plan.left_join_path_id is not None and plan.right_join_path_id is not None
-    left = _history_stage_ids(source, plan.left_branch_path_id, plan.left_join_path_id)
-    right = _history_stage_ids(source, plan.right_branch_path_id, plan.right_join_path_id)
+    left_join_id = plan.left_join_path_id
+    right_join_id = plan.right_join_path_id
+    if left_join_id is None or right_join_id is None:
+        reject("translated-cell-requires-complete-separate-joins")
+    left = _history_stage_ids(source, plan.left_branch_path_id, left_join_id)
+    right = _history_stage_ids(source, plan.right_branch_path_id, right_join_id)
     logger.debug("c3 side_ids exit left=%d right=%d", len(left), len(right))
-    return left, right
+    return left, right, left_join_id, right_join_id
 
 
 def _response_row(
-    request: TranslatedConfluenceRequest, translation, point_index: int,
-    left_index: int, right_index: int, left_stage, right_stage,
+    request: TranslatedConfluenceRequest, translation: ResponseTranslation,
+    point_index: int, left_index: int, right_index: int,
+    left_stage: OntologyStage, right_stage: OntologyStage,
 ) -> TranslatedResponseRow:
     """Evaluate both bridged programs and one typed projection at one occurrence."""
     logger.debug("c3 response_row entry point=%d", point_index)
@@ -110,11 +119,12 @@ def _response_row(
 
 
 def build_translated_cell(
-    request: TranslatedConfluenceRequest, translation, a2_digest: str,
+    request: TranslatedConfluenceRequest, translation: ResponseTranslation,
+    a2_digest: str,
 ) -> TranslatedTransport2CellArtifact:
     """Derive the exact complete translated cell and deterministic obstruction."""
     logger.debug("c3 cell entry")
-    left_ids, right_ids = _side_ids(request)
+    left_ids, right_ids, left_join_id, right_join_id = _side_ids(request)
     stages = {row.stage_id: row for row in request.diagram.stages}
     rows = tuple(
         _response_row(
@@ -149,8 +159,6 @@ def build_translated_cell(
         (row.path_id for row in request.diagram.paths),
         request.diagram.path_commitments, strict=True,
     ))
-    assert request.plan.left_join_path_id is not None
-    assert request.plan.right_join_path_id is not None
     alignment_digest = digest("p1-c3-alignment-v1", (
         ("points", sequence("point", tuple(
             f"{point.left_index}:{point.right_index}" for point in request.plan.alignment
@@ -159,8 +167,8 @@ def build_translated_cell(
     history_values = (
         commitments[request.plan.left_branch_path_id],
         commitments[request.plan.right_branch_path_id],
-        commitments[request.plan.left_join_path_id],
-        commitments[request.plan.right_join_path_id],
+        commitments[left_join_id],
+        commitments[right_join_id],
     )
     artifact_digest = digest("p1-c3-cell-artifact-v1", (
         ("run", request.run_digest.encode()), ("a2", a2_digest.encode()),

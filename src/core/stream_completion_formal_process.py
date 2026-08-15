@@ -66,7 +66,7 @@ def capture_command(
     env: dict[str, str] | None = None,
 ) -> tuple[FormalExecutionFailureKind | None, int, bytes]:
     """Stream output live; kill the whole group immediately on cap or deadline."""
-    logger.debug("capture_command entry command=%s cap=%d", command[-1], cap)
+    logger.debug("capture_command entry stage=spawn argc=%d cap=%d", len(command), cap)
     if cap < 1:
         logger.error("capture_command exhausted output budget")
         return FormalExecutionFailureKind.OUTPUT_LIMIT, -1, b""
@@ -75,10 +75,16 @@ def capture_command(
             command, cwd=cwd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
             env=env, start_new_session=True,
         )
-    except OSError as exc:
-        logger.error("capture_command start failed error=%s", exc)
+    except OSError:
+        logger.error(
+            "capture_command start failed stage=spawn argc=%d cap=%d",
+            len(command), cap,
+        )
         return FormalExecutionFailureKind.COMPILE_ERROR, -1, b""
-    assert process.stdout is not None
+    if process.stdout is None:
+        logger.error("capture_command blocked stage=stdout argc=%d cap=%d", len(command), cap)
+        kill_group(process)
+        return FormalExecutionFailureKind.COMPILE_ERROR, -1, b""
     os.set_blocking(process.stdout.fileno(), False)
     selector = selectors.DefaultSelector()
     selector.register(process.stdout, selectors.EVENT_READ)
@@ -86,19 +92,25 @@ def capture_command(
     while True:
         if time.monotonic() >= deadline:
             kill_group(process)
-            logger.error("capture_command timeout command=%s", command[-1])
+            logger.error(
+                "capture_command timeout stage=running argc=%d cap=%d bytes=%d",
+                len(command), cap, len(output),
+            )
             return FormalExecutionFailureKind.TIMEOUT, -1, bytes(output)
         events = selector.select(min(0.05, max(0.0, deadline - time.monotonic())))
         for key, _ in events:
             try:
-                chunk = os.read(key.fileobj.fileno(), min(65536, cap - len(output) + 1))
+                chunk = os.read(key.fd, min(65536, cap - len(output) + 1))
             except BlockingIOError:
                 chunk = b""
             if chunk:
                 output.extend(chunk)
                 if len(output) > cap:
                     kill_group(process)
-                    logger.error("capture_command output limit command=%s", command[-1])
+                    logger.error(
+                        "capture_command output limit stage=running argc=%d cap=%d bytes=%d",
+                        len(command), cap, cap,
+                    )
                     return FormalExecutionFailureKind.OUTPUT_LIMIT, -1, bytes(output[:cap])
             else:
                 try:
@@ -110,9 +122,15 @@ def capture_command(
     code = process.wait()
     payload = bytes(output)
     if code != 0:
-        logger.error("capture_command nonzero exit command=%s rc=%d", command[-1], code)
+        logger.error(
+            "capture_command nonzero exit stage=complete argc=%d cap=%d rc=%d bytes=%d",
+            len(command), cap, code, len(payload),
+        )
         return FormalExecutionFailureKind.COMPILE_ERROR, code, payload
-    logger.debug("capture_command exit command=%s bytes=%d", command[-1], len(payload))
+    logger.debug(
+        "capture_command exit stage=complete argc=%d cap=%d rc=%d bytes=%d",
+        len(command), cap, code, len(payload),
+    )
     return None, code, payload
 
 

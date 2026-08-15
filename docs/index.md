@@ -275,6 +275,12 @@ No metaphysical claim is accepted as mathematics until it becomes a definition, 
 - `docs/174_python_quality_baseline.md` — measured Ruff-format and local Mypy
   1.19.1 discovery findings plus bounded sdist extraction hardening; neither
   count is presented as a version-stable green gate or silently suppressed.
+- `docs/175_observer_v3_missing_data_runtime.md` — additive non-root exact
+  missing-mask/fallback runtime with source-backed native replay and structural
+  external-only decode; categorical v1 and Phase-II behavior remain unchanged.
+- `docs/176_core_runtime_invariants.md` — bounded replacement of seven
+  optimization-sensitive C1/R13/provenance/process/C3 assertions with explicit
+  total, fail-closed, cleanup and log-privacy invariants.
 - `vam/docs/042_native_observer_synthesis_v4.md` — append-only finite
   representation/observer search, truthful namespace/seccomp/cgroup custody,
   state-free signed replay, and an abstract Lean boundary; not general

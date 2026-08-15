@@ -1,5 +1,16 @@
 # Scripts module log
 
+### [0.1.2] Portable core-runtime invariant admission
+- **Type:** Test / portability
+- **Files:** `scripts/verify_portable.py`, `tests/test_package_metadata.py`
+- **What:** Added the exact core assertion-invariant regression module to the
+  hosted OS-neutral Pytest inventory and pinned that membership in metadata.
+- **Why:** Exercise hostile type/helper gates, optimized-Python behavior,
+  process cleanup and fixed log privacy on every supported hosted platform.
+- **Module version:** 0.1.1 → 0.1.2
+- **Boundary:** No portable stage, timeout, environment, package or logging
+  behavior changed.
+
 ### [0.1.1] Portable certificate-result invariant admission
 - **Type:** Test / portability
 - **Files:** `scripts/verify_portable.py`, `tests/test_package_metadata.py`

@@ -1,6 +1,6 @@
 # Scripts module memory
 
-Version: **0.1.1**. Scope: maintained command-line verifiers, generators,
+Version: **0.1.2**. Scope: maintained command-line verifiers, generators,
 portable checks, and bounded research explorers.
 
 ## Contracts
@@ -22,6 +22,11 @@ portable checks, and bounded research explorers.
   script, `check_research_lean.py`, remains below that target after formatting.
 
 ## Session Notes (2026-08-15)
+
+- Portable verification now admits the seven-position core runtime invariant
+  regression, including hostile helper, optimized-Python, process cleanup and
+  log-privacy checks. This is inventory admission only; portable stage order,
+  timeout, environment, package and logging behavior are unchanged.
 
 - Portable verification now admits the certificate-result invariant regression
   covering all 12 observer-genesis/productivity producer positions and two

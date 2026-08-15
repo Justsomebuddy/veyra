@@ -192,9 +192,13 @@ def _transport_cell(
     transport: DirectEchoTransport,
 ) -> Transport2CellArtifact:
     logger.debug("_transport_cell entry")
-    assert plan.left_join_path_id is not None and plan.right_join_path_id is not None
-    left_ids = _history_stage_ids(source, plan.left_branch_path_id, plan.left_join_path_id)
-    right_ids = _history_stage_ids(source, plan.right_branch_path_id, plan.right_join_path_id)
+    left_join_id = plan.left_join_path_id
+    right_join_id = plan.right_join_path_id
+    if left_join_id is None or right_join_id is None:
+        logger.error("_transport_cell rejected reason=missing-required-joins")
+        raise RuntimeError("transport-cell-requires-complete-separate-joins")
+    left_ids = _history_stage_ids(source, plan.left_branch_path_id, left_join_id)
+    right_ids = _history_stage_ids(source, plan.right_branch_path_id, right_join_id)
     stages = {item.stage_id: item for item in source.stages}
     rows = tuple(
         _response_row(
@@ -215,11 +219,11 @@ def _transport_cell(
     path_commitments = dict(zip((item.path_id for item in source.paths), source.path_commitments, strict=True))
     left_history = joined_history_digest(
         "left", path_commitments[plan.left_branch_path_id],
-        path_commitments[plan.left_join_path_id], plan.plan_digest,
+        path_commitments[left_join_id], plan.plan_digest,
     )
     right_history = joined_history_digest(
         "right", path_commitments[plan.right_branch_path_id],
-        path_commitments[plan.right_join_path_id], plan.plan_digest,
+        path_commitments[right_join_id], plan.plan_digest,
     )
     left_trace = trace_digest("left", left_history, rows)
     right_trace = trace_digest("right", right_history, rows)
@@ -227,7 +231,7 @@ def _transport_cell(
         doctrine.fingerprint, source.source_digest, plan.plan_digest,
         plan.fork_stage_commitment, path_commitments[plan.left_branch_path_id],
         path_commitments[plan.right_branch_path_id],
-        path_commitments[plan.left_join_path_id], path_commitments[plan.right_join_path_id],
+        path_commitments[left_join_id], path_commitments[right_join_id],
         plan.join_stage_commitment or "", transport.observer_ids, transport.mode,
         transport.transport_digest, rows, left_trace, right_trace,
         cell_trace_digest(left_trace, right_trace, plan.plan_digest), obstruction, status,

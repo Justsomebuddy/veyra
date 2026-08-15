@@ -474,9 +474,10 @@ def _canonical_digests(
 def _exact_digest(value: object, field: str) -> str:
     """Return one lowercase SHA-256-shaped public identity or fail closed."""
     logger.debug("_exact_digest entry field=%s", field)
+    if type(value) is not str:
+        _reject(field)
     if not _is_digest(value):
         _reject(field)
-    assert type(value) is str
     logger.debug("_exact_digest exit field=%s", field)
     return value
 

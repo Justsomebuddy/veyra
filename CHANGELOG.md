@@ -1,6 +1,19 @@
 # Changelog
 
 ## [Unreleased] — Changed
+- Replaced exactly seven optimization-sensitive core runtime assertions across
+  C1 confluence, R13 source verification, provenance digest admission, formal
+  process capture and translated C3 cells. Public C1 with both joins absent
+  remains total `OPEN` with no cell, while a one-sided partial join is rejected
+  earlier as `partial-join-plan`; private complete-cell construction and
+  malformed translated joins use stable explicit errors. The R13 verifier remains
+  nonthrowing under hostile helpers; provenance rejects non-strings before its
+  digest predicate; missing `Popen.stdout` kills and reaps once; and capture
+  logs retain only stage, argument count, cap, return code and byte count. The
+  target five files are production-B101-free and strict-Mypy-clean while their
+  five inherited Ruff-format findings and formal-process B404/B603 findings
+  remain explicitly outside this bounded wave. Valid artifacts, digests,
+  receipts, output bytes, exports, proof status and claim levels are unchanged.
 - Replaced the 12 optimization-sensitive certificate producer assertions in
   `certify_observer_genesis` and `certify_productivity` with immediate exact-
   type fail-closed guards. Unexpected subclasses or variants now emit only a

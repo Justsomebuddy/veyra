@@ -221,6 +221,14 @@ def test_portable_verification_includes_certificate_result_invariants():
     logger.debug("test portable certificate result invariant coverage exit")
 
 
+def test_portable_verification_includes_core_assertion_invariants():
+    """Hosted optimized, hostile, cleanup, and privacy checks must stay portable."""
+    logger.debug("test portable core assertion invariant coverage entry")
+    portable_pytest = next(step for step in portable_steps() if step.name == "Portable pytest")
+    assert "tests/test_core_assertion_invariants.py" in portable_pytest.command
+    logger.debug("test portable core assertion invariant coverage exit")
+
+
 def test_portable_verification_includes_claim_composition_behavior():
     """Hosted CI must exercise composition semantics, export replay, and authentication."""
     logger.debug("test portable claim composition coverage entry")
