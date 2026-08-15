@@ -415,6 +415,7 @@ def validate_registry_v2(value: object) -> PromotionRegistry:
     expected = promotion_registry_v2()
     if value != expected:
         reject("registry-v2-not-canonical")
+    value = expected
     if value.registry_digest != REGISTRY_DIGEST:
         reject("registry-v2-digest-drift")
     base = promotion_registry()

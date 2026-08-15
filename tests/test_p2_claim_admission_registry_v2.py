@@ -120,7 +120,8 @@ def test_registry_v2_is_exact_v1_plus_one_literal_rule_and_projection() -> None:
     logger.debug("test_registry_v2_is_exact_v1_plus_one_literal_rule_and_projection entry")
     old = promotion_registry()
     value = promotion_registry_v2()
-    assert validate_registry_v2(value) is value
+    validated = validate_registry_v2(value)
+    assert validated == value and validated is not value
     assert value.registry_digest == REGISTRY_DIGEST
     assert REGISTRY_DIGEST == "ba6020151518faf5eb2fa2eb22943af4c7d0abd88b393b1388f848e63dbc3eb4"
     assert (len(value.domains), len(value.rules), len(value.premise_projections)) == (15, 18, 41)
@@ -309,17 +310,22 @@ def test_registry_identifier_utf8_limit_precedes_equality(identifier: str, reaso
     logger.debug("test_registry_identifier_utf8_limit_precedes_equality exit")
 
 
-def test_registry_wave_exports_meta_validator_only() -> None:
-    """This dependency wave publishes no premise producer, audit conclusion, or DTO."""
-    logger.debug("test_registry_wave_exports_meta_validator_only entry")
+def test_p2_claim_admission_v2_exports_exact_registry_and_producer_surface() -> None:
+    """The completed sibling exports only its fixed registry and producer API."""
+    logger.debug("test P2 claim-admission v2 exact exports entry")
     assert set(registry_api.__all__) == {
         "EVIDENCE_FIELDS",
         "EXTENSION_ORACLE_DIGEST",
+        "JUDGMENT_BOUNDARY",
+        "JUDGMENT_SCHEMA",
+        "LicensedCompositionPresentation",
         "MAX_DEPTH",
         "MAX_IDENTIFIER_BYTES",
+        "MAX_JSON_BYTES",
         "MAX_NONPAYLOAD_TEXT_BYTES",
         "MAX_STRUCTURAL_NODES",
         "P2ClaimAdmissionError",
+        "P2_CLAIM_ADMISSION_VERSION",
         "PERMANENT_NONCLAIMS",
         "PREMISE_KIND",
         "PREMISE_NAME",
@@ -327,17 +333,23 @@ def test_registry_wave_exports_meta_validator_only() -> None:
         "REGISTRY_DIGEST",
         "REGISTRY_VERSION",
         "RULE_ID",
+        "SCHEMA_AUDIT_NONCLAIMS_V2",
+        "SCHEMA_AUDIT_SCOPE_V2",
+        "SourceValidationAuthority",
+        "SourceValidationBinding",
         "VISIBLE_INDICES",
         "audit_registry_v2_against_literal_oracle",
-        "promotion_registry_v2",
-        "validate_registry_v2",
-    }
-    for name in (
-        "LicensedCompositionPresentation",
         "build_composition_presentation_premise",
         "build_licensed_composition_presentation",
+        "build_presentation_schema_audit",
+        "build_presentation_schema_audit_report_v2",
         "licensed_composition_presentation_from_json",
         "licensed_composition_presentation_json",
-    ):
-        assert not hasattr(registry_api, name)
-    logger.debug("test_registry_wave_exports_meta_validator_only exit")
+        "promotion_registry_v2",
+        "validate_composition_presentation_premise",
+        "validate_licensed_composition_presentation",
+        "validate_presentation_schema_audit",
+        "validate_presentation_schema_audit_report_v2",
+        "validate_registry_v2",
+    }
+    logger.debug("test P2 claim-admission v2 exact exports exit")

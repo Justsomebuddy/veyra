@@ -1,7 +1,7 @@
 # P2 Licensed-Composition Presentation Admission V2
 
 **Date:** 2026-08-15  
-**Status:** additive registry/oracle implemented; presentation producer pending  
+**Status:** registry/oracle and authoritative presentation producer implemented  
 **Issue:** [#51](https://github.com/Justsomebuddy/veyra/issues/51)  
 **Version/schema:** `p2-r17-claim-admission-v2`,
 `veyra.p2-claim-admission-judgment.v2`  
@@ -106,17 +106,18 @@ The inherited anchors are fixed literally:
 The v2 extension oracle must bind both values rather than regenerating either
 anchor from the implementation under test.
 
-The first implementation wave publishes only this meta-validation surface from
+The first implementation wave published only this meta-validation surface from
 `src.core.p2_claim_admission_v2`:
 
 - `promotion_registry_v2()`;
 - `validate_registry_v2(...)`; and
 - `audit_registry_v2_against_literal_oracle(...)`.
 
-It has no presentation DTO, premise producer, schema-audit producer or decoder.
-The exact v1 prefix is retained, and v1 still rejects the new rule and complete
-v2 snapshot. Registry conformity alone therefore cannot issue a public
-presentation.
+That dependency-first wave had no presentation DTO, premise producer,
+schema-audit producer or decoder. The producer wave now adds those surfaces
+without changing the exact v1 prefix; v1 still rejects the new rule and
+complete v2 snapshot. Registry conformity alone therefore cannot issue a
+public presentation.
 
 ## 4. Authoritative producer
 
@@ -141,7 +142,8 @@ replays, in dependency order:
 4. the exact v2 premise and its visible evidence/indices;
 5. the v2 registry and independent extension oracle;
 6. the claim descriptor and audit request; and
-7. the fixed five-target schema-only audit.
+7. the named-rule `PromotionSchemaAudit`; and
+8. the separate fixed-five registry-v2 `SchemaAuditReport`.
 
 The derived P2 request has an exactly empty P2 assumption-DAG. Target
 `assumption_roots` remain separately visible through the `assumptions` index;
@@ -161,8 +163,8 @@ The producer derives premise, descriptor, request and schema-audit values for
 this one named rule. It does not expose a general caller-programmable P2
 judgment constructor.
 
-The planned truth-safe public result name is
-`LicensedCompositionPresentation`. The later producer wave targets:
+The truth-safe public result is `LicensedCompositionPresentation`. Its public
+producer surface is:
 
 - `build_composition_presentation_premise(...)`;
 - `validate_composition_presentation_premise(...)`;
@@ -171,12 +173,20 @@ The planned truth-safe public result name is
 - strict canonical JSON encoder and source-backed decoder counterparts for the
   licensed-composition presentation.
 
+The DTO retains both audits under distinct `promotion_schema_audit` and
+`schema_audit_report` fields. The former reconstructs the one named rule and
+request under a v2-specific digest domain. The latter independently audits the
+five exact registry-v2 DTO schemas in registry order under separate row/report
+domains. Both bind `SCHEMA_CONFORMANT / NOT_CLAIMED`, explicit meta-only scopes
+and the complete nonclaims; neither is conclusion authority. Callers can
+supply neither audit nor an audit policy.
+
 The naming is deliberate: the object is a licensed presentation, not an
 authoritative truth judgment.
 
 ## 5. Public-presentation meaning
 
-When implemented, `PRESENTED / ESTABLISHED / SUPPLIED_PRESENTATION` will mean
+`PRESENTED / ESTABLISHED / SUPPLIED_PRESENTATION` means
 only that one exact, licensed, freshly replayed finite conjunction conforms to
 the new named presentation rule. It preserves and publicly binds:
 
@@ -191,7 +201,7 @@ the new named presentation rule. It preserves and publicly binds:
 - permanent false fields including `assumptions_discharged=false`, together
   with explicit nonclaim flags for truth, coherence, independence and ontology.
 
-It will not reinterpret a composition receipt as truth or turn a schema audit
+It does not reinterpret a composition receipt as truth or turn a schema audit
 into a substantive conclusion. The result is a typed public presentation, not
 a theorem, certificate or object constructor.
 
@@ -219,10 +229,12 @@ It adds the following sibling ceilings:
 | combined shallow and decoded structural nodes | 65,536 |
 | canonical public-judgment JSON | 1 MiB |
 
-The implementation must reject overlong character counts before UTF-8
-encoding. It must then aggregate and precharge premise fields, assumption
-dependencies, structural nodes and nonpayload text before deep validation,
-equality, encoding or authoritative replay. The strict decoder rejects
+The implementation rejects overlong character counts before UTF-8 encoding.
+It then captures only exact allowlisted DTO and enum identities into a private
+immutable snapshot while aggregating premise fields, assumption dependencies,
+structural nodes and nonpayload text before deep validation, equality, encoding
+or authoritative replay. Caller mutation after capture cannot alter the issued
+judgment. The strict decoder rejects
 subclasses, bool-as-int values, duplicate object keys, trailing or noncanonical
 JSON, depth overflow, unknown enum members, stale roots, field/order drift and
 every cross-object splice.
@@ -254,17 +266,18 @@ Implementation acceptance requires all of the following:
 Passing those checks validates only this bounded executable contract. It does
 not promote any mathematical or ontological claim.
 
-Publication is dependency ordered:
+Publication was dependency ordered:
 
 1. this docs-only RFC freezes the public contract without runtime claims;
 2. the registry/oracle wave adds only the v1-plus-one meta-validator snapshot,
    still without a public presentation producer; and
-3. a later producer wave may add `LicensedCompositionPresentation` only after
-   fresh source-backed replay and all acceptance evidence pass.
+3. the producer wave adds `LicensedCompositionPresentation` only after fresh
+   source-backed replay and the bounded acceptance evidence passes.
 
-The producer wave must update this status and evidence map from its exact merged
-tree. Merely having worktree code or focused local tests is not a published
-producer claim.
+The package, portable and hostile suites cover the producer and codec alongside
+the unchanged registry-v2 and v1 compatibility pins. Exact commit, hosted CI,
+reviewed tree and merge evidence remains recorded on the producer pull request;
+focused tests alone are not comprehensive mathematical evidence.
 
 ## 8. Permanent nonclaims
 

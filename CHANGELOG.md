@@ -1,6 +1,25 @@
 # Changelog
 
 ## [Unreleased] — Changed
+- Added the authoritative producer, verifier and strict canonical codec for the
+  non-root `LicensedCompositionPresentation` P2 v2 sibling. Every result is
+  reconstructed from the raw canonical source family, exact target contract,
+  license and unchanged nonpromoting composition receipt. The ordered
+  `source-validator-family` now binds each local receipt digest, validator root
+  and replay-derived `NATIVE_GOVERNED_REPLAY` or `EXTERNAL_BINDING_ONLY`
+  authority class, so detached evidence cannot inherit native authority merely
+  by naming the same validator root. The full license, freshly derived
+  four-axis assessment, premise, descriptor, request, named-rule
+  `PromotionSchemaAudit`, separate fixed-five registry-v2 `SchemaAuditReport`,
+  registry and extension-oracle bindings are retained in the public DTO and
+  codec. Exact-type callback-free immutable capture closes caller-mutation and
+  nested subclass/enum seams before deep replay or equality; 1 MiB text/JSON,
+  65,536-node, 128-byte-identifier and depth ceilings, hostile JSON/splice/
+  resource tests, and context-local replay-log redaction fail closed. P2-S and
+  claim-composition v1 bytes remain exact; schema conformity
+  and presentation status establish no truth, coherence, assumption discharge,
+  independence, validator trust, ontology, theorem, lifecycle, physical
+  instantiation, authentication, chronology, custody or audit-as-truth claim.
 - Added the dependency-first, non-root P2 licensed-composition registry-v2
   meta-validator specified by document 171. It is the exact P2-S v1 snapshot
   plus only `composition-licensed-presentation-v2` and its premise projection,
@@ -8,10 +27,10 @@
   independently literal-pinned extension oracle and strict nested-type,
   cardinality, identifier, node and text gates before equality. Its only
   possible output row is `PRESENTED / ESTABLISHED / SUPPLIED_PRESENTATION`;
-  all assumption and source-validator indices remain visible. This wave exports
-  no premise producer, audit producer, presentation DTO or decoder, so schema
-  conformity still cannot create a public presentation or establish any permanent
-  nonclaim. The frozen producer contract separately binds native-governed
+  all assumption and source-validator indices remain visible. That registry-only
+  wave exported no premise producer, audit producer, presentation DTO or decoder,
+  so schema conformity by itself still cannot create a public presentation or
+  establish any permanent nonclaim. The producer contract separately binds native-governed
   versus external-binding replay authority so a validator-root name cannot
   stand in for current execution. P2-S v1 bytes, root exports and rejection
   behavior remain exact.
@@ -32,8 +51,9 @@
   theorem, ontology, lifecycle, physical instantiation, authentication,
   chronology, custody or audit-as-truth claim follows.
   This entry records the docs-only RFC wave; the registry/oracle meta-validator
-  and source-backed `LicensedCompositionPresentation` producer remain separate
-  dependency-ordered publication waves and are not yet claimed as released.
+  and source-backed `LicensedCompositionPresentation` producer remained
+  separate dependency-ordered publication waves and are recorded by the two
+  newer entries above.
 - Added the separately versioned, non-root same-doctrine all-status P1-A
   realization-transport sibling specified by RFC 169. It resolves the current `Blocked` information
   obstruction, admits only freshly reconstructed `STRONG` judgments, specifies

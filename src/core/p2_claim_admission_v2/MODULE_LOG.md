@@ -1,5 +1,29 @@
 # Module Log — P2 Claim Admission v2
 
+### [2.1.0] Authoritative licensed-composition presentation producer
+- **Type:** ✨ Feature / 🔒 Security
+- **Files:** `types.py`, `replay.py`, `schema_audit.py`, `public.py`,
+  `codec.py`, `validation.py`, `log_boundary.py`, `__init__.py`, focused normal
+  and adversarial tests, package/portable integration and public documentation.
+- **What:** Added the full source-backed `LicensedCompositionPresentation`
+  producer, reconstructing verifier and strict canonical codec. The public DTO
+  retains the exact contract, license, freshly derived assessment, receipt,
+  premise, descriptor, request, registry/oracle pair and two independent
+  meta-only audits. Ordered receipt/validator/authority triples distinguish
+  fresh native governed replay from detached external binding even when v1
+  receipts and validator roots coincide. Fixed source/identifier/text/node/
+  depth/JSON ceilings, exact-type callback-free immutable capture, bounded
+  errors and context-local lower-log redaction fail closed before replay,
+  equality or output. Results retain the captured authority snapshot, so
+  concurrent mutation of caller DTOs cannot enter the judgment.
+- **Why:** Complete issue #51's producer wave without widening v1 or allowing
+  registry/schema conformity, caller-supplied audit material, or validator-root
+  naming to become conclusion authority.
+- **Evidence:** Focused, broader compatibility, portable/package, hygiene and
+  independent review evidence is bound to the exact producer pull request;
+  hosted clean-package evidence supplements the local toolchain boundary.
+- **Module version:** 2.0.0 → 2.1.0
+
 ### [2.0.0] Additive meta-only registry and literal oracle
 - **Type:** ✨ Feature / 🔒 Security
 - **Files:** `registry.py`, `errors.py`, `resource_validation.py`, `__init__.py`,

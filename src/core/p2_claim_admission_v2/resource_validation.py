@@ -6,6 +6,19 @@ from dataclasses import fields, is_dataclass
 from enum import Enum
 import logging
 
+from ..status_promotion_types import (
+    EvidenceStatus,
+    IndexProjectionRule,
+    JudgmentKind,
+    KindStatusDomain,
+    PositiveProvenance,
+    PremiseProjectionRule,
+    PremiseSignature,
+    PromotionRegistry,
+    PromotionRule,
+    SchemaTarget,
+    StatusProvenancePair,
+)
 from .errors import P2ClaimAdmissionError, reject
 
 logger = logging.getLogger(__name__)
@@ -15,6 +28,19 @@ MAX_STRUCTURAL_NODES = 65_536
 MAX_DEPTH = 128
 MAX_IDENTIFIER_BYTES = 128
 _HEX = frozenset("0123456789abcdef")
+_RESOURCE_DATACLASS_TYPES = frozenset(
+    {
+        IndexProjectionRule,
+        KindStatusDomain,
+        PremiseProjectionRule,
+        PremiseSignature,
+        PromotionRegistry,
+        PromotionRule,
+        SchemaTarget,
+        StatusProvenancePair,
+    }
+)
+_RESOURCE_ENUM_TYPES = frozenset({EvidenceStatus, JudgmentKind, PositiveProvenance})
 
 
 def exact_digest(value: object, reason: str) -> str:
@@ -49,8 +75,8 @@ def _children(value: object) -> tuple[object, ...]:
         result = tuple(value)
     elif type(value) is dict:
         result = tuple(part for item in value.items() for part in item)
-    elif is_dataclass(value) and type(value).__module__.startswith("src.core"):
-        result = tuple(getattr(value, item.name) for item in fields(value))
+    elif type(value) in _RESOURCE_DATACLASS_TYPES and is_dataclass(value):
+        result = tuple(object.__getattribute__(value, item.name) for item in fields(type(value)))
     else:
         result = ()
     logger.debug("_children exit rows=%d", len(result))
@@ -86,7 +112,12 @@ def charge_text(value: object, *, allowance: int = MAX_NONPAYLOAD_TEXT_BYTES) ->
     stack: list[object] = [value]
     while stack:
         node = stack.pop()
-        text = node.value if isinstance(node, Enum) else node
+        if type(node) in _RESOURCE_ENUM_TYPES:
+            text = object.__getattribute__(node, "_value_")
+        elif isinstance(node, Enum):
+            reject("nonpayload-text-enum-type")
+        else:
+            text = node
         if type(text) is str:
             remaining = allowance - total
             if len(text) > remaining:

@@ -2,15 +2,13 @@
 
 ## Scope
 
-This non-root sibling currently publishes only the additive, meta-only registry
-and literal extension oracle for the named P2 rule
+This non-root sibling publishes the additive registry/oracle and the separate
+source-backed producer for the named P2 rule
 `composition-licensed-presentation-v2`. It preserves P2-S v1 and
 `claim_composition` v1 objects, digests, registries, literal oracle, premise,
-exports, and root facade exactly.
-
-The authoritative presentation producer, verifier, strict decoder, public DTO,
-replay boundary, and enriched premise are a separate pending publication wave.
-They are not exported by this registry-only package revision.
+exports, and root facade exactly. `LicensedCompositionPresentation` is a typed
+licensed presentation only; it is not truth, theorem, ontology or promotion of
+the unchanged v1 receipt.
 
 ## Published registry contract
 
@@ -28,13 +26,42 @@ They are not exported by this registry-only package revision.
   `assumption-set`, `doctrine-set`, `source-validator-family`,
   `source-family`, `composition-license`, `composition-assessment`,
   `nonpromotion`.
-- The later producer must interpret `source-validator-family` as the ordered
+- The producer interprets `source-validator-family` as the ordered
   `(local receipt digest, validator root, authority class)` family, where the
   authority class distinguishes fresh native-governed replay from external
   binding-only replay even when validator roots and v1 receipts coincide.
 - The extension oracle validates schema shape, the exact additive snapshot,
   semantic pins, cardinalities, literal digests, and the v1 prefix. It is
-  meta-validation only and cannot construct or promote a presentation.
+  meta-validation only and cannot by itself construct or promote a presentation.
+
+## Producer contract
+
+- `build_licensed_composition_presentation(...)` and its validators accept only
+  the raw canonical sources, exact target contract, license, unchanged receipt
+  and bounded judgment identifier; the caller cannot supply a descriptor,
+  request, audit, conclusion, policy, status or provenance.
+- Fresh replay retains the exact target, license, four-axis assessment, receipt,
+  premise, descriptor, request, registry/oracle pair, named-rule
+  `PromotionSchemaAudit` and separate fixed-five registry-v2
+  `SchemaAuditReport` in the public DTO and strict codec.
+- Each source retains an ordered `(local receipt digest, validator root,
+  authority class)` binding. Authority is derived from the fresh replay path:
+  `NATIVE_GOVERNED_REPLAY` only for a native governed result, otherwise
+  `EXTERNAL_BINDING_ONLY`, regardless of validator-root spelling.
+- The verifier and decoder rebuild the complete result from raw authority and
+  require exact equality. The canonical decoder rejects duplicate/unknown/
+  trailing/noncanonical JSON, hostile scalars/containers, stale roots and
+  cross-object splices.
+- Raw authority and candidate values are copied through a callback-free exact
+  DTO/enum whitelist under the node/depth/text budgets before replay or
+  equality. Every result retains that private snapshot, never caller-owned DTO
+  identity, closing both callback and concurrent `object.__setattr__` seams.
+- Sibling limits are 2..64 sources, 128 UTF-8 bytes per identifier, 1 MiB
+  aggregate nonpayload text, 65,536 combined structural nodes, depth 128 and
+  1 MiB canonical JSON, in addition to all composition-v1 limits.
+- `protected_replay_logs()` uses a context-local first-position filter guarded
+  by one `RLock` and exactly restores lower logger filters after success/error;
+  unrelated threads are not redacted.
 
 ## Permanent boundary
 
@@ -46,12 +73,21 @@ certificate or formal proof, ontology, object/history/lifecycle, empirical or
 physical instantiation, authentication/custody/chronology, or audit-as-truth.
 The unchanged v1 receipt promotion bit remains false.
 
-## Current files
+## Files
 
 - `registry.py`: additive full snapshot, semantic pins, literal extension
   oracle, and v1-preservation checks.
+- `replay.py`: authoritative composition replay, ordered authority bindings,
+  exact premise/descriptor/request and named-rule schema audit.
+- `schema_audit.py`: dedicated literal five-target registry-v2 audit and exact
+  reconstructing validator; it does not reuse the v1-only audit builder.
+- `public.py`: full public DTO producer and source-backed exact validator.
+- `codec.py`: full-field canonical JSON encoder and rebuild-only decoder.
+- `types.py`: immutable public DTO and exact authority enum/binding.
+- `validation.py` / `resource_validation.py`: callback-free immutable DTO/enum
+  capture plus exact identifier, structural and text resource gates before
+  replay/equality.
+- `log_boundary.py`: context-local replay-log redaction and exact restoration.
 - `errors.py`: fixed package exception and bounded rejection helper.
-- `resource_validation.py`: dependency-light exact digest, 128-byte identifier,
-  structural, and text resource validation shared with the pending producer
-  wave.
-- `__init__.py`: registry-only public surface; no producer-facing APIs.
+- `__init__.py`: explicit non-root registry, producer, validator, audit and codec
+  public surface.
