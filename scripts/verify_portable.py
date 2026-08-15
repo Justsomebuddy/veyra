@@ -60,6 +60,7 @@ PORTABLE_TESTS = (
     "tests/test_finite_builder_types_package_compat.py",
     "tests/test_platform_imports.py",
     "tests/test_project_paths.py",
+    "tests/test_trusted_git.py",
     "tests/test_package_metadata.py",
     "tests/test_check_lean_sources.py",
     "tests/test_check_research_lean.py",

@@ -1,6 +1,6 @@
 # Scripts module memory
 
-Version: **0.1.2**. Scope: maintained command-line verifiers, generators,
+Version: **0.2.0**. Scope: maintained command-line verifiers, generators,
 portable checks, and bounded research explorers.
 
 ## Contracts
@@ -22,6 +22,13 @@ portable checks, and bounded research explorers.
   script, `check_research_lean.py`, remains below that target after formatting.
 
 ## Session Notes (2026-08-15)
+
+- Private `_trusted_git.py` now owns the exact package/hygiene inventory and
+  ignore queries. It admits only fixed absolute installation paths, validates
+  executable/ancestor metadata before and after execution, scrubs PATH and
+  Git/loader overrides while preserving HOME/XDG global-exclude semantics, and
+  uses fixed value-free failures. This is narrow path hardening, not binary,
+  ACL, repository-race, or all-subprocess attestation.
 
 - Portable verification now admits the seven-position core runtime invariant
   regression, including hostile helper, optimized-Python, process cleanup and

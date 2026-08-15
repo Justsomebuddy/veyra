@@ -1,5 +1,23 @@
 # Scripts module log
 
+### [0.2.0] Private trusted Git executable boundary
+- **Type:** Security / portability
+- **Files:** `scripts/_trusted_git.py`, `scripts/package_smoke.py`,
+  `scripts/project_hygiene.py`, `scripts/verify_portable.py`,
+  `tests/test_trusted_git.py`, `tests/test_package_metadata.py`,
+  `docs/178_trusted_git_executable.md`, `docs/index.md`, `CHANGELOG.md`
+- **What:** Routed the three production fixed-name Git calls through two
+  private operations backed by fixed absolute candidates, POSIX ownership/mode
+  or Windows reparse-point admission, executable/ancestor identity replay,
+  isolated process settings, bounded byte capture, and a case-insensitive
+  environment scrub. Added portable adversarial and consumer regressions.
+- **Why:** Remove production Bandit B607 executable-path ambiguity without
+  suppressions or changing source inventory and global-exclude semantics.
+- **Module version:** 0.1.2 → 0.2.0
+- **Boundary:** No public package export, registry/PATH resolution, checksum or
+  signature pin, Windows ACL claim, atomic fd-exec, Git index race claim, broad
+  subprocess refactor, proof-status change, or full `make verify` claim.
+
 ### [0.1.2] Portable core-runtime invariant admission
 - **Type:** Test / portability
 - **Files:** `scripts/verify_portable.py`, `tests/test_package_metadata.py`

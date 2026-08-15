@@ -15,6 +15,11 @@ import time
 import unicodedata
 import zipfile
 
+if __package__:
+    from ._trusted_git import git_inventory
+else:
+    from _trusted_git import git_inventory
+
 logger = logging.getLogger(__name__)
 ROOT = Path(__file__).resolve().parents[1]
 TMP_ROOT = ROOT / "data" / "tmp"
@@ -295,16 +300,7 @@ def copy_source_checkout(destination: Path) -> Path:
     """Copy the active tree without writing build metadata beside proof inputs."""
     logger.debug("package_smoke.copy_source_checkout entry destination=%s", destination)
     source = destination / "source"
-    process = subprocess.run(
-        ["git", "ls-files", "-z", "--cached", "--others", "--exclude-standard"],
-        cwd=ROOT,
-        capture_output=True,
-        check=False,
-        timeout=30,
-    )
-    if process.returncode:
-        raise RuntimeError("package-source-inventory-failed")
-    relative_paths = tuple(Path(os.fsdecode(raw)) for raw in process.stdout.split(b"\0") if raw)
+    relative_paths = tuple(Path(os.fsdecode(raw)) for raw in git_inventory(ROOT))
     source.mkdir()
     for relative in relative_paths:
         origin = ROOT / relative

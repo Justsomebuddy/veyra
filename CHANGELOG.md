@@ -1,6 +1,20 @@
 # Changelog
 
 ## [Unreleased] — Changed
+- Replaced the three production fixed-name Git subprocess call sites in the
+  package source copier and repository hygiene checker with one private trusted
+  executable boundary. The helper admits only fixed absolute POSIX or Windows
+  installation paths, validates the executable and every ancestor, scrubs
+  PATH/Git/loader override variables case-insensitively, runs outside the
+  repository with a closed stdin and byte capture, and rejects pre-spawn or
+  post-attempt identity drift. Exact NUL inventory bytes, global-exclude
+  behavior, and ignore status 0/1 semantics remain intact; status greater than
+  1 now fails closed. Portable adversarial tests cover both platform policies,
+  argv/environment/cwd/timeouts, execution failures, identity drift and both
+  consumers. The helper is not a cryptographic binary attestation, atomic
+  descriptor execution, Windows ACL verification, repository/index race proof,
+  or all-subprocess hardening claim; the two direct Git meta-test findings are
+  intentionally unchanged and unsuppressed.
 - Fixed exact conjunctions with two distinct established receipts for the same
   semantic contract. Target `component_contract_digests` now records the sorted
   unique semantic contract set, while canonical sources, source/validator

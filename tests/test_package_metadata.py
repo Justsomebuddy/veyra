@@ -237,6 +237,16 @@ def test_portable_verification_includes_vam_assertion_invariants():
     logger.debug("test portable VAM assertion invariant coverage exit")
 
 
+def test_portable_verification_includes_trusted_git_boundary():
+    """Hosted CI must exercise fixed executable admission on every supported OS."""
+    logger.debug("test portable trusted Git coverage entry")
+    portable_pytest = next(step for step in portable_steps() if step.name == "Portable pytest")
+    assert "tests/test_trusted_git.py" in portable_pytest.command
+    helper = (ROOT / "scripts/_trusted_git.py").read_text(encoding="utf-8")
+    assert '__all__ = ("git_check_ignore", "git_inventory")' in helper
+    logger.debug("test portable trusted Git coverage exit")
+
+
 def test_portable_verification_includes_claim_composition_behavior():
     """Hosted CI must exercise composition semantics, export replay, and authentication."""
     logger.debug("test portable claim composition coverage entry")

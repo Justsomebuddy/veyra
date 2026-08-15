@@ -284,6 +284,9 @@ No metaphysical claim is accepted as mathematics until it becomes a definition, 
 - `docs/177_vam_result_invariants.md` — bounded replacement of four
   optimization-sensitive VAMI result/diagnostic assertions with exact
   pre-callback gates, conservative internal diagnostics and privacy-safe logs.
+- `docs/178_trusted_git_executable.md` — private fixed-path Git admission,
+  process/environment isolation, compatibility semantics, and explicit
+  residual trust for the two maintained repository-script consumers.
 - `vam/docs/042_native_observer_synthesis_v4.md` — append-only finite
   representation/observer search, truthful namespace/seccomp/cgroup custody,
   state-free signed replay, and an abstract Lean boundary; not general

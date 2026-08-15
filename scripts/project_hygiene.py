@@ -9,12 +9,16 @@ from concurrent.futures import ThreadPoolExecutor
 import logging
 import os
 from pathlib import Path, PurePosixPath
-import subprocess
 import sys
 import time
 from types import MappingProxyType
 
 from tqdm import tqdm
+
+if __package__:
+    from ._trusted_git import git_check_ignore, git_inventory
+else:
+    from _trusted_git import git_check_ignore, git_inventory
 
 logger = logging.getLogger(__name__)
 ROOT = Path(__file__).resolve().parents[1]
@@ -57,23 +61,7 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
 def tracked_text_files() -> tuple[Path, ...]:
     """Enumerate checked text files without following external symlinks."""
     logger.debug("project_hygiene.tracked_text_files entry")
-    process = subprocess.run(
-        [
-            "git",
-            "ls-files",
-            "-z",
-            "--cached",
-            "--others",
-            "--exclude-standard",
-        ],
-        cwd=ROOT,
-        capture_output=True,
-        check=False,
-        timeout=30,
-    )
-    if process.returncode:
-        raise RuntimeError("hygiene-source-inventory-failed")
-    candidates = (ROOT / os.fsdecode(raw) for raw in process.stdout.split(b"\0") if raw)
+    candidates = (ROOT / os.fsdecode(raw) for raw in git_inventory(ROOT))
     result = tuple(
         sorted(
             (
@@ -209,17 +197,7 @@ def cache_ignore_check() -> tuple[str, ...]:
     """Verify representative generated-cache paths remain ignored by Git."""
     logger.debug("project_hygiene.cache_ignore_check entry")
     probes = (".pytest_cache/", "src/core/__pycache__/", "vam/native/target/")
-    missing: list[str] = []
-    for probe in probes:
-        result = subprocess.run(
-            ["git", "check-ignore", "-q", probe],
-            cwd=ROOT,
-            check=False,
-            timeout=10,
-        )
-        if result.returncode:
-            missing.append(probe)
-    outcome = tuple(missing)
+    outcome = tuple(probe for probe in probes if not git_check_ignore(ROOT, probe))
     logger.debug("project_hygiene.cache_ignore_check exit missing=%d", len(outcome))
     return outcome
 
@@ -263,7 +241,7 @@ def main() -> None:
     logger.debug("project_hygiene.main entry")
     try:
         result = run(sys.argv[1:])
-    except (OSError, RuntimeError, UnicodeError, subprocess.TimeoutExpired) as exc:
+    except (OSError, RuntimeError, UnicodeError) as exc:
         logger.error("project hygiene blocked error=%s", exc)
         print(f"[done] processed=0 errors=1 error={exc}", file=sys.stderr)
         result = 2
