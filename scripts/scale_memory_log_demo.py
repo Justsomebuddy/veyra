@@ -34,7 +34,9 @@ def main() -> int:
     exact = recover_transition_depth("doubling-exact", ratio_from_ints(2), ratio_from_ints(32), 10)
 
     stage(2, 5, "Recovering residual scale-memory depth near 20")
-    residual = recover_transition_depth("doubling-residual", ratio_from_ints(2), ratio_from_ints(20), 6, ratio_from_ints(4))
+    residual = recover_transition_depth(
+        "doubling-residual", ratio_from_ints(2), ratio_from_ints(20), 6, ratio_from_ints(4)
+    )
 
     stage(3, 5, "Unwrapping finite cyclic shadow 5^n mod 97 = 83")
     cyclic = finite_field_log_fixture()
@@ -50,7 +52,12 @@ def main() -> int:
         "obstruction": obstruction.as_dict(),
     }
     print(json.dumps(payload, sort_keys=True))
-    ok = exact.status == "exact" and residual.status == "approximate" and cyclic.status == "exact" and obstruction.status == "blocked"
+    ok = (
+        exact.status == "exact"
+        and residual.status == "approximate"
+        and cyclic.status == "exact"
+        and obstruction.status == "blocked"
+    )
     print(f"[done] errors={0 if ok else 1}")
     logger.debug("main exit ok=%s", ok)
     return 0 if ok else 1

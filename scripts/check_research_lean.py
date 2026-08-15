@@ -40,30 +40,18 @@ MAX_DIAGNOSTIC_BYTES = 65_536
 COMPILE_TIMEOUT_SECONDS = 600
 TOOLCHAIN_TIMEOUT_SECONDS = 30
 IMPORT_PATTERN = re.compile(r"(?m)^\s*import\s+(.+?)\s*$")
-DECLARATION_PATTERN = re.compile(
-    r"(?m)^\s*(theorem|lemma)\s+([A-Za-z_][A-Za-z0-9_']*)\b"
-)
+DECLARATION_PATTERN = re.compile(r"(?m)^\s*(theorem|lemma)\s+([A-Za-z_][A-Za-z0-9_']*)\b")
 FORBIDDEN_PATTERN = re.compile(
     r"\b(?:sorryAx|sorry|admit|axiom|postulate|constant|opaque|unsafe|extern|"
     r"implemented_by|run_tac|elab|macro|syntax|addDecl|axiomDecl)\b"
 )
 HEADLINE_NAME_PATTERN = re.compile(r"^RESEARCH_(?:[A-Z]+_)?T[0-9]{3}_")
-HEADLINE_STATEMENT_PATTERN = re.compile(
-    r"(?ms)^\s*(?:theorem|lemma)\s+([A-Za-z_][A-Za-z0-9_']*)\b(.*?)\s*:="
-)
+HEADLINE_STATEMENT_PATTERN = re.compile(r"(?ms)^\s*(?:theorem|lemma)\s+([A-Za-z_][A-Za-z0-9_']*)\b(.*?)\s*:=")
 ALLOWED_EXTERNAL_IMPORT_ROOTS = frozenset({"Init", "Lean", "Std"})
-VERSION_PATTERN = re.compile(
-    r"^Lean \(version ([^,]+), [^,]+, commit ([0-9a-f]{40}), Release\)$"
-)
-AXIOM_ROW_PATTERN = re.compile(
-    r"'Veyra\.([A-Za-z_][A-Za-z0-9_']*)' depends on axioms: \[([^\]]*)\]"
-)
-NO_AXIOM_ROW_PATTERN = re.compile(
-    r"'Veyra\.([A-Za-z_][A-Za-z0-9_']*)' does not depend on any axioms"
-)
-CHECK_ROW_PATTERN = re.compile(
-    r"(?m)^Veyra\.([A-Za-z_][A-Za-z0-9_']*)\s+.*?:"
-)
+VERSION_PATTERN = re.compile(r"^Lean \(version ([^,]+), [^,]+, commit ([0-9a-f]{40}), Release\)$")
+AXIOM_ROW_PATTERN = re.compile(r"'Veyra\.([A-Za-z_][A-Za-z0-9_']*)' depends on axioms: \[([^\]]*)\]")
+NO_AXIOM_ROW_PATTERN = re.compile(r"'Veyra\.([A-Za-z_][A-Za-z0-9_']*)' does not depend on any axioms")
+CHECK_ROW_PATTERN = re.compile(r"(?m)^Veyra\.([A-Za-z_][A-Za-z0-9_']*)\s+.*?:")
 
 
 @dataclass(frozen=True)
@@ -216,9 +204,7 @@ def _source_record(value: object, group: str) -> SourceRecord:
         logger.error("research_lean._source_record digest invalid path=%s", path)
         raise ValueError("research-manifest-source-digest")
     imports = _exact_string_tuple(row["imports"], "research-manifest-imports")
-    declarations = _exact_string_tuple(
-        row["declarations"], "research-manifest-declarations"
-    )
+    declarations = _exact_string_tuple(row["declarations"], "research-manifest-declarations")
     if group == "base" and declarations:
         logger.error("research_lean._source_record base declarations must be omitted")
         raise ValueError("research-manifest-base-declarations")
@@ -244,9 +230,17 @@ def load_manifest(path: Path = MANIFEST_PATH) -> ResearchManifest:
         raise ValueError("research-manifest-json") from exc
     root = _exact_dict(raw, "research-manifest-root")
     expected_keys = {
-        "schema", "status", "toolchain", "base_sources", "research_sources",
-        "declaration_count", "headline_declarations", "headline_claims",
-        "axiom_closure", "source_roots", "proof_root",
+        "schema",
+        "status",
+        "toolchain",
+        "base_sources",
+        "research_sources",
+        "declaration_count",
+        "headline_declarations",
+        "headline_claims",
+        "axiom_closure",
+        "source_roots",
+        "proof_root",
     }
     if set(root) != expected_keys:
         logger.error("research_lean.load_manifest root keys mismatch")
@@ -259,13 +253,12 @@ def load_manifest(path: Path = MANIFEST_PATH) -> ResearchManifest:
         logger.error("research_lean.load_manifest toolchain keys mismatch")
         raise ValueError("research-manifest-toolchain")
     base_rows = _exact_list(root["base_sources"], "research-manifest-base")
-    research_rows = _exact_list(
-        root["research_sources"], "research-manifest-research"
-    )
+    research_rows = _exact_list(root["research_sources"], "research-manifest-research")
     if len(base_rows) != EXPECTED_BASE_COUNT or len(research_rows) != EXPECTED_RESEARCH_COUNT:
         logger.error(
             "research_lean.load_manifest source count mismatch base=%d research=%d",
-            len(base_rows), len(research_rows),
+            len(base_rows),
+            len(research_rows),
         )
         raise ValueError("research-manifest-source-count")
     base = tuple(_source_record(row, "base") for row in base_rows)
@@ -279,12 +272,8 @@ def load_manifest(path: Path = MANIFEST_PATH) -> ResearchManifest:
     ):
         logger.error("research_lean.load_manifest declaration inventory mismatch")
         raise ValueError("research-manifest-declaration-count")
-    headlines = _exact_string_tuple(
-        root["headline_declarations"], "research-manifest-headlines"
-    )
-    expected_headlines = tuple(
-        name for name in declarations if HEADLINE_NAME_PATTERN.match(name)
-    )
+    headlines = _exact_string_tuple(root["headline_declarations"], "research-manifest-headlines")
+    expected_headlines = tuple(name for name in declarations if HEADLINE_NAME_PATTERN.match(name))
     if len(headlines) != EXPECTED_HEADLINE_COUNT or headlines != expected_headlines:
         logger.error("research_lean.load_manifest headline mismatch")
         raise ValueError("research-manifest-headlines")
@@ -317,9 +306,7 @@ def load_manifest(path: Path = MANIFEST_PATH) -> ResearchManifest:
     closure = tuple(
         (
             declaration,
-            _exact_string_tuple(
-                closure_raw[declaration], "research-manifest-axiom-row"
-            ),
+            _exact_string_tuple(closure_raw[declaration], "research-manifest-axiom-row"),
         )
         for declaration in declarations
     )
@@ -328,8 +315,7 @@ def load_manifest(path: Path = MANIFEST_PATH) -> ResearchManifest:
         logger.error("research_lean.load_manifest source root keys mismatch")
         raise ValueError("research-manifest-source-roots")
     source_roots = tuple(
-        (group, _exact_text(roots_raw[group], "research-manifest-source-root", 64))
-        for group in ("base", "research")
+        (group, _exact_text(roots_raw[group], "research-manifest-source-root", 64)) for group in ("base", "research")
     )
     proof_root = _exact_text(root["proof_root"], "research-manifest-proof-root", 64)
     if any(not re.fullmatch(r"[0-9a-f]{64}", digest) for _, digest in source_roots) or not re.fullmatch(
@@ -422,7 +408,8 @@ def strip_lean_noncode(source: str) -> str:
     if block_depth or in_string:
         logger.error(
             "research_lean.strip_lean_noncode unterminated block=%d string=%s",
-            block_depth, in_string,
+            block_depth,
+            in_string,
         )
         raise ValueError("research-lean-unterminated-lexeme")
     result = "".join(output)
@@ -446,11 +433,7 @@ def parse_source(payload: bytes) -> tuple[tuple[str, ...], tuple[str, ...]]:
     if forbidden:
         logger.error("research_lean.parse_source forbidden token=%s", forbidden.group(0))
         raise ValueError(f"research-lean-forbidden:{forbidden.group(0)}")
-    imports = tuple(
-        name
-        for row in IMPORT_PATTERN.findall(code)
-        for name in row.split()
-    )
+    imports = tuple(name for row in IMPORT_PATTERN.findall(code) for name in row.split())
     declarations = tuple(match[1] for match in DECLARATION_PATTERN.findall(code))
     if len(imports) != len(set(imports)) or len(declarations) != len(set(declarations)):
         logger.error("research_lean.parse_source duplicate import/declaration")
@@ -467,10 +450,7 @@ def headline_statements(payload: bytes) -> dict[str, str]:
     except UnicodeError as exc:
         logger.error("research_lean.headline_statements invalid unicode")
         raise ValueError("research-lean-source-unicode") from exc
-    result = {
-        name: " ".join(signature.split())
-        for name, signature in HEADLINE_STATEMENT_PATTERN.findall(code)
-    }
+    result = {name: " ".join(signature.split()) for name, signature in HEADLINE_STATEMENT_PATTERN.findall(code)}
     logger.debug("research_lean.headline_statements exit count=%d", len(result))
     return result
 
@@ -525,13 +505,7 @@ def calculate_proof_root(manifest: ResearchManifest) -> str:
         f"toolchain\0{manifest.toolchain}\0{manifest.version}\0{manifest.commit}",
         f"base\0{roots['base']}",
         f"research\0{roots['research']}",
-        *(
-            "claim\0"
-            + name
-            + "\0"
-            + "\0".join(claims[name])
-            for name in manifest.headlines
-        ),
+        *("claim\0" + name + "\0" + "\0".join(claims[name]) for name in manifest.headlines),
         *(f"axioms\0{name}\0{','.join(closures[name])}" for name in manifest.declarations),
     )
     result = _domain_root("veyra.research-lean.proof.v1", tuple(rows))
@@ -552,7 +526,8 @@ def verify_inventory(manifest: ResearchManifest) -> dict[str, bytes]:
     if actual_paths != expected_paths:
         logger.error(
             "research_lean.verify_inventory path drift missing=%s extra=%s",
-            sorted(expected_paths - actual_paths), sorted(actual_paths - expected_paths),
+            sorted(expected_paths - actual_paths),
+            sorted(actual_paths - expected_paths),
         )
         raise ValueError("research-lean-source-inventory-drift")
     payloads: dict[str, bytes] = {}
@@ -574,10 +549,7 @@ def verify_inventory(manifest: ResearchManifest) -> dict[str, bytes]:
         payloads[row.path] = payload
         if row.group == "research":
             observed_headlines.update(headline_statements(payload))
-    expected_statements = {
-        name: statement
-        for name, statement, _scope, _registry in manifest.headline_claims
-    }
+    expected_statements = {name: statement for name, statement, _scope, _registry in manifest.headline_claims}
     if {name: observed_headlines.get(name) for name in manifest.headlines} != expected_statements:
         logger.error("research_lean.verify_inventory headline statement drift")
         raise ValueError("research-lean-headline-statement-drift")
@@ -630,7 +602,11 @@ def lean_command(manifest: ResearchManifest) -> list[str]:
     """Resolve Lean and verify the root pin, version, and compiler commit."""
     logger.debug("research_lean.lean_command entry toolchain=%s", manifest.toolchain)
     toolchain_path = ROOT / "lean-toolchain"
-    if toolchain_path.is_symlink() or not toolchain_path.is_file() or toolchain_path.read_bytes() != (manifest.toolchain + "\n").encode():
+    if (
+        toolchain_path.is_symlink()
+        or not toolchain_path.is_file()
+        or toolchain_path.read_bytes() != (manifest.toolchain + "\n").encode()
+    ):
         logger.error("research_lean.lean_command root toolchain pin mismatch")
         raise RuntimeError("research-lean-root-toolchain-mismatch")
     lean = shutil.which("lean")
@@ -647,12 +623,7 @@ def lean_command(manifest: ResearchManifest) -> list[str]:
     )
     output = (process.stdout + process.stderr).strip()
     match = VERSION_PATTERN.fullmatch(output)
-    if (
-        process.returncode
-        or match is None
-        or match.group(1) != manifest.version
-        or match.group(2) != manifest.commit
-    ):
+    if process.returncode or match is None or match.group(1) != manifest.version or match.group(2) != manifest.commit:
         logger.error("research_lean.lean_command identity mismatch output=%r", output)
         raise RuntimeError("research-lean-toolchain-mismatch")
     logger.debug("research_lean.lean_command exit commit=%s", manifest.commit[:12])
@@ -702,9 +673,7 @@ def compile_one(
     elapsed = time.perf_counter() - started
     diagnostics = (process.stdout + process.stderr)[-MAX_DIAGNOSTIC_BYTES:]
     returncode = process.returncode
-    if not returncode and (
-        output_path.is_symlink() or not output_path.is_file() or output_path.stat().st_size == 0
-    ):
+    if not returncode and (output_path.is_symlink() or not output_path.is_file() or output_path.stat().st_size == 0):
         logger.error("research_lean.compile_one missing object source=%s", logical_path)
         returncode = 1
         diagnostics += "\ncompiler returned success without a nonempty regular .olean"
@@ -713,7 +682,9 @@ def compile_one(
         logger.error("research_lean.compile_one failed source=%s", logical_path)
     logger.debug(
         "research_lean.compile_one exit source=%s rc=%d elapsed=%.3f",
-        logical_path, result.returncode, elapsed,
+        logical_path,
+        result.returncode,
+        elapsed,
     )
     return result
 
@@ -752,7 +723,8 @@ def compile_layers(
                 except (OSError, UnicodeError, subprocess.TimeoutExpired) as exc:
                     logger.error(
                         "research_lean.compile_layers blocked source=%s error=%s",
-                        logical_path, exc,
+                        logical_path,
+                        exc,
                     )
                     print(f"\n[fail] {logical_path}: {exc}", file=sys.stderr)
                     failed += 1
@@ -770,7 +742,9 @@ def compile_layers(
     skipped = total - passed - failed
     logger.debug(
         "research_lean.compile_layers exit passed=%d failed=%d skipped=%d",
-        passed, failed, skipped,
+        passed,
+        failed,
+        skipped,
     )
     return passed, failed, skipped
 
@@ -779,10 +753,7 @@ def audit_source(manifest: ResearchManifest) -> str:
     """Generate exact ``#check`` and ``#print axioms`` rows for all declarations."""
     logger.debug("research_lean.audit_source entry declarations=%d", len(manifest.declarations))
     imports = "\n".join(f"import {row.stem}" for row in manifest.research)
-    checks = "\n".join(
-        f"#check Veyra.{name}\n#print axioms Veyra.{name}"
-        for name in manifest.declarations
-    )
+    checks = "\n".join(f"#check Veyra.{name}\n#print axioms Veyra.{name}" for name in manifest.declarations)
     result = f"{imports}\n\n{checks}\n"
     logger.debug("research_lean.audit_source exit chars=%d", len(result))
     return result
@@ -800,8 +771,7 @@ def parse_axiom_audit(
     empty_rows = NO_AXIOM_ROW_PATTERN.findall(output)
     axiom_names = tuple(name for name, _values in dependency_rows) + tuple(empty_rows)
     rows: dict[str, tuple[str, ...]] = {
-        name: tuple(item.strip() for item in values.split(",") if item.strip())
-        for name, values in dependency_rows
+        name: tuple(item.strip() for item in values.split(",") if item.strip()) for name, values in dependency_rows
     }
     rows.update({name: () for name in empty_rows})
     if (
@@ -813,7 +783,9 @@ def parse_axiom_audit(
     ):
         logger.error(
             "research_lean.parse_axiom_audit incomplete checks=%d axioms=%d expected=%d",
-            len(checked_rows), len(axiom_names), len(expected),
+            len(checked_rows),
+            len(axiom_names),
+            len(expected),
         )
         raise ValueError("research-lean-axiom-audit-incomplete")
     result = tuple((name, rows[name]) for name in declarations)
@@ -850,14 +822,20 @@ def compile_audit(
     )
     output = process.stdout + process.stderr
     audit_object = output_root / "VeyraResearchAudit.olean"
-    if process.returncode or audit_object.is_symlink() or not audit_object.is_file() or audit_object.stat().st_size == 0:
+    if (
+        process.returncode
+        or audit_object.is_symlink()
+        or not audit_object.is_file()
+        or audit_object.stat().st_size == 0
+    ):
         logger.error("research_lean.compile_audit compile failed")
         print(output[-MAX_DIAGNOSTIC_BYTES:], file=sys.stderr)
         raise RuntimeError("research-lean-axiom-audit-failed")
     result = parse_axiom_audit(output, manifest.declarations)
     logger.debug(
         "research_lean.compile_audit exit rows=%d elapsed=%.3f",
-        len(result), time.perf_counter() - started,
+        len(result),
+        time.perf_counter() - started,
     )
     return result
 
@@ -879,7 +857,11 @@ def verify_original_rehash(manifest: ResearchManifest) -> None:
         logger.error("research_lean.verify_original_rehash manifest drift")
         raise RuntimeError("research-lean-manifest-toctou")
     toolchain_path = ROOT / "lean-toolchain"
-    if toolchain_path.is_symlink() or not toolchain_path.is_file() or toolchain_path.read_bytes() != (manifest.toolchain + "\n").encode():
+    if (
+        toolchain_path.is_symlink()
+        or not toolchain_path.is_file()
+        or toolchain_path.read_bytes() != (manifest.toolchain + "\n").encode()
+    ):
         logger.error("research_lean.verify_original_rehash root toolchain drift")
         raise RuntimeError("research-lean-toolchain-toctou")
     logger.debug("research_lean.verify_original_rehash exit")
@@ -917,8 +899,7 @@ def run(argv: list[str]) -> int:
             )
         )
         print(
-            f"[4/6] Fresh-compiling 56 sources in {len(layers)} layers "
-            f"with {args.jobs} workers",
+            f"[4/6] Fresh-compiling 56 sources in {len(layers)} layers with {args.jobs} workers",
             flush=True,
         )
         with tqdm(total=len(manifest.records), desc="Research Lean", unit="source") as progress:
@@ -934,15 +915,18 @@ def run(argv: list[str]) -> int:
         if failed or skipped:
             elapsed = time.perf_counter() - started
             print(
-                f"[done] passed={passed} failed={failed} skipped={skipped} "
-                f"closure=not-run elapsed={elapsed:.2f}s",
+                f"[done] passed={passed} failed={failed} skipped={skipped} closure=not-run elapsed={elapsed:.2f}s",
                 flush=True,
             )
             logger.debug("research_lean.run exit rc=1 compile failure")
             return 1
         print("[5/6] Checking all 65 declarations and exact axiom closure", flush=True)
         observed_closure = compile_audit(
-            command, manifest, snapshot_root, output_root, environment,
+            command,
+            manifest,
+            snapshot_root,
+            output_root,
+            environment,
         )
         if observed_closure != manifest.axiom_closure:
             logger.error("research_lean.run axiom closure drift")
@@ -951,8 +935,7 @@ def run(argv: list[str]) -> int:
             for name in manifest.declarations:
                 if expected[name] != observed[name]:
                     print(
-                        f"[fail] axiom-closure {name}: expected={expected[name]} "
-                        f"observed={observed[name]}",
+                        f"[fail] axiom-closure {name}: expected={expected[name]} observed={observed[name]}",
                         file=sys.stderr,
                     )
             raise RuntimeError("research-lean-axiom-closure-drift")
@@ -963,7 +946,8 @@ def run(argv: list[str]) -> int:
     print(
         f"[evidence] manifest_sha256={manifest.manifest_sha256} "
         f"base_root={roots['base']} research_root={roots['research']} "
-        f"proof_root={manifest.proof_root}", flush=True,
+        f"proof_root={manifest.proof_root}",
+        flush=True,
     )
     print(
         f"[done] passed={passed} failed=0 skipped=0 declarations=65 "

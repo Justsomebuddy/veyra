@@ -156,31 +156,44 @@ def main(argv: list[str] | None = None) -> int:
     print(f"refutations={refutation_summary()} refutation_notebooks={len(refutation_notebooks)}")
     print(f"refutation_search={refutation_search_summary()} search_notebooks={len(search_notebooks)}")
     print(f"language_lab={language_lab_summary()} language_notebook={language_notebook.summary()}")
-    print(f"calculus_depth={calculus_depth_lab_summary()} notebook={calculus_notebook.summary()} cards={len(calculus.card_rows())}")
-    print(f"trigonometry_identities={trigonometry_identity_lab_summary()} notebook={trig_notebook.summary()} cards={len(trig.card_rows())}")
-    print(f"linear_algebra_seed={linear_algebra_seed_lab_summary()} notebook={linear_notebook.summary()} cards={len(linear.card_rows())}")
-    print(f"statistics_inference={statistics_inference_lab_summary()} notebook={stats_notebook.summary()} hypotheses={len(stats.hypothesis_rows())}")
-    print(f"essence_core={essence_lab_summary()} essence_notebook={essence_notebook.summary()} axioms={len(essence.axiom_rows())}")
-    print(f"proof_discipline={proof_discipline_lab_summary()} notebook={discipline_notebook.summary()} exports={len(discipline.stable_export_rows())}")
-    print(f"number_theory={number_theory_lab_summary()} notebook={number_notebook.summary()} ranks={len(number.rank_factor_rows())}")
-    print(f"category_like={category_like_lab_summary()} notebook={category_notebook.summary()} universal={len(category.universal_rows())}")
-    print(f"topology_echo={topology_echo_lab_summary()} notebook={topology_notebook.summary()} obstructions={len(topology.obstruction_rows())}")
-    print(f"likelihood_geometry={likelihood_geometry_lab_summary()} notebook={likelihood_notebook.summary()} residuals={len(likelihood.residual_rows())}")
+    print(
+        f"calculus_depth={calculus_depth_lab_summary()} notebook={calculus_notebook.summary()} cards={len(calculus.card_rows())}"
+    )
+    print(
+        f"trigonometry_identities={trigonometry_identity_lab_summary()} notebook={trig_notebook.summary()} cards={len(trig.card_rows())}"
+    )
+    print(
+        f"linear_algebra_seed={linear_algebra_seed_lab_summary()} notebook={linear_notebook.summary()} cards={len(linear.card_rows())}"
+    )
+    print(
+        f"statistics_inference={statistics_inference_lab_summary()} notebook={stats_notebook.summary()} hypotheses={len(stats.hypothesis_rows())}"
+    )
+    print(
+        f"essence_core={essence_lab_summary()} essence_notebook={essence_notebook.summary()} axioms={len(essence.axiom_rows())}"
+    )
+    print(
+        f"proof_discipline={proof_discipline_lab_summary()} notebook={discipline_notebook.summary()} exports={len(discipline.stable_export_rows())}"
+    )
+    print(
+        f"number_theory={number_theory_lab_summary()} notebook={number_notebook.summary()} ranks={len(number.rank_factor_rows())}"
+    )
+    print(
+        f"category_like={category_like_lab_summary()} notebook={category_notebook.summary()} universal={len(category.universal_rows())}"
+    )
+    print(
+        f"topology_echo={topology_echo_lab_summary()} notebook={topology_notebook.summary()} obstructions={len(topology.obstruction_rows())}"
+    )
+    print(
+        f"likelihood_geometry={likelihood_geometry_lab_summary()} notebook={likelihood_notebook.summary()} residuals={len(likelihood.residual_rows())}"
+    )
     print(f"notebook_artifacts={artifact_summary}")
 
     stage(4, 4, "Running certificates")
     summary = sage_certificate_suite()
     intrinsic_vam = summary["sage_intrinsic_vam_summary"]
     intrinsic_observer_echo = summary["sage_intrinsic_observer_echo_summary"]
-    print(
-        "intrinsic_vam="
-        f"{intrinsic_vam} facade={VeyraIntrinsicVamLab.__name__}"
-    )
-    print(
-        "intrinsic_observer_echo="
-        f"{intrinsic_observer_echo} "
-        f"facade={VeyraIntrinsicObserverEchoLab.__name__}"
-    )
+    print(f"intrinsic_vam={intrinsic_vam} facade={VeyraIntrinsicVamLab.__name__}")
+    print(f"intrinsic_observer_echo={intrinsic_observer_echo} facade={VeyraIntrinsicObserverEchoLab.__name__}")
     ok = (
         summary["failed"] == []
         and summary["sage_parent_passed"]

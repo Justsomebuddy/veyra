@@ -1,4 +1,5 @@
 """Shared path bootstrap for direct ``python scripts/name.py`` execution."""
+
 from pathlib import Path
 import sys
 

@@ -33,14 +33,19 @@ def progress(done: int, total: int, start: float, label: str) -> None:
     speed = done / elapsed
     remaining = total - done
     eta = remaining / speed if speed else 0.0
-    print(f"\r{label}: Processed {done}/{total} | Remaining {remaining} | ETA {eta:.1f}s | Elapsed {elapsed:.1f}s | Speed {speed:.1f}/s", end="")
+    print(
+        f"\r{label}: Processed {done}/{total} | Remaining {remaining} | ETA {eta:.1f}s | Elapsed {elapsed:.1f}s | Speed {speed:.1f}/s",
+        end="",
+    )
     logger.debug("progress exit speed=%f", speed)
 
 
 def main() -> int:
     """CLI entrypoint."""
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--output-dir", default="notebooks/generated", help="directory for generated .ipynb/.md artifacts")
+    parser.add_argument(
+        "--output-dir", default="notebooks/generated", help="directory for generated .ipynb/.md artifacts"
+    )
     parser.add_argument("--no-markdown", action="store_true", help="write .ipynb only")
     args = parser.parse_args()
     logging.basicConfig(level=logging.INFO, format="%(levelname)s:%(name)s:%(message)s")
@@ -58,7 +63,9 @@ def main() -> int:
         def callback(done, total, artifact):
             progress(done, total, write_start, f"Writing {artifact.family}/{artifact.name}")
 
-        manifest = write_current_notebook_artifacts(args.output_dir, include_markdown=not args.no_markdown, progress=callback)
+        manifest = write_current_notebook_artifacts(
+            args.output_dir, include_markdown=not args.no_markdown, progress=callback
+        )
         print()
 
         stage(3, 4, "Verifying generated ipynb JSON")
@@ -77,7 +84,9 @@ def main() -> int:
         elapsed = time.perf_counter() - started
         md_files = sorted(output.glob("**/*.md"))
         print(f"manifest={output / 'manifest.json'}")
-        print(f"[done] notebooks={manifest['notebooks']} ipynb={len(ipynb_files)} markdown={len(md_files)} errors={errors} elapsed={elapsed:.2f}s")
+        print(
+            f"[done] notebooks={manifest['notebooks']} ipynb={len(ipynb_files)} markdown={len(md_files)} errors={errors} elapsed={elapsed:.2f}s"
+        )
         logger.debug("main exit errors=%d elapsed=%f", errors, elapsed)
         return 0 if errors == 0 and len(ipynb_files) == manifest["notebooks"] else 1
     except Exception as exc:

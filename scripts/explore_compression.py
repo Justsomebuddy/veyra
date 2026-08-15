@@ -63,7 +63,9 @@ def main(argv: list[str] | None = None) -> int:
     """CLI entrypoint."""
     parser = build_parser()
     args = parser.parse_args(argv)
-    logging.basicConfig(level=logging.DEBUG if args.verbose else logging.INFO, format="%(levelname)s:%(name)s:%(message)s")
+    logging.basicConfig(
+        level=logging.DEBUG if args.verbose else logging.INFO, format="%(levelname)s:%(name)s:%(message)s"
+    )
     logger.debug("main entry args=%r", args)
     try:
         stage(1, 3, "Enumerating candidate parts")

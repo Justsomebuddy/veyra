@@ -48,7 +48,9 @@ def main(argv: list[str] | None = None) -> int:
     elapsed = time.monotonic() - started
     assignments = int(summary["assignments"])
     speed = assignments / elapsed if elapsed else float("inf")
-    print(f"[3/3] Checking pinned counts and quotient classification processed={assignments}/{assignments} remaining=0 elapsed={elapsed:.3f}s eta=0s speed={speed:.1f}/s")
+    print(
+        f"[3/3] Checking pinned counts and quotient classification processed={assignments}/{assignments} remaining=0 elapsed={elapsed:.3f}s eta=0s speed={speed:.1f}/s"
+    )
     print(f"summary={summary}")
     ok = bool(summary["classification_passed"])
     print(f"[done] errors={0 if ok else 1} elapsed={elapsed:.3f}s assignments={assignments}")

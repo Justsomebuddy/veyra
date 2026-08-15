@@ -16,7 +16,14 @@ if str(ROOT) not in sys.path:
 import _project_bootstrap  # noqa: F401
 from src.core.balance import balance_from_int, canonical_length_balance, stitch_balance, subtract_balance  # noqa: E402
 from src.core.order import RatioInterval, compare_balances, compare_ratios, interval_contains  # noqa: E402
-from src.core.ratio import add_ratios, inverse_ratio, multiply_ratios, ratio_from_fraction, ratio_shadow, subtract_ratios  # noqa: E402
+from src.core.ratio import (
+    add_ratios,
+    inverse_ratio,
+    multiply_ratios,
+    ratio_from_fraction,
+    ratio_shadow,
+    subtract_ratios,
+)  # noqa: E402
 
 logger = logging.getLogger("veyra.explore_arithmetic")
 
@@ -53,7 +60,9 @@ def main(argv: list[str] | None = None) -> int:
     """CLI entrypoint."""
     parser = build_parser()
     args = parser.parse_args(argv)
-    logging.basicConfig(level=logging.DEBUG if args.verbose else logging.INFO, format="%(levelname)s:%(name)s:%(message)s")
+    logging.basicConfig(
+        level=logging.DEBUG if args.verbose else logging.INFO, format="%(levelname)s:%(name)s:%(message)s"
+    )
     logger.debug("main entry args=%r", args)
     try:
         stage(1, 4, "Building balance modes")

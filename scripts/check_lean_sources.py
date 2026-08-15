@@ -167,8 +167,7 @@ def run(argv: list[str]) -> int:
     started = time.perf_counter()
     passed = failed = 0
     print(
-        f"[3/4] Compiling {EXPECTED_SOURCE_COUNT} sources in "
-        f"{len(layers)} dependency layers with {args.jobs} workers",
+        f"[3/4] Compiling {EXPECTED_SOURCE_COUNT} sources in {len(layers)} dependency layers with {args.jobs} workers",
         flush=True,
     )
     with tempfile.TemporaryDirectory(prefix="lean-all-", dir=TMP_ROOT) as directory:

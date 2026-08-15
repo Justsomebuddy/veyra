@@ -73,7 +73,9 @@ def main(argv: list[str] | None = None) -> int:
     """CLI entrypoint."""
     parser = build_parser()
     args = parser.parse_args(argv)
-    logging.basicConfig(level=logging.DEBUG if args.verbose else logging.INFO, format="%(levelname)s:%(name)s:%(message)s")
+    logging.basicConfig(
+        level=logging.DEBUG if args.verbose else logging.INFO, format="%(levelname)s:%(name)s:%(message)s"
+    )
     logger.debug("main entry args=%r", args)
     try:
         stage(1, 4, "Enumerating closed word shadows")
@@ -91,9 +93,18 @@ def main(argv: list[str] | None = None) -> int:
         stage(3, 4, "Checking compatibility claims")
         ordered_schema = lambda mode: ordered_weave(mode, mapping)
         cyclic_schema = lambda mode: cyclic_weave(mode, mapping)
-        print("ordered respects (T_cycle,T_cycle):", unary_respects(modes, ordered_schema, "cycle", "cycle", "ordered_weave"))
-        print("ordered respects (T_cycle,T_word):", unary_respects(modes, ordered_schema, "cycle", "ordered", "ordered_weave"))
-        print("cyclic respects (T_cycle,T_word):", unary_respects(modes, cyclic_schema, "cycle", "ordered", "cyclic_weave"))
+        print(
+            "ordered respects (T_cycle,T_cycle):",
+            unary_respects(modes, ordered_schema, "cycle", "cycle", "ordered_weave"),
+        )
+        print(
+            "ordered respects (T_cycle,T_word):",
+            unary_respects(modes, ordered_schema, "cycle", "ordered", "ordered_weave"),
+        )
+        print(
+            "cyclic respects (T_cycle,T_word):",
+            unary_respects(modes, cyclic_schema, "cycle", "ordered", "cyclic_weave"),
+        )
         failures = unary_compatibility_failures(modes, ordered_schema, "cycle", "ordered", "ordered_weave", args.limit)
         for failure in failures:
             print("ordered failure:", failure)

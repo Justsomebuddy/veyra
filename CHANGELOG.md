@@ -1,6 +1,13 @@
 # Changelog
 
 ## [Unreleased] — Changed
+- Ruff-formatted exactly 21 maintained scripts as one bounded style-only wave:
+  nine verifier/build/generator tools and 12 explorer CLIs. Parsed ASTs,
+  explorer help stdout/stderr/exit behavior, and regenerated table/notebook
+  artifact trees remain exact, including byte-bound manifests. The seven
+  already-formatted scripts were left untouched; no script semantics, logging,
+  proof status, or generated artifact changed. This does not clear the wider
+  repository Ruff/Mypy/Bandit debt and is not a full `make verify` claim.
 - Implemented RFC 172 as an additive, non-root
   `src.core.observer_discovery_v3.missing_data` runtime. Exact CSV/JSONL wire
   format, raw bytes, ordered typed semantic masks, projected assignments,

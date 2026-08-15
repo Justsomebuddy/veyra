@@ -76,7 +76,9 @@ def parse_costs(raw: str) -> CostMap:
     return costs
 
 
-def resolve_weighted_costs(raw: str, whole: Mode, alphabet: tuple[str, ...], radius: int, min_mismatch_cost: float, default_cost: float) -> tuple[CostMap, str]:
+def resolve_weighted_costs(
+    raw: str, whole: Mode, alphabet: tuple[str, ...], radius: int, min_mismatch_cost: float, default_cost: float
+) -> tuple[CostMap, str]:
     """Use manual weighted costs or derive them from tact auras."""
     logger.debug("resolve_weighted_costs entry raw=%r whole=%s", raw, whole.word)
     manual = parse_costs(raw)
@@ -102,7 +104,9 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--defect-weight", type=float, default=2.0, help="defect cost")
     parser.add_argument("--phase-weight", type=float, default=0.25, help="phase cost")
     parser.add_argument("--weighted-budget", type=float, default=0.5, help="weighted resonance budget")
-    parser.add_argument("--weighted-costs", default="", help="manual directed costs; empty derives costs from tact auras")
+    parser.add_argument(
+        "--weighted-costs", default="", help="manual directed costs; empty derives costs from tact auras"
+    )
     parser.add_argument("--default-cost", type=float, default=1.0, help="default weighted mismatch cost")
     parser.add_argument("--aura-radius", type=int, default=1, help="radius for derived tact auras")
     parser.add_argument("--min-mismatch-cost", type=float, default=0.25, help="minimum nonzero derived mismatch cost")
@@ -116,59 +120,125 @@ def main(argv: list[str] | None = None) -> int:
     """CLI entrypoint."""
     parser = build_parser()
     args = parser.parse_args(argv)
-    logging.basicConfig(level=logging.DEBUG if args.verbose else logging.INFO, format="%(levelname)s:%(name)s:%(message)s")
+    logging.basicConfig(
+        level=logging.DEBUG if args.verbose else logging.INFO, format="%(levelname)s:%(name)s:%(message)s"
+    )
     logger.debug("main entry args=%r", args)
     try:
         out_dir = Path(args.out_dir)
         alphabet = parse_alphabet(args.alphabet)
         whole = Mode.from_word(args.whole)
         weights = CompressionWeights(args.defect_weight, args.phase_weight)
-        costs, cost_source = resolve_weighted_costs(args.weighted_costs, whole, alphabet, args.aura_radius, args.min_mismatch_cost, args.default_cost)
+        costs, cost_source = resolve_weighted_costs(
+            args.weighted_costs, whole, alphabet, args.aura_radius, args.min_mismatch_cost, args.default_cost
+        )
         artifacts = []
 
         stage(1, 12, "Writing spectrum table")
         rows = spectrum_rows(whole, alphabet, args.max_part_len, args.min_part_len, args.max_defects)
-        artifacts.append(write_csv(out_dir / f"spectrum_{whole.word}.csv", rows, ["part", "resonates", "exact", "defects", "offset", "obstruction"]))
+        artifacts.append(
+            write_csv(
+                out_dir / f"spectrum_{whole.word}.csv",
+                rows,
+                ["part", "resonates", "exact", "defects", "offset", "obstruction"],
+            )
+        )
 
         stage(2, 12, "Writing compression table")
         rows = compression_rows(whole, alphabet, args.max_part_len, args.min_part_len, args.max_defects, weights)
-        artifacts.append(write_csv(out_dir / f"compression_{whole.word}.csv", rows, ["part", "cost", "saving", "ratio", "defects", "offset", "obstruction"]))
+        artifacts.append(
+            write_csv(
+                out_dir / f"compression_{whole.word}.csv",
+                rows,
+                ["part", "cost", "saving", "ratio", "defects", "offset", "obstruction"],
+            )
+        )
 
         stage(3, 12, "Writing prime variant table")
         rows = prime_variant_rows(alphabet, args.max_mode_len, tact=alphabet[0])
-        artifacts.append(write_csv(out_dir / f"prime_variants_len{args.max_mode_len}.csv", rows, ["mode", "length", "numeric_prime", "ordered_primitive", "cyclic_primitive", "ordered_resonance_prime"]))
+        artifacts.append(
+            write_csv(
+                out_dir / f"prime_variants_len{args.max_mode_len}.csv",
+                rows,
+                ["mode", "length", "numeric_prime", "ordered_primitive", "cyclic_primitive", "ordered_resonance_prime"],
+            )
+        )
 
         stage(4, 12, "Writing phase resonance table")
         part = Mode.from_word(alphabet[0] + alphabet[1] if len(alphabet) > 1 else alphabet[0])
         rows = phase_resonance_rows(part, alphabet, args.max_mode_len)
-        artifacts.append(write_csv(out_dir / f"phase_resonance_{part.word}_len{args.max_mode_len}.csv", rows, ["part", "whole", "ordered", "cyclic", "offsets", "obstruction"]))
+        artifacts.append(
+            write_csv(
+                out_dir / f"phase_resonance_{part.word}_len{args.max_mode_len}.csv",
+                rows,
+                ["part", "whole", "ordered", "cyclic", "offsets", "obstruction"],
+            )
+        )
 
         stage(5, 12, "Writing approximate resonance table")
         rows = approx_resonance_rows(part, alphabet, args.max_mode_len, args.max_defects)
-        artifacts.append(write_csv(out_dir / f"approx_resonance_{part.word}_len{args.max_mode_len}.csv", rows, ["part", "whole", "resonates", "obstruction", "best_offset", "defects", "defect_detail"]))
+        artifacts.append(
+            write_csv(
+                out_dir / f"approx_resonance_{part.word}_len{args.max_mode_len}.csv",
+                rows,
+                ["part", "whole", "resonates", "obstruction", "best_offset", "defects", "defect_detail"],
+            )
+        )
 
         stage(6, 12, "Writing tact aura cost table")
         rows = tact_aura_cost_rows([whole], alphabet, args.aura_radius, args.min_mismatch_cost, args.default_cost)
-        artifacts.append(write_csv(out_dir / f"tact_aura_costs_{whole.word}.csv", rows, ["expected", "actual", "similarity", "cost", "expected_aura", "actual_aura"]))
+        artifacts.append(
+            write_csv(
+                out_dir / f"tact_aura_costs_{whole.word}.csv",
+                rows,
+                ["expected", "actual", "similarity", "cost", "expected_aura", "actual_aura"],
+            )
+        )
 
         stage(7, 12, "Writing weighted resonance table")
-        rows = weighted_resonance_rows(part, alphabet, args.max_mode_len, args.weighted_budget, costs, args.default_cost)
-        artifacts.append(write_csv(out_dir / f"weighted_resonance_{part.word}_len{args.max_mode_len}.csv", rows, ["part", "whole", "resonates", "obstruction", "best_offset", "total_cost", "defects", "defect_detail"]))
+        rows = weighted_resonance_rows(
+            part, alphabet, args.max_mode_len, args.weighted_budget, costs, args.default_cost
+        )
+        artifacts.append(
+            write_csv(
+                out_dir / f"weighted_resonance_{part.word}_len{args.max_mode_len}.csv",
+                rows,
+                ["part", "whole", "resonates", "obstruction", "best_offset", "total_cost", "defects", "defect_detail"],
+            )
+        )
 
         stage(8, 12, "Writing cyclic weave table")
         mapping = {alphabet[0]: Mode.from_word("x")}
         if len(alphabet) > 1:
             mapping[alphabet[1]] = Mode.from_word("yy")
         rows = cyclic_weave_rows(alphabet, args.max_mode_len, mapping)
-        artifacts.append(write_csv(out_dir / f"cyclic_weave_len{args.max_mode_len}.csv", rows, ["driver", "cyclic_driver", "ordered_output", "cyclic_output", "same_word"]))
+        artifacts.append(
+            write_csv(
+                out_dir / f"cyclic_weave_len{args.max_mode_len}.csv",
+                rows,
+                ["driver", "cyclic_driver", "ordered_output", "cyclic_output", "same_word"],
+            )
+        )
 
         stage(9, 12, "Writing Core Language coverage table")
         rows = language_coverage_rows()
-        artifacts.append(write_csv(out_dir / "core_language_coverage_matrix.csv", rows, ["family", "cases", "blocked", "unknown", "ready", "unexpected", "covered"]))
+        artifacts.append(
+            write_csv(
+                out_dir / "core_language_coverage_matrix.csv",
+                rows,
+                ["family", "cases", "blocked", "unknown", "ready", "unexpected", "covered"],
+            )
+        )
 
         stage(10, 12, "Writing Core Language span diagnostic table")
         rows = span_diagnostic_rows()
-        artifacts.append(write_csv(out_dir / "core_language_span_diagnostics.csv", rows, ["name", "source", "ok", "expected", "found", "message", "line", "column", "has_excerpt", "multiline"]))
+        artifacts.append(
+            write_csv(
+                out_dir / "core_language_span_diagnostics.csv",
+                rows,
+                ["name", "source", "ok", "expected", "found", "message", "line", "column", "has_excerpt", "multiline"],
+            )
+        )
 
         stage(11, 12, "Writing counterexample JSON")
         data = counterexample_data(alphabet, args.max_mode_len, args.limit)

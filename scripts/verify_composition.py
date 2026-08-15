@@ -44,12 +44,7 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
 def _read_bounded(path: Path, maximum: int, label: str) -> bytes:
     """Read one regular bounded artifact without following a late size surprise."""
     logger.debug("_read_bounded entry label=%s", label)
-    flags = (
-        os.O_RDONLY
-        | getattr(os, "O_BINARY", 0)
-        | getattr(os, "O_NOFOLLOW", 0)
-        | getattr(os, "O_NONBLOCK", 0)
-    )
+    flags = os.O_RDONLY | getattr(os, "O_BINARY", 0) | getattr(os, "O_NOFOLLOW", 0) | getattr(os, "O_NONBLOCK", 0)
     descriptor = os.open(path, flags)
     with os.fdopen(descriptor, "rb") as stream:
         metadata = os.fstat(stream.fileno())
@@ -81,9 +76,7 @@ def run(argv: list[str]) -> int:
     started = time.perf_counter()
     planned = 4 if args.auth is not None else 3
     try:
-        if args.auth is None and (
-            args.hmac_key_file is not None or args.ed25519_public_key_file is not None
-        ):
+        if args.auth is None and (args.hmac_key_file is not None or args.ed25519_public_key_file is not None):
             raise ClaimCompositionError("verifier-auth-envelope-required")
         print(f"[1/{planned}] Reading bounded replay package", flush=True)
         package_text = _read_bounded(args.package, 1_500_000, "package").decode("utf-8")
@@ -98,16 +91,12 @@ def run(argv: list[str]) -> int:
                 if args.hmac_key_file is None:
                     raise ClaimCompositionError("verifier-hmac-key-required")
                 key = _read_bounded(args.hmac_key_file, 4096, "hmac-key")
-                valid = validate_authenticated_composition_export(
-                    envelope, package.export, package.sources, key
-                )
+                valid = validate_authenticated_composition_export(envelope, package.export, package.sources, key)
             else:
                 if args.ed25519_public_key_file is None:
                     raise ClaimCompositionError("verifier-public-key-required")
                 key = _read_bounded(args.ed25519_public_key_file, 32, "public-key")
-                valid = validate_signed_composition_export(
-                    envelope, package.export, package.sources, key
-                )
+                valid = validate_signed_composition_export(envelope, package.export, package.sources, key)
             if not valid:
                 raise ClaimCompositionError("verifier-authentication-failed")
         else:
@@ -116,16 +105,14 @@ def run(argv: list[str]) -> int:
         elapsed = time.perf_counter() - started
         logger.error("verify_composition.run rejected type=%s", type(exc).__name__)
         print(
-            f"[done] status=FAIL processed=0 errors=1 reason={_failure_reason(exc)} "
-            f"elapsed={elapsed:.3f}s",
+            f"[done] status=FAIL processed=0 errors=1 reason={_failure_reason(exc)} elapsed={elapsed:.3f}s",
             file=sys.stderr,
         )
         return 1
     elapsed = time.perf_counter() - started
     auth_status = "VERIFIED" if args.auth is not None else "NOT_CHECKED"
     print(
-        f"[done] status=PASS processed=1 errors=0 auth={auth_status} "
-        f"elapsed={elapsed:.3f}s",
+        f"[done] status=PASS processed=1 errors=0 auth={auth_status} elapsed={elapsed:.3f}s",
         flush=True,
     )
     logger.debug("verify_composition.run exit rc=0")
