@@ -39,6 +39,34 @@ def test_python_support_is_bounded_to_the_reviewed_minor_line():
     logger.debug("test Python support metadata exit")
 
 
+def test_mypy_discovery_scope_preserves_visible_debt() -> None:
+    """Mypy discovers maintained roots without blanket error suppression."""
+    logger.debug("test Mypy discovery metadata entry")
+    metadata = tomllib.loads((ROOT / "pyproject.toml").read_text(encoding="utf-8"))
+    mypy = metadata["tool"]["mypy"]
+    assert mypy == {
+        "python_version": "3.11",
+        "files": ["src", "veyra_sage", "vam", "scripts", "tests"],
+        "explicit_package_bases": True,
+        "namespace_packages": True,
+        "show_error_codes": True,
+        "exclude": [
+            "^build/",
+            "^data/",
+            "^experimental/",
+            "^notebooks/generated/",
+            "^tests/uncommitted/",
+        ],
+    }
+    baseline = (ROOT / "docs/174_python_quality_baseline.md").read_text(encoding="utf-8")
+    assert "985 files would be reformatted" in baseline
+    assert "1612 errors in 396 files" in baseline
+    assert "does not ignore, baseline, or\notherwise suppress" in baseline
+    assert "local Mypy 1.19.1 measurement" in baseline
+    assert "not a standard\nproject gate" in baseline
+    logger.debug("test Mypy discovery metadata exit")
+
+
 def test_direct_tool_constraints_match_declared_extras():
     """Every direct Python tool has a named bounded requirement surface."""
     logger.debug("test direct tool constraints entry")

@@ -272,6 +272,9 @@ No metaphysical claim is accepted as mathematics until it becomes a definition, 
   caller-declared output labels, source-backed replay authority and unchanged
   categorical v1; no runtime, learned binning, measurement semantics or
   missing-data composition is implemented.
+- `docs/174_python_quality_baseline.md` — measured Ruff-format and local Mypy
+  1.19.1 discovery findings plus bounded sdist extraction hardening; neither
+  count is presented as a version-stable green gate or silently suppressed.
 - `vam/docs/042_native_observer_synthesis_v4.md` — append-only finite
   representation/observer search, truthful namespace/seccomp/cgroup custody,
   state-free signed replay, and an abstract Lean boundary; not general

@@ -1,6 +1,17 @@
 # Changelog
 
 ## [Unreleased] — Changed
+- Added an explicit repository-wide Mypy discovery scope for maintained Python
+  roots and hardened source-distribution extraction with pre-extraction member
+  and expanded-byte ceilings, explicit path/type checks, and the standard
+  library `data` filter. Canonical portable identities also reject normalized,
+  case/backslash and file/directory hierarchy aliases before any extraction.
+  The measured quality baseline remains findings, not a new green gate: Ruff
+  format reports 985 files, while the local undeclared Mypy 1.19.1 reports
+  1612 errors. The Mypy count is not claimed as version-stable or as dev/CI
+  evidence.
+  No mass formatting, blanket type suppression, security disclosure, or full
+  verification claim is included.
 - Accepted RFC 173 as a documentation-only contract for a future non-root
   exact fixed-bin continuous preprocessor. The proposed wrapper binds the
   caller-supplied categorical output schema, ordered passthrough/bin policy,

@@ -5,13 +5,14 @@ from __future__ import annotations
 
 import logging
 import os
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 import shutil
 import subprocess
 import sys
 import tarfile
 import tempfile
 import time
+import unicodedata
 import zipfile
 
 logger = logging.getLogger(__name__)
@@ -29,6 +30,8 @@ REQUIRED_SDIST_PREFIXES = (
     "vam/native/",
     "veyra_sage/",
 )
+MAX_SDIST_MEMBERS = 20_000
+MAX_SDIST_UNCOMPRESSED_BYTES = 512 * 1024 * 1024
 
 
 def expected_source_only_payload() -> frozenset[str]:
@@ -180,17 +183,87 @@ def extract_sdist(sdist: Path, destination: Path) -> Path:
     logger.debug("package_smoke.extract_sdist entry sdist=%s", sdist)
     destination.mkdir()
     with tarfile.open(sdist, "r:gz") as archive:
-        members = archive.getmembers()
-        for member in members:
-            pure = Path(member.name)
-            if pure.is_absolute() or ".." in pure.parts or not (member.isfile() or member.isdir()):
+        members: list[tarfile.TarInfo] = []
+        member_paths: set[tuple[str, ...]] = set()
+        file_paths: set[tuple[str, ...]] = set()
+        ancestor_paths: set[tuple[str, ...]] = set()
+        portable_spellings: dict[tuple[str, ...], tuple[str, ...]] = {}
+        total_regular_bytes = 0
+        for member_count, member in enumerate(archive, start=1):
+            if member_count > MAX_SDIST_MEMBERS:
+                logger.error("sdist member limit exceeded count=%d", member_count)
+                raise RuntimeError("sdist-member-limit-exceeded")
+            raw_name = member.name.rstrip("/") if member.isdir() else member.name
+            raw_parts = raw_name.split("/")
+            pure = PurePosixPath(raw_name)
+            if (
+                not pure.parts
+                or "\\" in raw_name
+                or pure.is_absolute()
+                or any(part in {"", ".", ".."} or ":" in part or part.endswith((" ", ".")) for part in raw_parts)
+                or (member.isfile() and member.name.endswith("/"))
+                or not (member.isfile() or member.isdir())
+            ):
+                logger.error("sdist unsafe member rejected name=%r type=%r", member.name, member.type)
                 raise RuntimeError("sdist-unsafe-member")
-        archive.extractall(destination, members=members)
-    roots = tuple(path for path in destination.iterdir() if path.is_dir())
-    if len(roots) != 1 or not (roots[0] / "pyproject.toml").is_file():
+            portable_path = tuple(unicodedata.normalize("NFC", part).casefold() for part in raw_parts)
+            for depth in range(1, len(portable_path) + 1):
+                portable_prefix = portable_path[:depth]
+                raw_prefix = tuple(raw_parts[:depth])
+                existing = portable_spellings.get(portable_prefix)
+                if existing is not None and existing != raw_prefix:
+                    logger.error("sdist portable path alias rejected name=%r", member.name)
+                    raise RuntimeError("sdist-unsafe-member")
+                portable_spellings[portable_prefix] = raw_prefix
+            if (
+                portable_path in member_paths
+                or portable_path in ancestor_paths
+                or any(portable_path[:depth] in file_paths for depth in range(1, len(portable_path)))
+            ):
+                logger.error("sdist path hierarchy rejected name=%r", member.name)
+                raise RuntimeError("sdist-unsafe-member")
+            member_paths.add(portable_path)
+            ancestor_paths.update(portable_path[:depth] for depth in range(1, len(portable_path)))
+            if member.isfile():
+                file_paths.add(portable_path)
+            if member.isfile():
+                total_regular_bytes += member.size
+                if member.size < 0 or total_regular_bytes > MAX_SDIST_UNCOMPRESSED_BYTES:
+                    logger.error(
+                        "sdist regular-file size limit exceeded total=%d",
+                        total_regular_bytes,
+                    )
+                    raise RuntimeError("sdist-uncompressed-size-limit-exceeded")
+            try:
+                filtered = tarfile.data_filter(member, str(destination))
+            except (OSError, tarfile.FilterError) as exc:
+                logger.error("sdist data filter rejected member name=%r error=%s", member.name, exc)
+                raise RuntimeError("sdist-unsafe-member") from exc
+            if filtered is None:
+                logger.error("sdist data filter omitted member name=%r", member.name)
+                raise RuntimeError("sdist-unsafe-member")
+            members.append(filtered)
+        roots = {PurePosixPath(member.name).parts[0] for member in members}
+        if len(roots) != 1:
+            logger.error("sdist root inventory rejected roots=%d", len(roots))
+            raise RuntimeError("sdist-root-mismatch")
+        root_name = next(iter(roots))
+        pyproject_name = f"{root_name}/pyproject.toml"
+        if not any(member.name == pyproject_name and member.isfile() for member in members):
+            logger.error("sdist root inventory missing pyproject root=%r", root_name)
+            raise RuntimeError("sdist-root-mismatch")
+        logger.debug(
+            "package_smoke.extract_sdist validated members=%d regular_bytes=%d",
+            len(members),
+            total_regular_bytes,
+        )
+        archive.extractall(destination, members=members, filter="data")
+    root = destination / root_name
+    if not root.is_dir() or not (root / "pyproject.toml").is_file():
+        logger.error("sdist extracted root verification failed root=%s", root)
         raise RuntimeError("sdist-root-mismatch")
-    logger.debug("package_smoke.extract_sdist exit root=%s members=%d", roots[0], len(members))
-    return roots[0]
+    logger.debug("package_smoke.extract_sdist exit root=%s members=%d", root, len(members))
+    return root
 
 
 def build_wheel_from_sdist(sdist: Path, scratch: Path) -> Path:

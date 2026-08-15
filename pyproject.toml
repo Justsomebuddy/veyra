@@ -72,3 +72,17 @@ exclude = ["notebooks/generated", "experimental"]
 [tool.ruff.lint]
 select = ["E4", "E7", "E9", "F"]
 ignore = ["E402", "E701", "E702", "E731", "F401", "F403"]
+
+[tool.mypy]
+python_version = "3.11"
+files = ["src", "veyra_sage", "vam", "scripts", "tests"]
+explicit_package_bases = true
+namespace_packages = true
+show_error_codes = true
+exclude = [
+  "^build/",
+  "^data/",
+  "^experimental/",
+  "^notebooks/generated/",
+  "^tests/uncommitted/",
+]
