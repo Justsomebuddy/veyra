@@ -136,6 +136,7 @@ def test_wheel_package_discovery_is_explicit_and_bounded():
         "src.core.observer_discovery_v3.transport",
         "src.core.observer_discovery_v3.worker",
         "src.core.p1a_realization_transport_v2",
+        "src.core.p2_claim_admission_v2",
         "src.core.realization_transport",
         "vam",
         "vam.intrinsic",
@@ -229,6 +230,16 @@ def test_portable_verification_includes_p1a_transport_v2_behavior():
     package_smoke = (ROOT / "scripts/package_smoke.py").read_text(encoding="utf-8")
     assert "import src.core.p1a_realization_transport_v2" in package_smoke
     logger.debug("test portable P1-A transport v2 coverage exit")
+
+
+def test_portable_verification_includes_p2_registry_v2_behavior():
+    """Hosted CI and wheel smoke must cover the additive meta-only registry."""
+    logger.debug("test portable P2 registry v2 coverage entry")
+    portable_pytest = next(step for step in portable_steps() if step.name == "Portable pytest")
+    assert "tests/test_p2_claim_admission_registry_v2.py" in portable_pytest.command
+    package_smoke = (ROOT / "scripts/package_smoke.py").read_text(encoding="utf-8")
+    assert "import src.core.p2_claim_admission_v2" in package_smoke
+    logger.debug("test portable P2 registry v2 coverage exit")
 
 
 def test_hosted_matrix_is_fixed_bounded_and_immutable():

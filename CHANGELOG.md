@@ -1,6 +1,20 @@
 # Changelog
 
 ## [Unreleased] — Changed
+- Added the dependency-first, non-root P2 licensed-composition registry-v2
+  meta-validator specified by document 171. It is the exact P2-S v1 snapshot
+  plus only `composition-licensed-presentation-v2` and its premise projection,
+  with fixed `15/18/41/1/5` counts, exact v1 digest/oracle anchors, an
+  independently literal-pinned extension oracle and strict nested-type,
+  cardinality, identifier, node and text gates before equality. Its only
+  possible output row is `PRESENTED / ESTABLISHED / SUPPLIED_PRESENTATION`;
+  all assumption and source-validator indices remain visible. This wave exports
+  no premise producer, audit producer, presentation DTO or decoder, so schema
+  conformity still cannot create a public presentation or establish any permanent
+  nonclaim. The frozen producer contract separately binds native-governed
+  versus external-binding replay authority so a validator-root name cannot
+  stand in for current execution. P2-S v1 bytes, root exports and rejection
+  behavior remain exact.
 - Specified the additive, non-root P2 licensed-composition admission v2
   contract. Its only new rule is `composition-licensed-presentation-v2`, with
   the exact `claim-composition-presentation-v2` evidence/index boundary and the

@@ -43,6 +43,7 @@ PORTABLE_TESTS = (
     "tests/test_p1a_realization_transport_v2_adversarial.py",
     "tests/test_p1a_realization_transport_v2_compat.py",
     "tests/test_p1a_realization_transport_v2_limits.py",
+    "tests/test_p2_claim_admission_registry_v2.py",
     "tests/test_prime_power_observer_genesis_p3og.py",
     "tests/test_prime_power_observer_genesis_p3og_adversarial.py",
     "tests/test_prime_power_observer_genesis_p3og_lifecycle.py",

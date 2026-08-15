@@ -1,7 +1,7 @@
 # P2 Licensed-Composition Presentation Admission V2
 
 **Date:** 2026-08-15  
-**Status:** accepted bounded implementation contract; runtime evidence pending  
+**Status:** additive registry/oracle implemented; presentation producer pending  
 **Issue:** [#51](https://github.com/Justsomebuddy/veyra/issues/51)  
 **Version/schema:** `p2-r17-claim-admission-v2`,
 `veyra.p2-claim-admission-judgment.v2`  
@@ -15,8 +15,8 @@ produce a nonpromoted P2 premise. P2-S registry v1 deliberately has no rule that
 consumes it. A `PromotionSchemaAudit` checks only the syntax of a named request;
 it is not authority for a conclusion and does not establish truth or ontology.
 
-This contract closes only that bounded design seam. Its future non-root sibling
-is limited to:
+This contract closes only that bounded design seam. Its versioned non-root
+sibling is limited to:
 
 1. one named rule that admits an exact licensed-composition presentation;
 2. one independently specified additive registry snapshot; and
@@ -65,8 +65,14 @@ assumption-DAG closure does not imply that the conjunction has no assumptions.
 The opaque target `assumption_roots` remain visible and explicitly undischarged.
 Likewise, source-validator roots remain exact external identities; their
 trustworthiness is never inferred. `source-validator-family` commits the
-canonical ordered `(local receipt digest, validator root)` pairs, rather than
-an unordered validator multiset that could detach a validator from its source.
+canonical ordered `(local receipt digest, validator root, authority class)`
+triples, rather than an unordered validator multiset that could detach a
+validator from its source or confuse a named validator with its execution.
+The authority class is exactly one of `NATIVE_GOVERNED_REPLAY` and
+`EXTERNAL_BINDING_ONLY`. A native class is derived only when the governed
+result is present and its governed adapter is freshly replayed. A detached
+receipt remains external-binding-only even if it names the same validator root
+as the governed adapter.
 
 ## 3. Additive registry and independent oracle
 
@@ -100,6 +106,18 @@ The inherited anchors are fixed literally:
 The v2 extension oracle must bind both values rather than regenerating either
 anchor from the implementation under test.
 
+The first implementation wave publishes only this meta-validation surface from
+`src.core.p2_claim_admission_v2`:
+
+- `promotion_registry_v2()`;
+- `validate_registry_v2(...)`; and
+- `audit_registry_v2_against_literal_oracle(...)`.
+
+It has no presentation DTO, premise producer, schema-audit producer or decoder.
+The exact v1 prefix is retained, and v1 still rejects the new rule and complete
+v2 snapshot. Registry conformity alone therefore cannot issue a public
+presentation.
+
 ## 4. Authoritative producer
 
 The public-judgment producer accepts only:
@@ -113,7 +131,9 @@ The public-judgment producer accepts only:
 It must first preflight shallow types and resource bounds. It then freshly
 replays, in dependency order:
 
-1. all original governed or external source bindings;
+1. all original governed or external source bindings, deriving the exact
+   per-source authority class from the replay path rather than the validator
+   name;
 2. the exact target conjunction, including retained assumption and
    source-validator roots;
 3. the target-specific license, all four independent composition-assessment
@@ -142,11 +162,8 @@ this one named rule. It does not expose a general caller-programmable P2
 judgment constructor.
 
 The planned truth-safe public result name is
-`LicensedCompositionPresentation`. The targeted public API is:
+`LicensedCompositionPresentation`. The later producer wave targets:
 
-- `promotion_registry_v2()`;
-- `validate_registry_v2(...)`;
-- `audit_registry_v2_against_literal_oracle(...)`;
 - `build_composition_presentation_premise(...)`;
 - `validate_composition_presentation_premise(...)`;
 - `build_licensed_composition_presentation(...)`;
@@ -165,7 +182,8 @@ the new named presentation rule. It preserves and publicly binds:
 
 - the exact target `ClaimContract` and complete claim, scope, assumption and
   doctrine sets;
-- the source-validator and source-family identities;
+- the source-validator and source-family identities plus the ordered authority
+  class for every source;
 - the exact `CompositionReceipt`, license and four-axis assessment;
 - the full v2 premise, descriptor, request and schema-only audit, not only
   their digests;
@@ -176,6 +194,11 @@ the new named presentation rule. It preserves and publicly binds:
 It will not reinterpret a composition receipt as truth or turn a schema audit
 into a substantive conclusion. The result is a typed public presentation, not
 a theorem, certificate or object constructor.
+
+Native governed replay and detached binding replay may preserve the same v1
+semantic `CompositionReceipt`. They must nevertheless produce distinct v2
+source-validator-family and public-judgment digests whenever their authority
+classes differ. Validator-root equality alone can never imply native execution.
 
 ## 6. Codec and resource contract
 
@@ -222,6 +245,8 @@ Implementation acceptance requires all of the following:
 - normal and hostile source-backed producer/verifier/decoder tests;
 - two-source and 64-source cases;
 - strict-JSON, splice, permutation and every resource-edge test;
+- native-governed versus detached-binding replay demonstrating that equal v1
+  composition identity does not collapse distinct current authority classes;
 - package discovery, wheel import and portable hosted coverage;
 - public documentation, changelog and module memory; and
 - two independent final reviews.
@@ -232,14 +257,14 @@ not promote any mathematical or ontological claim.
 Publication is dependency ordered:
 
 1. this docs-only RFC freezes the public contract without runtime claims;
-2. a registry/oracle wave may add only the v1-plus-one meta-validator snapshot,
+2. the registry/oracle wave adds only the v1-plus-one meta-validator snapshot,
    still without a public presentation producer; and
 3. a later producer wave may add `LicensedCompositionPresentation` only after
    fresh source-backed replay and all acceptance evidence pass.
 
-A later wave must update this status and evidence map from its exact merged
+The producer wave must update this status and evidence map from its exact merged
 tree. Merely having worktree code or focused local tests is not a published
-implementation claim.
+producer claim.
 
 ## 8. Permanent nonclaims
 
