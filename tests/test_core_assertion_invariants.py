@@ -175,7 +175,6 @@ def test_missing_stdout_kills_group_and_reaps_once_without_command_disclosure(
     logger.debug("test missing stdout cleanup entry")
 
     class FakeProcess:
-        pid = 4242
         stdout = None
 
         def __init__(self) -> None:
@@ -186,10 +185,15 @@ def test_missing_stdout_kills_group_and_reaps_once_without_command_disclosure(
             return -9
 
     fake = FakeProcess()
-    kills: list[tuple[int, int]] = []
+    cleanup_calls: list[FakeProcess] = []
     selector_bomb = Mock(side_effect=AssertionError("selector-constructed"))
+
+    def fake_cleanup(process: FakeProcess) -> None:
+        cleanup_calls.append(process)
+        process.wait()
+
     monkeypatch.setattr(process_module.subprocess, "Popen", lambda *args, **kwargs: fake)
-    monkeypatch.setattr(process_module.os, "killpg", lambda pid, sig: kills.append((pid, sig)))
+    monkeypatch.setattr(process_module, "kill_group", fake_cleanup)
     monkeypatch.setattr(process_module.selectors, "DefaultSelector", selector_bomb)
     caplog.set_level(logging.DEBUG, logger=process_module.__name__)
     sensitive_value = "raw-command-private-value"
@@ -197,7 +201,7 @@ def test_missing_stdout_kills_group_and_reaps_once_without_command_disclosure(
         ["compiler", sensitive_value], None, process_module.time.monotonic() + 10, 64
     )
     assert (kind, code, output) == (FormalExecutionFailureKind.COMPILE_ERROR, -1, b"")
-    assert kills == [(fake.pid, process_module.signal.SIGKILL)]
+    assert cleanup_calls == [fake]
     assert fake.waits == 1
     selector_bomb.assert_not_called()
     assert sensitive_value not in caplog.text

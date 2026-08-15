@@ -16,7 +16,9 @@
   receipts, output bytes, exports, proof status and claim levels are unchanged.
   Portable hostile-helper coverage allocates an uninitialized exact R13 DTO
   without invoking its pinned Lean-backed producer, keeping the verifier
-  regression toolchain-independent without weakening it.
+  regression toolchain-independent without weakening it. The portable process
+  test uses a bounded process-group cleanup double, so Windows verifies one
+  cleanup call and one reap without changing runtime behavior.
 - Replaced the 12 optimization-sensitive certificate producer assertions in
   `certify_observer_genesis` and `certify_productivity` with immediate exact-
   type fail-closed guards. Unexpected subclasses or variants now emit only a

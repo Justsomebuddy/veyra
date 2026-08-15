@@ -20,7 +20,9 @@
 - **Hosted remediation:** The portable hostile-helper regression uses an
   uninitialized exact R13 DTO allocated without invoking its pinned Lean-backed
   producer, so portable jobs exercise the verifier boundary without requiring
-  that external toolchain.
+  that external toolchain. Its missing-stdout test replaces the platform-
+  specific process-group helper with a bounded cleanup double, proving one
+  cleanup call and one reap on Windows without changing production.
 
 ### [0.1.0] Certificate producer result invariants
 - **Type:** Correctness / Security
