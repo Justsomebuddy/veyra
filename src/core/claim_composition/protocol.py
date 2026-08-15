@@ -388,9 +388,7 @@ def build_exact_conjunction_contract(
         CorroborationStatus.MULTIPLE_LOCAL_RECEIPTS,
         AdaptiveCapability.LOCAL_ONLY,
         PublicWording.CONJUNCTIVE_SUMMARY,
-        component_contract_digests=tuple(
-            sorted(source.receipt.contract.contract_digest for source in checked)
-        ),
+        component_contract_digests=_component_contract_digests(checked),
     )
     logger.debug("build_exact_conjunction_contract exit digest=%s", result.contract_digest[:12])
     return result
@@ -638,7 +636,7 @@ def _exact_conjunction_obstructions(
         (target.claim_roots, _union_roots(sources, "claim_roots"), "claim-roots-not-exact-union"),
         (
             target.component_contract_digests,
-            tuple(sorted(source.receipt.contract.contract_digest for source in sources)),
+            _component_contract_digests(sources),
             "component-contracts-not-exact",
         ),
         (target.scope_roots, _union_roots(sources, "scope_roots"), "scope-not-exact-union"),
@@ -726,6 +724,16 @@ def _union_roots(
     logger.debug("_union_roots entry field=%s", field)
     result = tuple(sorted({root for source in sources for root in getattr(source.receipt.contract, field)}))
     logger.debug("_union_roots exit count=%d", len(result))
+    return result
+
+
+def _component_contract_digests(
+    sources: tuple[ClaimCompositionSource, ...],
+) -> tuple[str, ...]:
+    """Return the canonical unique semantic-contract set for a source family."""
+    logger.debug("_component_contract_digests entry count=%d", len(sources))
+    result = tuple(sorted({source.receipt.contract.contract_digest for source in sources}))
+    logger.debug("_component_contract_digests exit count=%d", len(result))
     return result
 
 

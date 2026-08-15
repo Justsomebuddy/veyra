@@ -55,7 +55,11 @@ from src.core.status_promotion_common import StatusPromotionValidationError
 from src.core.status_promotion_oracle import LITERAL_ORACLE_DIGEST
 from src.core.status_promotion_types import MetaAuditDecision, MetaOntologicalStatus
 
-from p2_claim_admission_v2_fixture import composition_case, native_and_detached_case
+from p2_claim_admission_v2_fixture import (
+    composition_case,
+    native_and_detached_case,
+    same_contract_receipt_case,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -228,6 +232,91 @@ def test_native_and_detached_same_v1_receipt_have_distinct_v2_authority(tmp_path
         payload = licensed_composition_presentation_json(value, sources, target, license, receipt)
         assert licensed_composition_presentation_from_json(payload, sources, target, license, receipt) == value
     logger.debug("test_native_and_detached_same_v1_receipt_have_distinct_v2_authority exit")
+
+
+def test_same_contract_receipts_keep_two_external_authority_bindings_and_round_trip() -> None:
+    """Policy A deduplicates semantic K only; occurrence and P2 evidence stay exact."""
+    logger.debug("test same-contract P2 authority family entry")
+    sources, target, license, receipt = same_contract_receipt_case()
+    alternate_sources, alternate_target, alternate_license, alternate_receipt = same_contract_receipt_case("alternate")
+    value = build_licensed_composition_presentation(
+        sources, target, license, receipt, judgment_id="same-contract-family"
+    )
+    alternate = build_licensed_composition_presentation(
+        alternate_sources,
+        alternate_target,
+        alternate_license,
+        alternate_receipt,
+        judgment_id="same-contract-family",
+    )
+
+    assert len(sources) == len(value.source_validation_bindings) == 2
+    assert target == alternate_target
+    assert len(target.component_contract_digests) == 1
+    assert target.component_contract_digests == (sources[0].receipt.contract.contract_digest,)
+    source_roots = tuple(source.receipt.source_receipt_root for source in sources)
+    source_receipts = tuple(source.receipt.receipt_digest for source in sources)
+    validator_roots = tuple(source.receipt.source_validator_root for source in sources)
+    assert len(set(source_roots)) == len(set(source_receipts)) == len(set(validator_roots)) == 2
+    assert tuple(binding.receipt_digest for binding in license.sources) == source_receipts
+    assert receipt.source_receipt_digests == source_receipts
+    assert value.source_validator_roots == validator_roots
+    assert tuple(
+        (binding.local_receipt_digest, binding.source_validator_root, binding.authority_class)
+        for binding in value.source_validation_bindings
+    ) == tuple(
+        (
+            source.receipt.receipt_digest,
+            source.receipt.source_validator_root,
+            SourceValidationAuthority.EXTERNAL_BINDING_ONLY,
+        )
+        for source in sources
+    )
+    assert not any(
+        (
+            value.truth_established,
+            value.coherence_established,
+            value.assumptions_discharged,
+            value.independence_established,
+            value.ontology_established,
+            receipt.p2_promotion_established,
+        )
+    )
+    assert promotion_registry_v2().rules[-1].permanent_nonclaims == PERMANENT_NONCLAIMS
+    payload = licensed_composition_presentation_json(value, sources, target, license, receipt)
+    assert licensed_composition_presentation_from_json(payload, sources, target, license, receipt) == value
+    alternate_payload = licensed_composition_presentation_json(
+        alternate,
+        alternate_sources,
+        alternate_target,
+        alternate_license,
+        alternate_receipt,
+    )
+    assert (
+        licensed_composition_presentation_from_json(
+            alternate_payload,
+            alternate_sources,
+            alternate_target,
+            alternate_license,
+            alternate_receipt,
+        )
+        == alternate
+    )
+    evidence = {item.name: item.evidence_digest for item in value.premise.evidence_fields}
+    alternate_evidence = {item.name: item.evidence_digest for item in alternate.premise.evidence_fields}
+    assert evidence["target-contract"] == alternate_evidence["target-contract"]
+    assert evidence["source-family"] != alternate_evidence["source-family"]
+    assert evidence["source-validator-family"] != alternate_evidence["source-validator-family"]
+    assert license.license_digest != alternate_license.license_digest
+    assert receipt.assessment_digest != alternate_receipt.assessment_digest
+    assert receipt.receipt_digest != alternate_receipt.receipt_digest
+    assert tuple(binding.binding_digest for binding in value.source_validation_bindings) != tuple(
+        binding.binding_digest for binding in alternate.source_validation_bindings
+    )
+    assert value.premise.artifact_digest != alternate.premise.artifact_digest
+    assert value.judgment_digest != alternate.judgment_digest
+    assert validate_licensed_composition_presentation(value, sources, target, license, receipt)
+    logger.debug("test same-contract P2 authority family exit")
 
 
 def test_v2_schema_audits_are_distinct_and_v1_builder_rejects_v2_registry() -> None:

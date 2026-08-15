@@ -81,6 +81,44 @@ def composition_case(count: int = 2):
     return canonical, target, license, receipt
 
 
+def same_contract_receipt_case(family: str = "primary"):
+    """Build two distinct established receipt occurrences for one exact contract K."""
+    logger.debug("same_contract_receipt_case entry family_bytes=%d", len(family))
+    contract = build_claim_contract(
+        (root("same-k-claim"),),
+        (root("same-k-scope"),),
+        (root("same-k-assumption"),),
+        ClaimQuantifier.LOCAL,
+        (),
+        (root("same-k-doctrine"),),
+        (),
+        (),
+        (),
+        (ClaimClass.EMPIRICAL,),
+        CorroborationStatus.SINGLE_LOCAL_RECEIPT,
+        AdaptiveCapability.LOCAL_ONLY,
+        PublicWording.BOUNDED_LOCAL,
+    )
+    sources = tuple(
+        build_external_composition_source(
+            build_local_claim_receipt(
+                contract,
+                root(f"{family}-source-{index}"),
+                root(f"{family}-validator-{index}"),
+                LocalReceiptValidity.ESTABLISHED,
+            ),
+            SourceEffect.INCLUDE_LOCAL_CLAIM,
+        )
+        for index in range(2)
+    )
+    canonical = canonical_composition_sources(sources)
+    target = build_exact_conjunction_contract(canonical)
+    license = build_exact_conjunction_license(canonical, target)
+    receipt = build_composition_receipt(canonical, target, license)
+    logger.debug("same_contract_receipt_case exit count=%d", len(canonical))
+    return canonical, target, license, receipt
+
+
 def _governed_result(directory, symbol: str):
     """Execute one deterministic READY governed result for authority-path tests."""
     logger.debug("_governed_result entry symbol=%s", symbol)

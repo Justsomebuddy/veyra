@@ -201,6 +201,17 @@ the new named presentation rule. It preserves and publicly binds:
 - permanent false fields including `assumptions_discharged=false`, together
   with explicit nonclaim flags for truth, coherence, independence and ontology.
 
+For a same-contract family with distinct established receipts `R1` and `R2`,
+the target's semantic `component_contract_digests` is the one-element set
+`{digest(K)}`. The presentation nevertheless retains two ordered source
+receipts, two validator-root occurrence slots and two authority bindings;
+validator values remain occurrence-exact even if shared. Replacing that
+receipt/validator family while keeping `K` unchanged preserves the semantic
+target but changes license, assessment, composition receipt, premise evidence
+roots and judgment digest. Both external receipts remain
+`EXTERNAL_BINDING_ONLY`; semantic deduplication grants no native replay
+authority, agreement, independence or promotion.
+
 It does not reinterpret a composition receipt as truth or turn a schema audit
 into a substantive conclusion. The result is a typed public presentation, not
 a theorem, certificate or object constructor.

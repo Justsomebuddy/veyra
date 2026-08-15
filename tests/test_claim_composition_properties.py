@@ -61,6 +61,20 @@ def _source(index: int):
     return result
 
 
+def _source_for_contract(contract, index: int, family: int = 0):
+    """Build one distinct established occurrence for an existing contract."""
+    logger.debug("_source_for_contract entry index=%d family=%d", index, family)
+    receipt = build_local_claim_receipt(
+        contract,
+        _digest(2000 + family * 100 + index),
+        _digest(3000 + family * 100 + index),
+        LocalReceiptValidity.ESTABLISHED,
+    )
+    result = build_external_composition_source(receipt, SourceEffect.INCLUDE_LOCAL_CLAIM)
+    logger.debug("_source_for_contract exit index=%d family=%d", index, family)
+    return result
+
+
 def test_four_source_permutations_have_one_target_license_and_receipt() -> None:
     """All 24 caller permutations canonicalize to identical exact-conjunction artifacts."""
     logger.debug("test_four_source_permutations_have_one_target_license_and_receipt entry")
@@ -106,3 +120,53 @@ def test_exact_conjunction_is_literal_union_without_semantic_upgrade() -> None:
     assert target.adaptive_capability is AdaptiveCapability.LOCAL_ONLY
     assert target.public_wording is PublicWording.CONJUNCTIVE_SUMMARY
     logger.debug("test_exact_conjunction_is_literal_union_without_semantic_upgrade exit")
+
+
+def test_component_contracts_are_the_unique_semantic_set() -> None:
+    """Component identity is set-valued even when receipt occurrences repeat K."""
+    logger.debug("test semantic component set entry")
+    first = _source(0).receipt.contract
+    second = _source(1).receipt.contract
+    raw = (
+        _source_for_contract(first, 0),
+        _source_for_contract(first, 1),
+        _source_for_contract(second, 2),
+        _source_for_contract(first, 3),
+    )
+    sources = canonical_composition_sources(raw)
+    target = build_exact_conjunction_contract(sources)
+    assert target.component_contract_digests == tuple(
+        sorted({source.receipt.contract.contract_digest for source in sources})
+    )
+    assert len(target.component_contract_digests) == 2
+    assert len(sources) == 4
+    logger.debug("test semantic component set exit")
+
+
+def test_repeated_contract_permutations_preserve_target_but_not_occurrence_family() -> None:
+    """Permutation is irrelevant, while a different receipt family remains distinct evidence."""
+    logger.debug("test repeated-contract permutation entry")
+    contract = _source(0).receipt.contract
+    raw = tuple(_source_for_contract(contract, index) for index in range(3))
+    canonical = canonical_composition_sources(raw)
+    expected_target = build_exact_conjunction_contract(canonical)
+    expected_license = build_exact_conjunction_license(canonical, expected_target)
+    expected_receipt = build_composition_receipt(canonical, expected_target, expected_license)
+    for candidate in permutations(raw):
+        sources = canonical_composition_sources(candidate)
+        target = build_exact_conjunction_contract(sources)
+        license = build_exact_conjunction_license(sources, target)
+        receipt = build_composition_receipt(sources, target, license)
+        assert (target, license, receipt) == (expected_target, expected_license, expected_receipt)
+
+    alternate = canonical_composition_sources(
+        tuple(_source_for_contract(contract, index, family=1) for index in range(3))
+    )
+    alternate_target = build_exact_conjunction_contract(alternate)
+    alternate_license = build_exact_conjunction_license(alternate, alternate_target)
+    alternate_receipt = build_composition_receipt(alternate, alternate_target, alternate_license)
+    assert alternate_target == expected_target
+    assert alternate_license != expected_license
+    assert alternate_receipt.assessment_digest != expected_receipt.assessment_digest
+    assert alternate_receipt != expected_receipt
+    logger.debug("test repeated-contract permutation exit")

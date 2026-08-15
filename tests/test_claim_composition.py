@@ -11,6 +11,7 @@ import pytest
 from src.core.claim_composition import (
     AdaptiveCapability,
     ClaimClass,
+    ClaimCompositionError,
     ClaimQuantifier,
     CompositionStatus,
     CorroborationStatus,
@@ -140,6 +141,41 @@ def _assumption_case():
     return result
 
 
+def _same_contract_sources():
+    """Build two established receipt occurrences for one semantic contract K."""
+    logger.debug("_same_contract_sources entry")
+    contract = build_claim_contract(
+        (_digest("a"),),
+        (f"{1:064x}",),
+        (_digest("b"),),
+        ClaimQuantifier.LOCAL,
+        (),
+        (),
+        (),
+        (),
+        (),
+        (ClaimClass.EMPIRICAL,),
+        CorroborationStatus.SINGLE_LOCAL_RECEIPT,
+        AdaptiveCapability.LOCAL_ONLY,
+        PublicWording.BOUNDED_LOCAL,
+    )
+    sources = tuple(
+        build_external_composition_source(
+            build_local_claim_receipt(
+                contract,
+                _digest(source_symbol),
+                _digest(validator_symbol),
+                LocalReceiptValidity.ESTABLISHED,
+            ),
+            SourceEffect.INCLUDE_LOCAL_CLAIM,
+        )
+        for source_symbol, validator_symbol in (("c", "e"), ("d", "f"))
+    )
+    result = canonical_composition_sources(sources)
+    logger.debug("_same_contract_sources exit count=%d", len(result))
+    return result
+
+
 def test_assumption_bearing_claims_license_only_retained_a_and_b() -> None:
     """R_A and R_B license their conjunction with A and B retained, never unconditional P."""
     logger.debug("test_assumption_bearing_claims_license_only_retained_a_and_b entry")
@@ -170,6 +206,50 @@ def test_exact_conjunction_replays_all_four_statuses_and_receipt(tmp_path: Path)
     assert receipt.p2_promotion_established is False
     assert validate_composition_receipt(receipt, sources, target, license)
     logger.debug("test_exact_conjunction_replays_all_four_statuses_and_receipt exit")
+
+
+def test_same_contract_distinct_receipts_preserve_semantic_set_and_evidence_family() -> None:
+    """Two established K receipts produce one semantic component and two evidence rows."""
+    logger.debug("test same-contract semantic-set entry")
+    sources = _same_contract_sources()
+    target = build_exact_conjunction_contract(sources)
+    license = build_exact_conjunction_license(sources, target)
+    assessment = assess_claim_composition(sources, target, license)
+    receipt = build_composition_receipt(sources, target, license)
+    contract = sources[0].receipt.contract
+
+    assert len(sources) == 2
+    assert {source.receipt.contract for source in sources} == {contract}
+    assert target.component_contract_digests == (contract.contract_digest,)
+    assert target.claim_roots == contract.claim_roots
+    assert target.scope_roots == contract.scope_roots
+    assert target.assumption_roots == contract.assumption_roots
+    assert len({source.receipt.source_receipt_root for source in sources}) == 2
+    assert len({source.receipt.source_validator_root for source in sources}) == 2
+    source_receipt_digests = tuple(source.receipt.receipt_digest for source in sources)
+    assert len(set(source_receipt_digests)) == 2
+    assert tuple(binding.receipt_digest for binding in license.sources) == source_receipt_digests
+    assert assessment.source_receipt_digests == source_receipt_digests
+    assert receipt.source_receipt_digests == source_receipt_digests
+    assert (
+        assessment.local_receipts_valid,
+        assessment.aggregate_claim_well_formed,
+        assessment.composition_license_established,
+        assessment.aggregate_claim_licensed,
+    ) == (CompositionStatus.ESTABLISHED,) * 4
+    assert assessment.obstructions == ()
+    assert target.corroboration is CorroborationStatus.MULTIPLE_LOCAL_RECEIPTS
+    assert target.adaptive_capability is AdaptiveCapability.LOCAL_ONLY
+    assert target.public_wording is PublicWording.CONJUNCTIVE_SUMMARY
+    assert license.capability_roots == ()
+    assert receipt.p2_promotion_established is False
+    assert validate_composition_license_shape(license)
+    assert validate_composition_assessment(assessment, sources, target, license)
+    assert validate_composition_receipt(receipt, sources, target, license)
+    assert canonical_composition_sources(tuple(reversed(sources))) == sources
+    with pytest.raises(ClaimCompositionError, match="^duplicate-composition-source$"):
+        canonical_composition_sources((sources[0], sources[0]))
+    logger.debug("test same-contract semantic-set exit")
 
 
 @pytest.mark.requires_posix_file_locks

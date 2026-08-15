@@ -98,7 +98,9 @@ conjunct”; it does not mean empirical support, independence, or confirmation.
 The target is derived rather than caller-authored and carries:
 
 - the exact union of claim, scope, and assumption roots;
-- each component contract digest, preserving per-component relations;
+- the sorted unique set of semantic component-contract digests, preserving
+  every distinct per-contract relation without repeating the same contract for
+  multiple established receipt occurrences;
 - exact observer and doctrine bindings;
 - separate exact execution- and research-lineage unions;
 - exact provenance roots and claim classes;
@@ -112,6 +114,17 @@ Caller permutation therefore cannot change the N-ary artifact or manufacture
 multiplicity. V1 accepts no capability roots: discharge, projection,
 independence, transport, adaptive validity, and stronger wording need future
 separately named verifiers.
+
+Component identity and evidence occurrence are intentionally different axes.
+If two distinct established receipts `R1` and `R2` bind the same exact contract
+`K`, the target carries `{digest(K)}` once. The license, assessment and
+composition receipt still bind both ordered receipt digests, and both
+occurrence slots retain their source-receipt and validator roots exactly for
+replay, even when a root value is shared. Receipt
+multiplicity therefore neither duplicates semantic target `K` nor collapses
+the two evidence/authority occurrences. It establishes no agreement,
+independence, validator trust or stronger wording. An exactly repeated receipt
+is still rejected as a duplicate source.
 
 ## 4. Negative controls
 

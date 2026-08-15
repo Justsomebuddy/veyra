@@ -1,6 +1,16 @@
 # Changelog
 
 ## [Unreleased] — Changed
+- Fixed exact conjunctions with two distinct established receipts for the same
+  semantic contract. Target `component_contract_digests` now records the sorted
+  unique semantic contract set, while canonical sources, source/validator
+  roots, license bindings, assessments, composition receipts and P2 authority
+  bindings retain every distinct receipt occurrence. Producer and validator
+  share one private count-logged derivation, so Policy A cannot drift between
+  construction and replay. Existing distinct-contract v1/v2 bytes, digests,
+  schemas, exports and pins are unchanged; repeated identical receipts remain
+  invalid, and semantic deduplication establishes no agreement, independence,
+  validator trust, authority upgrade, stronger wording or promotion.
 - Replaced exactly four optimization-sensitive VAM result/diagnostic
   assertions. Intrinsic execution now rejects a non-exact rendered `dict`
   before metrics, and frame inspection rejects non-exact `bytes` before the
