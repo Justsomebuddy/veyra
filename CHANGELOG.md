@@ -28,7 +28,9 @@
   authority spelling, including the external binding's one additional byte.
   Complete-policy preflight also includes the policy container and all five
   actual/generated top fields before detachment, while downgrading recharges
-  the completed external result before return.
+  the completed external result before return. Oversized codec cases use short
+  explicit Pytest IDs so Windows never copies megabyte-scale parameter values
+  into `PYTEST_CURRENT_TEST`.
 - Added an explicit repository-wide Mypy discovery scope for maintained Python
   roots and hardened source-distribution extraction with pre-extraction member
   and expanded-byte ceilings, explicit path/type checks, and the standard

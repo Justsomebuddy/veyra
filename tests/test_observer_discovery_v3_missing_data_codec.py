@@ -24,6 +24,19 @@ from test_observer_discovery_v3_missing_data import _build_csv
 
 logger = logging.getLogger(__name__)
 
+_CODEC_SHALLOW_SIZE_CASES = (
+    b" " * (1024 * 1024 + 1),
+    b"\xff" * (1024 * 1024 + 1),
+    " " * (1024 * 1024 + 1),
+    "\ud800" * (1024 * 1024 + 1),
+)
+_CODEC_SHALLOW_SIZE_CASE_IDS = (
+    "bytes-ascii-oversize",
+    "bytes-invalid-oversize",
+    "text-ascii-oversize",
+    "text-surrogate-oversize",
+)
+
 
 def test_external_codec_roundtrip_is_exact_and_never_upgrades_authority():
     logger.debug("test external codec entry")
@@ -130,12 +143,8 @@ def test_codec_rejects_duplicate_nested_keys_and_oversize_before_construction():
 
 @pytest.mark.parametrize(
     "payload",
-    (
-        b" " * (1024 * 1024 + 1),
-        b"\xff" * (1024 * 1024 + 1),
-        " " * (1024 * 1024 + 1),
-        "\ud800" * (1024 * 1024 + 1),
-    ),
+    _CODEC_SHALLOW_SIZE_CASES,
+    ids=_CODEC_SHALLOW_SIZE_CASE_IDS,
 )
 def test_codec_shallow_size_gate_precedes_transcoding_and_parser(monkeypatch, payload):
     logger.debug("test codec shallow size gate entry")
@@ -148,6 +157,24 @@ def test_codec_shallow_size_gate_precedes_transcoding_and_parser(monkeypatch, pa
     with pytest.raises(MissingDataProtocolError, match="^codec-byte-limit$"):
         missingness_presentation_from_json(payload)
     logger.debug("test codec shallow size gate exit")
+
+
+def test_codec_shallow_size_case_ids_are_windows_environment_safe():
+    logger.debug("test codec shallow IDs entry")
+    assert _CODEC_SHALLOW_SIZE_CASE_IDS == (
+        "bytes-ascii-oversize",
+        "bytes-invalid-oversize",
+        "text-ascii-oversize",
+        "text-surrogate-oversize",
+    )
+    assert max(map(len, _CODEC_SHALLOW_SIZE_CASE_IDS)) <= 32
+    assert all(identifier.isascii() for identifier in _CODEC_SHALLOW_SIZE_CASE_IDS)
+    collected_nodeids = tuple(
+        f"{Path(__file__).name}::test_codec_shallow_size_gate_precedes_transcoding_and_parser[{identifier}]"
+        for identifier in _CODEC_SHALLOW_SIZE_CASE_IDS
+    )
+    assert max(len(nodeid.encode("ascii")) for nodeid in collected_nodeids) <= 256
+    logger.debug("test codec shallow IDs exit")
 
 
 def test_external_codec_serializes_validated_detached_snapshot(monkeypatch):

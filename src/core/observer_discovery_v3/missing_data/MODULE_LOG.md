@@ -94,3 +94,16 @@
 - **Verification:** Three pre-detachment/boundary regressions pass; missing-data
   is 66/66 and the broader focused lane is 295/295.
 - **Module version:** 1.0.5 → 1.0.6
+
+### [1.0.7] Windows-safe oversized-codec test identities
+- **Type:** 🐛 Fix / ✅ CI Portability
+- **File:** `tests/test_observer_discovery_v3_missing_data_codec.py`
+- **What:** Replaced implicit representations of four 1 MiB codec parameters
+  with fixed short ASCII IDs and pinned their stable 32-character ceiling.
+- **Why:** Windows rejects environment values above 32,767 characters; Pytest
+  copied the implicit megabyte-scale node IDs into `PYTEST_CURRENT_TEST`,
+  causing hosted setup/teardown errors despite correct production behavior.
+- **Verification:** Collected node IDs are short/stable, codec tests pass 16/16
+  and the complete configured portable Pytest step passes; no production
+  semantics changed.
+- **Module version:** 1.0.6 → 1.0.7

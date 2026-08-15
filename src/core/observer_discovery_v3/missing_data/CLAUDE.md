@@ -26,6 +26,8 @@
   strings ×3, missing fallback strings ×2 and target ×2.
 - Apply byte/character caps before codec transcoding and physical-record caps
   before whole-source UTF-8 decoding; recheck row/scalar bounds while copying.
+- Oversized test payloads require explicit short ASCII Pytest IDs; never allow
+  their representations into Windows `PYTEST_CURRENT_TEST`.
 - Count exact built-in-string UTF-8 bytes without allocating an encoded copy
   before any policy detachment; shallow-cap every codec list before nested
   decoders and keep all shared canonical/digest exit logs value-free.
