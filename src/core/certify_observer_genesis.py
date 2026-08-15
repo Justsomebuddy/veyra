@@ -6,14 +6,26 @@ import logging
 
 from .certify_types import Certificate
 from .observer_genesis import (
-    ADAPTER_ID, derive_fixed_machine, genesis_resource_policy,
-    observer_genesis_doctrine, observer_genesis_judgment,
-    observer_genesis_source, oep_admission_record, origin_mode_spec,
-    recurrence_witness, validate_genesis_result, witness_scope,
+    ADAPTER_ID,
+    derive_fixed_machine,
+    genesis_resource_policy,
+    observer_genesis_doctrine,
+    observer_genesis_judgment,
+    observer_genesis_source,
+    oep_admission_record,
+    origin_mode_spec,
+    recurrence_witness,
+    validate_genesis_result,
+    witness_scope,
 )
 from .observer_genesis_types import (
-    GenesisJudgment, GenesisResourceLimit, HistoricalTargetIndependence,
-    MachineState, OEPAdmission, ObserverRole, PhysicalInstantiation,
+    GenesisJudgment,
+    GenesisResourceLimit,
+    HistoricalTargetIndependence,
+    MachineState,
+    OEPAdmission,
+    ObserverRole,
+    PhysicalInstantiation,
     PremiseStatus,
 )
 
@@ -27,10 +39,18 @@ def _fixture(policy):
     machine = derive_fixed_machine(genealogy)
     source = observer_genesis_source(doctrine, genealogy, ADAPTER_ID, machine)
     witness = witness_scope(
-        source, MachineState("base", "zero"), "left", "right", ("tick",), 1, 1,
+        source,
+        MachineState("base", "zero"),
+        "left",
+        "right",
+        ("tick",),
+        1,
+        1,
     )
     recurrence = recurrence_witness(
-        source, witness, ("left", "tick", "reset"),
+        source,
+        witness,
+        ("left", "tick", "reset"),
         ("right", "tick", "reset"),
     )
     result = doctrine, machine, source, witness, recurrence
@@ -47,33 +67,74 @@ def certify_observer_genesis_p1e1() -> Certificate:
     admitted = oep_admission_record(doctrine, OEPAdmission.ADMITTED)
     not_admitted = oep_admission_record(doctrine, OEPAdmission.NOT_ADMITTED)
     positive = observer_genesis_judgment(
-        doctrine, source, witness, recurrence, admitted,
+        doctrine,
+        source,
+        witness,
+        recurrence,
+        admitted,
     )
+    if type(positive) is not GenesisJudgment:
+        reason = "observer-genesis certificate positive result type invariant failed"
+        logger.error(reason)
+        raise RuntimeError(reason)
     withheld = observer_genesis_judgment(
-        doctrine, source, witness, recurrence, not_admitted,
+        doctrine,
+        source,
+        witness,
+        recurrence,
+        not_admitted,
     )
+    if type(withheld) is not GenesisJudgment:
+        reason = "observer-genesis certificate withheld result type invariant failed"
+        logger.error(reason)
+        raise RuntimeError(reason)
     reset_witness = witness_scope(
-        source, MachineState("base", "zero"), "left", "right", ("reset",), 1, 1,
+        source,
+        MachineState("base", "zero"),
+        "left",
+        "right",
+        ("reset",),
+        1,
+        1,
     )
     reset_recurrence = recurrence_witness(
-        source, reset_witness, ("left", "reset"), ("right", "reset"),
+        source,
+        reset_witness,
+        ("left", "reset"),
+        ("right", "reset"),
     )
     reset_case = observer_genesis_judgment(
-        doctrine, source, reset_witness, reset_recurrence, admitted,
+        doctrine,
+        source,
+        reset_witness,
+        reset_recurrence,
+        admitted,
     )
+    if type(reset_case) is not GenesisJudgment:
+        reason = "observer-genesis certificate reset result type invariant failed"
+        logger.error(reason)
+        raise RuntimeError(reason)
     limited_doctrine, _, limited_source, limited_witness, limited_recurrence = _fixture(
         genesis_resource_policy(max_transition_rows=23),
     )
     limited = observer_genesis_judgment(
-        limited_doctrine, limited_source, limited_witness, limited_recurrence,
+        limited_doctrine,
+        limited_source,
+        limited_witness,
+        limited_recurrence,
         oep_admission_record(limited_doctrine, OEPAdmission.ADMITTED),
     )
-    assert isinstance(positive, GenesisJudgment)
-    assert isinstance(withheld, GenesisJudgment)
-    assert isinstance(reset_case, GenesisJudgment)
-    assert isinstance(limited, GenesisResourceLimit)
+    if type(limited) is not GenesisResourceLimit:
+        reason = "observer-genesis certificate limited result type invariant failed"
+        logger.error(reason)
+        raise RuntimeError(reason)
     fresh = validate_genesis_result(
-        doctrine, source, witness, recurrence, admitted, positive,
+        doctrine,
+        source,
+        witness,
+        recurrence,
+        admitted,
+        positive,
     )
     passed = (
         len(machine.rows) == 24
@@ -83,11 +144,12 @@ def certify_observer_genesis_p1e1() -> Certificate:
         and reset_case.bounded_persistence is PremiseStatus.REFUTED
         and reset_case.residue_efficacy is PremiseStatus.REFUTED
         and reset_case.observer_role_relative_to_scope is ObserverRole.OPEN
-        and not hasattr(limited, "premises") and not hasattr(limited, "trace")
-        and fresh == positive and fresh is not positive
+        and not hasattr(limited, "premises")
+        and not hasattr(limited, "trace")
+        and fresh == positive
+        and fresh is not positive
         and fresh.premises is not positive.premises
-        and positive.historical_target_independence
-        is HistoricalTargetIndependence.NOT_ESTABLISHED
+        and positive.historical_target_independence is HistoricalTargetIndependence.NOT_ESTABLISHED
         and positive.physical_instantiation is PhysicalInstantiation.NOT_ESTABLISHED
     )
     method = (

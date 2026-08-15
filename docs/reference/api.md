@@ -244,7 +244,7 @@ This curated aggregate is not an inventory of every split implementation module.
 | `src.core.productivity_types` | P1-D1 program/policy/source/stage, construction/restriction/refusal DTOs and explicit pointwise/all-depth/carrier/target-independence statuses. |
 | `src.core.productivity` | Closed periodic program, separate execution policy, productive-source facade, one-depth construction, restriction judgment, and result-revalidation APIs. |
 | `src.core.productivity_validation` / runtime / result validation | D1 exact snapshots, O(n) one-demanded construction, coherent restrictions, refusal, and bounded result revalidation. |
-| `src.core.certify_productivity` | Level-1 `productivity_p1d1`; D1/D3 themselves yield no completed carrier or target independence, while PΩ1 is a separate exact ledger-relative release. |
+| `src.core.certify_productivity` | Level-1 `productivity_p1d1` with immediate exact-type producer-result guards that remain active under optimized Python; D1/D3 themselves yield no completed carrier or target independence, while PΩ1 is a separate exact ledger-relative release. |
 | `src.core.productivity_counterpressure` | P1-D2 facade for five exact finite-to-universal audits, policy-threaded refusal, fresh result revalidation, and collision-safe root aliases for its carrier/history enums. |
 | `src.core.productivity_counterpressure_basis` | SHA-256/toolchain/TCB-bound Lean basis for natural descent and shrinking-tail countermodels; finite insufficiency/chooser rows do not consume it. |
 | `src.core.certify_productivity_counterpressure` | Exact ordered five-row level-1 certificate: insufficiency `2/2`, countermodels `3/3`, Lean-bound `2/2`, structural chooser `1/1`, promotions `0`. |
@@ -259,7 +259,7 @@ This curated aggregate is not an inventory of every split implementation module.
 | `src.core.observer_genesis*` | P1-E1 primitive genealogy, exact machine/source/scope/recurrence/OEP DTOs, fixed adapter, six-premise judgment, typed refusal, and result revalidation. |
 | `src.core.observer_genesis_native` / adapter / validation | Iterative strict primitive replay, Mode-only exact 24-row derivation/comparison, exact source/doctrine binding, and hostile-input rejection. |
 | `src.core.observer_genesis_preflight` / evidence / runtime | All-bound precharge, fresh bounded BFS, six scoped premise artifacts, and explicit-OEP relative-role judgment. |
-| `src.core.certify_observer_genesis` | Level-1 `observer_genesis_p1e1` certificate; E1 alone supplies no E2/R11 shadow, E3 self-observation, E4 chronology, physical/consciousness actuality, or promotion. |
+| `src.core.certify_observer_genesis` | Level-1 `observer_genesis_p1e1` certificate with immediate exact-type producer-result guards that remain active under optimized Python; E1 alone supplies no E2/R11 shadow, E3 self-observation, E4 chronology, physical/consciousness actuality, or promotion. |
 | `src.core.proof_discipline` | Proof discipline coverage for Veyra rule/span/domain/model/export readiness. |
 | `src.core.ratio` | Ratio modes: Veyra shadow for fractions and rational arithmetic. |
 | `src.core.real_analysis_structure` | Finite real-analysis structure certificates for Veyra. |

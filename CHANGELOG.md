@@ -1,6 +1,14 @@
 # Changelog
 
 ## [Unreleased] — Changed
+- Replaced the 12 optimization-sensitive certificate producer assertions in
+  `certify_observer_genesis` and `certify_productivity` with immediate exact-
+  type fail-closed guards. Unexpected subclasses or variants now emit only a
+  fixed value-free error reason and raise a stable `RuntimeError` before any
+  result field, representation, or callback can be observed, including under
+  `python -O`. Valid certificate DTOs, bytes, counts, digests, exports and
+  mathematical claim levels are unchanged; this is a runtime invariant fix,
+  not new certificate evidence or a repository-wide assertion cleanup.
 - Ruff-formatted exactly 21 maintained scripts as one bounded style-only wave:
   nine verifier/build/generator tools and 12 explorer CLIs. Parsed ASTs,
   explorer help stdout/stderr/exit behavior, and regenerated table/notebook

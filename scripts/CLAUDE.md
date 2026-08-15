@@ -1,6 +1,6 @@
 # Scripts module memory
 
-Version: **0.1.0**. Scope: maintained command-line verifiers, generators,
+Version: **0.1.1**. Scope: maintained command-line verifiers, generators,
 portable checks, and bounded research explorers.
 
 ## Contracts
@@ -22,6 +22,11 @@ portable checks, and bounded research explorers.
   script, `check_research_lean.py`, remains below that target after formatting.
 
 ## Session Notes (2026-08-15)
+
+- Portable verification now admits the certificate-result invariant regression
+  covering all 12 observer-genesis/productivity producer positions and two
+  optimized-Python process checks. This is test admission only; the portable
+  runner's stage ordering, timeout, logging, and package behavior are unchanged.
 
 - Issue #63 bounds the first repository formatting wave to exactly 21
   previously unformatted scripts: nine verifier/build/generator tools and 12

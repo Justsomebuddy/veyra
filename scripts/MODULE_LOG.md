@@ -1,5 +1,17 @@
 # Scripts module log
 
+### [0.1.1] Portable certificate-result invariant admission
+- **Type:** Test / portability
+- **Files:** `scripts/verify_portable.py`, `tests/test_package_metadata.py`
+- **What:** Added the exact certificate-result invariant regression module to
+  the hosted OS-neutral Pytest inventory and pinned that membership in package
+  metadata tests.
+- **Why:** Ensure hostile-subclass and `python -O` fail-closed behavior runs on
+  every supported hosted platform.
+- **Module version:** 0.1.0 → 0.1.1
+- **Boundary:** No portable stage, timeout, environment, package, or logging
+  behavior changed.
+
 ### [0.1.0] Bounded Ruff formatting baseline
 - **Type:** Style / maintainability
 - **Files:** 21 explicitly scoped verifier, generator, and explorer Python
