@@ -29,7 +29,7 @@ from src.core.confluence_runtime import _transport_cell
 from src.core.confluence_preflight import ConfluenceValidationError
 from src.core.confluence_types import AlignmentPoint, ConfluenceStatus
 from src.core.intrinsic_observer_echo_source import (
-    intrinsic_observer_echo_source_artifact,
+    IntrinsicObserverEchoSourceArtifact,
     verify_intrinsic_observer_echo_source_artifact,
 )
 from src.core.observer_provenance import ProvenanceDiagnosticError
@@ -134,7 +134,7 @@ def test_r13_type_gate_precedes_hostile_shape_helper_and_verifier_never_throws(
     def hostile_shape(_artifact: object) -> tuple[str, ...]:
         raise RuntimeError("hostile-shape-callback")
 
-    artifact = intrinsic_observer_echo_source_artifact()
+    artifact = object.__new__(IntrinsicObserverEchoSourceArtifact)
     caplog.set_level(logging.DEBUG, logger=r13_module.__name__)
     monkeypatch.setattr(r13_module, "_shape_errors", hostile_shape)
     wrong = verify_intrinsic_observer_echo_source_artifact(object())

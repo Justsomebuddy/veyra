@@ -17,6 +17,10 @@
   one-sided partial join remains invalid; valid DTOs,
   artifacts, digests, receipts, output bytes, exports, proof status and claim
   levels are unchanged. Certificate and VAM assertion debt is out of scope.
+- **Hosted remediation:** The portable hostile-helper regression uses an
+  uninitialized exact R13 DTO allocated without invoking its pinned Lean-backed
+  producer, so portable jobs exercise the verifier boundary without requiring
+  that external toolchain.
 
 ### [0.1.0] Certificate producer result invariants
 - **Type:** Correctness / Security

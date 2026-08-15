@@ -14,6 +14,9 @@
   five inherited Ruff-format findings and formal-process B404/B603 findings
   remain explicitly outside this bounded wave. Valid artifacts, digests,
   receipts, output bytes, exports, proof status and claim levels are unchanged.
+  Portable hostile-helper coverage allocates an uninitialized exact R13 DTO
+  without invoking its pinned Lean-backed producer, keeping the verifier
+  regression toolchain-independent without weakening it.
 - Replaced the 12 optimization-sensitive certificate producer assertions in
   `certify_observer_genesis` and `certify_productivity` with immediate exact-
   type fail-closed guards. Unexpected subclasses or variants now emit only a
