@@ -1,6 +1,17 @@
 # Changelog
 
 ## [Unreleased] — Changed
+- Accepted RFC 173 as a documentation-only contract for a future non-root
+  exact fixed-bin continuous preprocessor. The proposed wrapper binds the
+  caller-supplied categorical output schema, ordered passthrough/bin policy,
+  canonical decimal lexemes and cut points, exact assignments, split receipts
+  and replay-derived `NATIVE_POLICY_REPLAY` authority; structural decode is
+  `EXTERNAL_BINDING_ONLY`. Existing strict-v3 schema/ingestion DTOs, bytes,
+  digests, two-function exports, errors and Phase-II behavior are unchanged;
+  JSON floats, CSV decimal tags, `m:` and `null` still reject. No runtime,
+  measurement accuracy, unit semantics, learned binning, continuity, metric,
+  statistical validity, source truth, theorem, certificate or promotion is
+  claimed; missing-data composition remains separately unimplemented.
 - Accepted RFC 172 as a documentation-only contract for a future non-root
   explicit masked missing-data preprocessor. The proposed wrapper binds the
   exact base/projected schemas, ordered policy, raw/semantic-mask/projection

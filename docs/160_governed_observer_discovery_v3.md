@@ -116,6 +116,17 @@ No missing-data runtime exists in the current package, and CSV `m:` plus JSON
 `null` remain invalid here. Continuous interpretation and combined
 missing×continuous preprocessing remain separate, unimplemented designs.
 
+### 1.3 Optional continuous-data policy is a separate RFC
+
+[Document 173](173_observer_v3_continuous_data_policy_rfc.md) accepts a
+documentation-only contract for a future non-root exact fixed-bin sibling. It
+binds caller-declared canonical decimal cut points and categorical output
+labels without learning from any split. Native policy authority would require
+fresh replay of the policy plus all three exact byte payloads; structural
+decode is external-only. No continuous-data runtime exists in the current
+package, and JSON floats plus CSV `d:` remain invalid here. Missing-data
+composition remains a separate, unimplemented design.
+
 ## 2. Exact representation transport
 
 `apply_representation_transport(...)` accepts an exact source-root-bound

@@ -153,8 +153,9 @@ does not turn an unkeyed digest into authentication.
 - process-level holdout isolation;
 - stratified exchangeability: v1 assumes one homogeneous group pool;
 - executable support for continuous/missing-data preprocessing; the separate
-  [missing-data RFC](172_observer_v3_missing_data_policy_rfc.md) freezes only a
-  future masked categorical boundary and adds no runtime here;
+  [missing-data RFC](172_observer_v3_missing_data_policy_rfc.md) and
+  [continuous-data RFC](173_observer_v3_continuous_data_policy_rfc.md) freeze
+  only future policy-bound categorical projections and add no runtime here;
 - a new Lean theorem.
 
 The current API is in-process and programmatic. The separate Phase-II module
