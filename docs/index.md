@@ -144,7 +144,7 @@ CB. `162_comparative_bridge_separation_ledger.md` — a sibling structural
 108–127. `108_formal_export_prep_x7.md` through `127_native_observer_echo_core_r11.md` — formal/quantum seeds and R7–R11; doc 109 records all nineteen X8 rows, newest only four closed A004–A006/C002 fixtures.
 133. `133_shadow_effect_system_r12.md` — R12.1 bridge capabilities, evidence separation, observer brands, and non-promotional audit registry.
 134–142. `134_intrinsic_vam_sidecar_ir_r12_2.md` through `142_crest_braid_derived_path_invariant_r16.md` — explicitly bounded R12 exact-image closure, exact-premise R13 guarded promotion, repaired/re-reviewed R14 bounded synthesis, then R16 finite observer descent/residual/synergy with an abstract Lean partition and derived crest braid; K6–K8 are closed, only K0 remains, and R16 has no novelty/R8-promotion claim.
-143–168. Bounded S7/Q11/VAM/R16/G4/I1, P0/P1/P2, PΩ1/PΩ2, P3-C1/C2.2, P3-N1/N2/N3/N4/T/A1b, the prime-power closure audit, six relative closure principles, their candidate no-cast modal kernel, observer discovery, the relative P1→R16 realization contract, restricted same-doctrine context transport, and the isolated P3-OG machine/first-return pressure candidate. ΩG's philosophy interface is documented; P3-OG typed history/full formation/role proof, N0/N5, higher C2.3, generic completion, cross-doctrine transport, and absolute infinity remain OPEN.
+143–171. Bounded S7/Q11/VAM/R16/G4/I1, P0/P1/P2, PΩ1/PΩ2, P3-C1/C2.2, P3-N1/N2/N3/N4/T/A1b, the prime-power closure audit, six relative closure principles, their candidate no-cast modal kernel, observer discovery, the relative P1→R16 realization contract, restricted same-doctrine context transport, the isolated P3-OG machine/first-return pressure candidate, and the bounded P2 licensed-composition admission contract. ΩG's philosophy interface is documented; P3-OG typed history/full formation/role proof, N0/N5, higher C2.3, generic completion, cross-doctrine transport, and absolute infinity remain OPEN.
 72. `../THEOREMS.md` — formal registry.
 73. `../NOTATION.md` — notation catalog.
 ## Research discipline
@@ -292,6 +292,10 @@ No metaphysical claim is accepted as mathematics until it becomes a definition, 
   of RFC 169: fresh STRONG admission and endpoint replay, six-payload rows,
   full target partitions, explicit sibling ceilings, identity/composition, and
   unchanged v1/root/theorem/lifecycle boundaries.
+- `docs/171_p2_composition_admission_v2.md` — exact additive P2 admission
+  contract for one licensed-composition presentation rule, a separately bound
+  v2 registry/oracle, source-backed public-judgment replay, visible assumptions
+  and source validators, strict sibling limits, and fixed nonclaims.
 - `docs/163_adaptive_research_line_validity.md` — canonical bounded declared
   experiment-family history, orthogonal local/family/adaptive validity, and an
   exact independent-null retry counterexample; family inference remains open.

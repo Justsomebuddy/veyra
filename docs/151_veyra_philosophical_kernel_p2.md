@@ -268,8 +268,14 @@ mathematical theorem, object constructor, infinity principle, retroactive
 certificate, codebase-completeness audit, or QA substitute. Existing P1/PΩ
 results do not acquire a stronger status merely because their names occur in
 the rule grammar. Composition receipts may now be replayed into an opaque,
-index-free P2 premise artifact, but no P2 v1 rule consumes that artifact kind;
-premise syntax is not a conclusion.
+index-free P2 v1 premise artifact, but no P2 v1 rule consumes that artifact
+kind; premise syntax is not a conclusion. The separately versioned contract in
+[document 171](171_p2_composition_admission_v2.md) specifies one additive
+`composition-licensed-presentation-v2` rule and a source-backed producer. Its
+maximum conclusion remains `PRESENTED / ESTABLISHED / SUPPLIED_PRESENTATION`,
+with every assumption and source-validator root still visible and
+undischarged. That sibling does not mutate v1 or turn schema conformity into
+truth, theoremhood, ontology, or a generic promotion calculus.
 
 Issue #3 is implemented separately as the finite diagnostic in document 166.
 It distinguishes externally validator-bound multi-observer agreement from

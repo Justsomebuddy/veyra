@@ -1,6 +1,25 @@
 # Changelog
 
 ## [Unreleased] — Changed
+- Specified the additive, non-root P2 licensed-composition admission v2
+  contract. Its only new rule is `composition-licensed-presentation-v2`, with
+  the exact `claim-composition-presentation-v2` evidence/index boundary and the
+  fixed `PRESENTED / ESTABLISHED / SUPPLIED_PRESENTATION` output. The complete
+  v2 registry is the byte-exact v1 snapshot plus one rule and premise
+  projection (`15/18/41/1/5`), checked against a separately written extension
+  oracle. The producer must preflight bounds, freshly replay raw sources,
+  target, license and receipt, and derive its premise, descriptor, request and
+  schema-only audit; callers supply no audit or conclusion authority.
+  Assumption and source-validator roots remain visible and undischarged. The
+  contract inherits composition limits and adds 128-byte identifiers, 1 MiB
+  nonpayload text, 65,536 combined nodes and 1 MiB canonical-JSON ceilings.
+  P2-S and claim-composition v1 bytes remain unchanged, and no truth, validator
+  trust, discharge, independence, universal/existential quantifier upgrade,
+  theorem, ontology, lifecycle, physical instantiation, authentication,
+  chronology, custody or audit-as-truth claim follows.
+  This entry records the docs-only RFC wave; the registry/oracle meta-validator
+  and source-backed `LicensedCompositionPresentation` producer remain separate
+  dependency-ordered publication waves and are not yet claimed as released.
 - Added the separately versioned, non-root same-doctrine all-status P1-A
   realization-transport sibling specified by RFC 169. It resolves the current `Blocked` information
   obstruction, admits only freshly reconstructed `STRONG` judgments, specifies

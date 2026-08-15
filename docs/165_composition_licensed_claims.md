@@ -13,11 +13,13 @@ validated local claim receipts
     -> existing P2-S named-promotion firewall
 ```
 
-The implementation is `src.core.claim_composition`. It does **not** extend P2-S
-into a generic promotion calculus and adds no P2 rule. Every composition receipt
-and disclosure permanently records `p2_promotion_established=false`. A P2 rule
-must still separately admit such an artifact before any promoted judgment can
-exist.
+The v1 implementation is `src.core.claim_composition`. It does **not** extend
+P2-S into a generic promotion calculus and adds no P2 v1 rule. Every composition
+receipt and disclosure permanently records `p2_promotion_established=false`.
+The separate additive v2 admission contract is documented in
+[document 171](171_p2_composition_admission_v2.md); it must freshly replay this
+unchanged v1 boundary and would permit only a typed `PRESENTED` public
+presentation after its producer wave is implemented.
 
 ## 1. Four predicates, not one summary bit
 
@@ -148,13 +150,21 @@ This is a disclosure of a nonpromoted aggregate artifact, not a P2 judgment or
 a self-contained proof of source validity. A recipient must possess the exact
 governed results or externally validated local receipts named by the export.
 
-`build_composition_p2_premise(...)` now supplies a narrower seam: after fresh
+`build_composition_p2_premise(...)` supplies the v1 seam: after fresh
 source-backed receipt replay it creates one `PremiseArtifact` with no P2
 indices and explicit target-contract, license, assessment, source-family, and
 nonpromotion evidence. `validate_composition_p2_premise(...)` replays the exact
 source family before accepting that artifact. No P2 v1 rule consumes its
 `claim-composition-receipt` kind; the registry, literal oracle, certificate, and
 historical entry 90 remain unchanged with `promotions=0`.
+
+The v2 contract forbids casting this index-free v1 premise into a conclusion.
+It requires the future sibling to derive a new
+`claim-composition-presentation-v2` premise from the raw source family, target,
+license and receipt, and to make contract, claims, scope, assumptions, doctrine,
+source validators and composition visible as named indices. The target's opaque
+assumption roots remain undischarged, and external validator roots remain
+identities rather than trust claims.
 
 For portable transfer, `CompositionReplayPackage` carries the public export
 plus detached local receipt contracts/effects. Its strict canonical decoder
@@ -217,8 +227,9 @@ installed artifact.
   receipt aggregation.
 - Document 163 governs declared adaptive research-line history; conjunction
   alone remains `LOCAL_ONLY`.
-- P2-S remains the only named-promotion firewall. Composition creates a
-  possible premise, never its promoted conclusion.
+- P2-S v1 remains byte-exact. The additive v2 contract permits only the exact
+  named licensed-composition presentation documented in 171; composition v1
+  itself creates a possible premise, never its public presentation.
 
 ## 8. Exact nonclaims
 
