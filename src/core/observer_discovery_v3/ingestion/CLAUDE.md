@@ -30,3 +30,16 @@ Never log payloads, identities, feature names, or scalar values.
 
 - Added the first bounded byte-only categorical ingestion adapter as a separate,
   independently reversible package with hostile parsing/resource regressions.
+
+## Future sibling boundary (RFC 172)
+
+- Missing-data preprocessing remains absent from this package. RFC 172 freezes
+  only a later non-root `missing_data` design with a separate wrapper and
+  source-backed replay authority. Do not widen these parsers or exports.
+- CSV `m:` and JSON `null` continue to reject. Continuous and combined policies
+  are separate future contracts.
+
+## Session Notes (2026-08-15)
+
+- Published the docs-only masked-missingness RFC without changing runtime,
+  package exports, categorical pins, errors, or Phase-II behavior.

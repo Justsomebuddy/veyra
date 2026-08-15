@@ -263,6 +263,10 @@ No metaphysical claim is accepted as mathematics until it becomes a definition, 
   evaluation governance, and HMAC/optional-Ed25519 root-only audit receipts;
   no schema/type/split inference, raw-file provenance, syscall sandbox,
   production custody, full replay, or theorem follows.
+- `docs/172_observer_v3_missing_data_policy_rfc.md` — accepted docs-only
+  contract for a future non-root explicit missingness mask/fallback wrapper
+  with source-backed replay authority and unchanged categorical v1; no runtime,
+  imputation claim, missingness mechanism or continuous policy is implemented.
 - `vam/docs/042_native_observer_synthesis_v4.md` — append-only finite
   representation/observer search, truthful namespace/seccomp/cgroup custody,
   state-free signed replay, and an abstract Lean boundary; not general

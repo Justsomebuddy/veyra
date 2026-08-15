@@ -39,6 +39,7 @@ mathematical theorem or a claim about physical reality.
 - [Observer-discovery ontology, phase II](../158_observer_discovery_ontology_phase_ii.md)
 - [Fixed-observer confirmation](../159_fixed_observer_confirmation.md)
 - [Governed observer discovery v3](../160_governed_observer_discovery_v3.md)
+- [Masked missing-data preprocessing v1 RFC](../172_observer_v3_missing_data_policy_rfc.md)
 - [Adaptive research-line validity](../163_adaptive_research_line_validity.md)
 - [Composition-licensed aggregate claims](../165_composition_licensed_claims.md)
 - [Provenance-independent corroboration diagnostic](../166_provenance_independent_corroboration.md)

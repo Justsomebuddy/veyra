@@ -1,6 +1,17 @@
 # Changelog
 
 ## [Unreleased] — Changed
+- Accepted RFC 172 as a documentation-only contract for a future non-root
+  explicit masked missing-data preprocessor. The proposed wrapper binds the
+  exact base/projected schemas, ordered policy, raw/semantic-mask/projection
+  split receipts and replay-derived `NATIVE_POLICY_REPLAY` authority; structural
+  decode is `EXTERNAL_BINDING_ONLY`. Missing categorical cells retain an exact
+  caller-declared fallback plus a following `(0,1)` presence bit, while binary
+  fields, identities, targets and groups remain required. Existing strict-v3
+  schema/ingestion DTOs, bytes, digests, two-function exports, errors and
+  Phase-II behavior are unchanged; CSV `m:` and JSON `null` still reject. No
+  runtime, imputation correctness, real-world missingness, MCAR/MAR/MNAR, source
+  truth, statistical validity, theorem, certificate or promotion is claimed.
 - Added the authoritative producer, verifier and strict canonical codec for the
   non-root `LicensedCompositionPresentation` P2 v2 sibling. Every result is
   reconstructed from the raw canonical source family, exact target contract,

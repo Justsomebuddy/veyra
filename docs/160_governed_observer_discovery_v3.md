@@ -105,6 +105,17 @@ observer admission, theorem, certificate, or promotion. Path/stream, missing-
 data, continuous-data, inferred-schema, automatic-split, and provenance-receipt
 policies require separate versioned designs.
 
+### 1.2 Optional missing-data policy is a separate RFC
+
+[Document 172](172_observer_v3_missing_data_policy_rfc.md) accepts a
+documentation-only contract for a future non-root masked-missingness sibling.
+It preserves this categorical ingestion API and every v1 byte, export, error
+and rejection path. Native policy authority would require fresh replay of the
+policy plus all three exact byte payloads; structural decode is external-only.
+No missing-data runtime exists in the current package, and CSV `m:` plus JSON
+`null` remain invalid here. Continuous interpretation and combined
+missing×continuous preprocessing remain separate, unimplemented designs.
+
 ## 2. Exact representation transport
 
 `apply_representation_transport(...)` accepts an exact source-root-bound

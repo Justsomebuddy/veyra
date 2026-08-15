@@ -11,3 +11,14 @@
 - **Why:** Provide explicit caller-declared categorical ingestion without
   inference, repair, path access, new evidence DTOs, or stronger claims.
 - **Module version:** new → 1.0.0
+
+### [1.0.0 docs] RFC 172 missing-data sibling boundary
+
+- **Type:** Documentation / Architecture / Compatibility
+- **Files:** `docs/172_observer_v3_missing_data_policy_rfc.md`, docs indexes and
+  ingestion boundary documentation; no Python source changed.
+- **What:** Froze a future separate masked-missingness wrapper with explicit
+  replay authority, schema/policy/receipt bindings, limits and nonclaims.
+- **Why:** Prevent missing-data behavior from being added implicitly to the
+  exact categorical v1 parser or returned as an authority-erasing bare v1 DTO.
+- **Module version:** 1.0.0 unchanged
