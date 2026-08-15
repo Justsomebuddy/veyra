@@ -49,14 +49,16 @@ def _metrics(value: dict[str, object]) -> tuple[int, int]:
 
 def execute_intrinsic_ir(value: object) -> dict[str, object]:
     """Validate and structurally execute one intrinsic IR without evidence."""
-    logger.debug("execute_intrinsic_ir entry type=%s", type(value).__name__)
+    logger.debug("execute_intrinsic_ir entry")
     try:
         data = intrinsic_ir_data(value)
     except IntrinsicIRError as error:
         logger.error("intrinsic runtime rejected message=%s", error)
         raise IntrinsicCodecError("payload", str(error)) from error
     rendered = data["value"]
-    assert type(rendered) is dict
+    if type(rendered) is not dict:
+        logger.error("execute_intrinsic_ir rejected reason=rendered-value-not-exact-dict")
+        raise IntrinsicCodecError("payload", "intrinsic runtime value must be exact dict")
     nodes, obstructions = _metrics(rendered)
     tag = rendered["tag"]
     status = "blocked" if tag in {"blocked", "domain-blocked"} else "mismatch" if tag == "mismatch" else "ready" if tag in {"ready", "echo"} else "decoded"
@@ -76,9 +78,11 @@ def execute_intrinsic_ir(value: object) -> dict[str, object]:
 
 def inspect_intrinsic_frame(blob: object) -> dict[str, object]:
     """Decode and structurally execute one canonical VAMI frame."""
-    logger.debug("inspect_intrinsic_frame entry type=%s", type(blob).__name__)
+    logger.debug("inspect_intrinsic_frame entry")
+    if type(blob) is not bytes:
+        logger.error("inspect_intrinsic_frame rejected reason=frame-not-exact-bytes")
+        raise IntrinsicCodecError("payload", "VAMI frame must be exact bytes")
     value = decode_intrinsic_frame(blob)
-    assert type(blob) is bytes
     _, version, size, checksum = _HEADER.unpack(blob[: _HEADER.size])
     result = {
         "ok": True,

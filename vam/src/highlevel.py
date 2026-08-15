@@ -95,7 +95,7 @@ def lower_highlevel_source(source: str) -> HighLevelLowering | HighLevelDiagnost
     lowered = _lower_echo_body(source, body, source.find(body), name, kind)
     if isinstance(lowered, HighLevelDiagnostic):
         return lowered
-    logger.debug("lower_highlevel_source exit kind=%s name=%s core=%s", kind, name, lowered.core_source)
+    logger.debug("lower_highlevel_source exit kind=%s core_chars=%d", kind, len(lowered.core_source))
     return lowered
 
 
@@ -114,7 +114,25 @@ def compile_highlevel_source(source: str, *, certify: bool = True) -> HighLevelC
     )
     if not core.ok or core.compile_result is None:
         diag = core.diagnostic
-        assert diag is not None
+        if diag is None:
+            logger.error("compile_highlevel_source blocked reason=missing-core-diagnostic")
+            result = HighLevelCompileResult(
+                lowering=lowering,
+                diagnostic=HighLevelDiagnostic(
+                    error_class="core.internal.compiler_bug",
+                    severity="error",
+                    message="internal VAM compiler failure: missing diagnostic",
+                    line=1,
+                    column=1,
+                    offset=0,
+                    compile_phase="internal",
+                    suggestion="file a compiler bug with the minimized source",
+                    core_diagnostic=None,
+                ),
+            )
+            logger.debug("compile_highlevel_source exit diagnostic=core.internal.compiler_bug")
+            return result
+        logger.debug("compile_highlevel_source exit diagnostic=core.%s", diag.error_class)
         return HighLevelCompileResult(
             lowering=lowering,
             diagnostic=HighLevelDiagnostic(
@@ -137,7 +155,7 @@ def compile_highlevel_source(source: str, *, certify: bool = True) -> HighLevelC
 
 
 def _lower_echo_body(source: str, body: str, offset: int, name: str, kind: str) -> HighLevelLowering | HighLevelDiagnostic:
-    logger.debug("lower echo body entry kind=%s name=%s chars=%d", kind, name, len(body))
+    logger.debug("lower echo body entry kind=%s chars=%d", kind, len(body))
     if not body.startswith(_ECHO_HEAD):
         return _diag(source, offset, "hl.unsupported_body", "only echo(EXPR,EXPR) under OBSERVER bodies are supported", "echo(EXPR,EXPR) under length", body[:24] or "<empty>", "keep this seed to one echo under one supported observer")
     close = _matching_paren(body, len(_ECHO_HEAD) - 1)

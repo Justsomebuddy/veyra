@@ -64,6 +64,7 @@ PORTABLE_TESTS = (
     "tests/test_check_lean_sources.py",
     "tests/test_check_research_lean.py",
     "tests/test_vam_reference.py",
+    "tests/test_vam_assertion_invariants.py",
     "tests/test_vam_highlevel.py",
     "tests/test_vam_highlevel_v1.py",
     "tests/test_veyra_sage.py::test_veyra_modes_parent_constructs_elements",

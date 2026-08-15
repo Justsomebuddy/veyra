@@ -1,6 +1,19 @@
 # Changelog
 
 ## [Unreleased] — Changed
+- Replaced exactly four optimization-sensitive VAM result/diagnostic
+  assertions. Intrinsic execution now rejects a non-exact rendered `dict`
+  before metrics, and frame inspection rejects non-exact `bytes` before the
+  decoder, using stable existing codec taxonomy and value-free logs. Impossible
+  parser/Core results without diagnostics now close into conservative
+  `internal.compiler_bug` / `core.internal.compiler_bug` rows while preserving
+  the established no-overclaim boundaries and successful high-level lowering.
+  Hostile callbacks and a four-path `python -O` probe are permanently admitted
+  to portable CI. Valid VAMI bytes/profile/report digests, legacy VAM0/VAMD,
+  Python/Rust parity, valid compilation, exports, pins, certificates, proof
+  status and mathematical claims are unchanged. The three inherited Ruff-format
+  findings and wider repository Ruff/Mypy/Bandit debt remain out of scope; this
+  is not a full `make verify` claim.
 - Replaced exactly seven optimization-sensitive core runtime assertions across
   C1 confluence, R13 source verification, provenance digest admission, formal
   process capture and translated C3 cells. Public C1 with both joins absent

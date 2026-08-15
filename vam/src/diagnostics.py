@@ -67,7 +67,23 @@ def compile_source_with_diagnostics(
     parsed = parse_veyra_spanned(source)
     if not parsed.ok or parsed.expr is None or parsed.diagnostic is not None:
         diag = parsed.diagnostic
-        assert diag is not None
+        if diag is None:
+            logger.error("compile_source_with_diagnostics rejected reason=missing-parser-diagnostic")
+            diagnostic_result = VamDiagnosticResult(
+                diagnostic=VamDiagnostic(
+                    error_class="internal.compiler_bug",
+                    severity="error",
+                    message="internal VAM parser failure: missing diagnostic",
+                    source_span=None,
+                    normalized_text=None,
+                    compile_phase="internal",
+                    suggestion="file a compiler bug with the minimized source",
+                    no_overclaim_note=NO_OVERCLAIM,
+                )
+            )
+            logger.debug("compile_source_with_diagnostics exit diagnostic=internal.compiler_bug")
+            return diagnostic_result
+        logger.debug("compile_source_with_diagnostics exit diagnostic=parse.syntax")
         return VamDiagnosticResult(
             diagnostic=VamDiagnostic(
                 error_class="parse.syntax",
