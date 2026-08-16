@@ -56,6 +56,13 @@ The validator root identifies the external contract under which validity was
 established; composition does not silently replace that validator or claim its
 trustworthiness.
 
+V1 follows **Policy L**: a local receipt binds only a leaf contract whose
+quantifier is exactly `LOCAL` and whose `component_contract_digests` is empty.
+An aggregate contract, or even a `LOCAL` contract carrying component identity,
+is rejected at this constructor with
+`aggregate-contract-local-reentry`. This is a profile boundary, not an
+inference about digest ancestry.
+
 This adapter supplies the issue's sharp fixture:
 
 ```text
@@ -115,6 +122,13 @@ multiplicity. V1 accepts no capability roots: discharge, projection,
 independence, transport, adaptive validity, and stronger wording need future
 separately named verifiers.
 
+Associativity is therefore defined over the one flat N-ary family of admitted
+local leaves. `A ∧ B ∧ C` can be built directly from the three local receipts;
+the aggregate outputs `A ∧ B` and `B ∧ C` cannot be relabeled as local receipts
+to construct `(A ∧ B) ∧ C` or `A ∧ (B ∧ C)`. V1 neither recursively flattens
+aggregate contracts nor fabricates missing leaf-source evidence. Any future
+flattening policy requires a separately versioned witness and verifier.
+
 Component identity and evidence occurrence are intentionally different axes.
 If two distinct established receipts `R1` and `R2` bind the same exact contract
 `K`, the target carries `{digest(K)}` once. The license, assessment and
@@ -142,6 +156,7 @@ Fresh replay blocks all of these upgrades:
 | execution-lineage rewrite | `execution-lineage-not-exact-union` |
 | research-lineage rewrite | `research-lineage-not-exact-union` |
 | diagnostic/counterevidence included as a conjunct | `source-effect-not-local-claim-inclusion` |
+| aggregate contract relabeled as a local receipt | `aggregate-contract-local-reentry` |
 
 A license is target-specific. Component-contract drift, any changed semantic
 axis, a missing license, a malformed digest, duplicates, subclasses, wrong

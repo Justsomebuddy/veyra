@@ -1,5 +1,28 @@
 # Claim Composition Module Log
 
+### [1.0.2] `protocol.py` — strict local-source admission
+- **Type:** Correctness / Security
+- **File:** `protocol.py`
+- **Lines:** local receipt construction and fresh replay
+- **What:** Added one logged strict-leaf profile gate requiring exact `LOCAL`
+  quantification and no component-contract identity before constructing a
+  `LocalClaimReceipt`.
+- **Why:** An aggregate exact-conjunction contract could previously be
+  relabeled as local and re-enter composition, making target identity depend
+  on nested bracketing rather than the documented flat N-ary source family.
+- **Module version:** 1.0.1 → 1.0.2
+- **Boundary:** Policy A semantic-component deduplication and occurrence-exact
+  v1/P2 evidence remain unchanged. No ancestry inference, recursive flattening,
+  trust, independence, truth, stronger wording or promotion is added.
+- **Verification:** Focused composition/P2 `109/109`, portable Pytest `703/703`,
+  package metadata `31/31`, Ruff lint, compile, import-skipped strict target
+  Mypy, module Bandit `0`, repository hygiene `1836/0`, exact pins and diff
+  checks pass. An exact-HEAD discriminator admits aggregate re-entry while the
+  changed tree rejects it with the named reason. Exact-HEAD and changed-tree
+  Ruff-format classification is the same two inherited files. Local package
+  smoke stops at the known setuptools `80.10.2 < >=83,<84` floor. Full `make
+  verify` was not run. Independent final review: GO `0/0/0/0`.
+
 ### [1.0.1] `protocol.py` — semantic component-set derivation
 - **Type:** Correctness / Compatibility
 - **File:** `protocol.py`

@@ -182,6 +182,8 @@ def build_local_claim_receipt(
     logger.debug("build_local_claim_receipt entry")
     if not validate_claim_contract(contract):
         _reject("local-contract")
+    if not _is_local_source_contract(contract):
+        _reject("aggregate-contract-local-reentry")
     if not _is_digest(source_receipt_root) or not _is_digest(source_validator_root):
         _reject("local-source-root")
     if type(validity) is not LocalReceiptValidity:
@@ -190,6 +192,17 @@ def build_local_claim_receipt(
     result = replace(draft, receipt_digest=digest_data(_local_receipt_data(draft), _LOCAL_RECEIPT_DOMAIN))
     logger.debug("build_local_claim_receipt exit validity=%s", validity.value)
     return result
+
+
+def _is_local_source_contract(contract: ClaimContract) -> bool:
+    """Recognize the strict leaf profile admitted by a local receipt."""
+    logger.debug("_is_local_source_contract entry")
+    valid = (
+        contract.quantifier is ClaimQuantifier.LOCAL
+        and contract.component_contract_digests == ()
+    )
+    logger.debug("_is_local_source_contract exit valid=%s", valid)
+    return valid
 
 
 def validate_local_claim_receipt(value: object) -> bool:
@@ -369,7 +382,7 @@ def _replay_composition_source(source: ClaimCompositionSource) -> ClaimCompositi
 def build_exact_conjunction_contract(
     sources: tuple[ClaimCompositionSource, ...],
 ) -> ClaimContract:
-    """Derive the associative target that preserves every source binding."""
+    """Derive the flat N-ary target that preserves every local-leaf binding."""
     logger.debug("build_exact_conjunction_contract entry")
     checked = _checked_canonical_sources(sources, minimum=2)
     if any(source.effect is not SourceEffect.INCLUDE_LOCAL_CLAIM for source in checked):

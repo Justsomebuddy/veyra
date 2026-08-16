@@ -7,6 +7,17 @@ contracts, canonical source families, exact finite conjunction licenses,
 four-axis assessments, nonpromoted receipts, public exports, authentication,
 detached replay packages and the index-free v1 P2 premise.
 
+## Policy L local-source admission
+
+- `LocalClaimReceipt` admits only canonical leaf contracts with exact
+  `LOCAL` quantifier and an empty `component_contract_digests` tuple.
+- `_is_local_source_contract()` is the sole local-profile gate. Aggregate
+  re-entry fails with `aggregate-contract-local-reentry` before source-root or
+  validity processing; logs contain only entry/exit and the fixed reason.
+- Exact conjunction remains one flat N-ary operation over admitted local
+  leaves. Aggregate outputs cannot be relabeled as leaves; no digest ancestry,
+  recursive flattening or recomposition authority is inferred.
+
 ## Policy A semantic-component contract
 
 - `ClaimContract.component_contract_digests` on an exact conjunction is the
@@ -32,7 +43,14 @@ detached replay packages and the index-free v1 P2 premise.
 
 ## Version
 
-Module contract `1.0.1` (issue #71 Policy A semantic component set).
+Module contract `1.0.2` (issue #76 Policy L local-source admission).
+
+## Session Notes (2026-08-16)
+
+- Policy L closes aggregate-as-local re-entry at the canonical local-receipt
+  constructor. Flat A∧B∧C remains canonical; both nested bracketings fail at
+  the same named boundary. DTOs, codecs, digest domains, exports, Policy A
+  evidence occurrence semantics and P2 production remain unchanged.
 
 ## Session Notes (2026-08-15)
 

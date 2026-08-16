@@ -17,6 +17,7 @@ from src.core.claim_composition import (
     CompositionStatus,
     CorroborationStatus,
     LocalClaimReceipt,
+    LocalReceiptValidity,
     PublicWording,
     SourceEffect,
     assess_claim_composition,
@@ -25,16 +26,59 @@ from src.core.claim_composition import (
     build_exact_conjunction_contract,
     build_exact_conjunction_license,
     build_governed_composition_source,
+    build_local_claim_receipt,
     canonical_composition_sources,
     composition_disclosure_json,
     validate_composition_license_shape,
     validate_composition_receipt,
+    validate_local_claim_receipt,
 )
 
 from test_claim_composition import _digest, _governed_result, _positive_case
 from test_claim_composition import _assumption_case
 
 logger = logging.getLogger(__name__)
+
+
+@pytest.mark.parametrize(
+    "changes",
+    (
+        {"quantifier": ClaimQuantifier.EXISTENTIAL},
+        {"component_contract_digests": (_digest("e"),)},
+    ),
+)
+def test_local_receipt_rejects_each_nonleaf_profile_axis(changes) -> None:
+    """Neither nonlocal quantification nor component identity can enter as a leaf."""
+    logger.debug("test partial aggregate local receipt entry")
+    source = _assumption_case()[0]
+    partial = _changed_target(source.receipt.contract, **changes)
+    with pytest.raises(
+        ClaimCompositionError,
+        match="^aggregate-contract-local-reentry$",
+    ):
+        build_local_claim_receipt(
+            partial,
+            _digest("f"),
+            _digest("a"),
+            LocalReceiptValidity.ESTABLISHED,
+        )
+    logger.debug("test partial aggregate local receipt exit")
+
+
+def test_forged_aggregate_local_receipt_fails_fresh_replay() -> None:
+    """Direct DTO construction cannot turn an aggregate target into a local source."""
+    logger.debug("test forged aggregate local receipt entry")
+    sources = _assumption_case()
+    aggregate = build_exact_conjunction_contract(sources)
+    forged = LocalClaimReceipt(
+        aggregate,
+        _digest("e"),
+        _digest("f"),
+        LocalReceiptValidity.ESTABLISHED,
+        _digest("a"),
+    )
+    assert not validate_local_claim_receipt(forged)
+    logger.debug("test forged aggregate local receipt exit")
 
 
 def _changed_target(target, **changes):

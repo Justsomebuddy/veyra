@@ -5,9 +5,12 @@ from __future__ import annotations
 from itertools import permutations
 import logging
 
+import pytest
+
 from src.core.claim_composition import (
     AdaptiveCapability,
     ClaimClass,
+    ClaimCompositionError,
     ClaimQuantifier,
     CorroborationStatus,
     LocalReceiptValidity,
@@ -94,6 +97,42 @@ def test_four_source_permutations_have_one_target_license_and_receipt() -> None:
         assert receipt == expected_receipt
         assert validate_composition_receipt(receipt, sources, target, license)
     logger.debug("test_four_source_permutations_have_one_target_license_and_receipt exit")
+
+
+def test_exact_conjunction_associativity_is_flat_over_local_leaves() -> None:
+    """Flat A∧B∧C is canonical while AB/BC cannot re-enter as local leaves."""
+    logger.debug("test flat local-leaf associativity entry")
+    leaves = tuple(_source(index) for index in range(3))
+    flat_sources = canonical_composition_sources(leaves)
+    flat_target = build_exact_conjunction_contract(flat_sources)
+    flat_license = build_exact_conjunction_license(flat_sources, flat_target)
+    flat_receipt = build_composition_receipt(flat_sources, flat_target, flat_license)
+    assert flat_target.component_contract_digests == tuple(
+        sorted(source.receipt.contract.contract_digest for source in leaves)
+    )
+    assert tuple(binding.receipt_digest for binding in flat_license.sources) == tuple(
+        source.receipt.receipt_digest for source in flat_sources
+    )
+    assert validate_composition_receipt(
+        flat_receipt,
+        flat_sources,
+        flat_target,
+        flat_license,
+    )
+
+    for pair in ((leaves[0], leaves[1]), (leaves[1], leaves[2])):
+        aggregate = build_exact_conjunction_contract(canonical_composition_sources(pair))
+        with pytest.raises(
+            ClaimCompositionError,
+            match="^aggregate-contract-local-reentry$",
+        ):
+            build_local_claim_receipt(
+                aggregate,
+                _digest(4000),
+                _digest(4001),
+                LocalReceiptValidity.ESTABLISHED,
+            )
+    logger.debug("test flat local-leaf associativity exit")
 
 
 def test_exact_conjunction_is_literal_union_without_semantic_upgrade() -> None:

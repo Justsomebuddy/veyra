@@ -233,6 +233,8 @@ through an explicit registry entry with its dependencies and non-claims.
 Likewise, several locally valid receipts license no stronger aggregate wording
 without an exact replayable composition license under the boundary described in
 [`docs/165_composition_licensed_claims.md`](docs/165_composition_licensed_claims.md).
+That V1 boundary admits only strict local leaves: an aggregate result cannot be
+relabeled as another local receipt for nested recomposition.
 Several agreeing observer tokens likewise do not establish distinct support
 routes; the separate clone-consensus diagnostic is described in
 [`docs/166_provenance_independent_corroboration.md`](docs/166_provenance_independent_corroboration.md).

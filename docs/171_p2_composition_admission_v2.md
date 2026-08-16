@@ -212,6 +212,12 @@ roots and judgment digest. Both external receipts remain
 `EXTERNAL_BINDING_ONLY`; semantic deduplication grants no native replay
 authority, agreement, independence or promotion.
 
+V2 also inherits V1 Policy L unchanged. Every admitted occurrence must replay
+to a strict local leaf (`LOCAL` with no component-contract digests); an exact
+conjunction output cannot re-enter as a `LocalClaimReceipt`. P2 therefore
+consumes the one flat N-ary source family and does not infer ancestry, flatten
+nested aggregates, or create a new authority witness.
+
 It does not reinterpret a composition receipt as truth or turn a schema audit
 into a substantive conclusion. The result is a typed public presentation, not
 a theorem, certificate or object constructor.

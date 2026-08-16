@@ -1,6 +1,17 @@
 # Changelog
 
 ## [Unreleased] — Changed
+- Closed aggregate-as-local re-entry in exact claim composition with Policy L.
+  `LocalClaimReceipt` now admits only canonical leaf contracts with exact
+  `LOCAL` quantification and no component-contract identity; aggregate or
+  partial aggregate profiles fail at the stable
+  `aggregate-contract-local-reentry` boundary before source-root processing.
+  Flat N-ary conjunction over local leaves remains permutation-invariant, while
+  `(A ∧ B) ∧ C` and `A ∧ (B ∧ C)` cannot be manufactured by relabeling an
+  aggregate as a leaf. No recursive flattening or digest ancestry is inferred;
+  DTOs, codecs, digest domains, exports, Policy A evidence-occurrence semantics,
+  existing pins and P2 production are unchanged. This establishes no source
+  truth, agreement, independence, validator trust, authority or promotion.
 - Replaced the three production fixed-name Git subprocess call sites in the
   package source copier and repository hygiene checker with one private trusted
   executable boundary. The helper admits only fixed absolute POSIX or Windows
