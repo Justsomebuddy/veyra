@@ -1,6 +1,18 @@
 # Changelog
 
 ## [Unreleased] — Changed
+- Added the non-root `P3OGFormationPressureBinding` consumer requested by issue
+  78. Its producer and validator freshly replay the exact P3-OG source,
+  formation source, `WITNESSED` first-closure evidence and complete pressure
+  report, then bind the shared deterministic selection, selected seed,
+  operational entry state and selected candidate result under a separate v1
+  digest domain. The selected pressure status is retained even when `REFUTED`;
+  lifecycle refutation and every foreign, spliced or drifted premise fail
+  closed. The witness has zero promotions and establishes only an exact identity
+  relation, not raw/operational representation invariance, a historical
+  one-shot selection, full formation, observer role, doctrine admission, typed
+  history, HAP, birth token, ablation, same-token efficacy, theorem, source
+  truth, physical birth, consciousness or object adoption.
 - Closed aggregate-as-local re-entry in exact claim composition with Policy L.
   `LocalClaimReceipt` now admits only canonical leaf contracts with exact
   `LOCAL` quantification and no component-contract identity; aggregate or

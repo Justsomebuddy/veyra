@@ -1,6 +1,6 @@
 # Core module memory
 
-Version: **0.2.0**. Scope: the stable Python engine and its executable
+Version: **0.3.0**. Scope: the stable Python engine and its executable
 certificate surfaces.
 
 ## Contracts
@@ -15,6 +15,16 @@ certificate surfaces.
   inputs, environment data, and full sensitive digests never belong in logs.
 - Maintained handwritten files target at most 1,000 lines and never exceed the
   2,000-line hard maximum.
+
+## Session Notes (2026-08-17)
+
+- Issue #78 adds only a separate non-root formation-pressure consumer. It
+  freshly replays the existing source, selected raw-cycle first closure and
+  all-candidate pressure report, then binds their exact selection, seed,
+  operational entry and selected result while preserving `PASSED` or `REFUTED`
+  pressure status. This identity witness has zero promotions and supplies no
+  role, history, doctrine, HAP, token, theorem, truth or representation-
+  invariance authority.
 
 ## Session Notes (2026-08-15)
 

@@ -1,5 +1,24 @@
 # Core module log
 
+### [0.3.0] P3-OG formation-pressure identity binding
+- **Type:** Feature / Correctness
+- **Files:** `prime_power_observer_genesis_p3og_formation_pressure*.py`, focused
+  bridge tests, portable/package admission, API/scientific docs and changelog
+- **What:** Added one non-root frozen witness plus a fresh producer and
+  reconstructing validator that require witnessed first closure and bind the
+  exact common source, deterministic selection, seed, operational entry and
+  selected pressure result under a new digest domain. The selected pressure
+  status is retained without requiring `PASSED`.
+- **Why:** The lifecycle and pressure artifacts previously replayed
+  independently, leaving no production consumer for their same-source selected-
+  execution relation.
+- **Module version:** 0.2.0 → 0.3.0
+- **Boundary:** Existing pressure/lifecycle bytes, digests, facades and root
+  exports remain unchanged. The binding grants no historical selection,
+  formation/role/doctrine/history/HAP/token/ablation/efficacy/theorem/truth or
+  promotion authority and does not claim raw/operational representation
+  invariance.
+
 ### [0.2.0] Core runtime invariant hardening
 - **Type:** Correctness / Security
 - **Files:** `confluence_runtime.py`, `intrinsic_observer_echo_source.py`,

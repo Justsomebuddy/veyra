@@ -90,6 +90,31 @@ machine/report bytes:
   authentication, event creation, observer authority, or a theorem that the
   raw-cycle return predicate is invariant under operational machine semantics.
 
+A third, explicitly non-root
+`prime_power_observer_genesis_p3og_formation_pressure` facade now supplies the
+first typed consumer relation between those two independently replayable lanes.
+Its producer freshly validates the exact pressure source, formation source,
+`WITNESSED` first-closure evidence and complete pressure report. It then requires
+one identical deterministic selection receipt and selected seed, reconstructs
+the operational entry state, and binds that state to both the lifecycle handoff
+and the selected pressure candidate's active pre-coupling evidence. The selected
+candidate result and its exact `PASSED` or `REFUTED` status are retained without
+promotion. A later pressure refutation therefore does not invalidate the
+identity relation, while a lifecycle `REFUTED` result cannot produce a positive
+binding.
+
+```text
+WITNESSED first-closure evidence
+  + exact same-source selected pressure replay
+  -> non-promoting formation-pressure binding
+```
+
+The bridge digest has its own versioned domain and is reconstructed from replayed
+identities, not caller-supplied authority. It does not turn formation evidence
+into an observer-role judgment and it creates no doctrine admission, typed
+history, HAP witness, birth token, ablation result, causal-efficacy judgment,
+theorem, source authentication or truth claim.
+
 The terminal seed coordinate exposes the distinction. The low-level
 operational machine reads `cycle[:-1]`: its response lookup and `ADVANCE`
 period are unchanged between `(0,1,0)` and `(0,1,2)`, and `MAINTAIN`/`IDLE`
@@ -103,18 +128,20 @@ invariance result. Any future semantic formation layer must define and validate
 its own native transition-state closure contract rather than reinterpret this
 raw-cycle v1 evidence.
 
-This establishes only a bounded linear first-return **pressure analogue**. The
-operational pressure machine still begins `ALIVE`; the new lane is not a typed
-history `H`, source-ancestry proof, historical chronology, primitive Veyra
+This establishes only a bounded linear first-return **pressure analogue** and an
+exact relation to the selected operational execution. The operational pressure
+machine still begins `ALIVE`; neither the lifecycle lane nor its consumer is a
+typed history `H`, source-ancestry proof, historical chronology, primitive Veyra
 genealogy, or the full `FirstClosure(M,H,t0,q0)` predicate below.
 
 These slices do **not** yet supply a typed history DAG, a full historical
 first-closure proof, a historical one-shot selector, a typed post-formation
 component ablation, an exact N1/N2/P3-T input bridge, a Lean theorem, an N0/HAP
-lift, or the full DEF-OG-001..010 conjunction. The lifecycle status concerns
-only the exact selected committed word; separately, a positive machine-pressure
-report still means that every candidate in one committed finite pool passed its
-implemented checks.
+lift, an observer-role judgment, or the full DEF-OG-001..010 conjunction. The
+lifecycle status concerns only the exact selected committed word; the binding
+only relates it to the exact selected execution; separately, a positive
+machine-pressure report still means that every candidate in one committed finite
+pool passed its implemented checks.
 
 ### 2.2 Implemented-obligation ledger
 
@@ -122,7 +149,7 @@ implemented checks.
 |---|---|
 | DEF-OG-001 | partial parameterized finite machine plus separate raw-cycle linear pressure; no primitive/history genealogy |
 | DEF-OG-002 | `OPEN`; deterministic metadata is not historical blind/one-shot selection |
-| DEF-OG-003 | partial bounded first-return pressure from `UNFORMED`; operational machine still starts `ALIVE`, and typed history/ancestry remain `OPEN` |
+| DEF-OG-003 | partial bounded first-return pressure from `UNFORMED` plus exact selected operational-entry/result binding; operational machine still starts `ALIVE`, and typed history/ancestry remain `OPEN` |
 | DEF-OG-004 | partial finite residue/sensitivity analogue; arithmetic provenance absent |
 | DEF-OG-005 | partial one-suffix transition-law analogue; no continuation catalog |
 | DEF-OG-006 | `OPEN`; synthetic pre-coupling flag control is not typed post-formation ablation |
@@ -320,7 +347,8 @@ observer genesis, arbitrary refinement, observer-independent identity,
 consciousness, biological or physical emergence, free will, absolute causation,
 metaphysical being, object adoption, p-adic carrier formation, completed infinity,
 operational representation invariance for raw-cycle lifecycle evidence, or
-promotion of N0/HAP/P3-OG into one theorem.
+promotion of a formation-pressure identity binding into a role, HAP witness,
+token, truth claim, or combined N0/HAP/P3-OG theorem.
 ## 9. Release threshold
 Before any public theorem status:
 1. definitions and exact theorem statements exist in Lean or another declared

@@ -55,6 +55,8 @@ PORTABLE_TESTS = (
     "tests/test_prime_power_observer_genesis_p3og_adversarial.py",
     "tests/test_prime_power_observer_genesis_p3og_lifecycle.py",
     "tests/test_prime_power_observer_genesis_p3og_lifecycle_adversarial.py",
+    "tests/test_prime_power_observer_genesis_p3og_formation_pressure.py",
+    "tests/test_prime_power_observer_genesis_p3og_formation_pressure_adversarial.py",
     "tests/test_observer_synthesis_python_rust_vector.py",
     "tests/test_finite_builder_package_compat.py",
     "tests/test_finite_builder_types_package_compat.py",

@@ -326,6 +326,19 @@ def test_portable_verification_includes_p2_claim_admission_v2_behavior():
     logger.debug("test portable P2 claim-admission v2 coverage exit")
 
 
+def test_portable_verification_includes_p3og_formation_pressure_behavior():
+    """Hosted CI and wheel smoke must cover the non-root P3-OG bridge."""
+    logger.debug("test portable P3-OG formation-pressure coverage entry")
+    portable_pytest = next(step for step in portable_steps() if step.name == "Portable pytest")
+    assert {
+        "tests/test_prime_power_observer_genesis_p3og_formation_pressure.py",
+        "tests/test_prime_power_observer_genesis_p3og_formation_pressure_adversarial.py",
+    } <= set(portable_pytest.command)
+    package_smoke = (ROOT / "scripts/package_smoke.py").read_text(encoding="utf-8")
+    assert "import src.core.prime_power_observer_genesis_p3og_formation_pressure" in package_smoke
+    logger.debug("test portable P3-OG formation-pressure coverage exit")
+
+
 def test_hosted_matrix_is_fixed_bounded_and_immutable():
     """Portable CI must name hosts, Python patches, bounds, and action objects."""
     logger.debug("test hosted matrix contract entry")
