@@ -1,6 +1,13 @@
 # Changelog
 
 ## [Unreleased] — Changed
+- Extended the isolated research Lean candidate with a ninth source formalizing
+  the explicit singleton-tact path-word realization and its constructive bridges
+  to `Nat`, unary `Recurrence`, and the exact R9 image. The governed surface is
+  now 48+9 sources / 86 declarations / 40 headlines / 86 axiom rows; 21 new
+  declarations replay on exact Lean `4.30.0-rc2` with 11 empty closures and 10
+  `propext`-only closures. This does not prove AX-007 exhaustiveness, general
+  LEM-001/Mode equivalence, or promote THM-001–003/W-001.
 - Added the non-root `P3OGFormationPressureBinding` consumer requested by issue
   78. Its producer and validator freshly replay the exact P3-OG source,
   formation source, `WITNESSED` first-closure evidence and complete pressure
