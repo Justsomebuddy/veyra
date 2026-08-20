@@ -1,5 +1,21 @@
 # Research Lean module log
 
+### [0.2.0] Singleton-tact path-word realization bridge
+- **Type:** Research / formal bridge
+- **Files:** `VeyraResearchOneTactBridge.lean`, `manifest.json`, `README.md`,
+  module memory, checker/tests, public research-count references
+- **What:** Added an independently represented singleton-tact finite-word carrier
+  (`List Unit`) and constructive bridges to `Nat`, unary `Recurrence`, and the
+  exact R9 `IntrinsicMode` image, plus strict-native stitch/weave realization.
+- **Evidence:** Exact Lean `4.30.0-rc2`, compiler commit
+  `3dc1a088b6d2d8eafe25a7cd7ec7b58d731bd7cc`; 21/21 declarations compiled;
+  11 axiom rows are empty and 10 depend only on `propext`.
+- **Module version:** 0.1.1 → 0.2.0
+- **Boundary:** The Lean carrier is the explicit singleton-generated path-word
+  realization. This does not prove AX-007 excludes other tacts, establish
+  general LEM-001 or arbitrary strict-Mode equivalence, or promote
+  THM-001–003/W-001.
+
 ### [0.1.1] Stable proof-elaboration source renewal
 - **Type:** Correctness / evidence continuity
 - **Files:** `manifest.json`, `README.md`, module memory, root changelog/log
