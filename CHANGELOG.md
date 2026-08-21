@@ -1,6 +1,14 @@
 # Changelog
 
 ## [Unreleased] — Changed
+- Closed the P2 v2 codec's near-limit round-trip gap. The canonical encoder now
+  charges its exact JSON data tree against the same combined raw-authority plus
+  decoded node/text ledger used by the decoder before emitting bytes. A valid
+  typed presentation may therefore fail closed at the codec boundary when its
+  JSON representation would exceed that shared ledger, but the encoder no
+  longer returns a payload that the matching decoder immediately rejects.
+  Decoder limits, canonical bytes below the boundary, v1 surfaces, registry
+  pins, judgment digests, statuses and nonclaims remain unchanged.
 - Hardened closed-observer resource-limit installation without weakening
   unexpected failures. Every configured limit now clamps to stricter inherited
   soft/hard limits and is read back after installation. CPU, file-size and
