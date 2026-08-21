@@ -250,8 +250,11 @@ The implementation rejects overlong character counts before UTF-8 encoding.
 It then captures only exact allowlisted DTO and enum identities into a private
 immutable snapshot while aggregating premise fields, assumption dependencies,
 structural nodes and nonpayload text before deep validation, equality, encoding
-or authoritative replay. Caller mutation after capture cannot alter the issued
-judgment. The strict decoder rejects
+or authoritative replay. Before returning JSON, the encoder applies the exact
+same combined raw-authority plus decoded-tree node/text ledger used by the
+decoder. It therefore emits no payload that its own resource gate would refuse.
+Caller mutation after capture cannot alter the issued judgment. The strict
+decoder rejects
 subclasses, bool-as-int values, duplicate object keys, trailing or noncanonical
 JSON, depth overflow, unknown enum members, stale roots, field/order drift and
 every cross-object splice.
