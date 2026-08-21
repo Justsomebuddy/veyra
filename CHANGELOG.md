@@ -1,6 +1,12 @@
 # Changelog
 
 ## [Unreleased] — Changed
+- Fixed source-distribution smoke validation for archives that place an
+  explicit canonical directory entry after files beneath that directory. This
+  ordering is now accepted without relaxing exact duplicate, file/ancestor,
+  portable spelling, unsafe-member, size/count or pre-validation extraction
+  boundaries. The focused adversarial archive suite is now part of the hosted
+  portable test inventory.
 - Added the non-root `P3OGFormationPressureBinding` consumer requested by issue
   78. Its producer and validator freshly replay the exact P3-OG source,
   formation source, `WITNESSED` first-closure evidence and complete pressure

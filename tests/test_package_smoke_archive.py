@@ -77,6 +77,27 @@ def test_extract_sdist_accepts_a_bounded_regular_archive(tmp_path: Path) -> None
     logger.debug("test normal sdist extraction exit root=%s", root)
 
 
+def test_extract_sdist_accepts_late_explicit_ancestor_directories(tmp_path: Path) -> None:
+    """A directory entry may safely follow files whose extraction created it."""
+    logger.debug("test late explicit sdist directories entry")
+    sdist = tmp_path / "late-directories.tar.gz"
+    _write_sdist(
+        sdist,
+        (
+            ("veyra-1/pyproject.toml", b"[build-system]\n", "file"),
+            ("veyra-1/src/module.py", b"VALUE = 1\n", "file"),
+            ("veyra-1/src/", b"", "dir"),
+            ("veyra-1/", b"", "dir"),
+        ),
+    )
+
+    root = package_smoke.extract_sdist(sdist, tmp_path / "destination")
+
+    assert root == tmp_path / "destination" / "veyra-1"
+    assert (root / "src/module.py").read_bytes() == b"VALUE = 1\n"
+    logger.debug("test late explicit sdist directories exit root=%s", root)
+
+
 @pytest.mark.parametrize(
     ("limit_name", "limit", "expected"),
     (
@@ -170,7 +191,13 @@ def test_extract_sdist_validates_root_before_extraction(
         ),
         (
             ("veyra-1/pyproject.toml", b"[build-system]\n", "file"),
-            ("veyra-1", b"", "dir"),
+            ("veyra-1/src/module.py", b"VALUE = 1\n", "file"),
+            ("veyra-1/src", b"replacement\n", "file"),
+        ),
+        (
+            ("veyra-1/pyproject.toml", b"[build-system]\n", "file"),
+            ("veyra-1/src/", b"", "dir"),
+            ("veyra-1/src/", b"", "dir"),
         ),
         (
             ("veyra-1/pyproject.toml", b"[build-system]\n", "file"),

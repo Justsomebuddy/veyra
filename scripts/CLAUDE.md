@@ -1,6 +1,6 @@
 # Scripts module memory
 
-Version: **0.2.0**. Scope: maintained command-line verifiers, generators,
+Version: **0.2.1**. Scope: maintained command-line verifiers, generators,
 portable checks, and bounded research explorers.
 
 ## Contracts
@@ -20,6 +20,14 @@ portable checks, and bounded research explorers.
   belong in logs.
 - Maintained handwritten files target at most 1,000 lines. The largest current
   script, `check_research_lean.py`, remains below that target after formatting.
+
+## Session Notes (2026-08-21)
+
+- Source-distribution validation now accepts an explicit directory entry after
+  files that already established the same implicit ancestor. Exact duplicates,
+  files at ancestor paths, spelling aliases and all other hierarchy conflicts
+  remain rejected. The adversarial archive regression is admitted to the
+  hosted portable lane.
 
 ## Session Notes (2026-08-15)
 
