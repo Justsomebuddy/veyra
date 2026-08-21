@@ -1,6 +1,12 @@
 # Changelog
 
 ## [Unreleased] — Changed
+- Fixed source-distribution smoke validation for archives that place an
+  explicit canonical directory entry after files beneath that directory. This
+  ordering is now accepted without relaxing exact duplicate, file/ancestor,
+  portable spelling, unsafe-member, size/count or pre-validation extraction
+  boundaries. The focused adversarial archive suite is now part of the hosted
+  portable test inventory.
 - Closed the P2 v2 codec's near-limit round-trip gap. The canonical encoder now
   charges its exact JSON data tree against the same combined raw-authority plus
   decoded node/text ledger used by the decoder before emitting bytes. A valid

@@ -44,14 +44,17 @@ and CPython 3.11's standard-library `tarfile.data_filter`. Portable path
 identity uses NFC-normalized case-folded POSIX components and rejects dot/empty
 components, backslashes, Windows drive/stream colons, trailing dot/space
 aliases, duplicate canonical paths, spelling aliases and file/directory
-ancestor conflicts. Extraction begins only after the complete member sequence
-and single-root/`pyproject.toml` inventory pass those checks.
+ancestor conflicts. A canonical directory entry may follow files that already
+established it as an implicit ancestor; exact duplicates and every file at that
+path still fail closed. Extraction begins only after the complete member
+sequence and single-root/`pyproject.toml` inventory pass those checks.
 
 Focused synthetic archives cover a normal extraction, member-count overflow,
 expanded-size overflow, unsafe member types, normalized duplicate names,
 file/parent and child/directory conflicts, case/backslash aliases, and the
 invariant that no extraction call or partial output occurs before complete
-validation.
+validation. These archive-boundary regressions are part of the hosted portable
+test inventory.
 
 ## Explicit boundaries
 

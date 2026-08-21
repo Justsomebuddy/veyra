@@ -255,6 +255,14 @@ def test_portable_verification_includes_trusted_git_boundary():
     logger.debug("test portable trusted Git coverage exit")
 
 
+def test_portable_verification_includes_sdist_archive_boundary():
+    """Hosted CI must retain adversarial source-archive extraction coverage."""
+    logger.debug("test portable sdist archive coverage entry")
+    portable_pytest = next(step for step in portable_steps() if step.name == "Portable pytest")
+    assert "tests/test_package_smoke_archive.py" in portable_pytest.command
+    logger.debug("test portable sdist archive coverage exit")
+
+
 def test_portable_verification_includes_claim_composition_behavior():
     """Hosted CI must exercise composition semantics, export replay, and authentication."""
     logger.debug("test portable claim composition coverage entry")
