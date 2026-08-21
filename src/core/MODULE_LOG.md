@@ -1,5 +1,21 @@
 # Core module log
 
+### [0.3.2] Closed-worker inherited resource ceilings
+- **Type:** Correctness / Security / Portability
+- **Files:** `observer_discovery_v3/worker/runtime.py`, focused resource-limit
+  regressions, portable admission, governed-observer docs and changelog
+- **What:** Centralized resource-limit installation, clamped every requested
+  ceiling to stricter inherited soft/hard values, verified read-back, and added
+  one exact Darwin `RLIMIT_AS == RLIMIT_RSS` unavailable probe.
+- **Why:** Darwin rejected the finite alias limit with `ValueError`, converting
+  otherwise valid closed evaluation into unrelated `BLOCKED` results, while a
+  broad exception bypass would have silently removed a security boundary.
+- **Module version:** 0.3.1 → 0.3.2 (integration renumber over the merged
+  issue-#80 gate; the contributed change was authored as 0.3.0 → 0.3.1)
+- **Boundary:** CPU, FSIZE, and NOFILE remain mandatory; unexpected errors and
+  read-back drift remain fail-closed. The exact Darwin fallback supplies no
+  address-space ceiling, memory-containment, strict-isolation, or sandbox claim.
+
 ### [0.3.1] P3-OG pre-coupling cut enforcement
 - **Type:** Correctness / Semantic invariant
 - **Files:** `prime_power_observer_genesis_p3og_machine.py`, adversarial

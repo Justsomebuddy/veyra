@@ -1,6 +1,6 @@
 # Core module memory
 
-Version: **0.3.1**. Scope: the stable Python engine and its executable
+Version: **0.3.2**. Scope: the stable Python engine and its executable
 certificate surfaces.
 
 ## Contracts
@@ -23,6 +23,15 @@ certificate surfaces.
   single reason `p3og-maintenance-control-not-pre-coupling`. Exact state
   identity (not a handwritten field list) protects future semantic fields by
   default. Runtime/pressure construction paths are unchanged.
+
+## Session Notes (2026-08-21)
+
+- Closed-worker limit installation preserves stricter inherited soft/hard
+  ceilings and verifies the applied value. CPU, FSIZE, and NOFILE remain
+  mandatory. Only Darwin's `RLIMIT_AS == RLIMIT_RSS` alias may continue after a
+  finite request fails from an exactly unlimited inherited state and an
+  unchanged-limit probe succeeds; all other errors remain fail-closed. This is
+  host portability, not a Darwin address-space or strict-sandbox claim.
 
 ## Session Notes (2026-08-17)
 
