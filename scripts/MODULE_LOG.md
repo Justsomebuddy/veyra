@@ -1,5 +1,23 @@
 # Scripts module log
 
+### [0.2.1] Canonical late-directory sdist admission
+- **Type:** Bug fix / portability
+- **Files:** `scripts/package_smoke.py`, `scripts/verify_portable.py`,
+  `tests/test_package_smoke_archive.py`, `tests/test_package_metadata.py`,
+  `docs/174_python_quality_baseline.md`, `scripts/CLAUDE.md`,
+  `scripts/MODULE_LOG.md`, `CHANGELOG.md`
+- **What:** Allowed a canonical directory entry to follow files that already
+  established it as an implicit archive ancestor, and admitted the adversarial
+  archive regression to the hosted portable test inventory.
+- **Why:** Valid source distributions may order explicit directory records
+  after their children; rejecting that safe ordering made the smoke verifier
+  less portable than the archive policy it documents.
+- **Module version:** 0.2.0 → 0.2.1
+- **Boundary:** Exact duplicate paths, files at implicit ancestor paths,
+  case/NFC spelling aliases, file ancestors, unsafe member types, size/count
+  limits, pre-validation extraction and `tarfile.data_filter` policy are
+  unchanged.
+
 ### [0.2.0] Private trusted Git executable boundary
 - **Type:** Security / portability
 - **Files:** `scripts/_trusted_git.py`, `scripts/package_smoke.py`,

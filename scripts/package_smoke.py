@@ -224,7 +224,7 @@ def extract_sdist(sdist: Path, destination: Path) -> Path:
                 portable_spellings[portable_prefix] = raw_prefix
             if (
                 portable_path in member_paths
-                or portable_path in ancestor_paths
+                or (portable_path in ancestor_paths and not member.isdir())
                 or any(portable_path[:depth] in file_paths for depth in range(1, len(portable_path)))
             ):
                 logger.error("sdist path hierarchy rejected name=%r", member.name)
