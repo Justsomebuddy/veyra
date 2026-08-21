@@ -1,6 +1,6 @@
 # Core module memory
 
-Version: **0.3.0**. Scope: the stable Python engine and its executable
+Version: **0.3.1**. Scope: the stable Python engine and its executable
 certificate surfaces.
 
 ## Contracts
@@ -15,6 +15,15 @@ certificate surfaces.
   inputs, environment data, and full sensitive digests never belong in logs.
 - Maintained handwritten files target at most 1,000 lines and never exceed the
   2,000-line hard maximum.
+
+## Session Notes (2026-08-21)
+
+- Closed-worker limit installation preserves stricter inherited soft/hard
+  ceilings and verifies the applied value. CPU, FSIZE, and NOFILE remain
+  mandatory. Only Darwin's `RLIMIT_AS == RLIMIT_RSS` alias may continue after a
+  finite request fails from an exactly unlimited inherited state and an
+  unchanged-limit probe succeeds; all other errors remain fail-closed. This is
+  host portability, not a Darwin address-space or strict-sandbox claim.
 
 ## Session Notes (2026-08-17)
 

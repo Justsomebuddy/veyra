@@ -9,7 +9,7 @@ import os
 from pathlib import Path
 import subprocess
 import sys
-from typing import NoReturn
+from typing import Any, NoReturn
 
 from ..dsl.runtime import (
     ClosedDslError,
@@ -372,27 +372,82 @@ def _invoke_worker(request: bytes, config: ClosedWorkerConfig) -> subprocess.Com
     return result
 
 
-def _apply_limits(config: ClosedWorkerConfig) -> None:
+def _set_resource_limit(
+    resource_module: Any,
+    kind: int,
+    requested: int,
+    *,
+    allow_darwin_as_unavailable: bool = False,
+) -> bool:
+    """Install one non-raising ceiling while preserving stricter inherited limits."""
+    logger.debug("_set_resource_limit entry")
+    inherited = resource_module.getrlimit(kind)
+    infinity = resource_module.RLIM_INFINITY
+    target = requested
+    for inherited_limit in inherited:
+        if inherited_limit != infinity:
+            target = min(target, inherited_limit)
+    expected = (target, target)
+    try:
+        resource_module.setrlimit(kind, expected)
+    except ValueError as exc:
+        confirmed_darwin_as_gap = (
+            allow_darwin_as_unavailable
+            and sys.platform == "darwin"
+            and kind == resource_module.RLIMIT_AS
+            and getattr(resource_module, "RLIMIT_RSS", None) == resource_module.RLIMIT_AS
+            and inherited == (infinity, infinity)
+        )
+        if not confirmed_darwin_as_gap:
+            raise
+        try:
+            resource_module.setrlimit(kind, inherited)
+        except (OSError, ValueError):
+            raise exc
+        if resource_module.getrlimit(kind) != inherited:
+            raise ClosedWorkerError("resource-limit-probe-mismatch") from exc
+        logger.warning("_set_resource_limit confirmed unavailable resource=RLIMIT_AS platform=darwin")
+        logger.debug("_set_resource_limit exit applied=False")
+        return False
+    if resource_module.getrlimit(kind) != expected:
+        raise ClosedWorkerError("resource-limit-not-applied")
+    logger.debug("_set_resource_limit exit applied=True")
+    return True
+
+
+def _apply_limits(config: ClosedWorkerConfig, resource_module: Any | None = None) -> None:
     logger.debug("_apply_limits entry")
-    import resource
+    if resource_module is None:
+        import resource as resource_module
 
     memory = config.memory_limit_mb * 1024 * 1024
-    resource.setrlimit(resource.RLIMIT_CPU, (config.cpu_seconds, config.cpu_seconds))
-    resource.setrlimit(resource.RLIMIT_AS, (memory, memory))
-    resource.setrlimit(resource.RLIMIT_FSIZE, (config.max_response_bytes, config.max_response_bytes))
-    resource.setrlimit(resource.RLIMIT_NOFILE, (32, 32))
+    _set_resource_limit(resource_module, resource_module.RLIMIT_CPU, config.cpu_seconds)
+    _set_resource_limit(
+        resource_module,
+        resource_module.RLIMIT_AS,
+        memory,
+        allow_darwin_as_unavailable=True,
+    )
+    _set_resource_limit(resource_module, resource_module.RLIMIT_FSIZE, config.max_response_bytes)
+    _set_resource_limit(resource_module, resource_module.RLIMIT_NOFILE, 32)
     logger.debug("_apply_limits exit")
 
 
-def _apply_hard_limits() -> None:
+def _apply_hard_limits(resource_module: Any | None = None) -> None:
     """Install absolute child ceilings before decoding the bounded request."""
     logger.debug("_apply_hard_limits entry")
-    import resource
+    if resource_module is None:
+        import resource as resource_module
 
-    resource.setrlimit(resource.RLIMIT_CPU, (10, 10))
-    resource.setrlimit(resource.RLIMIT_AS, (2048 * 1024 * 1024, 2048 * 1024 * 1024))
-    resource.setrlimit(resource.RLIMIT_FSIZE, (16_000_000, 16_000_000))
-    resource.setrlimit(resource.RLIMIT_NOFILE, (32, 32))
+    _set_resource_limit(resource_module, resource_module.RLIMIT_CPU, 10)
+    _set_resource_limit(
+        resource_module,
+        resource_module.RLIMIT_AS,
+        2048 * 1024 * 1024,
+        allow_darwin_as_unavailable=True,
+    )
+    _set_resource_limit(resource_module, resource_module.RLIMIT_FSIZE, 16_000_000)
+    _set_resource_limit(resource_module, resource_module.RLIMIT_NOFILE, 32)
     logger.debug("_apply_hard_limits exit")
 
 

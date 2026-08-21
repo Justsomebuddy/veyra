@@ -1,6 +1,18 @@
 # Changelog
 
 ## [Unreleased] — Changed
+- Hardened closed-observer resource-limit installation without weakening
+  unexpected failures. Every configured limit now clamps to stricter inherited
+  soft/hard limits and is read back after installation. CPU, file-size and
+  open-file ceilings remain mandatory. On Darwin only, where `RLIMIT_AS` is the
+  platform `RLIMIT_RSS` alias, a finite address-space request may continue only
+  after the inherited state is exactly unlimited, the finite call raises
+  `ValueError`, and an unchanged-limit round trip succeeds; every other
+  `OSError`, `ValueError` or read-back mismatch still blocks the child. Portable
+  unit coverage permanently checks the clamp, probe and fail-closed branches,
+  while a POSIX integration regression exercises the real worker on Linux and
+  macOS. No strict-sandbox, memory-containment or Darwin address-space-ceiling
+  claim is added.
 - Added the non-root `P3OGFormationPressureBinding` consumer requested by issue
   78. Its producer and validator freshly replay the exact P3-OG source,
   formation source, `WITNESSED` first-closure evidence and complete pressure
