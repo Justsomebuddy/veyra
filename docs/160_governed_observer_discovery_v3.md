@@ -192,6 +192,16 @@ the returned canonical receipt. A malformed request, timeout, failed child,
 noncanonical response, resource breach, or receipt mismatch becomes `BLOCKED`
 without retained partial outputs.
 
+Each installed ceiling is clamped to any stricter inherited soft or hard limit
+and read back. CPU, file-size, and open-file limits are mandatory. Darwin
+exposes `RLIMIT_AS` as its `RLIMIT_RSS` alias and can reject a finite requested
+ceiling from an inherited unlimited state. That one platform case continues
+without an address-space ceiling only when the finite call raises `ValueError`
+and an unchanged-limit round trip confirms the original unlimited state. Any
+other limit error or read-back mismatch remains `BLOCKED`. Parent timeout and
+request/response/output bounds still apply, but a Darwin `READY` receipt does
+not claim an enforced address-space ceiling or memory containment.
+
 This profile is named `logical-subprocess`. It is **not** a syscall sandbox,
 container, VM, seccomp policy, filesystem namespace, or network namespace. The
 child still has the operating-system permissions of its user. The requested

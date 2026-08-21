@@ -44,6 +44,7 @@ PORTABLE_TESTS = (
     "tests/test_observer_discovery_v3_missing_data.py",
     "tests/test_observer_discovery_v3_missing_data_adversarial.py",
     "tests/test_observer_discovery_v3_missing_data_codec.py",
+    "tests/test_observer_discovery_v3_worker_limits.py",
     "tests/test_p1a_realization_transport_v2.py",
     "tests/test_p1a_realization_transport_v2_adversarial.py",
     "tests/test_p1a_realization_transport_v2_compat.py",
