@@ -340,7 +340,9 @@ def licensed_composition_presentation_json(
     with protected_replay_logs():
         if not validate_licensed_composition_presentation(value, sources, target, license, receipt):
             reject("presentation-json-not-authoritative")
-        result = _canonical_json(_presentation_json_data(value))
+        payload_data = _presentation_json_data(value)
+        charge_decoded_with_raw(payload_data, raw_nodes, raw_text)
+        result = _canonical_json(payload_data)
     if len(result) > MAX_JSON_BYTES:
         reject("presentation-json-byte-limit")
     logger.debug("licensed_composition_presentation_json exit bytes=%d", len(result))

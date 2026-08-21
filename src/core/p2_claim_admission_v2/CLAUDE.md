@@ -2,6 +2,8 @@
 
 ## Scope
 
+Version: **2.1.1**.
+
 This non-root sibling publishes the additive registry/oracle and the separate
 source-backed producer for the named P2 rule
 `composition-licensed-presentation-v2`. It preserves P2-S v1 and
@@ -52,6 +54,9 @@ the unchanged v1 receipt.
   require exact equality. The canonical decoder rejects duplicate/unknown/
   trailing/noncanonical JSON, hostile scalars/containers, stale roots and
   cross-object splices.
+- The canonical encoder charges its exact JSON data tree against the same
+  raw-plus-decoded node/text ledger as the decoder before emitting bytes. It
+  never returns a payload that only the decoder's resource gate would reject.
 - Raw authority and candidate values are copied through a callback-free exact
   DTO/enum whitelist under the node/depth/text budgets before replay or
   equality. Every result retains that private snapshot, never caller-owned DTO

@@ -393,6 +393,22 @@ def test_builder_enforces_combined_raw_and_result_text_ceiling() -> None:
     logger.debug("test builder combined raw/result text ceiling exit")
 
 
+def test_json_export_never_emits_a_payload_its_decoder_refuses() -> None:
+    """Exporter and decoder must share the same raw-plus-decoded text ledger."""
+    logger.debug("test JSON codec combined text closure entry")
+    roundtrip_case = _large_shared_root_case(243)
+    roundtrip_value = build_licensed_composition_presentation(*roundtrip_case, judgment_id="a")
+    payload = licensed_composition_presentation_json(roundtrip_value, *roundtrip_case)
+    assert licensed_composition_presentation_from_json(payload, *roundtrip_case) == roundtrip_value
+
+    decoder_only_overflow = _large_shared_root_case(244)
+    overflow_value = build_licensed_composition_presentation(*decoder_only_overflow, judgment_id="a")
+    assert validate_licensed_composition_presentation(overflow_value, *decoder_only_overflow)
+    with pytest.raises(P2ClaimAdmissionError, match="nonpayload-text-limit"):
+        licensed_composition_presentation_json(overflow_value, *decoder_only_overflow)
+    logger.debug("test JSON codec combined text closure exit")
+
+
 def test_source_count_preflight_rejects_one_and_sixty_five_before_replay() -> None:
     """The inherited 2..64 boundary is enforced by the sibling's first preflight."""
     logger.debug("test_source_count_preflight_rejects_one_and_sixty_five_before_replay entry")
