@@ -82,6 +82,13 @@ or imported-module dependencies, and its source location. A dependency entry of
 | `THM_R11_006_crest_noncollapse_witness` | `theorem` | `FORMALLY_PROVED` | imports `VeyraObserverCore`, `VeyraProofSoundness` | `proofs/lean/VeyraObserverProof.lean:69` |
 | `THM_R6_001_factor_blind` | `theorem` | `FORMALLY_PROVED` | same-module definitions only | `proofs/lean/VeyraObserverSynthesis.lean:2` |
 | `THM_R6_002_extension_separates` | `theorem` | `FORMALLY_PROVED` | same-module definitions only | `proofs/lean/VeyraObserverSynthesis.lean:10` |
+| `THM_N8_001_rotation_composition_len3` | `theorem` | `FORMALLY_PROVED` | same-module definitions only | `proofs/lean/VeyraNecklaceCongruence.lean:23` |
+| `THM_N8_002_orbit_dichotomy_p3_k2` | `theorem` | `FORMALLY_PROVED` | same-module definitions only | `proofs/lean/VeyraNecklaceCongruence.lean:31` |
+| `THM_N8_003_orbit_dichotomy_p5_k2` | `theorem` | `FORMALLY_PROVED` | same-module definitions only | `proofs/lean/VeyraNecklaceCongruence.lean:37` |
+| `THM_N8_004_fermat_count_p3_k2` | `theorem` | `FORMALLY_PROVED` | same-module definitions only | `proofs/lean/VeyraNecklaceCongruence.lean:44` |
+| `THM_N8_005_fermat_count_p5_k2` | `theorem` | `FORMALLY_PROVED` | same-module definitions only | `proofs/lean/VeyraNecklaceCongruence.lean:50` |
+| `THM_N8_006_gauss_primitive_count_n4_k2` | `theorem` | `FORMALLY_PROVED` | same-module definitions only | `proofs/lean/VeyraNecklaceCongruence.lean:56` |
+| `THM_N8_007_composite_dichotomy_counterexample` | `theorem` | `FORMALLY_PROVED` | same-module definitions only | `proofs/lean/VeyraNecklaceCongruence.lean:63` |
 | `THM_P3N4_PREMISE_001_same_integer_coordinates` | `theorem` | `FORMALLY_PROVED + PUBLICLY_VALIDATED` | imports `VeyraPadicLocalRealization` | `proofs/lean/VeyraPadicAllDepthEquality.lean:6` |
 | `THM_POMEGA2_001_prime_lower_bound` | `theorem` | `FORMALLY_PROVED + PUBLICLY_VALIDATED` | imports `Std.Tactic`, `Init.GrindInstances.Ring.Fin` | `proofs/lean/VeyraPadicCompletion.lean:177` |
 | `THM_POMEGA2_002_stage_modulus_divisibility` | `theorem` | `FORMALLY_PROVED + PUBLICLY_VALIDATED` | imports `Std.Tactic`, `Init.GrindInstances.Ring.Fin` | `proofs/lean/VeyraPadicCompletion.lean:179` |

@@ -1,6 +1,17 @@
 # Changelog
 
 ## [Unreleased] — Changed
+- Added the N8 necklace-congruence lane (doc 179): rotation-orbit rows and
+  witnesses in `src/core/necklace_congruence.py` where divisibility is read
+  off exact orbit partitions collected through the cut-free `cycle_echo`
+  object — prime-length dichotomy, Fermat partition count, and Gauss
+  primitive-count divisibility with the Möbius sum as a declared school-shadow
+  cross-check; composite length 4 is recorded as a blocked witness with the
+  `abab` counterexample. Seven exact finite instance cards
+  `THM_N8_001`–`007` join the Lean inventory as its 49th source
+  (`VeyraNecklaceCongruence.lean`), and certificate `necklace_congruence_n8`
+  joins the executable suite (total 103). Bounded rows only; no general
+  theorem, no promotion.
 - Completed the claim-discipline documentation: `CONTRIBUTING.md` now
   requires silence-status-map token conformance (bare `ABSENT` deprecated;
   silence-row changes need a gap-audit amendment), forbids `proved` as an

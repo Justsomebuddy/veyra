@@ -28,7 +28,7 @@ EXPECTED_VERSION = "4.30.0-rc2"
 # (THM_POMEGA1_012-015) are intentionally not files under proofs/lean/; their
 # sole compilation path is the digest-pinned generator gate in
 # src/core/stream_completion_formal.py (see proofs/lean/README.md).
-EXPECTED_SOURCE_COUNT = 48
+EXPECTED_SOURCE_COUNT = 49
 IMPORT_PATTERN = re.compile(r"^import\s+(.+?)\s*$", re.MULTILINE)
 
 

@@ -66,6 +66,7 @@ from .certify_weighted_measure import certify_weighted_echo_measure
 from .certify_linear_algebra import certify_linear_algebra_seed
 from .certify_native_number import certify_native_number_theory, certify_native_resonance_number
 from .certify_native_number_theorems import certify_native_fermat_phase_n2, certify_native_number_theorem_n1
+from .certify_necklace_congruence import certify_necklace_congruence_n8
 from .certify_native_runtime import certify_native_runtime_f4
 from .certify_statistics import certify_statistics_inference
 from .certify_statistics_concentration import certify_statistics_concentration_likelihood
@@ -93,7 +94,7 @@ def certificate_suite() -> list[Certificate]:
     """Run core Veyra workability certificates."""
     logger.debug("certificate_suite entry")
     certs = [certify_echo(), certify_resonance(), certify_native_resonance_number(), certify_native_number_theory(),
-        certify_native_number_theorem_n1(), certify_native_fermat_phase_n2(), certify_topology_echo_x4(), certify_observer_patch_atlas_g4(), certify_observer_infinity_i1(), certify_positive_ontology_p0(), certify_observer_morphism_p1a(), certify_observer_relations_p1a2(), certify_finite_construction_p1b(), certify_confluence_p1c1(), certify_confluence_aggregate_p1c2(), certify_translated_confluence_p1c3(), certify_productivity_p1d1(), certify_productivity_counterpressure(), *certify_d3_pomega_p2s_bundle(), certify_observer_genesis_p1e1(),
+        certify_native_number_theorem_n1(), certify_native_fermat_phase_n2(), certify_necklace_congruence_n8(), certify_topology_echo_x4(), certify_observer_patch_atlas_g4(), certify_observer_infinity_i1(), certify_positive_ontology_p0(), certify_observer_morphism_p1a(), certify_observer_relations_p1a2(), certify_finite_construction_p1b(), certify_confluence_p1c1(), certify_confluence_aggregate_p1c2(), certify_translated_confluence_p1c3(), certify_productivity_p1d1(), certify_productivity_counterpressure(), *certify_d3_pomega_p2s_bundle(), certify_observer_genesis_p1e1(),
         certify_geometry_visual_regression_x6(), certify_formal_export_prep_x7(), certify_formal_export_completion_x8(),
         certify_quantum_veyra_q1(), certify_quantum_stabilizer_q2(), certify_quantum_topology_q4(),
         certify_quantum_qec_echo_q5(), certify_quantum_gate_identity_q6(),

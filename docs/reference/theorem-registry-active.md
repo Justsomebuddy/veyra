@@ -276,3 +276,16 @@ formation genealogy and first closure, typed post-formation
 component ablation, history DAG, Lean theorem, endogenous observer-role
 conclusion, N0/HAP lift, physical birth, objecthood, promotion or infinity
 follows. See doc 168.
+
+`DEF-724–726` define the N8 necklace-congruence lane: native rotation-orbit
+rows collected through the cut-free `cycle_echo` object, the prime-length
+orbit-dichotomy/Fermat-partition witnesses, and the Gauss primitive-count
+witness whose Möbius column is a declared school shadow cross-check.
+`THM-N8-001`–`007` are exact finite instance cards, `FORMALLY_PROVED` in
+`VeyraNecklaceCongruence.lean` for the literal fixtures only; the general
+dichotomy/Fermat/Gauss statements remain `EXECUTABLE_EVIDENCE` over the
+certified bounded rows (`p ∈ {2,3,5,7}`, `k ∈ {2,3}`, `n ∈ 1..10`) with the
+composite-length counterexample recorded as a blocked witness. Fermat/Gauss
+are classical externally; this lane registers only the native orbit-partition
+mechanization and adds no general theorem, no density or analytic claim, no
+promotion, and no new status token. See doc 179.

@@ -15,7 +15,7 @@ an explicit non-claim boundary.
 
 ## Experimental research candidate
 
-`experimental/research_lean/` is separate from the stable 48-source inventory.
+`experimental/research_lean/` is separate from the stable 49-source inventory.
 Its manifest binds eight sources, 65 declarations (33 headlines), imports,
 digests, exact Lean `4.30.0-rc2` commit, and every printed axiom closure.
 `make research-lean` verifies a fresh temporary snapshot. It does not promote
