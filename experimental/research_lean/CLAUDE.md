@@ -2,7 +2,7 @@
 
 Version: **0.1.1**. Status: **`INTERNAL_RESEARCH_CANDIDATE`**.
 
-- `manifest.json` is canonical: exactly 48 stable dependencies, eight research
+- `manifest.json` is canonical: exactly 49 stable dependencies, eight research
   sources, 65 declarations, 33 literal headline claim rows, 65 axiom-closure
   rows, and domain-separated aggregate roots.
 - `scripts/check_research_lean.py` always uses a fresh temporary snapshot and

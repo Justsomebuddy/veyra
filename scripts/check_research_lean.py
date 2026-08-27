@@ -29,7 +29,7 @@ MANIFEST_PATH = RESEARCH_ROOT / "manifest.json"
 TMP_ROOT = ROOT / "data" / "tmp"
 EXPECTED_SCHEMA = "veyra.research-lean-manifest.v1"
 EXPECTED_STATUS = "INTERNAL_RESEARCH_CANDIDATE"
-EXPECTED_BASE_COUNT = 48
+EXPECTED_BASE_COUNT = 49
 EXPECTED_RESEARCH_COUNT = 8
 EXPECTED_DECLARATION_COUNT = 65
 EXPECTED_HEADLINE_COUNT = 33
@@ -874,7 +874,7 @@ def run(argv: list[str]) -> int:
     started = time.perf_counter()
     print("[1/6] Loading exact research manifest", flush=True)
     manifest = load_manifest()
-    print("[2/6] Verifying 48 base + 8 research source rows", flush=True)
+    print("[2/6] Verifying 49 base + 8 research source rows", flush=True)
     payloads = verify_inventory(manifest)
     layers = graph_layers(local_graph(manifest))
     print(

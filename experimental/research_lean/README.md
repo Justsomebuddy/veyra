@@ -1,7 +1,7 @@
 # Research Lean candidate
 
 Status: **`INTERNAL_RESEARCH_CANDIDATE`**. This directory is deliberately
-outside the 48-source stable Lean inventory and is not part of `make verify`.
+outside the 49-source stable Lean inventory and is not part of `make verify`.
 
 The canonical `manifest.json` binds eight research sources, their imports and
 SHA-256 digests, 65 declarations (33 headline declarations and 32 helpers), the
@@ -33,7 +33,7 @@ The candidate lane also rejects command-level declaration metaprogramming
 injected axiom cannot sit outside the exact 65-row audit.
 
 Run `make research-lean` for a fresh isolated verification. The checker copies
-the exact 48 stable and eight research sources into a temporary tree, compiles
+the exact 49 stable and eight research sources into a temporary tree, compiles
 a new `.olean` graph, generates all 65 `#check` and `#print axioms` commands,
 and rehashes the originals after execution. It has no persistent cache.
 
