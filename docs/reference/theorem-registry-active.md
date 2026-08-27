@@ -397,3 +397,17 @@ the formula; direct BFS at 18 letters exceeds the declared caps and is
 honestly not performed, the classical projection lemma having been
 cross-checked on six full small lattices (doc 183). Corollary: `|B(w)|`
 is at most the number of distinct primes dividing the gcd. See doc 185.
+
+`DEF-751–753` register the TR-2/4 classification slice: the star
+tightness construction and its verifier (751) — **`THM-TR2-009`
+Tightness: for every set of `r` distinct primes an explicit star word
+attains `|B(w)| = r`**, prose-derived and constructive (hub-shared
+constraints admit no merge-obstruction cycle), machine-verified for
+`r = 1, 2, 3` with exact floors and formula/enumeration agreement on the
+`r = 2` witness `aaabbzzbbzaaazbbzz` (752); and the type-spectrum
+instrument (753): on the exhaustive `a²b²c²` shape at `q = 2` all 8 pair
+power-type vectors are realized, and on `a³b³` at `q = 3` both — no
+hidden type constraint at the smallest shapes. General type-matrix
+realizability remains `OPEN` (narrowed by the star theorem and the
+exhaustive small-shape spectra). External-novelty wording is withheld
+pending the literature due-diligence report. See doc 186.

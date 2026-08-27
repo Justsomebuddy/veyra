@@ -1,6 +1,17 @@
 # Changelog
 
 ## [Unreleased] — Changed
+- Proved tightness of the break-locus bound (doc 186, `THM-TR2-009`): for
+  every set of `r` distinct primes an explicit star construction — hub
+  letter `z`, per-letter hub projections `(x_i^{N/q_i} z^{N/q_i})^{q_i}`,
+  blocks inserted at their own granularity gaps so no merge-obstruction
+  cycle can arise — attains `|B(w)| = r`, machine-verified for
+  `r = 1, 2, 3` with exact floors and formula/enumeration agreement on
+  the 18-letter `r = 2` witness. The pair type-spectrum instrument shows
+  all 8 power-type vectors realized on the exhaustive `a²b²c²` shape;
+  general type-matrix realizability is recorded `OPEN`. Certificate suite
+  total 110. External-novelty wording withheld pending the literature
+  due-diligence report.
 - Resolved the Principality Conjecture via the Break-Locus Formula
   (docs 185, `THM-TR2-008`): Achievability is proved constructively — the
   root of a power is its first block (`THM_TR2_006/007`, Lean), so the

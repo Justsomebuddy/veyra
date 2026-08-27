@@ -621,6 +621,146 @@ def formula_agreement_sweep(alphabet: tuple[str, ...], counts: tuple[int, ...], 
     return result
 
 
+@dataclass(frozen=True)
+class TightnessReport:
+    """Star-construction witness achieving |B(w)| = number of primes."""
+
+    primes: tuple[int, ...]
+    word: str
+    length: int
+    locus_size: int
+    special_pattern_ok: bool
+    pairwise_incomparable: bool
+    status: str
+    obstruction: str
+
+
+@dataclass(frozen=True)
+class TypeSpectrumReport:
+    """Realized power/not-power pair-type vectors over one shape."""
+
+    shape_id: str
+    prime: int
+    words_scanned: int
+    realized_vectors: tuple[tuple[bool, ...], ...]
+    status: str
+    obstruction: str
+
+
+_HUB = "z"
+_STAR_LETTERS = ("a", "b", "c", "d", "e", "f")
+
+
+def tightness_witness(primes: tuple[int, ...]) -> tuple[tuple[str, ...], tuple[str, ...]] | tuple[str]:
+    """Build the star word whose break locus has one minimum per prime."""
+    logger.debug("locus.tightness_witness entry primes=%r", primes)
+    from .primes import is_prime_int
+
+    if (
+        not primes or len(set(primes)) != len(primes)
+        or any(not is_prime_int(q) for q in primes)
+        or len(primes) > len(_STAR_LETTERS)
+    ):
+        logger.error("locus.tightness_witness invalid primes")
+        return ("invalid-primes",)
+    total = 1
+    for q in primes:
+        total *= q
+    letters = _STAR_LETTERS[: len(primes)]
+    word: list[str] = []
+    for gap in range(total):
+        for letter, q in zip(letters, primes):
+            block = total // q
+            if gap % block == 0:
+                word.extend([letter] * block)
+        word.append(_HUB)
+    alphabet = tuple(sorted(letters + (_HUB,)))
+    result = (tuple(word), alphabet)
+    logger.debug("locus.tightness_witness exit length=%d", len(result[0]))
+    return result
+
+
+def verify_tightness(primes: tuple[int, ...]) -> TightnessReport:
+    """Verify |B(w)| equals the prime count with the star membership pattern."""
+    logger.debug("locus.verify_tightness entry primes=%r", primes)
+    built = tightness_witness(primes)
+    if len(built) == 1:
+        result = TightnessReport(primes, "", 0, 0, False, False, "blocked", built[0])
+        logger.error("locus.verify_tightness blocked %s", built[0])
+        return result
+    word, alphabet = built
+    minimal = locus_formula(word, alphabet)
+    letters = _STAR_LETTERS[: len(primes)]
+    floors = {q: set(forced_pairs(word, alphabet, q)) for q in primes}
+    pattern_ok = True
+    for letter, q in zip(letters, primes):
+        special = tuple(sorted((letter, _HUB)))
+        pattern_ok = pattern_ok and special not in floors[q]
+        for other in primes:
+            if other != q:
+                pattern_ok = pattern_ok and special in floors[other]
+    incomparable = all(
+        not (floors[left] <= floors[right])
+        for left in primes for right in primes if left != right
+    )
+    ok = len(minimal) == len(primes) and pattern_ok and incomparable
+    result = TightnessReport(
+        primes, "".join(word), len(word), len(minimal), pattern_ok, incomparable,
+        "witnessed" if ok else "blocked",
+        "none" if ok else "tightness-pattern-failure",
+    )
+    if not ok:
+        logger.error("locus.verify_tightness FAILURE primes=%r size=%d", primes, len(minimal))
+    logger.debug("locus.verify_tightness exit size=%d", len(minimal))
+    return result
+
+
+def type_matrix(word: tuple[str, ...], alphabet: tuple[str, ...]) -> tuple[tuple[Pair, tuple[tuple[int, bool], ...]], ...]:
+    """Return, per pair and prime exponent, whether the projection is a power."""
+    logger.debug("locus.type_matrix entry word=%s", "".join(word))
+    letters = tuple(sorted(alphabet))
+    primes = prime_valid_exponents(word, letters)
+    result = tuple(
+        (
+            (left, right),
+            tuple(
+                (q, is_k_power(pair_projection(word, left, right), q))
+                for q in primes
+            ),
+        )
+        for left, right in combinations(letters, 2)
+    )
+    logger.debug("locus.type_matrix exit pairs=%d", len(result))
+    return result
+
+
+def type_spectrum_sweep(alphabet: tuple[str, ...], counts: tuple[int, ...], prime: int, word_cap: int = DEFAULT_SWEEP_CAP) -> TypeSpectrumReport:
+    """Collect which power/not vectors over pairs are realized in one shape."""
+    logger.debug("locus.type_spectrum_sweep entry counts=%r prime=%d", counts, prime)
+    letters = tuple(sorted(alphabet))
+    shape_id = "-".join("%s%d" % (letter, count) for letter, count in zip(letters, counts))
+    pool: list[str] = []
+    for letter, count in zip(letters, counts):
+        pool.extend([letter] * count)
+    words = set(permutations(pool))
+    if len(letters) != len(counts) or len(words) > word_cap:
+        result = TypeSpectrumReport(shape_id, prime, 0, (), "refused", "sweep-size-refusal")
+        logger.error("locus.type_spectrum_sweep refused")
+        return result
+    realized: set[tuple[bool, ...]] = set()
+    for word in sorted(words):
+        vector = tuple(
+            is_k_power(pair_projection(word, left, right), prime)
+            for left, right in combinations(letters, 2)
+        )
+        realized.add(vector)
+    result = TypeSpectrumReport(
+        shape_id, prime, len(words), tuple(sorted(realized)), "witnessed", "none"
+    )
+    logger.debug("locus.type_spectrum_sweep exit realized=%d", len(realized))
+    return result
+
+
 def break_locus_checklist() -> tuple[str, ...]:
     """Return the TR-2/1 lane acceptance checklist."""
     logger.debug("locus.checklist entry")
