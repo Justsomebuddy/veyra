@@ -113,6 +113,10 @@ local `Nat`/`Int`, and the shadow result covers only unary `Recurrence`.
   generic object and applies theorem 017 to `pomega2PrimeWitness`; final closure
   is `Quot.sound`, `propext`. The result is only relative to its 45-row ledger,
   not generic/categorical/topological/physical/foundation-independent completion.
+  Both PΩ families are `FORMALLY_PROVED + PUBLICLY_VALIDATED`: root aliases,
+  certificates, and release-bundle entries are present (see `THEOREMS.md` and
+  the formal-evidence registry); the four generated PΩ1 bridge theorems are
+  digest-pinned generator output, not repository sources.
 - P1-C4 has no new Lean or mathematical theorem. Its level-1 certificate replays
   raw P1-B/G4/C2/A2/C3 to establish one finite scope-relative presentation with
   genuine direct/translated refinement survival; no absolute/history/physical/

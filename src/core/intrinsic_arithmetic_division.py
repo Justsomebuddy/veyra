@@ -265,7 +265,7 @@ def product_plus_one_obstruction(*factors: Mode) -> ProductPlusOneObstructionPro
         candidate,
         witnesses,
         escaped,
-        "proved" if escaped else "blocked",
+        "witnessed" if escaped else "blocked",
         obstruction,
     )
     logger.debug("product_plus_one_obstruction exit result={!r}".format(result))

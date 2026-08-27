@@ -208,7 +208,7 @@ def intrinsic_arithmetic_summary() -> dict[str, object]:
     division = structural_divide(product, two) if isinstance(product, Mode) else None
     escape = product_plus_one_obstruction(two, three)
     result: dict[str, object] = {
-        "status": "proved" if division and division.reconstructs and escape.escaped else "blocked",
+        "status": "witnessed" if division and division.reconstructs and escape.escaped else "blocked",
         "division": bool(division and division.reconstructs), "escape": escape.escaped,
     }
     logger.debug("intrinsic_arithmetic_summary exit result={!r}".format(result))

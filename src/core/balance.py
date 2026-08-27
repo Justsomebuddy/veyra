@@ -20,7 +20,7 @@ class BalanceMode:
 
     @property
     def net_length(self) -> int:
-        """Return length-observer signed shadow."""
+        """Return length-observer signed shadow (host `int` subtraction; external shadow per docs/06 §3)."""
         logger.debug("BalanceMode.net_length entry arising=%s fading=%s", self.arising.word, self.fading.word)
         result = self.arising.length - self.fading.length
         logger.debug("BalanceMode.net_length exit result=%d", result)
@@ -71,7 +71,12 @@ def subtract_balance(left: BalanceMode, right: BalanceMode) -> BalanceMode:
 
 
 def canonical_length_balance(balance: BalanceMode, tact: str = "τ") -> BalanceMode:
-    """Cancel by length-observer and return one-tact canonical balance."""
+    """Cancel by length-observer and return one-tact canonical balance.
+
+    The pair construction (`stitch_balance`, `opposite_balance`) is native;
+    this quotient is not: cancellation is performed by the host integer shadow
+    round-trip, not by tact-level rewriting.
+    """
     logger.debug("canonical_length_balance entry balance=%s tact=%r", balance.word, tact)
     result = balance_from_int(balance.net_length, tact)
     logger.debug("canonical_length_balance exit result=%s", result.word)

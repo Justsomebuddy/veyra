@@ -111,7 +111,11 @@ def silent_breath(anchor: Nod) -> Breath:
     return result
 
 def breath(*tacts: Tact) -> Breath | NativeObstruction:
-    """Assemble contiguous contacts into a native breath."""
+    """Assemble contiguous contacts into a native breath.
+
+    Contiguity compares nods by host structural equality — the finest external
+    shadow test under the docs/06 §3 license, not an eliminated equality.
+    """
     logger.debug("breath entry count=%d", len(tacts))
     if not tacts:
         result = NativeObstruction("breath", "empty-breath", ())
@@ -127,7 +131,10 @@ def breath(*tacts: Tact) -> Breath | NativeObstruction:
     return result
 
 def stitch(left: Breath, right: Breath) -> Breath | NativeObstruction:
-    """Stitch two breaths when their boundary nods agree."""
+    """Stitch two breaths when their boundary nods agree.
+
+    Boundary agreement uses host structural equality (docs/06 §3 license).
+    """
     logger.debug("stitch entry left=%r right=%r", left, right)
     lb, rb = breath_boundary(left), breath_boundary(right)
     if lb is None or rb is None or lb[1] != rb[0]:
@@ -141,7 +148,13 @@ def stitch(left: Breath, right: Breath) -> Breath | NativeObstruction:
     return result
 
 def mode(item: Breath, observer: NativeObserver | None = None) -> Mode | NativeObstruction:
-    """Wrap a breath as a mode only when recurrence closes natively or by observer."""
+    """Wrap a breath as a mode only when recurrence closes natively or by observer.
+
+    Default closure (`observer is None`) compares boundary nods by host
+    structural equality — the finest external test (docs/06 §3), recorded as
+    the `native-cycle` observer name. It is not an eliminated equality; pass an
+    observer explicitly for coarser, explicitly indexed closure.
+    """
     logger.debug("mode entry breath=%r observer=%r", item, observer)
     boundary = breath_boundary(item)
     if boundary is None:

@@ -150,6 +150,13 @@ Rez_D,o(p, q)   iff  Obs_D(o,p) = Ready(rp), Obs_D(o,q) = Ready(rq), rp != rq
 The displayed equalities are metalanguage checks over canonical typed
 responses. They do not assert primitive object identity.
 
+`Rez_D,o` is an operational **witness relation** over ready responses — a
+homonym of, not a definition of, the P0 primitive `rez`. Per
+`149_positive_ontology_p0.md` P0-O1, an operational mismatch may *witness* a
+rez-response but does not create the postulate by circular definition; read
+`Rez_D,o` throughout this document as `RezWitness_D,o`. Its outcome
+constructors are mapped in `reference/silence-status-map.md`.
+
 **[Epistemic rule]** Blockage, evaluator failure, resource exhaustion, and
 unperformed observation do not count as echo, rez, baseline blindness, or
 negative evidence.

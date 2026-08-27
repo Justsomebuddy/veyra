@@ -113,6 +113,13 @@ def _stable(value: object) -> str:
 
 
 def _trace_response(obj: NativeObject) -> str:
+    """Return the injective canonical-serialization response.
+
+    Echo under `trace` therefore coincides with metalanguage equality of exact
+    structure (docs/06 §3 license): `trace` is the maximal discrete observer,
+    a deliberately God's-eye shadow — not evidence that equality was
+    eliminated, and never a substitute for coarser indexed observers.
+    """
     logger.debug("_trace_response entry obj=%r", obj)
     result = _stable(obj)
     logger.debug("_trace_response exit result=%s", result)
@@ -120,7 +127,12 @@ def _trace_response(obj: NativeObject) -> str:
 
 
 def observer_adapter(name: str) -> NativeObserver | None:
-    """Resolve every Core observer name to a native observer adapter."""
+    """Resolve every Core observer name to a native observer adapter.
+
+    `KNOWN_OBSERVERS` is a deliberately closed, bounded census for this Core
+    Language slice — a scope boundary, not a claim that observerhood is
+    globally enumerable or that these five exhaust admissible observers.
+    """
     logger.debug("observer_adapter entry name=%s", name)
     canonical = {item.name: item for item in native_observers()}
     adapters = {"kind": NativeObserver("kind", _kind_response), "label": NativeObserver("label", _label_response),

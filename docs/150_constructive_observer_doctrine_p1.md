@@ -116,7 +116,9 @@ Set the comparison domain `C = Dom(fine) ∩ Dom(coarse)`. Within a scope:
    fine-defined;
 3. **strong refinement** requires both;
 4. preservation without reflection is explicitly lossy;
-5. absent translation evidence stays `ABSENT`/OPEN; relation incomparability
+5. absent translation evidence stays `ABSENT`/OPEN — the evidence-absence
+   sense, not checked exclusion (`reference/silence-status-map.md`); relation
+   incomparability
    requires two distinct crossing witnesses refuting both inclusions.
 
 Admitted translations require identity and composition laws carrying the same

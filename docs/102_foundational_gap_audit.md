@@ -1,6 +1,7 @@
 # Foundational Gap Audit — no self-deception gate
 
-**Date:** 2026-07-15
+**Date:** 2026-07-15 (original authorship, pre-publication)
+**Amended:** 2026-08-14 (`394ed4b`, `b98d2a1`); 2026-08-27 (append-only amendment log added — see below)
 **Status:** critical audit; blocks grand claims until repaired.  
 **Source:** direct project critique after Sprint X5.  
 **Scope:** axioms, theorem language, formal proof, native runtime, number theory, and classical comparison.
@@ -35,6 +36,16 @@ The project must not claim:
 5. that native Veyra ontology is complete beyond the bounded F4 runtime.
 6. that the provisional P0 doctrine proves physical/metaphysical reality,
    absolute objectivity, or existence of a completed infinite carrier.
+7. that any scoped negative-existence judgment (`EXCLUDED_IN_D_S` or
+   checked-absence `ABSENT` in docs 154–156) extends beyond its exact doctrine
+   and scope, or that P0 itself contains a `nonexistent` result — the bounded
+   P0 slice deliberately has none (`149_positive_ontology_p0.md`); checked
+   exclusion is a later doctrine-level addition registered here, and
+   evidence-absence `ABSENT`/OPEN never coerces into it.
+8. that adoption-conditioned objecthood (a `ScopedObject` requiring an
+   `Adopted[D,S]` conjunct, docs 154/155) is an ontological derivation:
+   adoption is a governance act by a declared doctrine; it licenses scoped
+   bookkeeping identity only, never observer-independent objecthood.
 
 `149_positive_ontology_p0.md` is the canonical P0 statement. Its ideological,
 ontological, semantic/epistemic, and governance levels must remain distinct;
@@ -89,3 +100,31 @@ Implemented first paired ledger in `105_classical_benchmark_ledger_f5.md`:
 ## Acceptance rule
 
 Before another broad claim, R1–R11, the five deduction rows, and all eight benchmarks must remain green. Docs 123–127 cover R7–R11; R11 adds observer/echo theorems but no registry promotion, so the report remains `1 theorem-derived / 4 witness-only / 25 shadow / 5 meta` and `proof_complete=False`. R12/R13 must precede any second-nucleus proposal.
+
+## Amendment log (append-only)
+
+This gate adjudicates claim admissibility, so its own provenance must be
+explicit. By P0-O3 (`149_positive_ontology_p0.md`): a digest proves that a
+doctrine did not change after commitment, not that it was committed before its
+target was known; target-independence requires provenance. This log supplies
+that provenance.
+
+- **A0 — 2026-07-15.** Original audit authored before the public repository
+  existed; imported unchanged in the initial public commit `eb26b12`
+  (2026-08-09).
+- **A1 — 2026-08-14 (`394ed4b`).** Gap table and doctrine notes extended with
+  references to lanes released after the original date (P3 rows, research-lean
+  governance). Post-dated edit under the original header date; recorded here
+  retroactively.
+- **A2 — 2026-08-14 (`b98d2a1`).** Portable proof-boundary salvage adjusted
+  released-lane wording, including the exact-ledger `PΩ1`/`PΩ2` references in
+  the positive-ontology row and doctrine notes. Post-dated edit; recorded here
+  retroactively. Stated plainly: the released-lane references in this gate
+  were written after those results existed. The non-claim rows constrain the
+  future, but their August wording is not a pre-committed July boundary for
+  `PΩ1`/`PΩ2`; any argument that needs pre-commitment must cite the July text
+  via `git show eb26b12 -- docs/102_foundational_gap_audit.md`.
+- **A3 — 2026-08-27.** Added the `**Amended:**` header line, this log, and
+  non-claim rows 7–8 (scoped negative existence; adoption-conditioned
+  objecthood). From this amendment on, every edit to this file must append a
+  row here in the same change; a silent edit violates the gate itself.

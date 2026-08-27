@@ -216,14 +216,14 @@ def unitarity_witness(gate: QGate) -> UnitarityWitness:
         dimension,
         left_ok,
         right_ok,
-        "proved" if left_ok and right_ok else "refuted",
+        "witnessed" if left_ok and right_ok else "refuted",
     )
     logger.debug("unitarity_witness exit result=%r", result)
     return result
 
 
 def apply_unitary(gate: QGate, mode: QMode) -> QMode:
-    """Apply a proved-unitary finite gate and verify exact norm preservation."""
+    """Apply a witnessed-unitary finite gate and verify exact norm preservation."""
     logger.debug("apply_unitary entry gate=%s basis=%r", gate.name, mode.basis)
     dimension = _validate_gate(gate)
     _validate_mode(mode)
@@ -231,12 +231,12 @@ def apply_unitary(gate: QGate, mode: QMode) -> QMode:
         logger.error("apply_unitary dimension mismatch gate=%d mode=%d", dimension, len(mode.amplitudes))
         raise ValueError("gate and mode dimensions must agree")
     witness = unitarity_witness(gate)
-    if witness.status != "proved":
+    if witness.status != "witnessed":
         logger.error("apply_unitary nonunitary gate=%s", gate.name)
         raise ValueError("gate does not have a full exact unitarity witness")
     result = gate.apply(mode)
     if born_total(result) != born_total(mode):
         logger.error("apply_unitary internal norm mismatch gate=%s", gate.name)
-        raise ArithmeticError("proved unitary failed exact norm preservation")
+        raise ArithmeticError("witnessed unitary failed exact norm preservation")
     logger.debug("apply_unitary exit gate=%s norm=%r", gate.name, result.norm2())
     return result

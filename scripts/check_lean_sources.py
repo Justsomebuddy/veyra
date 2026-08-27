@@ -24,6 +24,10 @@ LEAN_ROOT = ROOT / "proofs" / "lean"
 TMP_ROOT = ROOT / "data" / "tmp"
 DEFAULT_TOOLCHAIN = "leanprover/lean4:v4.30.0-rc2"
 EXPECTED_VERSION = "4.30.0-rc2"
+# Repository .lean sources only. The four generated PΩ1 bridge declarations
+# (THM_POMEGA1_012-015) are intentionally not files under proofs/lean/; their
+# sole compilation path is the digest-pinned generator gate in
+# src/core/stream_completion_formal.py (see proofs/lean/README.md).
 EXPECTED_SOURCE_COUNT = 48
 IMPORT_PATTERN = re.compile(r"^import\s+(.+?)\s*$", re.MULTILINE)
 

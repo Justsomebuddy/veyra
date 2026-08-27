@@ -85,7 +85,7 @@ def test_full_exact_unitarity_witness(gate: QGate):
     witness = unitarity_witness(gate)
     assert witness.left_identity
     assert witness.right_identity
-    assert witness.status == "proved"
+    assert witness.status == "witnessed"
     assert witness.dimension == len(gate.matrix)
     assert witness.boundary == FINITE_BOUNDARY
 
@@ -93,12 +93,12 @@ def test_full_exact_unitarity_witness(gate: QGate):
 def test_tensor_gate_unitarity_and_empty_scalar_identity():
     scalar = tensor_gates(())
     assert scalar == QGate("1", ((A1,),))
-    assert unitarity_witness(scalar).status == "proved"
+    assert unitarity_witness(scalar).status == "witnessed"
 
     gate = tensor_gates((q_gate_h(), q_gate_x(), q_gate_i()))
     witness = unitarity_witness(gate)
     assert witness.dimension == 8
-    assert witness.status == "proved"
+    assert witness.status == "witnessed"
     assert adjoint(adjoint(gate)).matrix == gate.matrix
 
 

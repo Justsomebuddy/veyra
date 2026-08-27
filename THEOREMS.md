@@ -22,6 +22,13 @@ premises. `FORMALLY_PROVED` never implies physical truth, observer-independent
 objecthood, unrestricted infinity, or a stronger theorem than the exact Lean
 type. `EXECUTABLE_EVIDENCE` is not silently promoted to formal proof.
 
+Lane-local judgment tokens (`ESTABLISHED`, `REFUTED`, `ABSENT`, `QUALIFIED`, …)
+and provenance classes (`FORMALLY_DERIVED`, `ASSUMED`; see
+`docs/reference/notation-extended.md` and
+`docs/reference/silence-status-map.md`) are orthogonal vocabularies, not rows of
+this table: they carry no registry status, imply no promotion, and must not be
+read as adjacent to `FORMALLY_PROVED`.
+
 ## Registry modules
 
 The registry is split into bounded public modules. Together these files are the
@@ -40,6 +47,12 @@ complete registry; no local history is required.
 
 - N3 and N4 are `FORMALLY_PROVED + PUBLICLY_VALIDATED`; their formal sources,
   public aliases, certificates, and release-bundle entry are present.
+- PΩ1 and PΩ2 are likewise `FORMALLY_PROVED + PUBLICLY_VALIDATED`: root
+  aliases (`POMEGA1_*`/`pomega1_*`, `POMEGA2_*`/`pomega2_*`), certificates,
+  and release-bundle entries are present. Four PΩ1 bridge declarations
+  (`THM_POMEGA1_012`–`015`) are runtime-generated and digest-pinned, not
+  repository Lean files (see `proofs/lean/README.md`, "Generated bridge
+  declarations"); the ledger-relative carrier boundary below is unchanged.
 - N0, P3-OG, N6, and N6-W are `INTERNAL_RESEARCH_CANDIDATE`. Lean declarations
   in N0/N6/N6-W and executable P3-OG machine/raw-cycle first-return pressure
   rows are research evidence, not public theorem releases or a historical

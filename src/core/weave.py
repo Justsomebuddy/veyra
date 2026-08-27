@@ -1,4 +1,9 @@
-"""Weave schemas for Veyra mode shadows."""
+"""Weave schemas for Veyra mode shadows.
+
+Canonical cuts in this module are external display/convenience shadows
+(docs/06 §6 `T_cycle`); cut-free orbit identity lives in
+`native_number.cycle_echo`.
+"""
 
 from __future__ import annotations
 

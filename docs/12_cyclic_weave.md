@@ -13,6 +13,11 @@ But for a closed mode, `ab` and `ba` are the same cycle under `T_cycle`. The ope
 1. return only a cyclic echo-class, or
 2. choose a canonical cut before substituting.
 
+Boundary: the canonical cut is an external display convenience (host
+lexicographic order under the docs/06 §3 shadow license). Cut-free cyclic
+identity lives in `native_number.cycle_echo`; no decision may depend on which
+cut was chosen.
+
 Core-0.6 implements option 2 as a computable shadow.
 
 ## 2. Definition

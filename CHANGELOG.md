@@ -1,6 +1,48 @@
 # Changelog
 
 ## [Unreleased] — Changed
+- Completed the claim-discipline documentation: `CONTRIBUTING.md` now
+  requires silence-status-map token conformance (bare `ABSENT` deprecated;
+  silence-row changes need a gap-audit amendment), forbids `proved` as an
+  executable status token, mandates an Amendment-log row for every gap-audit
+  edit, and states the shadow-license boundary for host equality/integers/
+  ordering in code; the silence-status map is registered in the documentation
+  navigation; `docs/reference/proofs.md` states the same PΩ1/PΩ2 combined
+  status as the other registry sources; boundary notes were added to docs 02
+  (anchor-relative `0_V`; shadow-level phase-congruence wording with the
+  native structural-division counterpart), 06 (externally chosen `T_cycle`
+  representative versus the orbit-true native object), and 12 (display-only
+  canonical cut).
+- Reconciled the PΩ1/PΩ2 registry statuses into one truth: the
+  per-declaration formal-evidence rows, the Lean inventory rows and scope
+  boundary, and the publication-critical summary now all state
+  `FORMALLY_PROVED + PUBLICLY_VALIDATED`, matching the present root aliases,
+  certificates, and release-bundle entries. The four runtime-generated PΩ1
+  UTF-8 bridge declarations are documented as generated, digest-pinned
+  non-repository sources in `proofs/lean/README.md`, the formal-evidence
+  registry, and `scripts/check_lean_sources.py`; the definitional (`rfl`)
+  character of `THM_POMEGA2_007_universal_realization` is stated beside the
+  inventory. No mathematical statement changed.
+- Added an append-only amendment log with true edit provenance to
+  `docs/102_foundational_gap_audit.md` (original 2026-07-15 authorship;
+  post-dated 2026-08-14 released-lane edits recorded retroactively per
+  P0-O3), plus non-claim rows 7–8 registering scoped negative-existence
+  judgments and adoption-conditioned objecthood as doctrine-level additions.
+- Added `docs/reference/silence-status-map.md` as the single normative
+  correspondence for the typed-silence vocabularies of docs
+  149/150/154/155/156/158, resolving the `ABSENT` homonym (evidence-absence
+  versus checked exclusion) with pointer notes in each document; added the
+  `Rez_D,o` witness-relation homonym disclaimer to doc 158, a host-carried
+  computation boundary paragraph to the README and the shadow-layer
+  docstrings, the PΩ1 completed-`Nat` import admission to doc 151, and an
+  orthogonal-vocabulary note to `THEOREMS.md`.
+- Renamed the executable witness status token `proved` to `witnessed` in the
+  intrinsic-arithmetic and quantum-tensor lanes and their consumers
+  (deduction chain, classical benchmarks, certificates, tests), so no runtime
+  summary claims the registry's formal-proof rung. Routed
+  `is_cyclic_primitive` through the rotation-invariant primitive root of the
+  given presentation, removing the lexicographic canonical cut from the
+  decision path; `cyclic_root` remains a documented display shadow.
 - Added the non-root `P3OGFormationPressureBinding` consumer requested by issue
   78. Its producer and validator freshly replay the exact P3-OG source,
   formation source, `WITNESSED` first-closure evidence and complete pressure

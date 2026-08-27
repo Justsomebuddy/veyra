@@ -2,6 +2,12 @@
 
 This module is deliberately small. It models a mode shadow as a finite tact word
 so early Veyra definitions can be tested against examples and counterexamples.
+
+Boundary: this is a declared external shadow layer. Host integers, tuple
+equality, and lexicographic order legitimately carry its computation under the
+docs/06 §3 external-equality license; nothing here is a native derivation.
+Cut-free cyclic identity lives in `native_number.cycle_echo`; canonical cuts in
+this module are display/convenience shadows only.
 """
 
 from __future__ import annotations
@@ -19,7 +25,12 @@ Observer = Callable[["Mode"], object]
 
 @dataclass(frozen=True, order=True)
 class Mode:
-    """Finite tact-word shadow of a closed Veyra breath."""
+    """Finite tact-word shadow of a closed Veyra breath.
+
+    `order=True` supplies host lexicographic ordering for external display and
+    deterministic tooling only; it is not Veyra ontology — no primitive order
+    on modes is claimed or used as a native decision criterion.
+    """
 
     tacts: tuple[str, ...]
 
@@ -109,7 +120,12 @@ def word_observer(mode: Mode) -> tuple[str, ...]:
 
 
 def cyclic_observer(mode: Mode) -> tuple[str, ...]:
-    """Observe canonical rotation class of a closed tact word."""
+    """Observe canonical rotation class of a closed tact word.
+
+    The canonical cut is chosen by host lexicographic `min` — an external
+    shadow convenience (docs/06 §6 `T_cycle`). Orbit-true, cut-free cycle
+    identity lives in `native_number.cycle_echo`.
+    """
     logger.debug("cyclic_observer entry mode=%s", mode.word)
     if not mode.tacts:
         logger.debug("cyclic_observer exit silent")
@@ -226,7 +242,12 @@ def weave_by_length(filler: Mode, driver: Mode) -> Mode:
 
 
 def natural_mode(value: int, tact: str = "τ") -> Mode:
-    """Return the one-tact mode shadow tau^value."""
+    """Return the one-tact mode shadow tau^value.
+
+    The numeral is host-supplied: this transports an external `int` into its
+    unary shadow. It is a consistency-anchor bridge, not a native genesis of
+    number (see README, "Host-carried computation").
+    """
     logger.debug("natural_mode entry value=%d tact=%r", value, tact)
     if value < 0:
         logger.error("natural_mode invalid value=%d", value)

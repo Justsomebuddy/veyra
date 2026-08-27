@@ -97,6 +97,16 @@ reproducibility contract.
 - Add adversarial cases or counterexamples when a boundary can be tested.
 - Update `THEOREMS.md` and `NOTATION.md` whenever a public statement or symbol
   changes.
+- Use silence/status tokens exactly as fixed in
+  `docs/reference/silence-status-map.md`; the bare token `ABSENT` is
+  deprecated in new text, and adding, renaming, or re-partitioning any
+  silence row requires a `docs/102_foundational_gap_audit.md` amendment in
+  the same change.
+- Never use `proved` as an executable/runtime status token; reserve it for
+  the registry's formal rungs and use `witnessed`/`refuted`/`blocked` for
+  bounded executable checks.
+- Any edit to `docs/102_foundational_gap_audit.md` must append a row to its
+  append-only Amendment log in the same change.
 - Keep proof-source and digest bindings exact where an existing contract
   requires them.
 
@@ -104,6 +114,10 @@ reproducibility contract.
 
 - Prefer small, deterministic functions with explicit error paths.
 - Preserve resource limits and fail-closed validation.
+- Host `==`, integers, and ordering may carry mathematical content only in
+  declared shadow modules under the `docs/06_echo_tests.md` §3 license;
+  native decision paths must be observer-indexed or orbit/rotation-invariant,
+  and display-only canonicalizations must be labeled as such.
 - Add tests for normal, boundary, malformed, and hostile inputs.
 - Do not commit caches, generated binaries, credentials, or local paths.
 - Keep active source and documentation files at or below the project's

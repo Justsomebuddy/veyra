@@ -209,6 +209,11 @@ The following modes must never collapse into one Boolean failure:
 
 Response silence may be positive evidence. Domain blockage is not response silence. “Absent” and “unresolved-in-system” require evidence stronger than failure to observe.
 
+Cross-vocabulary correspondence with docs 150/154/155/156/158 is normatively
+fixed in `reference/silence-status-map.md`. The P0 slice deliberately has no
+positive-exclusion row; the later doctrine-level addition of one is registered
+in `102_foundational_gap_audit.md` (amendment A3, non-claim 7).
+
 ## 10. Infinity boundary exposed by I1
 
 P0 separates five claims:

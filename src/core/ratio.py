@@ -58,7 +58,7 @@ def ratio_from_fraction(value: Fraction, tact: str = "τ") -> RatioMode:
 
 
 def ratio_shadow(ratio: RatioMode) -> Fraction:
-    """Return exact rational shadow under length observer."""
+    """Return exact rational shadow under length observer (host `Fraction`; external shadow layer)."""
     logger.debug("ratio_shadow entry ratio=%s", ratio.word)
     result = Fraction(ratio.numerator.net_length, ratio.scale.length)
     logger.debug("ratio_shadow exit result=%s", result)
@@ -66,7 +66,12 @@ def ratio_shadow(ratio: RatioMode) -> Fraction:
 
 
 def canonical_ratio(ratio: RatioMode, tact: str = "τ") -> RatioMode:
-    """Reduce ratio by length observer into canonical one-tact form."""
+    """Reduce ratio by length observer into canonical one-tact form.
+
+    Reduction — why 2/4 echoes 1/2 — is performed by host `Fraction` GCD, not
+    by a mode-theoretic account; the `*_raw` operations preserve the native
+    unreduced structure for callers that need it.
+    """
     logger.debug("canonical_ratio entry ratio=%s tact=%r", ratio.word, tact)
     result = ratio_from_fraction(ratio_shadow(ratio), tact)
     logger.debug("canonical_ratio exit result=%s", result.word)
@@ -159,7 +164,7 @@ def multiply_ratios(left: RatioMode, right: RatioMode, tact: str = "τ") -> Rati
 
 
 def inverse_ratio(ratio: RatioMode, tact: str = "τ") -> RatioMode:
-    """Return multiplicative inverse in length-shadow layer."""
+    """Return multiplicative inverse in length-shadow layer (computed entirely in the host `Fraction` shadow)."""
     logger.debug("inverse_ratio entry ratio=%s", ratio.word)
     value = ratio_shadow(ratio)
     if value == 0:

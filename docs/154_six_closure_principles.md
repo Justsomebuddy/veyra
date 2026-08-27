@@ -229,6 +229,12 @@ never supplies an ordinary positive judgment. Only positive exclusion yields
 `EXCLUDED_IN_D_S`. Timeout, missing bridge, openness, and unresolvedness never
 silently become absence.
 
+`EXCLUDED_IN_D_S` is a scoped negative-existence judgment with no counterpart
+in the deliberately positive-only P0 slice; its addition is registered in
+`102_foundational_gap_audit.md` (amendment A3, non-claim 7), and the
+cross-document token correspondence is fixed in
+`reference/silence-status-map.md`.
+
 ## 10. Non-circular closure order
 
 For the exact prime-power model, the intended dependency DAG is:

@@ -36,7 +36,7 @@ def certify_quantum_tensor_q11() -> Certificate:
         and born_total(output) == born_total(product)
         and witness.left_identity
         and witness.right_identity
-        and witness.status == "proved"
+        and witness.status == "witnessed"
         and "no quantum advantage" in FINITE_BOUNDARY
     )
     detail = (

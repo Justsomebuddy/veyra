@@ -86,7 +86,7 @@ def test_product_plus_one_escape_returns_checked_witnesses():
     seven = recurrence_after(unit, 6)
     proof = product_plus_one_obstruction(two, three)
     assert isinstance(proof, ProductPlusOneObstructionProof)
-    assert proof.status == "proved"
+    assert proof.status == "witnessed"
     assert proof.escaped
     assert proof.candidate.breath == seven.breath
     assert all(witness.blocks_resonance for witness in proof.witnesses)

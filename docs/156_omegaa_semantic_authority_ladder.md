@@ -94,7 +94,10 @@ The experiment distinguishes several non-success outcomes:
 - `OPEN` — an obligation is stated but not established;
 - `UNRESOLVED` — the current rules do not decide the question.
 
-These statuses are not interchangeable without an explicit rule.
+These statuses are not interchangeable without an explicit rule. `ABSENT` here
+is checked exclusion (a positive proof in the stated scope), never
+evidence-absence; see `reference/silence-status-map.md` and gap-audit
+non-claim 7.
 
 ## Infinity boundary
 

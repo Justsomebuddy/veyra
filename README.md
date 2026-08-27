@@ -228,6 +228,19 @@ Veyra uses several evidence levels that must not be collapsed:
 - **candidate** — proposed but not adopted as a theorem or foundation rule;
 - **open** — not established by the current project.
 
+**Host-carried computation.** Veyra's executable layers run on CPython and its
+checked proofs run on Lean 4. The computational content of the shadow layers —
+integer lengths, cancellation, fraction reduction, canonical rotation cuts,
+response comparison — is carried by host primitives (`int`, `==`, ordering,
+`Fraction`, Lean's `Nat` and definitional equality) under the external-equality
+license stated in [`docs/06_echo_tests.md`](docs/06_echo_tests.md) §3. The
+ontology is enforced as vocabulary, obstruction-first semantics, observer
+indexing, and the non-claim registry: a discipline over host mathematics, not a
+replacement computation. Native layers reduce this dependence where documented
+(orbit-based cycle identity, structural stitch/weave), and a claim that a layer
+*derives* rather than *transports* arithmetic is admissible only with its exact
+registered bridge.
+
 Passing tests does not promote a candidate. A statement changes status only
 through an explicit registry entry with its dependencies and non-claims.
 Likewise, several locally valid receipts license no stronger aggregate wording

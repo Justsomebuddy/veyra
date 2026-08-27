@@ -14,6 +14,12 @@ Special cases:
 - `1_V` = one-tact closed breath.
 - `S(x)` = stitch `x` with `1_V`.
 
+Native boundary: a silent breath requires an anchor nod, so `0_V` is
+anchor-relative natively — one zero per nod, echoed together by the length
+observer but separated by the boundary observer
+(`native_runtime.silent_breath`, `intrinsic_arithmetic.zero`). "The" zero is a
+shadow-level convention.
+
 ## 2. Addition
 
 Addition is **stitching of recurrences**.
@@ -53,6 +59,12 @@ Modes `x` and `y` are **phase-congruent modulo** mode `m`, written:
 if their difference of emitted tacts leaves the same phase obstruction after maximal `m`-resonance extraction.
 
 Human shadow: `x mod m = y mod m`.
+
+Boundary: "difference" and "maximal extraction" are shadow-level wording —
+they presuppose host subtraction and ordering. The executable native
+counterpart is structural division with obstruction rows (`structural_divide`,
+`cycle_divisibility_row`); a fully native definition of phase congruence is an
+open research task, not an established primitive.
 
 ## 7. First non-human shift
 

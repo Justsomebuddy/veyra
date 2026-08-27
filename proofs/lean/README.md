@@ -1,6 +1,6 @@
 # Lean proof inventory
 
-This directory contains 48 Lean source modules. The table is exhaustive: status refers to the public claim supported by the source, not merely to the presence of compilable declarations. Exact released declaration locations and dependencies are listed in `../../THEOREMS.md`.
+This directory contains 48 Lean source modules. The table is exhaustive over the repository `.lean` sources. Four additional PΩ1 bridge declarations (`THM_POMEGA1_012`–`015`) are intentionally **not** repository files: they are generated deterministically at check time and digest-pinned (see “Generated bridge declarations” below). Status refers to the public claim supported by the source, not merely to the presence of compilable declarations. Exact released declaration locations and dependencies are listed in `../../THEOREMS.md`.
 
 The separate [`experimental/research_lean/`](../../experimental/research_lean/)
 candidate is not a 49th stable module. Its eight files and 65 declarations are
@@ -44,7 +44,7 @@ manifest-bound and freshly checked by `make research-lean`, but retain
 | `VeyraObserverSynthesisV5.lean` | abstract admissible branch-and-bound pruning, explicitly admitted transport preservation, and exact finite-catalog exhaustion | `INTERNAL_RESEARCH_CANDIDATE` | none; conditional axiom-free helpers only, with no concrete Rust/pruning/transport completeness theorem |
 | `VeyraOptimizer.lean` | bounded local optimizer laws | `FORMAL_CONSTRUCTION` | none |
 | `VeyraPadicAllDepthEquality.lean` | N4 all-projection scoped equality | `FORMALLY_PROVED + PUBLICLY_VALIDATED` | `THM_P3N4_PREMISE_001_same_integer_coordinates` |
-| `VeyraPadicCompletion.lean` | PΩ2 prime-power compatible-family completion | `FORMALLY_PROVED` | `THM_POMEGA2_001_prime_lower_bound`, `THM_POMEGA2_002_stage_modulus_divisibility`, `THM_POMEGA2_003_reduction_well_formed_congruence`, `THM_POMEGA2_004_reduction_identity`, `THM_POMEGA2_005_reduction_composition`, `THM_POMEGA2_006_carrier_presentation_compatible`, `THM_POMEGA2_007_universal_realization`, `THM_POMEGA2_008_coordinate_agreement`, `THM_POMEGA2_009_joint_separation`, `THM_POMEGA2_010_relative_uniqueness`, `THM_POMEGA2_011_zero_family_nonvacuity`, `THM_POMEGA2_012_one_family_formation`, `THM_POMEGA2_013_addition_closure`, `THM_POMEGA2_014_negation_additive_inverse`, `THM_POMEGA2_015_multiplication_closure`, `THM_POMEGA2_016_full_commutative_ring`, `THM_POMEGA2_017_ppcp_introduction` |
+| `VeyraPadicCompletion.lean` | PΩ2 prime-power compatible-family completion | `FORMALLY_PROVED + PUBLICLY_VALIDATED` | `THM_POMEGA2_001_prime_lower_bound`, `THM_POMEGA2_002_stage_modulus_divisibility`, `THM_POMEGA2_003_reduction_well_formed_congruence`, `THM_POMEGA2_004_reduction_identity`, `THM_POMEGA2_005_reduction_composition`, `THM_POMEGA2_006_carrier_presentation_compatible`, `THM_POMEGA2_007_universal_realization`, `THM_POMEGA2_008_coordinate_agreement`, `THM_POMEGA2_009_joint_separation`, `THM_POMEGA2_010_relative_uniqueness`, `THM_POMEGA2_011_zero_family_nonvacuity`, `THM_POMEGA2_012_one_family_formation`, `THM_POMEGA2_013_addition_closure`, `THM_POMEGA2_014_negation_additive_inverse`, `THM_POMEGA2_015_multiplication_closure`, `THM_POMEGA2_016_full_commutative_ring`, `THM_POMEGA2_017_ppcp_introduction` |
 | `VeyraPadicFamilyIntroduction.lean` | N1 integer residue family | `FORMALLY_PROVED` | `THM_P3N1_001_integer_residue_total`, `THM_P3N1_002_integer_residue_reduction`, `THM_P3N1_003_integer_family_introduction` |
 | `VeyraPadicLocalRealization.lean` | N3 local carrier realization | `FORMALLY_PROVED + PUBLICLY_VALIDATED` | `THM_P3N3_001_realize_integer_family`, `THM_P3N3_002_realized_integer_family_coordinate`, `THM_P3N4_001_scoped_joint_separation` |
 | `VeyraPrimePowerInformation.lean` | N6-W late-witness construction | `INTERNAL_RESEARCH_CANDIDATE` | `THM_P3N6W_001_exact_shape`, `THM_P3N6W_002_prefix`, `THM_P3N6W_003_later`, `THM_P3N6W_004_uniform` |
@@ -64,15 +64,36 @@ manifest-bound and freshly checked by `make research-lean`, but retain
 | `VeyraRecurrenceModeBridge.lean` | recurrence/mode image bridge | `FORMALLY_PROVED` | `THM_R9_002_decode_encode`, `THM_R9_003_encode_decode`, `THM_R9_004_encode_injective`, `THM_R9_001_encode_mode_ready`, `THM_R9_005_stitch_preserved`, `THM_R9_006_weave_preserved`, `THM_R9_007_resonance_transport` |
 | `VeyraRealizationTransport.lean` | abstract inverse-image partition identity/composition, bottom/refinement preservation, and conditional cost nonincrease | `INTERNAL_RESEARCH_CANDIDATE` | none; axiom-free relation-level helpers only, with no Python, replay, receipt, R11/R16 correspondence, P1-A, or cross-doctrine theorem |
 | `VeyraStatistics.lean` | fixed finite statistics cards | `FORMALLY_PROVED` | `THM_S001_mean_balance_1_3_5`, `THM_S002_variance_shift_1_3_5_plus_10` |
-| `VeyraStreamCompletion.lean` | PΩ1 stream completion relative to an explicit ledger | `FORMALLY_PROVED` | `THM_POMEGA1_001_truncation_identity`, `THM_POMEGA1_002_truncation_composition`, `THM_POMEGA1_003_rho_formation_congruence`, `THM_POMEGA1_004_stream_restriction_compatible`, `THM_POMEGA1_005_diagonal_realization_depth`, `THM_POMEGA1_006_universal_realization`, `THM_POMEGA1_007_coordinate_agreement`, `THM_POMEGA1_008_joint_separation`, `THM_POMEGA1_009_relative_uniqueness`, `THM_POMEGA1_010_nonvacuity_inhabitance`, `THM_POMEGA1_011_scp_introduction` |
+| `VeyraStreamCompletion.lean` | PΩ1 stream completion relative to an explicit ledger | `FORMALLY_PROVED + PUBLICLY_VALIDATED` | `THM_POMEGA1_001_truncation_identity`, `THM_POMEGA1_002_truncation_composition`, `THM_POMEGA1_003_rho_formation_congruence`, `THM_POMEGA1_004_stream_restriction_compatible`, `THM_POMEGA1_005_diagonal_realization_depth`, `THM_POMEGA1_006_universal_realization`, `THM_POMEGA1_007_coordinate_agreement`, `THM_POMEGA1_008_joint_separation`, `THM_POMEGA1_009_relative_uniqueness`, `THM_POMEGA1_010_nonvacuity_inhabitance`, `THM_POMEGA1_011_scp_introduction` |
 | `VeyraTransportCoherence.lean` | P3-C2 typed-setoid transport coherence | `FORMALLY_PROVED` | `THM_P3C2_001_ranked_local_to_generated_transport`, `THM_P3C2_002_natop_reduction_identity`, `THM_P3C2_003_natop_reduction_composition` |
+
+## Generated bridge declarations (not repository sources)
+
+`THM_POMEGA1_012_alphabet_encode_roundtrip`, `THM_POMEGA1_013_alphabet_decode_roundtrip`,
+`THM_POMEGA1_014_alphabet_bijection`, and `THM_POMEGA1_015_alphabet_order` have
+no `.lean` file in this directory. Their Lean text is generated
+deterministically from `src/core/stream_completion_alphabet.py` (template
+`veyra.pomega1.utf8-fin-template.v1`; generator closure SHA-256 pinned in that
+module) and checked by `src/core/stream_completion_formal.py`, which pins the
+generated bytes, rejects `sorry`/`admit`, requires the exact ordered symbol set
+and exactly fifteen `#print axioms` rows, and pins the elan/Lean binary before
+compiling. `scripts/check_lean_sources.py` validates the 48 repository sources
+only and does not re-check the four generated declarations; the generator gate
+above is their only compilation path, and any claim citing them must cite that
+gate, not this inventory.
 
 ## Scope boundaries
 
-- N3 and N4 are `FORMALLY_PROVED + PUBLICLY_VALIDATED`: their Lean modules, aliases, certificates, and release-bundle inclusion are present in this tree.
+- N3 and N4 are `FORMALLY_PROVED + PUBLICLY_VALIDATED`: their Lean modules, aliases, certificates, and release-bundle inclusion are present in this tree. PΩ1 and PΩ2 carry the same combined status — root aliases, certificates, and release-bundle inclusion are present; the four generated PΩ1 bridge declarations are covered by the generator gate above, not by this inventory.
 - N0, N6, and N6-W remain `INTERNAL_RESEARCH_CANDIDATE`. In particular, the four N6-W declarations do not establish a released unbounded-depth or cardinality theorem.
 - PΩ1 and PΩ2 establish completed carriers only relative to their explicit formation rules and assumption ledgers; they do not establish physical, metaphysical, or foundation-independent infinity.
 - A declaration stated under hypotheses proves the conditional implication only; it does not construct the hypotheses.
+- `THM_POMEGA2_007_universal_realization` is definitional: the PΩ2 carrier is
+  the compatible-family subtype by `abbrev`, so the realization witness is the
+  family itself and the proof is `rfl`. The name licenses no categorical
+  inverse-limit universal property (a permanent nonclaim in
+  `docs/152_padic_completion_pomega2.md`); the same-named `THM_POMEGA1_006` is
+  a distinct, non-definitional statement.
 
 ## Registry rules
 

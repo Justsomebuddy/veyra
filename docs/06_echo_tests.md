@@ -96,6 +96,11 @@ Observer:
 
 Under `T_cycle`, `αβ ≈ βα`, because a closed recurrence has no privileged starting cut.
 
+The *representative* of the class is chosen externally (host lexicographic
+order — a §3 shadow convenience); the cut-free native object is the full
+rotation orbit (`native_number.cycle_echo`). No decision may depend on which
+cut the external representative picked.
+
 ## 7. Consequence for number theory
 
 In one-tact Core-0, `T_len`, `T_bag`, `T_word`, and `T_cycle` collapse to the same observations. That is why ordinary natural numbers appear stable.

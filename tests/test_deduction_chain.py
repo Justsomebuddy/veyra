@@ -30,7 +30,7 @@ def test_deduction_proof_rows_execute_each_boundary():
     assert len(rows) == 5
     assert all(row.verified for row in rows)
     native_number = next(row for row in rows if row.link_id == "DC-003")
-    assert "intrinsic=proved" in native_number.evidence
+    assert "intrinsic=witnessed" in native_number.evidence
     assert "lean=checked" in native_number.evidence
     assert native_number.status == "derived"
     benchmark = next(row for row in rows if row.link_id == "DC-004")

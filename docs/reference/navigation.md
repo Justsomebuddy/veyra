@@ -11,7 +11,7 @@ documents.
 | Reader goal | First document | Then continue with |
 |---|---|---|
 | Understand the motivation | [Manifesto](../00_manifesto.md) | [Primitives](../01_primitives.md), [Core intuition](../05_core_intuition.md) |
-| Audit what is and is not established | [Foundational gap audit](../102_foundational_gap_audit.md) | [Theorem registry](../../THEOREMS.md), [proof discipline](../67_proof_discipline.md) |
+| Audit what is and is not established | [Foundational gap audit](../102_foundational_gap_audit.md) | [Theorem registry](../../THEOREMS.md), [proof discipline](../67_proof_discipline.md), [silence-status map](silence-status-map.md) |
 | Run the software | [Getting started](../tutorials/getting-started.md) | [Platform reproducibility](platform-reproducibility.md), [dependencies](dependencies.md) |
 | Use the Python/Sage surface | [Core API index](api.md) | [Sage API index](veyra_sage_api.md), [package boundary](../69_package_boundary.md) |
 | Inspect formal evidence | [Proof reference](proofs.md) | [Lean sources](../../proofs/lean/README.md), [axioms](axioms.md) |
@@ -85,6 +85,7 @@ infinity, or promotion.
 
 - [Active theorem registry](theorem-registry-active.md)
 - [Formal-evidence registry](theorem-registry-formal-evidence.md)
+- [Silence-status map](silence-status-map.md)
 - [Notation registry](../../NOTATION.md)
 - [Core API](api.md)
 - [Dependencies](dependencies.md)

@@ -208,7 +208,12 @@ realizes every compatible finite-prefix family and joint separation gives relati
 uniqueness, only under the exact doctrine/ledger. Focused `37/37`, isolated Lean
 `15/15`, ledger `36/46` with `Quot.sound`, registry `89`, and the exact assumption ledger recorded in `THEOREMS.md`.
 This establishes neither generic inverse limits nor physical, metaphysical, or
-foundation-independent actual infinity. PΩ2 is a separate exact-ledger prime-power carrier; D1/D3 promote into neither.
+foundation-independent actual infinity. The non-finite step is imported, not
+manufactured: `Stream(A) = Nat -> A` presupposes Lean's completed inductive
+`Nat`, and every released `forall n` quantifies with the host recursor, so the
+theorems transfer admitted actual infinity from the metatheory — exactly as the
+N6C boundary states for its `CompletedNat` premise; nothing here completes
+finite Veyra modes into an index totality. PΩ2 is a separate exact-ledger prime-power carrier; D1/D3 promote into neither.
 ## 9. Consequence for number theory
 The separation is especially useful for prime-power residue towers.
 - A bounded list of residues is finite evidence.

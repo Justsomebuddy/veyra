@@ -55,7 +55,12 @@ def is_one_tact_numeric_prime(mode: Mode, tact: str = "τ") -> bool:
 
 
 def cyclic_root(mode: Mode) -> tuple[Mode, int]:
-    """Return primitive root/exponent of the canonical cyclic rotation."""
+    """Return primitive root/exponent of the canonical cyclic rotation.
+
+    Display/legacy shadow only: the canonical cut comes from host lexicographic
+    order (`modes.cyclic_observer`). Decisions must use orbit-invariant routes
+    (`is_cyclic_primitive` here, `native_number.cycle_echo` natively).
+    """
     logger.debug("cyclic_root entry mode=%s", mode.word)
     canonical = Mode(cyclic_observer(mode))
     result = primitive_root(canonical)
@@ -64,12 +69,17 @@ def cyclic_root(mode: Mode) -> tuple[Mode, int]:
 
 
 def is_cyclic_primitive(mode: Mode) -> bool:
-    """Return True iff the cyclic class is not a power of a shorter cycle."""
+    """Return True iff the cyclic class is not a power of a shorter cycle.
+
+    Decided cut-free: primitive-root length and exponent are invariant under
+    rotation, so the judgment is made on the given presentation directly and
+    no canonical rotation cut is consulted.
+    """
     logger.debug("is_cyclic_primitive entry mode=%s", mode.word)
     if mode.length == 0:
         logger.debug("is_cyclic_primitive exit result=False silent")
         return False
-    root, exponent = cyclic_root(mode)
+    root, exponent = primitive_root(mode)
     result = root.length == mode.length and exponent == 1
     logger.debug("is_cyclic_primitive exit result=%s", result)
     return result

@@ -127,6 +127,10 @@ unresolvedness relative independence. Execution tags remain execution facts.
 No tag coerces to another, to falsity, occurrence or nonexistence. The modal
 status adapter preserves the tag and permits only an exact open-ledger or
 relative-independence payload to enter the corresponding indexed status.
+`ABSENT` here means **checked exclusion**, not missing evidence — the opposite
+of `ABSENT`/OPEN in doc 150’s translation-evidence rule; the normative
+disambiguation is `reference/silence-status-map.md` (registered via gap-audit
+amendment A3, non-claim 7).
 P3-M realizes this boundary as a literal nine-row dependent sum. Every silence
 proof is indexed by the same header and exact arm goal; relative-independence
 models additionally bind calculus, basis and the positive/negative goal through

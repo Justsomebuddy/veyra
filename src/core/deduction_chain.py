@@ -141,7 +141,7 @@ def _check_native_number_derivation(link: DeductionLink) -> DeductionProofRow:
     logger.debug("_check_native_number_derivation entry link=%s", link.link_id)
     summary = intrinsic_arithmetic_summary()
     lean = intrinsic_arithmetic_lean_status()
-    verified = bool(summary["status"] == "proved" and summary["division"] and summary["escape"] and lean == "checked")
+    verified = bool(summary["status"] == "witnessed" and summary["division"] and summary["escape"] and lean == "checked")
     evidence = f"intrinsic={summary['status']};division={summary['division']};escape={summary['escape']};lean={lean}"
     result = DeductionProofRow(link.link_id, link.target, link.status, verified, evidence, link.boundary)
     logger.debug("_check_native_number_derivation exit result=%r", result)
