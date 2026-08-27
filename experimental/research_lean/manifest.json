@@ -46,6 +46,12 @@
       "declarations": []
     },
     {
+      "path": "proofs/lean/VeyraDoctrinalInduction.lean",
+      "sha256": "c229e4de47c6a602b1d575fb210bd53f8ca197a5471ddf2cdbc2b56c35469360",
+      "imports": [],
+      "declarations": []
+    },
+    {
       "path": "proofs/lean/VeyraEcho.lean",
       "sha256": "39585c4adffe182c5c7f33c2e59e73894b9a24f20ca82c656f3917306815ea77",
       "imports": [],
@@ -903,8 +909,8 @@
     "RESEARCH_S_T011_weave_units": []
   },
   "source_roots": {
-    "base": "0564e375bad6bcdc772866d5c9170c619dde454c4682af8a37c3e8a96990bed0",
+    "base": "0ab21eb7098a0ad0c171f46f28dc1814548a937f1be7adac172a5004fc54b9e5",
     "research": "9c38a3d665774ec860fff1ca79d1280500df3554df266d7288c3de6208e14514"
   },
-  "proof_root": "64d821df2807cab131ea940933ef2cd43f02410ded0931dab6e62c24a99f651f"
+  "proof_root": "70693fb1233e04eb8cb0630cfec9a8f5d25cd72bcd3c2fb2ed576b368618f983"
 }

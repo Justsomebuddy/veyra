@@ -1,6 +1,21 @@
 # Changelog
 
 ## [Unreleased] — Changed
+- Added the DI-1 doctrinal-induction candidate lane (doc 180): Veyra's first
+  native quantifier mechanism. From a base witness, a step schema that
+  rewrites the previous derivation (never recomputes), and an adopted
+  generator — AFIP's proof-side companion — it licenses ledger-relative
+  all-depth proof families with digest-chained receipts; uniformity is the
+  anchor-renaming echo of the derivation at two fresh anchors, and the
+  certificate ships both adversarial controls (name-peeking step rejected as
+  nonuniform; depth bomb blocked at its exact depth). Demo family: `b`
+  divides `b·n` via local one-block extension of structural-division
+  derivations, licensed to depth 12. Five general shadow laws
+  `THM_DI1_001`–`005` join the Lean inventory as its 50th source with real
+  `induction` proofs, `THM_DI1_001` deliberately pinning the classical
+  shadow. The rule is `INTERNAL_RESEARCH_CANDIDATE`, not an adopted axiom:
+  no completed carrier, no unconditional universal, no promotion; the
+  P1-D2 countermodels remain binding.
 - Added the N8 necklace-congruence lane (doc 179): rotation-orbit rows and
   witnesses in `src/core/necklace_congruence.py` where divisibility is read
   off exact orbit partitions collected through the cut-free `cycle_echo`
