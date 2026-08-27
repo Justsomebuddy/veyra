@@ -1,6 +1,21 @@
 # Changelog
 
 ## [Unreleased] — Changed
+- Added the TR-2/1 break-locus lane (doc 183): the break locus `B(w)` — the
+  minimal antichain of doctrines at which a word first loses primitivity —
+  computed through projection Δ-sets of same-multiset power candidates,
+  with the classical projection lemma credited and counterpressured rather
+  than assumed (Δ-predictions matched BFS truth on every doctrine of six
+  full Boolean lattices, zero mismatches, zero refusals). Poles classified:
+  literal powers (`B = {∅}`) and absolutely-primitive words (`B = ∅`).
+  Registered **`THM-TR2-001`, the Principality Conjecture
+  (`CONJECTURE`)**: every break locus contains at most one doctrine —
+  discovered, not presumed: the lane was built to hunt a non-principal
+  locus, and seven exhaustive shape sweeps (6285 words, pinned
+  post-observation) returned zero, with `max_locus_size = 1` throughout.
+  Certificate suite total 107; oversized sweeps refuse rather than
+  truncate; up-closedness rests on the TR-1 Lean spine; no theorem claimed
+  for unscanned shapes.
 - Added the TR-1 observer-lattice instrumentation (doc 182): commutation
   doctrines as lattice nodes with witnessed refinement edges; node identity
   as the whole trace-class echo (typed `class-size-refusal` instead of

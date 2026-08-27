@@ -338,3 +338,21 @@ flagship `aabbcc` cell breaks exactly on the `bc` edge with exhibit
 `INTERNAL_RESEARCH_CANDIDATE`, rows are `EXECUTABLE_EVIDENCE`, and TR-2
 (licensed transfer laws, Ω calculus, Möbius flow along the lattice) is
 `OPEN`. See doc 182.
+
+`DEF-740–743` define the TR-2/1 break-locus lane: pairwise projections and
+Δ-sets of same-multiset power candidates (740); the break locus `B(w)` as
+the ⊆-minimal antichain of Δ-sets, with the literal-power pole `B = {∅}`
+and the absolutely-primitive pole `B = ∅` (741); the full-lattice
+cross-check that confronts every Δ-prediction with BFS trace-class truth —
+the classical projection lemma (Cori–Perrin) is credited and
+counterpressured, not assumed (742); and exhaustive shape sweeps with typed
+`sweep-size-refusal` boundaries (743). **`THM-TR2-001` — Principality
+Conjecture — status `CONJECTURE`:** for every word the break locus contains
+at most one doctrine. Evidence: 6285 words across seven exhaustively
+scanned shapes (a³b³, a⁴b², a⁴b⁴, a²b²c², a²b²c⁴, a⁴b⁴c², a²b²c²d²) with
+zero non-principal loci and `max_locus_size = 1` throughout, pinned
+post-observation; six full-lattice cross-checks matched with zero
+mismatches and zero refusals. Up-closedness spine: `THM-TR1-002/003`. No
+theorem is claimed for unscanned shapes; a native projection-lemma
+formalization and the intersection-closure question remain `OPEN`. See
+doc 183.
