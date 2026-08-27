@@ -139,6 +139,12 @@
       "declarations": []
     },
     {
+      "path": "proofs/lean/VeyraObserverLattice.lean",
+      "sha256": "03e44d40bffd2cfd767e709f8c8cab12e197fdd7606651b0bfbe2e9b0041f142",
+      "imports": [],
+      "declarations": []
+    },
+    {
       "path": "proofs/lean/VeyraObserverPatchAtlas.lean",
       "sha256": "6e0b011f61c8f6093973efe61577aac82b2848564ea87675fdfdd5fe5f07038c",
       "imports": [],
@@ -917,8 +923,8 @@
     "RESEARCH_S_T011_weave_units": []
   },
   "source_roots": {
-    "base": "6ce0a07e3888a49d539acc854f9e52e7eac99840fa0f36c206206b4bac7a43a9",
+    "base": "ddfe1f722f5b52e1ead2a075be4d14f260a4894b76c74430817a838863a9c219",
     "research": "9c38a3d665774ec860fff1ca79d1280500df3554df266d7288c3de6208e14514"
   },
-  "proof_root": "6339ec339a4aa913ae6b7118da6b31c17087867bef9d27a5afe4e74a5c382f95"
+  "proof_root": "73b5d780503401bc71e455a971004b8bb0fe5741fdc67c522bef65e0b9573e2e"
 }

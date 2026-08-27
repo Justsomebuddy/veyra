@@ -1,6 +1,20 @@
 # Changelog
 
 ## [Unreleased] — Changed
+- Added the TR-1 observer-lattice instrumentation (doc 182): commutation
+  doctrines as lattice nodes with witnessed refinement edges; node identity
+  as the whole trace-class echo (typed `class-size-refusal` instead of
+  silent truncation; independent closure validator; Cartier–Foata layers as
+  display receipts); node primitivity decided through class members via the
+  cut-free primitive root; edge transfer rows whose breaks carry a concrete
+  Ω exhibit verified to live outside the fine class; and fragility spectra
+  with exact first-break edges — `aabbcc` stays primitive through
+  `∅ ⊂ {ab} ⊂ {ab,ac}` and breaks exactly on the `bc` edge with
+  `abcabc = (abc)²`. The abstract transfer spine (closure monotonicity,
+  witness transport, primitivity stability, replay fixture) is
+  `FORMALLY_PROVED` in `VeyraObserverLattice.lean` as the 52nd source;
+  certificate suite total 106. Classical trace theory credited; the lane is
+  `INTERNAL_RESEARCH_CANDIDATE` and TR-2 transfer laws remain `OPEN`.
 - Added the DI-2 orbit-partition candidate lane (doc 181): congruences
   licensed from partition structure with every load-bearing step native —
   primality witnessed by structural division residuals (an exact divisor

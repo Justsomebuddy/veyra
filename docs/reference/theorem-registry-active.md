@@ -321,3 +321,20 @@ statement per witnessed-prime length (734). The rule is
 in `VeyraOrbitPartition.lean`. The N8 Lean instance cards remain the formal
 anchors; no general all-prime theorem, no completed carrier, no promotion.
 See doc 181.
+
+`DEF-735–739` define the TR-1 observer-lattice instrumentation: commutation
+doctrines with validated pairs and refinement rows carrying extra-pair
+witnesses (735); the trace-class echo object with exact enumeration, a
+typed `class-size-refusal` boundary and an independent closure validator,
+Cartier–Foata layers kept as display receipts (736); node primitivity
+decided through class members via the cut-free primitive root, with the
+power exhibit recorded (737); edge transfer rows whose break carries the
+Ω exhibit verified to live outside the fine class, with the abstract
+monotone spine `THM-TR1-001`–`004` `FORMALLY_PROVED` in
+`VeyraObserverLattice.lean` — coarse-primitive implies fine-primitive
+(738); and the fragility spectrum with its exact first-break edge — the
+flagship `aabbcc` cell breaks exactly on the `bc` edge with exhibit
+`abcabc = (abc)²` (739). Classical trace theory is credited; the lane is
+`INTERNAL_RESEARCH_CANDIDATE`, rows are `EXECUTABLE_EVIDENCE`, and TR-2
+(licensed transfer laws, Ω calculus, Möbius flow along the lattice) is
+`OPEN`. See doc 182.
