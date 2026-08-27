@@ -376,3 +376,24 @@ via the explicit position cycle `a₅<b₄<c₄<a₅` (merge obstruction), and a
 seeded probe of 1200 sampled a⁶b⁶c⁶ words is entirely principal —
 `SAMPLED` evidence only (747). `THM-TR2-001` remains `CONJECTURE`; the
 Achievability Conjecture and the two-prime case are `OPEN`. See doc 184.
+
+`DEF-748–750` register the TR-2/3 resolution: the `firstSlice`
+construction and the executable achieved-floor check — the root of a
+power is its first block (`THM-TR2-006/007`, `FORMALLY_PROVED`), so
+`Δ(w, firstSlice_k(w)^k) = F_k(w)` for every valid exponent, verified
+with zero failures on every valid exponent of all 6285 scanned words and
+the witness (748); the closed-form locus `locus_formula` — **`THM-TR2-008`
+Break-Locus Formula: `B(w)` is the minimal antichain of the prime floors
+`{F_q : q | gcd}`** — prose-derived from `THM-TR2-002..007` plus
+minimality (W-001 precedent; native end-to-end formalization `OPEN`),
+with executable agreement `locus_formula == break_locus` on all 6285
+scanned words, zero mismatches (749); and the resolution of
+`THM-TR2-001` (750): the **single-prime slice is PROVED** as a corollary
+(all scanned shapes were single-prime — the structural reason for
+6285/6285 principality), and the **general form is REFUTED** by the
+explicit witness `w* = aaccabbbaccaaccbbb` with `F₂ = {ac,bc}`,
+`F₃ = {ab,bc}`, `B(w*) = {{ab,bc},{ac,bc}}` — machine-verified through
+the formula; direct BFS at 18 letters exceeds the declared caps and is
+honestly not performed, the classical projection lemma having been
+cross-checked on six full small lattices (doc 183). Corollary: `|B(w)|`
+is at most the number of distinct primes dividing the gcd. See doc 185.

@@ -107,6 +107,8 @@ or imported-module dependencies, and its source location. A dependency entry of
 | `THM_TR2_003_projection_of_power` | `theorem` | `FORMALLY_PROVED` | `THM_TR2_002_pick_append` | `proofs/lean/VeyraProjectionPower.lean:25` |
 | `THM_TR2_004_pow_add` | `theorem` | `FORMALLY_PROVED` | same-module definitions only | `proofs/lean/VeyraProjectionPower.lean:33` |
 | `THM_TR2_005_pow_mul` | `theorem` | `FORMALLY_PROVED` | `THM_TR2_004_pow_add` | `proofs/lean/VeyraProjectionPower.lean:44` |
+| `THM_TR2_006_first_block` | `theorem` | `FORMALLY_PROVED` | same-module definitions only | `proofs/lean/VeyraProjectionPower.lean:57` |
+| `THM_TR2_007_power_first_block` | `theorem` | `FORMALLY_PROVED` | `THM_TR2_006_first_block` | `proofs/lean/VeyraProjectionPower.lean:69` |
 | `THM_P3N4_PREMISE_001_same_integer_coordinates` | `theorem` | `FORMALLY_PROVED + PUBLICLY_VALIDATED` | imports `VeyraPadicLocalRealization` | `proofs/lean/VeyraPadicAllDepthEquality.lean:6` |
 | `THM_POMEGA2_001_prime_lower_bound` | `theorem` | `FORMALLY_PROVED + PUBLICLY_VALIDATED` | imports `Std.Tactic`, `Init.GrindInstances.Ring.Fin` | `proofs/lean/VeyraPadicCompletion.lean:177` |
 | `THM_POMEGA2_002_stage_modulus_divisibility` | `theorem` | `FORMALLY_PROVED + PUBLICLY_VALIDATED` | imports `Std.Tactic`, `Init.GrindInstances.Ring.Fin` | `proofs/lean/VeyraPadicCompletion.lean:179` |

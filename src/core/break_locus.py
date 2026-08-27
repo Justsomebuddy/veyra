@@ -504,6 +504,123 @@ def two_prime_probe(alphabet: tuple[str, ...], counts: tuple[int, ...], samples:
     return result
 
 
+@dataclass(frozen=True)
+class AchievedFloorRow:
+    """The firstSlice construction attaining the floor at one exponent."""
+
+    exponent: int
+    slice_word: str
+    attained: bool
+    status: str
+    obstruction: str
+
+
+@dataclass(frozen=True)
+class FormulaAgreementReport:
+    """Break-Locus Formula vs candidate-enumeration locus over one shape."""
+
+    shape_id: str
+    words_checked: int
+    formula_mismatches: tuple[str, ...]
+    unachieved_floors: tuple[str, ...]
+    status: str
+    obstruction: str
+
+
+def first_slice(word: tuple[str, ...], alphabet: tuple[str, ...], exponent: int) -> tuple[str, ...]:
+    """Keep, for every letter, its first (count/exponent) occurrences."""
+    logger.debug("locus.first_slice entry k=%d", exponent)
+    letters = tuple(sorted(alphabet))
+    budget = {letter: word.count(letter) // exponent for letter in letters}
+    kept: list[str] = []
+    for letter in word:
+        if budget.get(letter, 0) > 0:
+            kept.append(letter)
+            budget[letter] -= 1
+    result = tuple(kept)
+    logger.debug("locus.first_slice exit length=%d", len(result))
+    return result
+
+
+def achieved_floor_check(word: tuple[str, ...], alphabet: tuple[str, ...], exponent: int) -> AchievedFloorRow:
+    """Verify executably that firstSlice^k attains the floor F_k exactly."""
+    logger.debug("locus.achieved_floor_check entry k=%d", exponent)
+    letters = tuple(sorted(alphabet))
+    counts = tuple(word.count(letter) for letter in letters)
+    if exponent < 2 or any(count % exponent for count in counts):
+        result = AchievedFloorRow(exponent, "", False, "blocked", "invalid-exponent")
+        logger.error("locus.achieved_floor_check blocked invalid-exponent")
+        return result
+    root = first_slice(word, letters, exponent)
+    power = root * exponent
+    delta = delta_pairs(word, power, letters)
+    floor = forced_pairs(word, letters, exponent)
+    attained = delta is not None and tuple(delta) == floor
+    result = AchievedFloorRow(
+        exponent, "".join(root), attained,
+        "witnessed" if attained else "blocked",
+        "none" if attained else "floor-not-attained",
+    )
+    if not attained:
+        logger.error("locus.achieved_floor_check FLOOR NOT ATTAINED word=%s k=%d", "".join(word), exponent)
+    logger.debug("locus.achieved_floor_check exit attained=%s", attained)
+    return result
+
+
+def locus_formula(word: tuple[str, ...], alphabet: tuple[str, ...]) -> tuple[tuple[Pair, ...], ...]:
+    """Closed-form locus: minimal antichain of the prime floors F_q."""
+    logger.debug("locus.locus_formula entry word=%s", "".join(word))
+    letters = tuple(sorted(alphabet))
+    primes = prime_valid_exponents(word, letters)
+    floors = tuple(forced_pairs(word, letters, q) for q in primes)
+    result = _minimal_antichain(floors) if floors else ()
+    logger.debug("locus.locus_formula exit minimal=%d", len(result))
+    return result
+
+
+def refutation_witness() -> tuple[tuple[str, ...], tuple[str, ...]]:
+    """Return the explicit non-principal witness word and its alphabet."""
+    logger.debug("locus.refutation_witness entry")
+    result = (tuple("aaccabbbaccaaccbbb"), ("a", "b", "c"))
+    logger.debug("locus.refutation_witness exit length=%d", len(result[0]))
+    return result
+
+
+def formula_agreement_sweep(alphabet: tuple[str, ...], counts: tuple[int, ...], word_cap: int = DEFAULT_SWEEP_CAP) -> FormulaAgreementReport:
+    """Check formula == enumeration locus and floor attainment over a shape."""
+    logger.debug("locus.formula_agreement_sweep entry counts=%r", counts)
+    letters = tuple(sorted(alphabet))
+    shape_id = "-".join("%s%d" % (letter, count) for letter, count in zip(letters, counts))
+    pool: list[str] = []
+    for letter, count in zip(letters, counts):
+        pool.extend([letter] * count)
+    words = set(permutations(pool))
+    if len(letters) != len(counts) or len(words) > word_cap:
+        result = FormulaAgreementReport(shape_id, 0, (), (), "refused", "sweep-size-refusal")
+        logger.error("locus.formula_agreement_sweep refused")
+        return result
+    mismatches: list[str] = []
+    unachieved: list[str] = []
+    for word in sorted(words):
+        locus = break_locus(word, letters)
+        if locus.status != "witnessed":
+            result = FormulaAgreementReport(shape_id, 0, (), (), "blocked", locus.obstruction)
+            logger.error("locus.formula_agreement_sweep blocked %s", locus.obstruction)
+            return result
+        if locus_formula(word, letters) != locus.minimal_deltas:
+            mismatches.append(locus.word)
+        for q in prime_valid_exponents(word, letters):
+            if not achieved_floor_check(word, letters, q).attained:
+                unachieved.append("%s@%d" % (locus.word, q))
+    status = "witnessed" if not mismatches and not unachieved else "blocked"
+    result = FormulaAgreementReport(
+        shape_id, len(words), tuple(mismatches), tuple(unachieved), status,
+        "none" if status == "witnessed" else "formula-failure",
+    )
+    logger.debug("locus.formula_agreement_sweep exit checked=%d", len(words))
+    return result
+
+
 def break_locus_checklist() -> tuple[str, ...]:
     """Return the TR-2/1 lane acceptance checklist."""
     logger.debug("locus.checklist entry")

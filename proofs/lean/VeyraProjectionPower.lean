@@ -51,6 +51,26 @@ theorem THM_TR2_005_pow_mul (u : List Nat) (a b : Nat) :
           _ = b + b * n := Nat.add_comm (b * n) b
       simp [step, THM_TR2_004_pow_add, powL, ih]
 
+-- theorem-card: tr2 first block of a concatenation
+-- The Achievability engine, pair level: taking the first |r| letters of
+-- r ++ s recovers r exactly.
+theorem THM_TR2_006_first_block (r s : List Nat) :
+    (r ++ s).take r.length = r := by
+  induction r with
+  | nil => rfl
+  | cons a t ih =>
+      show a :: (t ++ s).take t.length = a :: t
+      rw [ih]
+
+-- theorem-card: tr2 the root of a power is its first block
+-- For every pair in the matched set, the projection root r_p is recovered
+-- as the first block of the power projection - the machine-checked heart
+-- of the firstSlice construction that attains the floor F_k(w).
+theorem THM_TR2_007_power_first_block (r : List Nat) (n : Nat) :
+    (powL r (n + 1)).take r.length = r :=
+  THM_TR2_006_first_block r (powL r n)
+
 #check THM_TR2_003_projection_of_power
+#check THM_TR2_007_power_first_block
 
 end Veyra

@@ -1,6 +1,21 @@
 # Changelog
 
 ## [Unreleased] — Changed
+- Resolved the Principality Conjecture via the Break-Locus Formula
+  (docs 185, `THM-TR2-008`): Achievability is proved constructively — the
+  root of a power is its first block (`THM_TR2_006/007`, Lean), so the
+  `firstSlice` power attains the floor `F_k(w)` exactly at every valid
+  exponent — hence `B(w)` is the minimal antichain of the prime floors
+  `{F_q : q | gcd}`: a closed formula for every word, no enumeration, no
+  reachability. Consequences: the **single-prime slice is PROVED**
+  (explaining all 6285 principal scanned words structurally), and the
+  **general conjecture is REFUTED** by the explicit machine-verified
+  witness `w* = aaccabbbaccaaccbbb` with two incomparable minimal
+  breaking doctrines (`F₂ = {ac,bc}`, `F₃ = {ab,bc}`). Executable
+  agreement `locus_formula == break_locus` and floor attainment hold with
+  zero failures across all 6285 scanned words plus the witness; doc 183
+  carries an append-only resolution note; certificate suite total 109.
+  Native end-to-end formalization of the prose assembly remains OPEN.
 - Added the TR-2/2 forcing structure toward the Principality Conjecture
   (doc 184): the formally proved floor — projection of a power is a power
   (`THM_TR2_002/003`, real induction) — forces `Δ ⊇ F_k(w)` for every

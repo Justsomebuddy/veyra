@@ -84,3 +84,13 @@ machinery finds it the moment it exists in range.
 ```bash
 PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 python -m pytest -q tests/test_break_locus.py
 ```
+
+## Resolution (2026-08-27, later the same day — append-only)
+
+`THM-TR2-001` was resolved by the Break-Locus Formula (`THM-TR2-008`,
+doc 185): the **general form is REFUTED** by the explicit witness
+`w* = aaccabbbaccaaccbbb` (two incomparable minimal breaking doctrines),
+while the **single-prime slice is PROVED** — every shape scanned above has
+single-prime gcd, which is exactly why all 6285 words were principal. The
+table and evidence above remain valid as stated; only the conjecture's
+status line is superseded by docs 184/185 and the registry.
