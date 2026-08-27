@@ -356,3 +356,23 @@ mismatches and zero refusals. Up-closedness spine: `THM-TR1-002/003`. No
 theorem is claimed for unscanned shapes; a native projection-lemma
 formalization and the intersection-closure question remain `OPEN`. See
 doc 183.
+
+`DEF-744–747` register the TR-2/2 forcing structure toward `THM-TR2-001`:
+the executable forcing floor `F_k(w)` with per-candidate Lemma-A
+counterpressure, anchored by `THM-TR2-002/003` — projection is an append
+homomorphism and the projection of a power is a power (`FORMALLY_PROVED`,
+real induction, `VeyraProjectionPower.lean`) (744); prime reduction via
+`THM-TR2-004/005` — power addition and divisor laws, so minimal deltas
+live at prime exponents and floors are divisibility-monotone
+(`FORMALLY_PROVED`) (745); the single-prime reduction *Principality ⇔
+Achievability* — prose-derived from 744/745 plus minimality (external-
+draft precedent W-001; native formalization `OPEN`) — together with the
+**Forced-Locus Law**: `B(w) == {F_q(w)}` on all 6285 exhaustively scanned
+single-prime words, zero Lemma-A violations, zero law mismatches, pinned
+post-observation (`EXECUTABLE_EVIDENCE`) (746); and the two-prime
+frontier: incomparable floors exist in principle (`F_2 = ∅`, `F_3 = {ab}`
+for `(aabbab)²`), a deliberate a⁶b⁶c⁶ counterexample dies on realizability
+via the explicit position cycle `a₅<b₄<c₄<a₅` (merge obstruction), and a
+seeded probe of 1200 sampled a⁶b⁶c⁶ words is entirely principal —
+`SAMPLED` evidence only (747). `THM-TR2-001` remains `CONJECTURE`; the
+Achievability Conjecture and the two-prime case are `OPEN`. See doc 184.

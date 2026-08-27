@@ -1,6 +1,20 @@
 # Changelog
 
 ## [Unreleased] — Changed
+- Added the TR-2/2 forcing structure toward the Principality Conjecture
+  (doc 184): the formally proved floor — projection of a power is a power
+  (`THM_TR2_002/003`, real induction) — forces `Δ ⊇ F_k(w)` for every
+  candidate, and the proved divisor laws (`THM_TR2_004/005`, 53rd Lean
+  source) reduce minimal deltas to prime exponents; the single-prime case
+  thereby reduces to Achievability (prose-derived, native formalization
+  OPEN). The Forced-Locus Law `B(w) == {F_q(w)}` was then observed and
+  pinned on all 6285 exhaustively scanned words with zero Lemma-A
+  violations — the break locus is a closed formula on scanned territory.
+  Two-prime frontier: incomparable floors exist in principle, a deliberate
+  a⁶b⁶c⁶ counterexample dies on realizability via an explicit position
+  cycle (merge obstruction), and a seeded 1200-word probe is entirely
+  principal (SAMPLED evidence). Certificate suite total 108;
+  `THM-TR2-001` remains `CONJECTURE`; nothing promoted.
 - Added the TR-2/1 break-locus lane (doc 183): the break locus `B(w)` — the
   minimal antichain of doctrines at which a word first loses primitivity —
   computed through projection Δ-sets of same-multiset power candidates,

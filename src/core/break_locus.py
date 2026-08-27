@@ -290,6 +290,220 @@ def nonprincipal_sweep(alphabet: tuple[str, ...], counts: tuple[int, ...], word_
     return result
 
 
+@dataclass(frozen=True)
+class ForcingReport:
+    """Lemma-A/B executable structure for one word."""
+
+    word: str
+    prime_exponents: tuple[int, ...]
+    forced_by_prime: tuple[tuple[int, tuple[Pair, ...]], ...]
+    lemma_a_respected: bool
+    single_prime: bool
+    forced_locus_law: bool | None
+    status: str
+    obstruction: str
+
+
+@dataclass(frozen=True)
+class LawSweepReport:
+    """Forced-locus-law check over one exhaustive shape."""
+
+    shape_id: str
+    words_checked: int
+    lemma_a_violations: tuple[str, ...]
+    law_mismatches: tuple[str, ...]
+    status: str
+    obstruction: str
+
+
+@dataclass(frozen=True)
+class TwoPrimeProbeReport:
+    """Seeded deterministic sample of a two-prime shape."""
+
+    shape_id: str
+    seed: int
+    samples: int
+    literal_powers: int
+    principal: int
+    nonprincipal_words: tuple[str, ...]
+    max_locus_size: int
+    forced_floor_respected: bool
+    status: str
+    obstruction: str
+
+
+def is_k_power(sequence: tuple[str, ...], exponent: int) -> bool:
+    """Return whether a sequence is a literal k-th power."""
+    logger.debug("locus.is_k_power entry k=%d", exponent)
+    length = len(sequence)
+    if exponent < 2 or length == 0 or length % exponent:
+        logger.debug("locus.is_k_power exit False shape")
+        return False
+    root = sequence[: length // exponent]
+    result = root * exponent == sequence
+    logger.debug("locus.is_k_power exit result=%s", result)
+    return result
+
+
+def forced_pairs(word: tuple[str, ...], alphabet: tuple[str, ...], exponent: int) -> tuple[Pair, ...]:
+    """Return F_k(w): pairs whose projection is not a k-th power (Lemma A floor)."""
+    logger.debug("locus.forced_pairs entry k=%d", exponent)
+    letters = tuple(sorted(alphabet))
+    result = tuple(
+        (left, right)
+        for left, right in combinations(letters, 2)
+        if not is_k_power(pair_projection(word, left, right), exponent)
+    )
+    logger.debug("locus.forced_pairs exit count=%d", len(result))
+    return result
+
+
+def prime_valid_exponents(word: tuple[str, ...], alphabet: tuple[str, ...]) -> tuple[int, ...]:
+    """Return the prime exponents dividing every letter multiplicity."""
+    logger.debug("locus.prime_valid_exponents entry")
+    from .primes import is_prime_int
+
+    letters = tuple(sorted(alphabet))
+    counts = tuple(word.count(letter) for letter in letters)
+    result = tuple(k for k in _valid_exponents(counts) if is_prime_int(k))
+    logger.debug("locus.prime_valid_exponents exit result=%r", result)
+    return result
+
+
+def forcing_report(word: tuple[str, ...], alphabet: tuple[str, ...]) -> ForcingReport:
+    """Counterpressure Lemma A on every candidate and test the forced-locus law."""
+    logger.debug("locus.forcing_report entry word=%s", "".join(word))
+    text = "".join(word)
+    letters = tuple(sorted(alphabet))
+    locus = break_locus(word, letters)
+    if locus.status != "witnessed":
+        result = ForcingReport(text, (), (), False, False, None, "blocked", locus.obstruction)
+        logger.error("locus.forcing_report blocked %s", locus.obstruction)
+        return result
+    primes = prime_valid_exponents(word, letters)
+    forced = tuple((q, forced_pairs(word, letters, q)) for q in primes)
+    floors = {q: set(pairs) for q, pairs in forced}
+    lemma_a = all(
+        floors.get(_smallest_prime_factor(row.exponent), set()) <= set(row.delta)
+        for row in locus.candidates
+    )
+    single = len(primes) == 1
+    law: bool | None = None
+    if single and not locus.literal_power and not locus.absolutely_primitive:
+        law = locus.minimal_deltas == (forced[0][1],)
+    result = ForcingReport(
+        text, primes, forced, lemma_a, single, law,
+        "witnessed" if lemma_a else "blocked",
+        "none" if lemma_a else "lemma-a-violated",
+    )
+    if not lemma_a:
+        logger.error("locus.forcing_report LEMMA-A VIOLATION word=%s", text)
+    logger.debug("locus.forcing_report exit single=%s law=%r", single, law)
+    return result
+
+
+def _smallest_prime_factor(value: int) -> int:
+    logger.debug("locus._smallest_prime_factor entry value=%d", value)
+    factor = 2
+    while factor * factor <= value:
+        if value % factor == 0:
+            logger.debug("locus._smallest_prime_factor exit result=%d", factor)
+            return factor
+        factor += 1
+    logger.debug("locus._smallest_prime_factor exit result=%d", value)
+    return value
+
+
+def forced_law_sweep(alphabet: tuple[str, ...], counts: tuple[int, ...], word_cap: int = DEFAULT_SWEEP_CAP) -> LawSweepReport:
+    """Check Lemma A and the forced-locus law over one exhaustive shape."""
+    logger.debug("locus.forced_law_sweep entry counts=%r", counts)
+    letters = tuple(sorted(alphabet))
+    shape_id = "-".join("%s%d" % (letter, count) for letter, count in zip(letters, counts))
+    pool: list[str] = []
+    for letter, count in zip(letters, counts):
+        pool.extend([letter] * count)
+    words = set(permutations(pool))
+    if len(letters) != len(counts) or len(words) > word_cap:
+        result = LawSweepReport(shape_id, 0, (), (), "refused", "sweep-size-refusal")
+        logger.error("locus.forced_law_sweep refused")
+        return result
+    violations: list[str] = []
+    mismatches: list[str] = []
+    checked = 0
+    for word in sorted(words):
+        report = forcing_report(word, letters)
+        if report.status == "blocked" and report.obstruction == "lemma-a-violated":
+            violations.append(report.word)
+            continue
+        if report.status != "witnessed":
+            result = LawSweepReport(shape_id, checked, tuple(violations), tuple(mismatches), "blocked", report.obstruction)
+            logger.error("locus.forced_law_sweep blocked %s", report.obstruction)
+            return result
+        checked += 1
+        if report.forced_locus_law is False:
+            mismatches.append(report.word)
+    status = "witnessed" if not violations and not mismatches else "blocked"
+    result = LawSweepReport(
+        shape_id, checked, tuple(violations), tuple(mismatches), status,
+        "none" if status == "witnessed" else "forcing-structure-failure",
+    )
+    logger.debug("locus.forced_law_sweep exit checked=%d", checked)
+    return result
+
+
+def two_prime_probe(alphabet: tuple[str, ...], counts: tuple[int, ...], samples: int, seed: int = 20260827) -> TwoPrimeProbeReport:
+    """Deterministically sample a two-prime shape for non-principal loci."""
+    logger.debug("locus.two_prime_probe entry counts=%r samples=%d", counts, samples)
+    from random import Random
+
+    letters = tuple(sorted(alphabet))
+    shape_id = "-".join("%s%d" % (letter, count) for letter, count in zip(letters, counts))
+    pool: list[str] = []
+    for letter, count in zip(letters, counts):
+        pool.extend([letter] * count)
+    rng = Random(seed)
+    seen: set[tuple[str, ...]] = set()
+    attempts = 0
+    while len(seen) < samples and attempts < samples * 50:
+        attempts += 1
+        candidate = pool[:]
+        rng.shuffle(candidate)
+        seen.add(tuple(candidate))
+    if len(seen) < samples:
+        result = TwoPrimeProbeReport(shape_id, seed, 0, 0, 0, (), 0, False, "refused", "sampling-exhausted")
+        logger.error("locus.two_prime_probe sampling exhausted")
+        return result
+    literal = principal_count = 0
+    nonprincipal: list[str] = []
+    max_size = 0
+    floor_ok = True
+    for word in sorted(seen):
+        locus = break_locus(word, letters)
+        if locus.status != "witnessed":
+            result = TwoPrimeProbeReport(shape_id, seed, 0, 0, 0, (), 0, False, "blocked", locus.obstruction)
+            logger.error("locus.two_prime_probe blocked %s", locus.obstruction)
+            return result
+        report = forcing_report(word, letters)
+        floor_ok = floor_ok and report.lemma_a_respected
+        size = len(locus.minimal_deltas)
+        max_size = size if size > max_size else max_size
+        if locus.literal_power:
+            literal += 1
+        elif locus.principal:
+            principal_count += 1
+        else:
+            nonprincipal.append(locus.word)
+    result = TwoPrimeProbeReport(
+        shape_id, seed, len(seen), literal, principal_count,
+        tuple(nonprincipal[:8]), max_size, floor_ok, "witnessed", "none",
+    )
+    logger.debug(
+        "locus.two_prime_probe exit samples=%d nonprincipal=%d max=%d",
+        len(seen), len(nonprincipal), max_size,
+    )
+    return result
+
+
 def break_locus_checklist() -> tuple[str, ...]:
     """Return the TR-2/1 lane acceptance checklist."""
     logger.debug("locus.checklist entry")

@@ -299,6 +299,12 @@
       "declarations": []
     },
     {
+      "path": "proofs/lean/VeyraProjectionPower.lean",
+      "sha256": "74ec007971c00f37207328fe87f40df502952904fe8e7186da60a273314f2b9a",
+      "imports": [],
+      "declarations": []
+    },
+    {
       "path": "proofs/lean/VeyraProofElaboration.lean",
       "sha256": "52269d4c9839b7178200e0a8e86acd4df6348302e457745eb86e58439feb265f",
       "imports": [
@@ -923,8 +929,8 @@
     "RESEARCH_S_T011_weave_units": []
   },
   "source_roots": {
-    "base": "ddfe1f722f5b52e1ead2a075be4d14f260a4894b76c74430817a838863a9c219",
+    "base": "33f4286400b2f53617e8a76268b2e006a3ea189ad27d17064734cd92471edc4b",
     "research": "9c38a3d665774ec860fff1ca79d1280500df3554df266d7288c3de6208e14514"
   },
-  "proof_root": "73b5d780503401bc71e455a971004b8bb0fe5741fdc67c522bef65e0b9573e2e"
+  "proof_root": "6112f2e60fdde8cc92fffbb0821ec4a01a503e4a2bb3370810340a983418d360"
 }

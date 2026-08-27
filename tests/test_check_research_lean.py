@@ -67,10 +67,10 @@ def _minimal_manifest(record: checker.SourceRecord) -> checker.ResearchManifest:
 
 
 def test_canonical_manifest_binds_exact_inventory_and_toolchain() -> None:
-    """The checked candidate has one exact 52+8/65 identity."""
+    """The checked candidate has one exact 53+8/65 identity."""
     logger.debug("test_research_lean canonical manifest entry")
     manifest = checker.load_manifest()
-    assert len(manifest.base) == 52
+    assert len(manifest.base) == 53
     assert len(manifest.research) == 8
     assert len(manifest.declarations) == 65
     assert len(manifest.headlines) == 33
@@ -93,7 +93,7 @@ def test_canonical_inventory_and_import_graph_replay_without_lean() -> None:
     graph = checker.local_graph(manifest)
     layers = checker.graph_layers(graph)
     flattened = tuple(path for layer in layers for path in layer)
-    assert len(payloads) == 60
+    assert len(payloads) == 61
     assert set(flattened) == {row.path for row in manifest.records}
     positions = {path: index for index, path in enumerate(flattened)}
     assert all(
