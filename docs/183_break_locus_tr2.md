@@ -28,8 +28,10 @@ For a same-multiset power candidate `v = u^k`, let `Δ(w,v)` be the set of
 letter pairs whose pairwise projections differ between `w` and `v`. Then
 `w` breaks at `D` iff `Δ(w,v) ⊆ indep(D)` for some candidate, so `B(w)` is
 the minimal antichain of the Δ-sets. The ⇐ direction rests on the
-classical projection lemma for trace monoids (Cori–Perrin; Diekert's
-*Book of Traces*) — **credited and counterpressured rather than assumed**:
+classical projection lemma for trace monoids (Duboc 1985, *IPL* 20:1–4;
+Duboc 1986, *TCS* 46, Prop. 1.2; Wrathall 1988, *JSC* 6:99–104 — see
+doc 187; an earlier draft of this file mis-attributed it to Cori–Perrin)
+— **credited and counterpressured rather than assumed**:
 the certificate compares Δ-predictions with BFS trace-class truth on every
 doctrine of six full Boolean lattices, with zero mismatches and zero
 refusals.

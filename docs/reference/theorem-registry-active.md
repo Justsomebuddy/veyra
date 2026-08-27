@@ -344,7 +344,8 @@ flagship `aabbcc` cell breaks exactly on the `bc` edge with exhibit
 the ⊆-minimal antichain of Δ-sets, with the literal-power pole `B = {∅}`
 and the absolutely-primitive pole `B = ∅` (741); the full-lattice
 cross-check that confronts every Δ-prediction with BFS trace-class truth —
-the classical projection lemma (Cori–Perrin) is credited and
+the classical projection lemma (Duboc 1985/1986; Wrathall 1988 — see
+doc 187; earlier text mis-attributed it to Cori–Perrin) is credited and
 counterpressured, not assumed (742); and exhaustive shape sweeps with typed
 `sweep-size-refusal` boundaries (743). **`THM-TR2-001` — Principality
 Conjecture — status `CONJECTURE`:** for every word the break locus contains
@@ -409,5 +410,20 @@ instrument (753): on the exhaustive `a²b²c²` shape at `q = 2` all 8 pair
 power-type vectors are realized, and on `a³b³` at `q = 3` both — no
 hidden type constraint at the smallest shapes. General type-matrix
 realizability remains `OPEN` (narrowed by the star theorem and the
-exhaustive small-shape spectra). External-novelty wording is withheld
-pending the literature due-diligence report. See doc 186.
+exhaustive small-shape spectra). See doc 186.
+
+**Literature positioning (doc 187, binding on the whole TR-2 lane):** the
+fixed-relation characterization behind `THM-TR2-002..007` is **classical
+— Duboc 1986, Prop. 1.7** (with the projection lemma from Duboc
+1985/1986 and Wrathall 1988; an earlier Cori–Perrin attribution here was
+wrong and is corrected), and the up-closedness spine `THM-TR1-001/003` is
+folklore from the canonical morphism `M(Σ,I) → M(Σ,J)`. Those rows keep
+their evidence rungs as formalizations and carry **no novelty claim**.
+The lane's candidate contributions are only the lattice-parametric
+layer — `B(w)`, the prime-floor formula `THM-TR2-008`, tightness
+`THM-TR2-009`, the singleton criterion and the refutation witness — for
+which no precedent was found in searched sources (closest structural
+neighbour: Earnshaw–Sobociński 2023 on the poset `Ind_Σ`, unrelated to
+powers). Mandatory pre-submission checks (zbMATH/MathSciNet; full text of
+Choffrut and Duchamp–Krob in *The Book of Traces*; forward citations of
+Lohrey–Stober–Weiß 2022–2024) are **unperformed**.

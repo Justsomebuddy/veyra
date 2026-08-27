@@ -57,8 +57,12 @@ type matrices) beyond the star case and the smallest shapes.
 
 ## Non-claims
 
-1. No external-novelty claim is made pending the literature report;
-   classical trace-theory foundations remain credited as in docs 183–185.
+1. The literature report has since landed (doc 187): the fixed-relation
+   characterization used throughout is **classical (Duboc 1986,
+   Prop. 1.7)** and the up-closedness spine is folklore; only the
+   lattice-parametric layer — including this tightness theorem — carries
+   a candidate-novelty status, with mandatory pre-submission checks still
+   unperformed.
 2. The spectrum completeness is exhaustive only for the stated shapes;
    nothing is claimed beyond them.
 3. Statuses are `witnessed`/`blocked`/`refused`; `proved` appears only in

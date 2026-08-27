@@ -1,6 +1,20 @@
 # Changelog
 
 ## [Unreleased] — Changed
+- Recorded the literature positioning of the break-locus lane (doc 187)
+  and **corrected an attribution error**: the pairwise-projection lemma is
+  Duboc 1985/1986 and Wrathall 1988, not Cori–Perrin (docs 183 and the
+  active registry are fixed in place with visible notes). The
+  fixed-relation power characterization behind `THM-TR2-002..007` is
+  **classical — Duboc 1986, Prop. 1.7** — and the up-closedness spine
+  `THM-TR1-001/003` is folklore from the canonical trace-monoid morphism;
+  those rows keep their rungs as formalizations and now carry an explicit
+  no-novelty statement. Only the lattice-parametric layer (`B(w)`, the
+  prime-floor formula, tightness, singleton criterion, refutation
+  witness) remains a candidate contribution, with mandatory
+  pre-submission checks (zbMATH/MathSciNet, Book-of-Traces chapters,
+  forward citations of Lohrey–Stober–Weiß 2022–2024) recorded as
+  unperformed.
 - Proved tightness of the break-locus bound (doc 186, `THM-TR2-009`): for
   every set of `r` distinct primes an explicit star construction — hub
   letter `z`, per-letter hub projections `(x_i^{N/q_i} z^{N/q_i})^{q_i}`,

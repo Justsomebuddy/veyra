@@ -76,6 +76,13 @@ floors are computed from an existing word. Executable agreement:
 1. `THM-TR2-008` is prose-derived from Lean-checked cores; a native
    end-to-end formalization (including slice/projection commutation and
    the classical projection lemma) is `OPEN`.
+1a. **Literature (doc 187):** the fixed-relation power characterization
+   used here is classical — **Duboc 1986, Prop. 1.7** — and must be cited
+   as the engine of the formula; the `firstSlice` root is very likely an
+   easy corollary of the same machinery. Only the lattice-parametric
+   assembly (`B(w)`, the prime-floor formula, tightness, the singleton
+   criterion, the refutation witness) is a candidate contribution, with
+   mandatory checks unperformed.
 2. Bound corollary: `|B(w)| ≤` number of distinct primes dividing
    `gcd(m)` — derived, same status.
 3. Nothing is claimed beyond the stated evidence classes; statuses are
