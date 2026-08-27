@@ -95,7 +95,9 @@ infinity, or promotion.
 ## Historical continuity
 
 The exhaustive chronological catalog remains in [the documentation index](../index.md),
-and release history remains in [CHANGELOG.md](../../CHANGELOG.md). Historical
+and release history remains in [CHANGELOG.md](../../CHANGELOG.md), with
+released entries `[4.3.1]` and older archived in
+[the changelog archive](changelog-archive.md). Historical
 documents are retained at their published paths unless a small, separately
 reviewed migration supplies compatibility links and passes the documentation
 integrity gates.
