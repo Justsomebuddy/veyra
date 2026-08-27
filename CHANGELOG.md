@@ -1,6 +1,12 @@
 # Changelog
 
 ## [Unreleased] — Changed
+- Enforced the pre-coupling cut on P3-OG maintenance-control receipts
+  (issue #80): the public machine boundary now requires the exact freshly
+  reconstructed operational initial state before minting a
+  `PreCouplingMaintenanceControlReceipt`; coupled or transitioned states are
+  rejected as `p3og-maintenance-control-not-pre-coupling`. Authoritative
+  pressure/lifecycle replay evidence is unchanged.
 - Rotated the released changelog sections (`[4.3.1]` and older) verbatim
   into `docs/reference/changelog-archive.md`, keeping this root file inside
   the repository line-hygiene budget; `[Unreleased]` and future releases

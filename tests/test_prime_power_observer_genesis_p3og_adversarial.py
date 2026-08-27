@@ -253,6 +253,32 @@ def test_maintenance_control_requires_valid_source_bound_state():
     logger.debug("test_p3og maintenance control provenance exit")
 
 
+def test_maintenance_control_enforces_the_exact_pre_coupling_cut():
+    """The receipt is mintable only at the exact operational initial state."""
+    logger.debug("test_p3og maintenance control pre-coupling cut entry")
+    source = _source()
+    seed = source.seeds[0]
+    state = initial_state(source, seed)
+    controlled, _ = apply_pre_coupling_maintenance_control(source, seed, state)
+    assert controlled.maintenance_control is MaintenanceControlState.DISABLED
+
+    coupled, _ = couple(source, seed, state, 0)
+    with pytest.raises(ValueError, match="p3og-maintenance-control-not-pre-coupling"):
+        apply_pre_coupling_maintenance_control(source, seed, coupled)
+
+    advanced, _ = transition(source, seed, state, TransitionKind.IDLE)
+    with pytest.raises(ValueError, match="p3og-maintenance-control-not-pre-coupling"):
+        apply_pre_coupling_maintenance_control(source, seed, advanced)
+
+    shifted = _state(
+        state.run_id, state.seed_digest, state.boundary,
+        state.maintenance_control, 1, None, state.maintenance_credit, 0,
+    )
+    with pytest.raises(ValueError, match="p3og-maintenance-control-not-pre-coupling"):
+        apply_pre_coupling_maintenance_control(source, seed, shifted)
+    logger.debug("test_p3og maintenance control pre-coupling cut exit")
+
+
 def test_removed_boundary_rejects_further_public_machine_operations():
     """A removed machine cannot mint unbounded no-op transitions or couplings."""
     logger.debug("test_p3og removed boundary terminality entry")

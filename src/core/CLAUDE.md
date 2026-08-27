@@ -1,6 +1,6 @@
 # Core module memory
 
-Version: **0.3.0**. Scope: the stable Python engine and its executable
+Version: **0.3.1**. Scope: the stable Python engine and its executable
 certificate surfaces.
 
 ## Contracts
@@ -15,6 +15,14 @@ certificate surfaces.
   inputs, environment data, and full sensitive digests never belong in logs.
 - Maintained handwritten files target at most 1,000 lines and never exceed the
   2,000-line hard maximum.
+
+## Session Notes (2026-08-27)
+
+- Issue #80: `apply_pre_coupling_maintenance_control` rejects any state that
+  is not the exact freshly reconstructed operational initial state, with the
+  single reason `p3og-maintenance-control-not-pre-coupling`. Exact state
+  identity (not a handwritten field list) protects future semantic fields by
+  default. Runtime/pressure construction paths are unchanged.
 
 ## Session Notes (2026-08-17)
 

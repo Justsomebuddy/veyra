@@ -72,7 +72,12 @@ finite machine experiment:
   before nested traversal or UTF-8 encoding, canonical integers are limited to
   4096 bits, and a removed boundary is terminal at every public low-level
   operation. Internal complete-suffix evidence retains later terminal steps only
-  as distinct budget-consuming removed-state no-ops.
+  as distinct budget-consuming removed-state no-ops;
+- the `PreCouplingMaintenanceControlReceipt` is mintable only at the exact
+  freshly reconstructed operational initial state for the validated source/seed
+  pair: any coupled, transitioned, or otherwise divergent state is rejected as
+  `p3og-maintenance-control-not-pre-coupling`, so the receipt's temporal cut is
+  enforced at the public machine boundary itself.
 
 A separate `prime_power_observer_genesis_p3og_lifecycle` facade adds one
 authority-free raw-cycle first-return pressure lane without changing those

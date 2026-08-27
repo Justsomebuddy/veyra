@@ -1,5 +1,22 @@
 # Core module log
 
+### [0.3.1] P3-OG pre-coupling cut enforcement
+- **Type:** Correctness / Semantic invariant
+- **Files:** `prime_power_observer_genesis_p3og_machine.py`, adversarial
+  machine regressions, document 168, module memory and changelog
+- **What:** Required the exact freshly reconstructed operational initial
+  state at the public `apply_pre_coupling_maintenance_control` boundary
+  before minting a `PreCouplingMaintenanceControlReceipt`, with the single
+  narrow reason `p3og-maintenance-control-not-pre-coupling`.
+- **Why:** A post-coupling state remains `ALIVE`/`ACTIVE`, so the receipt
+  could previously be minted after coupling even though its documented cut
+  is pre-coupling (issue #80). Authoritative pressure evidence was already
+  replay-correct; the defect was typed-boundary-local.
+- **Module version:** 0.3.0 → 0.3.1
+- **Boundary:** DTO shapes, digests, runtime/pressure construction, report
+  bytes, lifecycle and formation-pressure facades are unchanged; no role,
+  history, theorem, certificate or promotion claim is added.
+
 ### [0.3.0] P3-OG formation-pressure identity binding
 - **Type:** Feature / Correctness
 - **Files:** `prime_power_observer_genesis_p3og_formation_pressure*.py`, focused
