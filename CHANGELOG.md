@@ -1,6 +1,23 @@
 # Changelog
 
 ## [Unreleased] — Changed
+- Added the DI-2 orbit-partition candidate lane (doc 181): congruences
+  licensed from partition structure with every load-bearing step native —
+  primality witnessed by structural division residuals (an exact divisor
+  blocks with its row), the orbit dichotomy derived from the cut-free
+  primitive-root period plus that witness rather than by rotation counting,
+  and the congruence itself a reconstruction (`weave(length, full orbits)`
+  breath-equals the nonconstant tally; `%` decides nothing). Composed with
+  DI-1 over alphabet depth — delta-only step classification, independent
+  validator recomputation, anchor-renaming uniformity — the N8 Fermat
+  instances are subsumed as one licensed family statement per
+  witnessed-prime length (length 3 to depth 4, length 5 to depth 3 in the
+  certificate, counts cross-tied to the N8 witnesses). Adversarial controls:
+  composite length blocked by the divisor witness; a tally bomb blocked at
+  exactly its depth. Five shadow laws `THM_DI2_001`–`005` join the Lean
+  inventory as its 51st source; certificate suite total 105. The rule is
+  `INTERNAL_RESEARCH_CANDIDATE`: no completed carrier, no unconditional
+  universal, no promotion.
 - Added the DI-1 doctrinal-induction candidate lane (doc 180): Veyra's first
   native quantifier mechanism. From a base witness, a step schema that
   rewrites the previous derivation (never recomputes), and an adopted

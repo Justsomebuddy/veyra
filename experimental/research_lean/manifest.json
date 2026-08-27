@@ -190,6 +190,14 @@
       "declarations": []
     },
     {
+      "path": "proofs/lean/VeyraOrbitPartition.lean",
+      "sha256": "e03d8ab9901e0b53b18380ba43266a4062c56b38edfb6cc859f14ac83a7a057a",
+      "imports": [
+        "Lean.Elab.Tactic.Omega"
+      ],
+      "declarations": []
+    },
+    {
       "path": "proofs/lean/VeyraPadicAllDepthEquality.lean",
       "sha256": "3d59ef92d345266d62eedba5418b24fa309a9106c8d8ee0544a934ee043ac27a",
       "imports": [
@@ -909,8 +917,8 @@
     "RESEARCH_S_T011_weave_units": []
   },
   "source_roots": {
-    "base": "0ab21eb7098a0ad0c171f46f28dc1814548a937f1be7adac172a5004fc54b9e5",
+    "base": "6ce0a07e3888a49d539acc854f9e52e7eac99840fa0f36c206206b4bac7a43a9",
     "research": "9c38a3d665774ec860fff1ca79d1280500df3554df266d7288c3de6208e14514"
   },
-  "proof_root": "70693fb1233e04eb8cb0630cfec9a8f5d25cd72bcd3c2fb2ed576b368618f983"
+  "proof_root": "6339ec339a4aa913ae6b7118da6b31c17087867bef9d27a5afe4e74a5c382f95"
 }

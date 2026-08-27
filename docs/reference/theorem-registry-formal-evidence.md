@@ -94,6 +94,11 @@ or imported-module dependencies, and its source location. A dependency entry of
 | `THM_DI1_003_replay_succ` | `theorem` | `FORMALLY_PROVED` | same-module definitions only | `proofs/lean/VeyraDoctrinalInduction.lean:25` |
 | `THM_DI1_004_replay_count` | `theorem` | `FORMALLY_PROVED` | `THM_DI1_003_replay_succ` | `proofs/lean/VeyraDoctrinalInduction.lean:31` |
 | `THM_DI1_005_block_extension_shadow` | `theorem` | `FORMALLY_PROVED` | same-module definitions only | `proofs/lean/VeyraDoctrinalInduction.lean:42` |
+| `THM_DI2_001_divisor_dichotomy` | `theorem` | `FORMALLY_PROVED` | imports `Lean.Elab.Tactic.Omega` | `proofs/lean/VeyraOrbitPartition.lean:8` |
+| `THM_DI2_002_partition_congruence` | `theorem` | `FORMALLY_PROVED` | imports `Lean.Elab.Tactic.Omega` | `proofs/lean/VeyraOrbitPartition.lean:15` |
+| `THM_DI2_003_pow_succ_mono` | `theorem` | `FORMALLY_PROVED` | imports `Lean.Elab.Tactic.Omega` | `proofs/lean/VeyraOrbitPartition.lean:21` |
+| `THM_DI2_004_delta_decomposition` | `theorem` | `FORMALLY_PROVED` | imports `Lean.Elab.Tactic.Omega` | `proofs/lean/VeyraOrbitPartition.lean:32` |
+| `THM_DI2_005_fixture_p3_k2` | `theorem` | `FORMALLY_PROVED` | same-module definitions only | `proofs/lean/VeyraOrbitPartition.lean:40` |
 | `THM_P3N4_PREMISE_001_same_integer_coordinates` | `theorem` | `FORMALLY_PROVED + PUBLICLY_VALIDATED` | imports `VeyraPadicLocalRealization` | `proofs/lean/VeyraPadicAllDepthEquality.lean:6` |
 | `THM_POMEGA2_001_prime_lower_bound` | `theorem` | `FORMALLY_PROVED + PUBLICLY_VALIDATED` | imports `Std.Tactic`, `Init.GrindInstances.Ring.Fin` | `proofs/lean/VeyraPadicCompletion.lean:177` |
 | `THM_POMEGA2_002_stage_modulus_divisibility` | `theorem` | `FORMALLY_PROVED + PUBLICLY_VALIDATED` | imports `Std.Tactic`, `Init.GrindInstances.Ring.Fin` | `proofs/lean/VeyraPadicCompletion.lean:179` |
