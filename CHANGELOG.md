@@ -1,89 +1,36 @@
 # Changelog
 
 ## [Unreleased] — Changed
-- Recorded the literature positioning of the break-locus lane (doc 187)
-  and **corrected an attribution error**: the pairwise-projection lemma is
-  Duboc 1985/1986 and Wrathall 1988, not Cori–Perrin (docs 183 and the
-  active registry are fixed in place with visible notes). The
-  fixed-relation power characterization behind `THM-TR2-002..007` is
-  **classical — Duboc 1986, Prop. 1.7** — and the up-closedness spine
-  `THM-TR1-001/003` is folklore from the canonical trace-monoid morphism;
-  those rows keep their rungs as formalizations and now carry an explicit
-  no-novelty statement. Only the lattice-parametric layer (`B(w)`, the
-  prime-floor formula, tightness, singleton criterion, refutation
-  witness) remains a candidate contribution, with mandatory
-  pre-submission checks (zbMATH/MathSciNet, Book-of-Traces chapters,
-  forward citations of Lohrey–Stober–Weiß 2022–2024) recorded as
-  unperformed.
-- Proved tightness of the break-locus bound (doc 186, `THM-TR2-009`): for
-  every set of `r` distinct primes an explicit star construction — hub
-  letter `z`, per-letter hub projections `(x_i^{N/q_i} z^{N/q_i})^{q_i}`,
-  blocks inserted at their own granularity gaps so no merge-obstruction
-  cycle can arise — attains `|B(w)| = r`, machine-verified for
-  `r = 1, 2, 3` with exact floors and formula/enumeration agreement on
-  the 18-letter `r = 2` witness. The pair type-spectrum instrument shows
-  all 8 power-type vectors realized on the exhaustive `a²b²c²` shape;
-  general type-matrix realizability is recorded `OPEN`. Certificate suite
-  total 110. External-novelty wording withheld pending the literature
-  due-diligence report.
-- Resolved the Principality Conjecture via the Break-Locus Formula
-  (docs 185, `THM-TR2-008`): Achievability is proved constructively — the
-  root of a power is its first block (`THM_TR2_006/007`, Lean), so the
-  `firstSlice` power attains the floor `F_k(w)` exactly at every valid
-  exponent — hence `B(w)` is the minimal antichain of the prime floors
-  `{F_q : q | gcd}`: a closed formula for every word, no enumeration, no
-  reachability. Consequences: the **single-prime slice is PROVED**
-  (explaining all 6285 principal scanned words structurally), and the
-  **general conjecture is REFUTED** by the explicit machine-verified
-  witness `w* = aaccabbbaccaaccbbb` with two incomparable minimal
-  breaking doctrines (`F₂ = {ac,bc}`, `F₃ = {ab,bc}`). Executable
-  agreement `locus_formula == break_locus` and floor attainment hold with
-  zero failures across all 6285 scanned words plus the witness; doc 183
-  carries an append-only resolution note; certificate suite total 109.
-  Native end-to-end formalization of the prose assembly remains OPEN.
-- Added the TR-2/2 forcing structure toward the Principality Conjecture
-  (doc 184): the formally proved floor — projection of a power is a power
-  (`THM_TR2_002/003`, real induction) — forces `Δ ⊇ F_k(w)` for every
-  candidate, and the proved divisor laws (`THM_TR2_004/005`, 53rd Lean
-  source) reduce minimal deltas to prime exponents; the single-prime case
-  thereby reduces to Achievability (prose-derived, native formalization
-  OPEN). The Forced-Locus Law `B(w) == {F_q(w)}` was then observed and
-  pinned on all 6285 exhaustively scanned words with zero Lemma-A
-  violations — the break locus is a closed formula on scanned territory.
-  Two-prime frontier: incomparable floors exist in principle, a deliberate
-  a⁶b⁶c⁶ counterexample dies on realizability via an explicit position
-  cycle (merge obstruction), and a seeded 1200-word probe is entirely
-  principal (SAMPLED evidence). Certificate suite total 108;
-  `THM-TR2-001` remains `CONJECTURE`; nothing promoted.
-- Added the TR-2/1 break-locus lane (doc 183): the break locus `B(w)` — the
-  minimal antichain of doctrines at which a word first loses primitivity —
-  computed through projection Δ-sets of same-multiset power candidates,
-  with the classical projection lemma credited and counterpressured rather
-  than assumed (Δ-predictions matched BFS truth on every doctrine of six
-  full Boolean lattices, zero mismatches, zero refusals). Poles classified:
-  literal powers (`B = {∅}`) and absolutely-primitive words (`B = ∅`).
-  Registered **`THM-TR2-001`, the Principality Conjecture
-  (`CONJECTURE`)**: every break locus contains at most one doctrine —
-  discovered, not presumed: the lane was built to hunt a non-principal
-  locus, and seven exhaustive shape sweeps (6285 words, pinned
-  post-observation) returned zero, with `max_locus_size = 1` throughout.
-  Certificate suite total 107; oversized sweeps refuse rather than
-  truncate; up-closedness rests on the TR-1 Lean spine; no theorem claimed
-  for unscanned shapes.
+- Recorded the break-locus literature verdict (doc 187): the fixed-relation
+  power characterization is classical (Duboc 1986, Prop. 1.7; projection-lemma
+  attribution corrected from Cori–Perrin in docs 183/registry); only the
+  lattice-parametric layer keeps candidate-novelty standing, checks pending.
+- Proved tightness of the break-locus bound (doc 186, `THM-TR2-009`): an
+  explicit star construction attains `|B(w)| = r` for every `r` distinct
+  primes (machine-verified `r = 1..3`); all 8 pair power-type vectors are
+  realized on the exhaustive `a²b²c²` shape; general type-matrix
+  realizability stays `OPEN`. Certificate suite total 110.
+- Resolved the Principality Conjecture via the Break-Locus Formula (doc 185,
+  `THM-TR2-008`): Achievability proved constructively (the root of a power is
+  its first block, `THM_TR2_006/007`), so `B(w)` is the minimal antichain of
+  the prime floors — agreement 6285/6285; the single-prime slice is PROVED
+  and the general conjecture REFUTED by witness `aaccabbbaccaaccbbb`. Suite
+  total 109; native end-to-end formalization of the prose assembly stays OPEN.
+- Added the TR-2/2 forcing structure (doc 184): projection of a power is a
+  power plus the divisor laws (`THM_TR2_002–005`, 53rd Lean source) force the
+  prime floors; the Forced-Locus Law was observed and pinned on all 6285
+  scanned words; `THM-TR2-001` stayed `CONJECTURE` at this stage. Suite 108.
+- Added the TR-2/1 break-locus lane (doc 183): `B(w)` via projection Δ-sets
+  with the projection lemma credited and BFS-counterpressured on six full
+  lattices; poles classified; `THM-TR2-001` (Principality, `CONJECTURE`)
+  registered after seven exhaustive sweeps — 6285 words, zero non-principal,
+  pinned post-observation. Suite total 107.
 - Added the TR-1 observer-lattice instrumentation (doc 182): commutation
-  doctrines as lattice nodes with witnessed refinement edges; node identity
-  as the whole trace-class echo (typed `class-size-refusal` instead of
-  silent truncation; independent closure validator; Cartier–Foata layers as
-  display receipts); node primitivity decided through class members via the
-  cut-free primitive root; edge transfer rows whose breaks carry a concrete
-  Ω exhibit verified to live outside the fine class; and fragility spectra
-  with exact first-break edges — `aabbcc` stays primitive through
-  `∅ ⊂ {ab} ⊂ {ab,ac}` and breaks exactly on the `bc` edge with
-  `abcabc = (abc)²`. The abstract transfer spine (closure monotonicity,
-  witness transport, primitivity stability, replay fixture) is
-  `FORMALLY_PROVED` in `VeyraObserverLattice.lean` as the 52nd source;
-  certificate suite total 106. Classical trace theory credited; the lane is
-  `INTERNAL_RESEARCH_CANDIDATE` and TR-2 transfer laws remain `OPEN`.
+  doctrines as a refinement lattice; node identity as the whole trace-class
+  echo with typed refusals and an independent closure validator; edge breaks
+  carry verified Ω exhibits; fragility spectra (`aabbcc` breaks exactly on
+  the `bc` edge, `abcabc = (abc)²`); the abstract transfer spine is
+  `FORMALLY_PROVED` in the 52nd Lean source. Suite total 106.
 - Added the DI-2 orbit-partition candidate lane (doc 181): congruences
   licensed from partition structure with every load-bearing step native —
   primality witnessed by structural division residuals (an exact divisor
