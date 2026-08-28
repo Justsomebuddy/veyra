@@ -53,7 +53,7 @@ def expected_source_only_payload() -> frozenset[str]:
     research = tuple(sorted(research_root.glob("*.lean"))) + tuple(
         research_root / name for name in ("manifest.json", "README.md", "CLAUDE.md", "MODULE_LOG.md")
     )
-    if len(tuple(research_root.glob("*.lean"))) != 8:
+    if len(tuple(research_root.glob("*.lean"))) != 9:
         raise RuntimeError("research-lean-source-inventory-mismatch")
     differential = ROOT / "tests/fixtures/observer_synthesis_python_rust_v1.json"
     files = (ROOT / "lean-toolchain", *lean, *research, *native, differential)

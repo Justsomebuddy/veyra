@@ -529,9 +529,40 @@
         "RESEARCH_S_T010_stitch_units",
         "RESEARCH_S_T011_weave_units"
       ]
+    },
+    {
+      "path": "experimental/research_lean/VeyraResearchOneTactBridge.lean",
+      "sha256": "048358c40dff861b46a98be8804764c366a7b1e630ef9e5f7c5f6ab360bf998e",
+      "imports": [
+        "VeyraResearchShadow",
+        "VeyraRecurrenceModeBridge"
+      ],
+      "declarations": [
+        "RESEARCH_OT_L001_one_tact_word_recurrence_roundtrip",
+        "RESEARCH_OT_L002_recurrence_one_tact_word_roundtrip",
+        "RESEARCH_OT_T001_one_tact_word_recurrence_bijection",
+        "RESEARCH_OT_L003_one_tact_stitch_transport",
+        "RESEARCH_OT_L004_one_tact_length_weave_transport",
+        "RESEARCH_OT_L005_rank_wordOfNat",
+        "RESEARCH_OT_L006_wordOfNat_rank",
+        "RESEARCH_OT_T002_one_tact_word_nat_bijection",
+        "RESEARCH_OT_T003_one_tact_rank_stitch_add",
+        "RESEARCH_OT_T004_one_tact_rank_length_weave_mul",
+        "RESEARCH_OT_L007_wordOfNat_realizes_shadow",
+        "RESEARCH_OT_L008_intrinsic_decode_roundtrip",
+        "RESEARCH_OT_L009_intrinsic_encode_roundtrip",
+        "RESEARCH_OT_L010_one_tact_intrinsic_word_roundtrip",
+        "RESEARCH_OT_L011_one_tact_intrinsic_mode_roundtrip",
+        "RESEARCH_OT_T005_one_tact_word_intrinsic_bijection",
+        "RESEARCH_OT_L012_one_tact_nat_realization_agrees",
+        "RESEARCH_OT_T006_native_stitch_realizes_one_tact_stitch",
+        "RESEARCH_OT_T007_native_weave_realizes_one_tact_length_weave",
+        "RESEARCH_OT_L013_one_tact_zero_native",
+        "RESEARCH_OT_L014_one_tact_one_native"
+      ]
     }
   ],
-  "declaration_count": 65,
+  "declaration_count": 86,
   "headline_declarations": [
     "RESEARCH_BS_T001_binomial_sum",
     "RESEARCH_BS_T002_freshman_dream",
@@ -565,7 +596,14 @@
     "RESEARCH_S_T008_weave_distributes",
     "RESEARCH_S_T009_zero_is_silence",
     "RESEARCH_S_T010_stitch_units",
-    "RESEARCH_S_T011_weave_units"
+    "RESEARCH_S_T011_weave_units",
+    "RESEARCH_OT_T001_one_tact_word_recurrence_bijection",
+    "RESEARCH_OT_T002_one_tact_word_nat_bijection",
+    "RESEARCH_OT_T003_one_tact_rank_stitch_add",
+    "RESEARCH_OT_T004_one_tact_rank_length_weave_mul",
+    "RESEARCH_OT_T005_one_tact_word_intrinsic_bijection",
+    "RESEARCH_OT_T006_native_stitch_realizes_one_tact_stitch",
+    "RESEARCH_OT_T007_native_weave_realizes_one_tact_length_weave"
   ],
   "headline_claims": {
     "RESEARCH_BS_T001_binomial_sum": {
@@ -732,6 +770,41 @@
       "statement": "(a : Nat) : weave (shadow 1) (shadow a) = shadow a ∧ weave (shadow a) (shadow 1) = shadow a",
       "scope": "unary Recurrence pulse/silence image law",
       "registry_relation": "No AX-007/LEM-001 Mode bridge; THM-001..003 and W-001 remain open."
+    },
+    "RESEARCH_OT_T001_one_tact_word_recurrence_bijection": {
+      "statement": ": oneTactBijection oneTactWordToRecurrence",
+      "scope": "singleton-tact finite-word realization and unary Recurrence only; no arbitrary Mode equivalence",
+      "registry_relation": "research bridge evidence only; no AX-007 exhaustion theorem and no THM-001..003/W-001 promotion"
+    },
+    "RESEARCH_OT_T002_one_tact_word_nat_bijection": {
+      "statement": ": oneTactBijection oneTactRank",
+      "scope": "singleton-tact finite words and Nat via rank/canonical word only",
+      "registry_relation": "formalizes the one-symbol path-word arithmetic realization; no stable theorem promotion"
+    },
+    "RESEARCH_OT_T003_one_tact_rank_stitch_add": {
+      "statement": "(left right : OneTactWord) : oneTactRank (oneTactStitch left right) = oneTactRank left + oneTactRank right",
+      "scope": "rank of singleton-word concatenation only",
+      "registry_relation": "THM-002-style research evidence inside the explicit singleton-word realization; THM-002 remains unpromoted"
+    },
+    "RESEARCH_OT_T004_one_tact_rank_length_weave_mul": {
+      "statement": "(left right : OneTactWord) : oneTactRank (oneTactLengthWeave left right) = oneTactRank left * oneTactRank right",
+      "scope": "rank of singleton-word length-weave only",
+      "registry_relation": "THM-003-style research evidence inside the explicit singleton-word realization; THM-003 remains unpromoted"
+    },
+    "RESEARCH_OT_T005_one_tact_word_intrinsic_bijection": {
+      "statement": ": oneTactBijection oneTactIntrinsicMode",
+      "scope": "singleton-tact finite-word realization to the exact R9 IntrinsicMode image only",
+      "registry_relation": "historical-shadow-to-modern-image research bridge; no arbitrary strict Mode equivalence or W-001 promotion"
+    },
+    "RESEARCH_OT_T006_native_stitch_realizes_one_tact_stitch": {
+      "statement": "(left right : OneTactWord) : VeyraIntrinsicRuntime.stitch (oneTactIntrinsicMode left).1 (oneTactIntrinsicMode right).1 = .ready (oneTactIntrinsicMode (oneTactStitch left right)).1",
+      "scope": "strict-native stitch restricted to the exact R9 image of singleton words",
+      "registry_relation": "native realization evidence only; stable THM-002 remains unchanged"
+    },
+    "RESEARCH_OT_T007_native_weave_realizes_one_tact_length_weave": {
+      "statement": "(left right : OneTactWord) : VeyraIntrinsicRuntime.weave (oneTactIntrinsicMode left).1 (oneTactIntrinsicMode right).1 = .ready (oneTactIntrinsicMode (oneTactLengthWeave left right)).1",
+      "scope": "strict-native weave restricted to the exact R9 image of singleton words",
+      "registry_relation": "native realization evidence only; stable THM-003 remains unchanged"
     }
   },
   "axiom_closure": {
@@ -926,11 +999,52 @@
     "RESEARCH_S_T008_weave_distributes": [],
     "RESEARCH_S_T009_zero_is_silence": [],
     "RESEARCH_S_T010_stitch_units": [],
-    "RESEARCH_S_T011_weave_units": []
+    "RESEARCH_S_T011_weave_units": [],
+    "RESEARCH_OT_L001_one_tact_word_recurrence_roundtrip": [],
+    "RESEARCH_OT_L002_recurrence_one_tact_word_roundtrip": [],
+    "RESEARCH_OT_T001_one_tact_word_recurrence_bijection": [],
+    "RESEARCH_OT_L003_one_tact_stitch_transport": [],
+    "RESEARCH_OT_L004_one_tact_length_weave_transport": [],
+    "RESEARCH_OT_L005_rank_wordOfNat": [],
+    "RESEARCH_OT_L006_wordOfNat_rank": [],
+    "RESEARCH_OT_T002_one_tact_word_nat_bijection": [],
+    "RESEARCH_OT_T003_one_tact_rank_stitch_add": [
+      "propext"
+    ],
+    "RESEARCH_OT_T004_one_tact_rank_length_weave_mul": [
+      "propext"
+    ],
+    "RESEARCH_OT_L007_wordOfNat_realizes_shadow": [],
+    "RESEARCH_OT_L008_intrinsic_decode_roundtrip": [
+      "propext"
+    ],
+    "RESEARCH_OT_L009_intrinsic_encode_roundtrip": [
+      "propext"
+    ],
+    "RESEARCH_OT_L010_one_tact_intrinsic_word_roundtrip": [
+      "propext"
+    ],
+    "RESEARCH_OT_L011_one_tact_intrinsic_mode_roundtrip": [
+      "propext"
+    ],
+    "RESEARCH_OT_T005_one_tact_word_intrinsic_bijection": [
+      "propext"
+    ],
+    "RESEARCH_OT_L012_one_tact_nat_realization_agrees": [],
+    "RESEARCH_OT_T006_native_stitch_realizes_one_tact_stitch": [
+      "propext"
+    ],
+    "RESEARCH_OT_T007_native_weave_realizes_one_tact_length_weave": [
+      "propext"
+    ],
+    "RESEARCH_OT_L013_one_tact_zero_native": [],
+    "RESEARCH_OT_L014_one_tact_one_native": [
+      "propext"
+    ]
   },
   "source_roots": {
     "base": "4c0722a4fda5cd164cc5bb71acbc87d18b5e85014fb28d46dc017cc0b841628b",
-    "research": "9c38a3d665774ec860fff1ca79d1280500df3554df266d7288c3de6208e14514"
+    "research": "caf7d1c2e0e7e8333132300a0ebe5099e35b4fb70d47033fcc8bf033f4c9f597"
   },
-  "proof_root": "fd00e03b1a1c10f9e983840e83da87f0b5a7b0e41b05337087d45e05053f905c"
+  "proof_root": "dc991bf17da44eb4691ebd236cd9f40a4024caec589735aa16be378baccce509"
 }

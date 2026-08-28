@@ -72,8 +72,11 @@ complete registry; no local history is required.
 
 ## Experimental research Lean appendix
 
-The eight files under `experimental/research_lean/` contain 65 manifest-bound
-declarations with status `INTERNAL_RESEARCH_CANDIDATE`. They are not stable
-registry IDs, do not change any X8 card, and do not promote THM-001–003 from
-`CONJECTURE`. Their exact observed axiom closure is in the candidate manifest;
-compilation is not public validation or a native Veyra proof.
+The nine files under `experimental/research_lean/` contain 86 manifest-bound
+declarations (40 headlines) with status `INTERNAL_RESEARCH_CANDIDATE`. They are
+not stable registry IDs, do not change any X8 card, and do not promote
+THM-001–003 from `CONJECTURE` or close W-001. The one-tact bridge is restricted
+to the explicit singleton-generated path-word realization and exact R9 image;
+it is not an AX-007 exhaustion theorem or a general Mode equivalence. Exact
+observed axiom closures are in the candidate manifest; compilation is not
+public validation or a native Veyra proof.

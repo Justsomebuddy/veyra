@@ -3,7 +3,7 @@
 This directory contains 53 Lean source modules. The table is exhaustive over the repository `.lean` sources. Four additional PΩ1 bridge declarations (`THM_POMEGA1_012`–`015`) are intentionally **not** repository files: they are generated deterministically at check time and digest-pinned (see “Generated bridge declarations” below). Status refers to the public claim supported by the source, not merely to the presence of compilable declarations. Exact released declaration locations and dependencies are listed in `../../THEOREMS.md`.
 
 The separate [`experimental/research_lean/`](../../experimental/research_lean/)
-candidate is not part of the stable module inventory. Its eight files and 65 declarations are
+candidate is not part of the stable module inventory. Its nine files and 86 declarations are
 manifest-bound and freshly checked by `make research-lean`, but retain
 `INTERNAL_RESEARCH_CANDIDATE` status and do not alter this inventory.
 

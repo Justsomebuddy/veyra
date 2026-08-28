@@ -208,10 +208,13 @@ or imported-module dependencies, and its source location. A dependency entry of
 
 ## Experimental research appendix
 
-The 65 declarations in `experimental/research_lean/manifest.json` are a
-separate `INTERNAL_RESEARCH_CANDIDATE` appendix, not stable theorem rows. Their
-exact digests, import graph, toolchain commit, and axiom closures are checked by
-`make research-lean`; THM-001–003 and all X8 statuses below are unchanged.
+The 86 declarations (40 headlines) in `experimental/research_lean/manifest.json`
+are a separate `INTERNAL_RESEARCH_CANDIDATE` appendix, not stable theorem rows.
+Their exact digests, import graph, toolchain commit, and axiom closures are
+checked by `make research-lean`; THM-001–003 and all X8 statuses below are
+unchanged, and W-001 is not promoted. The one-tact bridge is restricted to the
+explicit singleton-generated path-word realization and exact R9 image; it is not
+an AX-007 exhaustion theorem or a general Mode equivalence.
 
 ## Stable nonformal and bounded theorem-card status
 

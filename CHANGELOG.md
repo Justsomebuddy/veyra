@@ -1,6 +1,13 @@
 # Changelog
 
 ## [Unreleased] — Changed
+- Extended the isolated research Lean candidate with a ninth source formalizing
+  the explicit singleton-tact path-word realization and constructive bridges to
+  `Nat`, unary `Recurrence`, and the exact R9 image. The governed surface is
+  now 53 stable + 9 research sources / 86 declarations / 40 headlines / 86
+  axiom rows; the 21 added declarations have 11 empty closures and 10
+  `propext`-only closures. This does not prove AX-007 exhaustiveness, general
+  LEM-001/Mode equivalence, or promote THM-001–003/W-001.
 - Enforced the pre-coupling cut on P3-OG maintenance-control receipts
   (issue #80): the public machine boundary now requires the exact freshly
   reconstructed operational initial state before minting a

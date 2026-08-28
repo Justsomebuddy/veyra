@@ -30,9 +30,9 @@ TMP_ROOT = ROOT / "data" / "tmp"
 EXPECTED_SCHEMA = "veyra.research-lean-manifest.v1"
 EXPECTED_STATUS = "INTERNAL_RESEARCH_CANDIDATE"
 EXPECTED_BASE_COUNT = 53
-EXPECTED_RESEARCH_COUNT = 8
-EXPECTED_DECLARATION_COUNT = 65
-EXPECTED_HEADLINE_COUNT = 33
+EXPECTED_RESEARCH_COUNT = 9
+EXPECTED_DECLARATION_COUNT = 86
+EXPECTED_HEADLINE_COUNT = 40
 MAX_JOBS = 16
 MAX_SOURCE_BYTES = 1_000_000
 MAX_MANIFEST_BYTES = 512_000
@@ -874,7 +874,7 @@ def run(argv: list[str]) -> int:
     started = time.perf_counter()
     print("[1/6] Loading exact research manifest", flush=True)
     manifest = load_manifest()
-    print("[2/6] Verifying 53 base + 8 research source rows", flush=True)
+    print("[2/6] Verifying 53 base + 9 research source rows", flush=True)
     payloads = verify_inventory(manifest)
     layers = graph_layers(local_graph(manifest))
     print(
@@ -899,7 +899,7 @@ def run(argv: list[str]) -> int:
             )
         )
         print(
-            f"[4/6] Fresh-compiling 56 sources in {len(layers)} layers with {args.jobs} workers",
+            f"[4/6] Fresh-compiling 62 sources in {len(layers)} layers with {args.jobs} workers",
             flush=True,
         )
         with tqdm(total=len(manifest.records), desc="Research Lean", unit="source") as progress:
@@ -920,7 +920,7 @@ def run(argv: list[str]) -> int:
             )
             logger.debug("research_lean.run exit rc=1 compile failure")
             return 1
-        print("[5/6] Checking all 65 declarations and exact axiom closure", flush=True)
+        print("[5/6] Checking all 86 declarations and exact axiom closure", flush=True)
         observed_closure = compile_audit(
             command,
             manifest,
@@ -950,8 +950,8 @@ def run(argv: list[str]) -> int:
         flush=True,
     )
     print(
-        f"[done] passed={passed} failed=0 skipped=0 declarations=65 "
-        f"axiom_rows=65 elapsed={elapsed:.2f}s "
+        f"[done] passed={passed} failed=0 skipped=0 declarations=86 "
+        f"axiom_rows=86 elapsed={elapsed:.2f}s "
         f"speed={passed / elapsed if elapsed else 0:.2f} source/s",
         flush=True,
     )
