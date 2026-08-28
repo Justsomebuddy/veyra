@@ -1,5 +1,19 @@
 # Module Log — P2 Claim Admission v2
 
+### [2.1.1] Canonical codec resource closure
+- **Type:** Correctness / Resource safety
+- **Files:** `codec.py`, adversarial codec boundaries, document 171, module
+  memory and changelog
+- **What:** Applied the decoder's combined raw-authority plus decoded node/text
+  charge to the exact encoder data tree before canonical JSON emission.
+- **Why:** One valid near-limit typed presentation serialized successfully but
+  its own decoder immediately rejected the resulting payload at the stricter
+  decoded-text gate.
+- **Module version:** 2.1.0 → 2.1.1
+- **Boundary:** The decoder is not relaxed. Below-limit canonical bytes,
+  judgments, digests, v1 surfaces, registry pins, statuses and nonclaims remain
+  unchanged; over-limit encoding fails before returning a payload.
+
 ### [2.1.0] Authoritative licensed-composition presentation producer
 - **Type:** ✨ Feature / 🔒 Security
 - **Files:** `types.py`, `replay.py`, `schema_audit.py`, `public.py`,
