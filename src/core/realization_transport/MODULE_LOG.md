@@ -2,7 +2,7 @@
 
 ### [1.0.1-doc2] Document 170 — Link the implemented sibling without widening v1
 - **Type:** 📚 Documentation
-- **Files:** `docs/167_realization_context_transport.md`, `CLAUDE.md`
+- **Files:** `docs/167_realization_context_transport.md`, `MEMORY.md`
 - **What:** Replaced future-sibling wording with links to the separately
   implemented P1-A v2 package while retaining every v1 contract and nonclaim.
 - **Why:** RFC 169 is now implemented additively; v1 must remain explicitly
@@ -12,7 +12,7 @@
 ### [1.0.1-doc] RFC 169 — Freeze future all-status P1-A sibling boundary
 - **Type:** 📚 Documentation / 🔒 Security
 - **Files:** `docs/169_p1a_all_status_transport_rfc.md`,
-  `docs/167_realization_context_transport.md`, `CLAUDE.md`
+  `docs/167_realization_context_transport.md`, `MEMORY.md`
 - **What:** Specified a future separate versioned P1-A transport design over
   complete `Ready|Blocked` payloads, four-vertex commuting replay, exact
   obstruction-path projection, finite `STRONG` admission, separate horizontal
@@ -24,7 +24,7 @@
 
 ### [1.0.1] runtime.py:52 — Make partition join total on the empty carrier
 - **Type:** 🐛 Fix
-- **Files:** `runtime.py`, `tests/test_realization_transport.py`, `CLAUDE.md`
+- **Files:** `runtime.py`, `tests/test_realization_transport.py`, `MEMORY.md`
 - **What:** Preserved normalized common-refinement behavior while reporting
   zero classes for the empty carrier; retained exact unequal-carrier rejection
   and added focused normal, empty, and mismatch regressions.

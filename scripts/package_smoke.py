@@ -51,7 +51,7 @@ def expected_source_only_payload() -> frozenset[str]:
     )
     research_root = ROOT / "experimental" / "research_lean"
     research = tuple(sorted(research_root.glob("*.lean"))) + tuple(
-        research_root / name for name in ("manifest.json", "README.md", "CLAUDE.md", "MODULE_LOG.md")
+        research_root / name for name in ("manifest.json", "README.md", "MEMORY.md", "MODULE_LOG.md")
     )
     if len(tuple(research_root.glob("*.lean"))) != 9:
         raise RuntimeError("research-lean-source-inventory-mismatch")

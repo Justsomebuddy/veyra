@@ -2,7 +2,7 @@
 
 ### [0.1.0] test_vam_native_vamd_boundaries.py — Cargo-aware session CLI fixture
 - **Type:** 🐛 Fix / ⚡ Performance
-- **Files:** `tests/test_vam_native_vamd_boundaries.py`, `vam/native/CLAUDE.md`
+- **Files:** `tests/test_vam_native_vamd_boundaries.py`, `vam/native/MEMORY.md`
 - **What:** Build `vam0-inspect` once per pytest session with pinned Cargo
   1.95.0 and `--locked`, resolve the effective target through `cargo metadata`,
   select Cargo's exact executable artifact, and run malformed-frame cases

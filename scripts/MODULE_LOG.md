@@ -4,7 +4,7 @@
 - **Type:** Bug fix / portability
 - **Files:** `scripts/package_smoke.py`, `scripts/verify_portable.py`,
   `tests/test_package_smoke_archive.py`, `tests/test_package_metadata.py`,
-  `docs/174_python_quality_baseline.md`, `scripts/CLAUDE.md`,
+  `docs/174_python_quality_baseline.md`, `scripts/MEMORY.md`,
   `scripts/MODULE_LOG.md`, `CHANGELOG.md`
 - **What:** Allowed a canonical directory entry to follow files that already
   established it as an implicit archive ancestor, and admitted the adversarial
@@ -62,7 +62,7 @@
 ### [0.1.0] Bounded Ruff formatting baseline
 - **Type:** Style / maintainability
 - **Files:** 21 explicitly scoped verifier, generator, and explorer Python
-  scripts; `scripts/CLAUDE.md`; `scripts/MODULE_LOG.md`; root changelog
+  scripts; `scripts/MEMORY.md`; `scripts/MODULE_LOG.md`; root changelog
 - **What:** Applied the configured Ruff formatter without changing the parsed
   AST of any script. The wave covers nine verifier/build/generator tools and 12
   explorer CLIs; the other seven already-formatted scripts remain untouched.
