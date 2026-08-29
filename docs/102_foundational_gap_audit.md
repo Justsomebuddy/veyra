@@ -1,7 +1,7 @@
 # Foundational Gap Audit — no self-deception gate
 
 **Date:** 2026-07-15 (original authorship, pre-publication)
-**Amended:** 2026-08-14 (`394ed4b`, `b98d2a1`); 2026-08-27 (append-only amendment log added — see below)
+**Amended:** 2026-08-14 (`394ed4b`, `b98d2a1`); 2026-08-27; 2026-08-30 (R13/current taxonomy reconciliation — see below)
 **Status:** critical audit; blocks grand claims until repaired.  
 **Source:** direct project critique after Sprint X5.  
 **Scope:** axioms, theorem language, formal proof, native runtime, number theory, and classical comparison.
@@ -17,10 +17,10 @@ The active repository has many executable layers, but most are isolated islands.
 | Gap | Current status | Required repair |
 |---|---|---|
 | Positive ontology | P0 plus scoped P1-A/A2/B/C1–C4/D1–D3/E1/E4, P3-T/C1/C2.2/N1/A1b/N2/N3/N4 and exact-ledger PΩ1/PΩ2 are released; N0/N5 and higher C2.3 remain unreleased/open | require independent bridges per lane; never promote finite/scoped evidence to universal order, absolute objecthood, generic confluence/completion, physical genesis, or foundation-independent infinity |
-| Unified axiom base | R7 adds 1 theorem nucleus; R8 contracts promotion; R9 supplies its fixed image; R10 elaborates one closed proof surface; R11 adds observer/echo proofs without promotion; 4 rows remain witness-only and 25 layers remain shadows | prove more carrier/layer bridges and a second substantive nucleus; used-support is not global axiom minimality |
+| Unified axiom base | R7 adds the first theorem nucleus; R8 contracts promotion; R9 supplies its fixed image; R10 elaborates one closed proof surface; R11 adds observer/echo proofs without promotion; R12 supplies bounded formal preservation; R13 adds the second exact theorem-derived nucleus (`intrinsic-observer-echo`); 4 rows remain witness-only and 25 layers remain shadows | continue proving independent carrier/layer bridges and additional substantive nuclei; two nuclei still do not establish global axiom minimality or a unified deductive foundation |
 | Deductive links | deduction ledger executes five proof rows; `DC-003`, `DC-005`, and `DC-004` remain derived only in bounded/boundary senses | keep deriving domain rows while preserving explicit non-claim boundaries |
 | Theorem language | legacy `theorem_language.py` is fixed `finite-obligation`; R10 separately source-replays `veyra.proof-surface.v1` into the R7 recurrence calculus with de Bruijn binders and exact claim checking | extend the proof surface and connect general Core/VAM deliberately; do not relabel bounded status evaluation as proof semantics |
-| Formal proof | R7 checker soundness + R8 contracts + R9 image transport + R10 elaboration + R11 `THM-R11-001..006` over exact typed observers; Python codecs/bridges remain TCB | add more nuclei without confusing echo with equality, source parity with proof, or one image with whole-system soundness |
+| Formal proof | R7 checker soundness + R8 contracts + R9 image transport + R10 elaboration + R11 `THM-R11-001..006` + R12 preservation + the bounded R13 `THM-R13-003` promotion contract; Python codecs/bridges remain TCB | add further independent nuclei without confusing echo with equality, bounded preservation with equivalence, source parity with proof, or two promoted images with whole-system soundness |
 | Native runtime | Core/Python/Rust VAM share a constructor subset; R9 proves only `Recurrence ≃ IntrinsicModeImage`; R11 observes closed recurrences through input/tail/crest/pair only | general Core/VAM, callable synthesis, and arbitrary strict/word modes remain outside the theorem |
 | Number theory | finite rows plus Euclid-style product-plus-one and N2 prime-period Fermat phase rows derive from native Mode/Breath length observers; a separate research candidate checks classical local `Nat` prime/Fermat results, while the stable Lean bridge covers `THM-F002` only | convert bounded rows into native resonance-prime theory, factor laws, unbounded native Fermat proof, reciprocity analogues, or explicit impossibility notes |
 | Classical comparison | F5/R6 ledger has 8 paired cards: 1 equivalent, 4 weaker, 2 clearer, 1 stronger only in the declared proper-marginal observer class | keep expanding paired cards; no global superiority, performance, or quantum-advantage benchmark exists |
@@ -31,7 +31,7 @@ The project must not claim:
 
 1. that Veyra is a complete mathematics;
 2. that general Core/VAM semantics are covered by the R10/R11 closed recurrence and observer slices;
-3. that Python certificates are formal proofs unless they pass their exact R7–R11 artifact, contract, carrier, elaboration, observer, and Lean bindings;
+3. that Python certificates are formal proofs unless they pass their applicable exact R7–R13 artifact, contract, carrier, elaboration, observer, transport, promotion, and Lean bindings;
 4. that topology/geometry/algebra are derived from arithmetic or from one axiom base;
 5. that native Veyra ontology is complete beyond the bounded F4 runtime.
 6. that the provisional P0 doctrine proves physical/metaphysical reality,
@@ -99,7 +99,7 @@ Implemented first paired ledger in `105_classical_benchmark_ledger_f5.md`:
 
 ## Acceptance rule
 
-Before another broad claim, R1–R11, the five deduction rows, and all eight benchmarks must remain green. Docs 123–127 cover R7–R11; R11 adds observer/echo theorems but no registry promotion, so the report remains `1 theorem-derived / 4 witness-only / 25 shadow / 5 meta` and `proof_complete=False`. R12/R13 must precede any second-nucleus proposal.
+Before another broad claim, the full R1–R13 verification chain, the five deduction rows, and all eight benchmarks must remain green. R13 now supplies the second exact theorem-derived nucleus, so the current executable report is `2 theorem-derived / 4 witness-only / 25 shadow / 5 meta` and `proof_complete=False`. This closes the earlier second-nucleus prerequisite only; any further theorem-derived promotion still requires its own reviewed carrier, theorem contract, formal bridge, and non-claim boundary.
 
 ## Amendment log (append-only)
 
@@ -128,3 +128,12 @@ that provenance.
   non-claim rows 7–8 (scoped negative existence; adoption-conditioned
   objecthood). From this amendment on, every edit to this file must append a
   row here in the same change; a silent edit violates the gate itself.
+
+- **A4 — 2026-08-30.** Reconciled this audit with the already-merged R13
+  promotion state. The executable current-tree tests require exactly
+  `2 theorem-derived / 4 witness-backed / 25 shadow / 5 meta`, with
+  `intrinsic-resonance` and bounded `intrinsic-observer-echo` as the two exact
+  theorem-derived layers; the active registry independently names R13 as the
+  second exact R8 contract. This amendment corrects retrospective current-state
+  accounting only. It introduces no new theorem, bridge, promotion, axiom
+  minimality result, or pre-commitment claim.
