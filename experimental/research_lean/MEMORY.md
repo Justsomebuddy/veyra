@@ -1,9 +1,9 @@
 # Research Lean module memory
 
-Version: **0.2.0**. Status: **`INTERNAL_RESEARCH_CANDIDATE`**.
+Version: **0.3.0**. Status: **`INTERNAL_RESEARCH_CANDIDATE`**.
 
-- `manifest.json` is canonical: exactly 53 stable dependencies, nine research
-  sources, 86 declarations, 40 literal headline claim rows, 86 axiom-closure
+- `manifest.json` is canonical: exactly 53 stable dependencies, ten research
+  sources, 87 declarations, 41 literal headline claim rows, 87 axiom-closure
   rows, and domain-separated aggregate roots.
 - `scripts/check_research_lean.py` always uses a fresh temporary snapshot and
   `.olean` tree, exact toolchain version/commit, bounded work, token-aware
@@ -15,6 +15,24 @@ Version: **0.2.0**. Status: **`INTERNAL_RESEARCH_CANDIDATE`**.
   `Nat`/`Int`, not native Veyra arithmetic.
 - One-tact bridge scope is the explicit singleton-generated path-word realization
   and its exact R9 image only; it is not an AX-007 exhaustion theorem.
+- Native-number scope is one carrier bridge only: a ready native Mode exposes
+  its exact tact count through the length observer, and the existing THM-F002
+  law is applied to that same count. No prime infinitude, Fermat, stable theorem
+  ID, layer promotion, or blanket native-number formalization follows.
+
+## Session Notes (2026-08-30)
+
+- Added `VeyraResearchNativeNumberBridge.lean` as the tenth manifest-bound
+  research source: one headline declaration with exact `propext` closure.
+- Extended the existing stable native semantics only with a neutral `length`
+  observer/response and unregistered helper `native_length_observes_ready_mode`;
+  stable R4 theorem IDs remain `THM-R4-001..007`.
+- The research theorem composes that carrier with the existing stable
+  `THM-F002_euclid_escape_mod` for any already-ready native Mode and any `k`.
+  This closes a native-runtime-to-formal-arithmetic carrier gap without claiming
+  prime infinitude, Fermat, R8 promotion, or a third theorem-derived nucleus.
+- Exact replay: 63/63 sources, 87/87 declarations and axiom rows, no skipped
+  sources; the new theorem depends only on `propext`.
 
 ## Session Notes (2026-08-28)
 

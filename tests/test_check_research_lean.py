@@ -67,15 +67,15 @@ def _minimal_manifest(record: checker.SourceRecord) -> checker.ResearchManifest:
 
 
 def test_canonical_manifest_binds_exact_inventory_and_toolchain() -> None:
-    """The checked candidate has one exact 53+9/86 identity."""
+    """The checked candidate has one exact 53+10/87 identity."""
     logger.debug("test_research_lean canonical manifest entry")
     manifest = checker.load_manifest()
     assert len(manifest.base) == 53
-    assert len(manifest.research) == 9
-    assert len(manifest.declarations) == 86
-    assert len(manifest.headlines) == 40
-    assert len(manifest.headline_claims) == 40
-    assert len(manifest.axiom_closure) == 86
+    assert len(manifest.research) == 10
+    assert len(manifest.declarations) == 87
+    assert len(manifest.headlines) == 41
+    assert len(manifest.headline_claims) == 41
+    assert len(manifest.axiom_closure) == 87
     assert manifest.version == "4.30.0-rc2"
     assert manifest.commit == "3dc1a088b6d2d8eafe25a7cd7ec7b58d731bd7cc"
     assert "RESEARCH_T008_cross_product_reassociation" in manifest.declarations
@@ -93,7 +93,7 @@ def test_canonical_inventory_and_import_graph_replay_without_lean() -> None:
     graph = checker.local_graph(manifest)
     layers = checker.graph_layers(graph)
     flattened = tuple(path for layer in layers for path in layer)
-    assert len(payloads) == 62
+    assert len(payloads) == 63
     assert set(flattened) == {row.path for row in manifest.records}
     positions = {path: index for index, path in enumerate(flattened)}
     assert all(
@@ -348,8 +348,8 @@ def test_generated_audit_covers_every_declaration_exactly() -> None:
     for name in manifest.declarations:
         assert source.count(f"#check Veyra.{name}\n") == 1
         assert source.count(f"#print axioms Veyra.{name}\n") == 1
-    assert source.count("#check Veyra.") == 86
-    assert source.count("#print axioms Veyra.") == 86
+    assert source.count("#check Veyra.") == 87
+    assert source.count("#print axioms Veyra.") == 87
     logger.debug("test_research_lean generated audit exit")
 
 

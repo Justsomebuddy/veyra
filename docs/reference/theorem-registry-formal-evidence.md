@@ -61,13 +61,13 @@ or imported-module dependencies, and its source location. A dependency entry of
 | `THM_R12_009_tail_silence_obstruction_transport` | `theorem` | `FORMALLY_PROVED` | imports `VeyraObserverProof` | `proofs/lean/VeyraIntrinsicVamBridge.lean:298` |
 | `THM_R3_001_stitch_associative` | `theorem` | `FORMALLY_PROVED` | same-module definitions only | `proofs/lean/VeyraNativeArithmetic.lean:64` |
 | `THM_R3_002_single_pulse_resonance` | `theorem` | `FORMALLY_PROVED` | same-module definitions only | `proofs/lean/VeyraNativeArithmetic.lean:68` |
-| `THM_R4_001_empty_breath_blocks` | `theorem` | `FORMALLY_PROVED` | same-module definitions only | `proofs/lean/VeyraNativeSemantics.lean:108` |
-| `THM_R4_002_closed_tact_is_mode` | `theorem` | `FORMALLY_PROVED` | same-module definitions only | `proofs/lean/VeyraNativeSemantics.lean:112` |
-| `THM_R4_003_open_tact_blocks` | `theorem` | `FORMALLY_PROVED` | same-module definitions only | `proofs/lean/VeyraNativeSemantics.lean:119` |
-| `THM_R4_004_two_tact_cycle_is_mode` | `theorem` | `FORMALLY_PROVED` | same-module definitions only | `proofs/lean/VeyraNativeSemantics.lean:125` |
-| `THM_R4_005_kind_echoes_closed_modes` | `theorem` | `FORMALLY_PROVED` | same-module definitions only | `proofs/lean/VeyraNativeSemantics.lean:132` |
-| `THM_R4_006_boundary_mismatch_blocks` | `theorem` | `FORMALLY_PROVED` | same-module definitions only | `proofs/lean/VeyraNativeSemantics.lean:140` |
-| `THM_R4_007_anchored_silence_is_mode` | `theorem` | `FORMALLY_PROVED` | same-module definitions only | `proofs/lean/VeyraNativeSemantics.lean:147` |
+| `THM_R4_001_empty_breath_blocks` | `theorem` | `FORMALLY_PROVED` | same-module definitions only | `proofs/lean/VeyraNativeSemantics.lean:115` |
+| `THM_R4_002_closed_tact_is_mode` | `theorem` | `FORMALLY_PROVED` | same-module definitions only | `proofs/lean/VeyraNativeSemantics.lean:119` |
+| `THM_R4_003_open_tact_blocks` | `theorem` | `FORMALLY_PROVED` | same-module definitions only | `proofs/lean/VeyraNativeSemantics.lean:126` |
+| `THM_R4_004_two_tact_cycle_is_mode` | `theorem` | `FORMALLY_PROVED` | same-module definitions only | `proofs/lean/VeyraNativeSemantics.lean:132` |
+| `THM_R4_005_kind_echoes_closed_modes` | `theorem` | `FORMALLY_PROVED` | same-module definitions only | `proofs/lean/VeyraNativeSemantics.lean:139` |
+| `THM_R4_006_boundary_mismatch_blocks` | `theorem` | `FORMALLY_PROVED` | same-module definitions only | `proofs/lean/VeyraNativeSemantics.lean:147` |
+| `THM_R4_007_anchored_silence_is_mode` | `theorem` | `FORMALLY_PROVED` | same-module definitions only | `proofs/lean/VeyraNativeSemantics.lean:154` |
 | `THM_R16_001_residual_chain_partition` | `theorem` | `FORMALLY_PROVED` | same-module definitions only | `proofs/lean/VeyraObserverDescent.lean:37` |
 | `THM_R16_002_residual_synergy_disjoint` | `theorem` | `FORMALLY_PROVED` | same-module definitions only | `proofs/lean/VeyraObserverDescent.lean:53` |
 | `THM_R16_003_zero_synergy_chain_rule` | `theorem` | `FORMALLY_PROVED` | same-module definitions only | `proofs/lean/VeyraObserverDescent.lean:65` |
@@ -208,13 +208,16 @@ or imported-module dependencies, and its source location. A dependency entry of
 
 ## Experimental research appendix
 
-The 86 declarations (40 headlines) in `experimental/research_lean/manifest.json`
+The 87 declarations (41 headlines) in `experimental/research_lean/manifest.json`
 are a separate `INTERNAL_RESEARCH_CANDIDATE` appendix, not stable theorem rows.
 Their exact digests, import graph, toolchain commit, and axiom closures are
 checked by `make research-lean`; THM-001–003 and all X8 statuses below are
 unchanged, and W-001 is not promoted. The one-tact bridge is restricted to the
 explicit singleton-generated path-word realization and exact R9 image; it is not
-an AX-007 exhaustion theorem or a general Mode equivalence.
+an AX-007 exhaustion theorem or a general Mode equivalence. The native-number
+research bridge carries only the exact tact count of an already-ready native
+Mode into stable THM-F002; no prime infinitude, Fermat, third theorem-derived
+layer, R8 promotion, certificate, or registry promotion follows.
 
 ## Stable nonformal and bounded theorem-card status
 

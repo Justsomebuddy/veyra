@@ -3,9 +3,9 @@
 Status: **`INTERNAL_RESEARCH_CANDIDATE`**. This directory is deliberately
 outside the 53-source stable Lean inventory and is not part of `make verify`.
 
-The canonical `manifest.json` binds nine research sources, their imports and
-SHA-256 digests, 86 declarations (40 headline declarations and 46 helpers), the
-40 literal headline signatures and claim boundaries, and the exact axiom
+The canonical `manifest.json` binds ten research sources, their imports and
+SHA-256 digests, 87 declarations (41 headline declarations and 46 helpers), the
+41 literal headline signatures and claim boundaries, and the exact axiom
 closure printed by Lean. Ordered domain-separated source and proof roots make
 the aggregate review identity explicit. The reviewed toolchain is
 `leanprover/lean4:v4.30.0-rc2`, Lean `4.30.0-rc2`, commit
@@ -22,39 +22,40 @@ the aggregate review identity explicit. The reviewed toolchain is
 | `VeyraResearchPythagorean.lean` | 6 | classical integer identities |
 | `VeyraResearchShadow.lean` | 11 | unary `Recurrence` pulse/silence image only |
 | `VeyraResearchOneTactBridge.lean` | 21 | singleton-tact path-word / Nat / unary `Recurrence` / exact R9-image bridge |
+| `VeyraResearchNativeNumberBridge.lean` | 1 | ready native Mode tact-count carrier into stable `THM-F002` product-plus-one law |
 
 The source scanner rejects project-local `sorry`, `admit`, `axiom`,
 `postulate`, `constant`, `opaque`, `unsafe`, `extern`, `implemented_by`, and
 `sorryAx` code tokens. That is not an “axiom-free” claim: the frozen report has
-26 empty closure rows and 60 rows depending on subsets of `propext`,
+26 empty closure rows and 61 rows depending on subsets of `propext`,
 `Classical.choice`, and `Quot.sound`.
 
 The candidate lane also rejects command-level declaration metaprogramming
 (`run_tac`, custom syntax/elaborators/macros, and `Lean.addDecl`) so an unused
-injected axiom cannot sit outside the exact 86-row audit.
+injected axiom cannot sit outside the exact 87-row audit.
 
 Run `make research-lean` for a fresh isolated verification. The checker copies
-the exact 53 stable and nine research sources into a temporary tree, compiles
-a new `.olean` graph, generates all 86 `#check` and `#print axioms` commands,
+the exact 53 stable and ten research sources into a temporary tree, compiles
+a new `.olean` graph, generates all 87 `#check` and `#print axioms` commands,
 and rehashes the originals after execution. It has no persistent cache.
 
 ## Evidence and trust boundary
 
 `source_roots.base` and `source_roots.research` hash the ordered
 `path + NUL + SHA-256` rows under separate length-delimited domains.
-`proof_root` then binds those roots, the exact toolchain identity, all 40
-literal claim/scope/registry rows, and all 86 ordered axiom closures. The root
+`proof_root` then binds those roots, the exact toolchain identity, all 41
+literal claim/scope/registry rows, and all 87 ordered axiom closures. The root
 does not hash itself or claim binary reproducibility.
 
 The rebased candidate manifest binds the current 53-source stable inventory
-and nine research sources at base root
-`4c0722a4fda5cd164cc5bb71acbc87d18b5e85014fb28d46dc017cc0b841628b`,
+and ten research sources at base root
+`01cd6bff50b4bd86f2937e902ada183add2dcda496593ec62145384d7cc47ed2`,
 research root
-`caf7d1c2e0e7e8333132300a0ebe5099e35b4fb70d47033fcc8bf033f4c9f597`,
+`28c8e91bc8b3158fa377624dfb8b19970289f7f59eba1f2dbfec0f0c71cb75ce`,
 and proof root
-`dc991bf17da44eb4691ebd236cd9f40a4024caec589735aa16be378baccce509`.
+`f4bfdd130b8abcc21e31a04e5eef0c994e2deabeb90f236303e207cda4e746ad`.
 The complete manifest SHA-256 is
-`dd3d0343bd26c16a0177ebf58b8dec82753ce118c708aadb5ff96dbdcde1bba2`.
+`5fc650436b788a6f46a37ff37fbfecf924d82559b38c84429dcb474c98f83f62`.
 
 The trusted computing base remains the selected Lean compiler/kernel and its
 reported primitive axioms, local Elan or hosted archive delivery, the Python
@@ -73,6 +74,7 @@ revision is deliberately not embedded in the same commit it names.
   realization. It does not prove that AX-007 excludes additional tacts, does not
   establish general LEM-001, does not identify arbitrary strict modes with `Nat`,
   and does not promote THM-001–003 or W-001.
+- The native-number bridge is limited to ready-mode tact-count observation and the already-proved `THM-F002` congruence on that same count. It does not establish prime infinitude, Fermat, a third theorem-derived layer, or any R8 promotion.
 - Prime, gcd, and Fermat declarations are classical local `Nat` results, not a
   Veyra resonance-prime theory, native repair, or factorization foundation.
 - Counting identities are not event-theoretic or general probability results.

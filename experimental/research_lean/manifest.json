@@ -114,7 +114,7 @@
     },
     {
       "path": "proofs/lean/VeyraNativeSemantics.lean",
-      "sha256": "dc5ddc3b9a3f16c6c5fbbb988b737b806115122d8d2a3f705654e0ee63200a8b",
+      "sha256": "d27d27f3e55f1e3ecf219c6393640ab09501c02205f492024053e5528fb0ec41",
       "imports": [],
       "declarations": []
     },
@@ -560,9 +560,20 @@
         "RESEARCH_OT_L013_one_tact_zero_native",
         "RESEARCH_OT_L014_one_tact_one_native"
       ]
+    },
+    {
+      "path": "experimental/research_lean/VeyraResearchNativeNumberBridge.lean",
+      "sha256": "2d2071f756eed0a50fbcace4fb76253bb72b0396d4ca3d6f9fb199fa4f54bba7",
+      "imports": [
+        "VeyraNativeSemantics",
+        "VeyraEcho"
+      ],
+      "declarations": [
+        "RESEARCH_NN_T001_ready_mode_length_euclid_escape"
+      ]
     }
   ],
-  "declaration_count": 86,
+  "declaration_count": 87,
   "headline_declarations": [
     "RESEARCH_BS_T001_binomial_sum",
     "RESEARCH_BS_T002_freshman_dream",
@@ -603,7 +614,8 @@
     "RESEARCH_OT_T004_one_tact_rank_length_weave_mul",
     "RESEARCH_OT_T005_one_tact_word_intrinsic_bijection",
     "RESEARCH_OT_T006_native_stitch_realizes_one_tact_stitch",
-    "RESEARCH_OT_T007_native_weave_realizes_one_tact_length_weave"
+    "RESEARCH_OT_T007_native_weave_realizes_one_tact_length_weave",
+    "RESEARCH_NN_T001_ready_mode_length_euclid_escape"
   ],
   "headline_claims": {
     "RESEARCH_BS_T001_binomial_sum": {
@@ -805,6 +817,11 @@
       "statement": "(left right : OneTactWord) : VeyraIntrinsicRuntime.weave (oneTactIntrinsicMode left).1 (oneTactIntrinsicMode right).1 = .ready (oneTactIntrinsicMode (oneTactLengthWeave left right)).1",
       "scope": "strict-native weave restricted to the exact R9 image of singleton words",
       "registry_relation": "native realization evidence only; stable THM-003 remains unchanged"
+    },
+    "RESEARCH_NN_T001_ready_mode_length_euclid_escape": {
+      "statement": "(run : List VeyraTact) (readyMode : VeyraMode) (ready : evalMode run = .ready readyMode) (k : Nat) : observeMode .length run = some (.length run.length) ∧ (run.length * k + 1) % run.length = 1 % run.length",
+      "scope": "any tact list already evaluated as a ready native Mode: exact native length observation and reuse of stable THM-F002 on that same run.length",
+      "registry_relation": "research-only carrier bridge for native-number N1; no R8/layer promotion, prime infinitude, Fermat, or blanket native-number formalization"
     }
   },
   "axiom_closure": {
@@ -1040,11 +1057,14 @@
     "RESEARCH_OT_L013_one_tact_zero_native": [],
     "RESEARCH_OT_L014_one_tact_one_native": [
       "propext"
+    ],
+    "RESEARCH_NN_T001_ready_mode_length_euclid_escape": [
+      "propext"
     ]
   },
   "source_roots": {
-    "base": "4c0722a4fda5cd164cc5bb71acbc87d18b5e85014fb28d46dc017cc0b841628b",
-    "research": "caf7d1c2e0e7e8333132300a0ebe5099e35b4fb70d47033fcc8bf033f4c9f597"
+    "base": "01cd6bff50b4bd86f2937e902ada183add2dcda496593ec62145384d7cc47ed2",
+    "research": "28c8e91bc8b3158fa377624dfb8b19970289f7f59eba1f2dbfec0f0c71cb75ce"
   },
-  "proof_root": "dc991bf17da44eb4691ebd236cd9f40a4024caec589735aa16be378baccce509"
+  "proof_root": "f4bfdd130b8abcc21e31a04e5eef0c994e2deabeb90f236303e207cda4e746ad"
 }

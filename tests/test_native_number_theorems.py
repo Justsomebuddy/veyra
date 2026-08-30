@@ -1,3 +1,5 @@
+from pathlib import Path
+
 from src.core.native_number_theorems import (
     euclid_escape_row,
     lean_euclid_bridge_ready,
@@ -75,3 +77,19 @@ def test_native_fermat_phase_rows_include_blocked_composite_obstructions():
     assert all(row.status == "derived" for row in rows)
     assert [row.period for row in blocked] == [1, 4, 6]
     assert all(row.status == "blocked" for row in blocked)
+
+
+def test_native_euclid_rows_are_carried_by_general_research_lean_bridge():
+    row = native_euclid_mode_row((2, 3, 5))
+    lean_source = Path(
+        "experimental/research_lean/VeyraResearchNativeNumberBridge.lean"
+    ).read_text(encoding="utf-8")
+    native_source = Path("proofs/lean/VeyraNativeSemantics.lean").read_text(
+        encoding="utf-8"
+    )
+    assert row.status == "derived"
+    assert row.mode_lengths == row.periods == (2, 3, 5)
+    assert "theorem native_length_observes_ready_mode" in native_source
+    assert "RESEARCH_NN_T001_ready_mode_length_euclid_escape" in lean_source
+    assert "native_length_observes_ready_mode run readyMode ready" in lean_source
+    assert "THM_F002_euclid_escape_mod run.length k" in lean_source

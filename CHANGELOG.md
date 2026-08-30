@@ -1,6 +1,14 @@
 # Changelog
 
 ## [Unreleased] — Changed
+- Added a tenth manifest-bound Research Lean source closing the native-number
+  N1 carrier gap without changing stable R4 theorem IDs. Stable native semantics
+  now expose a neutral ready-mode `length` observer/helper; the research theorem
+  applies the existing stable `THM-F002` product-plus-one law to that exact
+  `run.length`. The governed research surface is now 53 stable + 10 research
+  sources / 87 declarations / 41 headlines / 87 axiom rows; the new bridge has
+  exact `propext` closure. This is not prime infinitude, Fermat, a third
+  theorem-derived layer, R8 promotion, certificate, or registry promotion.
 - Fixed source-distribution smoke validation for archives that place an
   explicit canonical directory entry after files beneath that directory. This
   ordering is now accepted without relaxing exact duplicate, file/ancestor,

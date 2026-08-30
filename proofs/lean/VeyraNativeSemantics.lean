@@ -83,11 +83,13 @@ def evalMode (run : List VeyraTact) : VeyraResult VeyraMode :=
 inductive VeyraObserver where
   | kind
   | boundary
+  | length
 deriving DecidableEq, Repr
 
 inductive VeyraResponse where
   | kind : String → VeyraResponse
   | edge : VeyraNod → VeyraNod → VeyraResponse
+  | length : Nat → VeyraResponse
 deriving DecidableEq, Repr
 
 def observeMode : VeyraObserver → List VeyraTact → Option VeyraResponse
@@ -99,6 +101,10 @@ def observeMode : VeyraObserver → List VeyraTact → Option VeyraResponse
       match evalMode run, boundary run with
       | .ready _, some edge => some (.edge edge.1 edge.2)
       | _, _ => none
+  | .length, run =>
+      match evalMode run with
+      | .ready _ => some (.length run.length)
+      | .blocked _ => none
 
 def echoMode (observer : VeyraObserver)
     (left right : List VeyraTact) : VeyraResult Bool :=
@@ -149,3 +155,11 @@ theorem THM_R4_007_anchored_silence_is_mode (point : String) :
     evalModeBreath (silentBreath point) =
       .ready { breath := silentBreath point, observer := "native-cycle" } := by
   simp [evalModeBreath, silentBreath, validBreath, breathBoundary]
+
+
+/-- A ready native mode exposes the exact number of tacts through the length observer. -/
+theorem native_length_observes_ready_mode
+    (run : List VeyraTact) (readyMode : VeyraMode)
+    (ready : evalMode run = .ready readyMode) :
+    observeMode .length run = some (.length run.length) := by
+  simp [observeMode, ready]

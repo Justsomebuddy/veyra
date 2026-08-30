@@ -1,5 +1,19 @@
 # Research Lean module log
 
+### [0.3.0] Native-number ready-mode F002 carrier bridge
+- **Type:** Research / anti-island formal bridge
+- **Files:** `VeyraResearchNativeNumberBridge.lean`, neutral native length
+  observer/helper, manifest/checker/package inventory, existing N1 hostile test
+- **What:** Added a general carrier from any already-ready native Mode to its
+  exact tact count, then reused stable `THM-F002` on that same `run.length`.
+  The composition is isolated in Research Lean so importing arithmetic does not
+  pollute the stable R4 namespace or downstream VAM proofs.
+- **Evidence:** Exact Lean `4.30.0-rc2`; 63/63 source replay, 87/87 declarations
+  and axiom rows; new headline closure is exactly `propext`.
+- **Module version:** 0.2.0 → 0.3.0
+- **Boundary:** Stable R4 IDs remain 001..007. No prime infinitude, Fermat,
+  third theorem-derived layer, R8 promotion, certificate, or registry promotion.
+
 ### [0.2.0] Singleton-tact path-word realization bridge
 - **Type:** Research / formal bridge
 - **Files:** `VeyraResearchOneTactBridge.lean`, `manifest.json`, `README.md`,

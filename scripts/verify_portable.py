@@ -29,6 +29,7 @@ PORTABLE_TESTS = (
     "tests/test_modes.py",
     "tests/test_core_language.py",
     "tests/test_core_native_semantics.py",
+    "tests/test_native_number_theorems.py::test_native_euclid_rows_are_carried_by_general_research_lean_bridge",
     "tests/test_certificate_result_invariants.py",
     "tests/test_core_assertion_invariants.py",
     "tests/test_observer_realization.py",

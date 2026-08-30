@@ -72,11 +72,13 @@ complete registry; no local history is required.
 
 ## Experimental research Lean appendix
 
-The nine files under `experimental/research_lean/` contain 86 manifest-bound
-declarations (40 headlines) with status `INTERNAL_RESEARCH_CANDIDATE`. They are
+The ten files under `experimental/research_lean/` contain 87 manifest-bound
+declarations (41 headlines) with status `INTERNAL_RESEARCH_CANDIDATE`. They are
 not stable registry IDs, do not change any X8 card, and do not promote
 THM-001–003 from `CONJECTURE` or close W-001. The one-tact bridge is restricted
 to the explicit singleton-generated path-word realization and exact R9 image;
-it is not an AX-007 exhaustion theorem or a general Mode equivalence. Exact
-observed axiom closures are in the candidate manifest; compilation is not
+it is not an AX-007 exhaustion theorem or a general Mode equivalence. The
+native-number bridge only carries ready-mode tact count into stable THM-F002;
+it is not prime infinitude, Fermat, a third theorem-derived layer, or R8
+promotion. Exact observed axiom closures are in the candidate manifest; compilation is not
 public validation or a native Veyra proof.
