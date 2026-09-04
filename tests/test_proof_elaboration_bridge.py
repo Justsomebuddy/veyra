@@ -85,6 +85,33 @@ def test_independent_report_verification_requires_fresh_lean_compile(monkeypatch
     assert not verify_proof_elaboration_bridge_report(report)
 
 
+def test_r10_toolchain_identity_excludes_host_local_metadata(
+    tmp_path, monkeypatch,
+):
+    lean = tmp_path / "lean"
+    lean.write_bytes(b"x" * 9024)
+    version = "Lean (version 4.30.0-rc2, x86_64-test, commit deadbeef, Release)"
+    monkeypatch.setattr(
+        bridge_io,
+        "guarded_lean_run",
+        lambda *_args, **_kwargs: type(
+            "Result", (), {"returncode": 0, "stdout": version, "stderr": ""}
+        )(),
+    )
+    monkeypatch.setattr(
+        bridge_io,
+        "_runtime_identity",
+        lambda: "merkle=abc|files=2365|bytes=522231408",
+    )
+    first = bridge_io.toolchain_identity([str(lean)])
+    os.utime(lean, None)
+    second = bridge_io.toolchain_identity([str(lean)])
+    assert first == second
+    assert "toolchain=leanprover/lean4:v4.30.0-rc2" in first
+    assert "sha256=" in first and "binary=lean" in first
+    assert "path=" not in first and "inode=" not in first and "mtime=" not in first
+
+
 def test_fake_path_and_elan_home_cannot_replace_direct_pinned_lean(tmp_path, monkeypatch):
     fake = tmp_path / "elan"
     fake.write_text("#!/bin/sh\nexit 0\n")

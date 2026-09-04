@@ -32,7 +32,7 @@ EXPECTED_LEAN_OBJECTS = MappingProxyType({
     ),
     "lean_r9_export": (
         "VeyraProofModeTransport.olean", 39040,
-        "ee910d70dcfcef9352b46b54b9aaede3a4616f859822025fd0f1d91c5cc1d951",
+        "2defd7b982fdba5cab38ac123aa76ddd14bc2da053b6efa1afa057eb7bef2049",
     ),
     "lean_elaboration": (
         "VeyraElaborationSemantics.olean", 870920,
