@@ -239,7 +239,14 @@ indexing, and the non-claim registry: a discipline over host mathematics, not a
 replacement computation. Native layers reduce this dependence where documented
 (orbit-based cycle identity, structural stitch/weave), and a claim that a layer
 *derives* rather than *transports* arithmetic is admissible only with its exact
-registered bridge.
+registered bridge. For the one-tact number-theory layer that bridge now exists
+and is guarded: divisibility, phase congruence, indecomposable rhythms, shared
+echo/closure, Fermat and Euclid are native definitions with executable witnesses
+and machine-checked theorems on the native recurrence
+(`docs/189_resonance_arithmetic.md`), and an AST test keeps host `%`, `pow`,
+`gcd` and `is_prime_int` off every number-theory decision path; the length
+observer that connects the two sides is itself proved to be a bijective
+stitch/weave homomorphism onto `Nat` (`THM_RA_001`–`003`).
 
 Passing tests does not promote a candidate. A statement changes status only
 through an explicit registry entry with its dependencies and non-claims.

@@ -31,7 +31,7 @@ Current rows:
 | `DC-004` | classical-benchmark | derived | eight active benchmark rows + scoped verdict rules |
 | `DC-005` | geometry-theorems | derived | `THM-G001` + native Breath lengths |
 
-The important invariant is that `all_derived=True` means every active boundary row has an executable derivation, not that Veyra gained every mathematical capability. Current proof rows verify all five boundaries. For `DC-003` "derived" is precisely: integers are transported into native Mode/Breath objects, read back through the length observer, and the arithmetic (product-plus-one remainders, `pow`-mod phase returns) is host computation on those integers (README "Host-carried computation"); it is a consistency anchor, not a native derivation of number theory.
+The important invariant is that `all_derived=True` means every active boundary row has an executable derivation, not that Veyra gained every mathematical capability. Current proof rows verify all five boundaries. For `DC-003` "derived" is precisely: integers are transported into native Mode/Breath objects and read back through the length observer; the Euclid product-plus-one remainders remain host computation (the declared shadow row), while since 2026-09-06 the N2 phase returns, orbits and primality are native structural computations (docs/189). The native Euclid escape with a new resonance prime is `resonance_arithmetic.euclid_escape_witness` with `THM_RA_012` as its formal counterpart.
 
 ## Executable proof rows
 

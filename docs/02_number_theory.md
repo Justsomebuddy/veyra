@@ -60,11 +60,13 @@ if their difference of emitted tacts leaves the same phase obstruction after max
 
 Human shadow: `x mod m = y mod m`.
 
-Boundary: "difference" and "maximal extraction" are shadow-level wording —
-they presuppose host subtraction and ordering. The executable native
-counterpart is structural division with obstruction rows (`structural_divide`,
-`cycle_divisibility_row`); a fully native definition of phase congruence is an
-open research task, not an established primitive.
+Native definition (2026-09-06, docs/189): `x ≡_m y` iff the residuals of the
+structural division of `x` and of `y` by `m` coincide, i.e. both are `m`-weaves
+stitched with one common residual shorter than `m` (`THM_RA_007`); it is an
+equivalence compatible with stitch and weave (`THM_RA_008`) and is executable as
+`resonance_arithmetic.phase_congruent` with no host `%` on the decision path.
+"Difference" and "maximal extraction" of the older wording are thereby
+replaced by structural division and its uniqueness (`THM_RA_006`).
 
 ## 7. First non-human shift
 
@@ -72,8 +74,12 @@ The key shift is that arithmetic is not about quantities but about **stable recu
 
 This makes number theory look closer to physics:
 
-- divisibility = resonance,
-- primality = indecomposable rhythm,
-- modularity = phase obstruction,
-- gcd = strongest shared echo,
-- lcm = smallest shared closure.
+- divisibility = resonance (`resonates`; `THM_RA_005`),
+- primality = indecomposable rhythm (`resonance_prime_witness`; `THM_RA_009`),
+- modularity = phase obstruction (`phase_residual`/`phase_congruent`; `THM_RA_007`–`008`),
+- gcd = strongest shared echo (`shared_echo`; `THM_RA_013`),
+- lcm = smallest shared closure (`shared_closure`; `THM_RA_014`).
+
+Each item is now a native definition with an executable witness and a
+machine-checked theorem stated in this vocabulary (docs/189); Fermat and
+Euclid appear in the same vocabulary as `THM_RA_010` and `THM_RA_012`.

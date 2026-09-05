@@ -450,6 +450,34 @@ quantifier or completed-infinity claim; no promotion of W-001/THM-001–003;
 the Gauss congruence at composite length and Z_p valuation/units/Hensel
 remain `OPEN`. See doc 188.
 
+## DEF-757–760 / THM-RA-001–014 — Resonance arithmetic over the native recurrence (2026-09-06)
+
+`DEF-757` (one-tact length observer `toNat`/`ofNat` on `Recurrence`),
+`DEF-758` (structural division `quotient`/`residual` and phase congruence
+`PhaseCongruent m x y := residual m x = residual m y`), `DEF-759` (resonance
+prime: at least two pulses whose only resonators are the unit pulse and
+itself) and `DEF-760` (shared echo `Nat.gcd`-transport and shared closure
+`Nat.lcm`-transport) make the docs/02 vocabulary definitions on the native
+`Recurrence` of `VeyraNativeArithmetic.lean`. Theorem cards, all
+`FORMALLY_PROVED` in `VeyraResonanceArithmetic.lean` (Mathlib-free, no
+classical choice): **THM-RA-001–003** the observer is a bijection carrying
+stitch/weave to `+`/`×`; **THM-RA-004** weave laws; **THM-RA-005** resonance is
+the divisibility preorder; **THM-RA-006** structural division reconstructs,
+bounds, and is unique; **THM-RA-007/008** phase congruence is exactly "same
+residual after maximal extraction", an equivalence compatible with stitch and
+weave; **THM-RA-009** resonance primes = primes of the observer;
+**THM-RA-010** Fermat in the vocabulary (`rpow k p ≡_p k`); **THM-RA-011/012**
+the escape leaves the unit phase and carries a resonance prime outside any
+finite list (Euclid); **THM-RA-013/014** gcd/lcm universal properties.
+Executable counterpart `src/core/resonance_arithmetic.py` with certificate
+`resonance_arithmetic_ra` (`EXECUTABLE_EVIDENCE`) and the AST guard
+`tests/test_resonance_decision_paths.py` (no host `%`, `//`, `**`, `pow`, `gcd`,
+`is_prime_int` on any number-theory decision path outside declared shadow
+functions). Non-claims: statements are native, the metatheory is Lean over
+`Nat` through the bijection (docs/149 §3); no native quantifier, no completed
+infinity, no promotion of W-001/THM-001–003, no public alias/certificate
+bundle (not `PUBLICLY_VALIDATED`). See doc 189.
+
 **Literature positioning (doc 187, binding on the whole TR-2 lane):** the
 fixed-relation characterization behind `THM-TR2-002..007` is **classical
 — Duboc 1986, Prop. 1.7** (with the projection lemma from Duboc

@@ -46,11 +46,15 @@ Canonical derived rows use periods `2, 3, 5, 7`; obstruction rows use `1, 4, 6`.
 
 This is stronger than one-off finite tables because each prime-period row covers every unit residue for that period. It is still bounded:
 
-- prime-ness is an integer-shadow observer on native Mode length, and the
-  phase-return arithmetic is host `pow`-mod; `derived` means "checked by
-  host modular arithmetic on natively observed lengths", never a native
-  derivation — the native objects are built *from* the integer and observed
-  back as the same integer;
+- since 2026-09-06 (docs/189) the phase returns, orbit lengths and primality
+  are computed natively for periods up to `NATIVE_PERIOD_LIMIT = 31`
+  (`resonance_arithmetic.phase_power`/`phase_orbit_length`/
+  `resonance_prime_witness`, i.e. structural division on unary recurrences);
+  `derived` means "witnessed by native structural division on natively
+  observed lengths". The period and unit integers are still transported in
+  through `unary` and read out through the length observer (docs/06 §3), and
+  periods above the limit fall back to the declared host shadow with a
+  boundary text saying so;
 - the theorem is finite over canonical periods, not an unbounded proof for
   all primes (the all-prime statement is `THM_NO_008` in
   `proofs/lean/VeyraNecklaceOrbit.lean`, proved by orbit counting);

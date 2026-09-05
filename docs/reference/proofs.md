@@ -15,7 +15,7 @@ an explicit non-claim boundary.
 
 ## Experimental research candidate
 
-`experimental/research_lean/` is separate from the stable 56-source inventory.
+`experimental/research_lean/` is separate from the stable 57-source inventory.
 Its manifest binds nine sources, 86 declarations (40 headlines), imports,
 digests, exact Lean `4.30.0-rc2` commit, and every printed axiom closure.
 `make research-lean` verifies a fresh temporary snapshot. It does not promote
@@ -30,6 +30,10 @@ realization and exact R9 image; its number theory is classical local `Nat`/`Int`
   `VeyraPadicDomain.lean` (`ZpVeyra(p)` has no zero divisors; first
   primality-consuming PΩ2 theorem, `THM_PD_001`–`003`, the last classical).
   See `docs/188_general_number_theory_lean.md`.
+- Resonance arithmetic (2026-09-06, `FORMALLY_PROVED`, not `PUBLICLY_VALIDATED`):
+  `VeyraResonanceArithmetic.lean` states divisibility, phase congruence,
+  resonance primes, gcd/lcm, Fermat and Euclid in the docs/02 vocabulary on the
+  native `Recurrence` (`THM_RA_001`–`014`); see `docs/189_resonance_arithmetic.md`.
 - `VeyraObserverSynthesisReplay.lean` is an `INTERNAL_RESEARCH_CANDIDATE`
   abstract slice: it proves functional replay determinism/sound acceptance,
   pointwise target preservation under an explicitly supplied bijective

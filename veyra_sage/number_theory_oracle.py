@@ -24,6 +24,17 @@ from src.core import break_locus
 from src.core.modes import Mode, primitive_root as python_primitive_root
 from src.core.native_number_theorems import native_fermat_phase_row
 from src.core.necklace_congruence import fermat_orbit_witness, gauss_congruence_witness
+from src.core.resonance_arithmetic import (
+    default_anchor as resonance_anchor,
+    euclid_escape_witness,
+    length as resonance_length,
+    phase_congruent,
+    phase_power,
+    resonance_prime_witness,
+    shared_closure,
+    shared_echo,
+    unary,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -284,6 +295,54 @@ def break_locus_gcd_oracle(shapes: tuple[tuple[tuple[str, ...], tuple[int, ...]]
     return result
 
 
+def resonance_arithmetic_oracle(max_value: int = 16, primes: tuple[int, ...] = (2, 3, 5, 7, 11)) -> NumberTheoryOracleRow:
+    """Cross-check the native resonance vocabulary (gcd/lcm/congruence/powers/primes/escape) with Sage."""
+    logger.debug("resonance_arithmetic_oracle entry max_value=%d primes=%r", max_value, primes)
+    sage = _sage()
+    anchor = resonance_anchor()
+    checked = mismatches = 0
+    modes = {value: unary(anchor, value) for value in range(0, max_value + 1)}
+    for left in range(1, max_value + 1):
+        for right in range(1, max_value + 1):
+            checked += 1
+            echo = resonance_length(shared_echo(modes[left], modes[right]))
+            closure = resonance_length(shared_closure(modes[left], modes[right]))
+            if echo != int(sage.gcd(left, right)) or closure != int(sage.lcm(left, right)):
+                mismatches += 1
+    for modulus in range(1, 8):
+        for left in range(0, max_value + 1):
+            for right in range(0, max_value + 1):
+                checked += 1
+                native = phase_congruent(modes[modulus], modes[left], modes[right])
+                if native != (sage.Mod(left, modulus) == sage.Mod(right, modulus)):
+                    mismatches += 1
+    for prime in primes:
+        modulus = modes[prime] if prime <= max_value else unary(anchor, prime)
+        for unit in range(1, prime):
+            for exponent in range(0, 5):
+                checked += 1
+                native = resonance_length(phase_power(unary(anchor, unit), modes[exponent], modulus))
+                if native != int(sage.power_mod(sage.Integer(unit), sage.Integer(exponent), sage.Integer(prime))):
+                    mismatches += 1
+    for value in range(0, max_value + 1):
+        checked += 1
+        if resonance_prime_witness(anchor, modes[value]).prime != bool(sage.is_prime(value)):
+            mismatches += 1
+    for factors in ((2, 3), (2, 3, 5)):
+        checked += 1
+        row = euclid_escape_witness(anchor, factors)
+        product = 1
+        for item in factors:
+            product = product * item
+        expected_new = int(sage.factor(product + 1)[0][0])
+        if row.status != "witnessed" or row.escape_length != product + 1 or row.new_prime_length != expected_new:
+            mismatches += 1
+    detail = f"native shared echo/closure == Sage gcd/lcm on 1..{max_value}; phase congruence == Mod equality for moduli 1..7; phase_power == power_mod for primes {primes}; resonance primes == is_prime on 0..{max_value}; escapes of (2,3),(2,3,5) factor as Sage predicts"
+    result = _row("resonance-arithmetic", checked, mismatches, detail)
+    logger.debug("resonance_arithmetic_oracle exit checked=%d mismatches=%d", checked, mismatches)
+    return result
+
+
 def number_theory_oracle_rows() -> tuple[NumberTheoryOracleRow, ...]:
     """Run every real-Sage cross-check lane with the canonical bounds."""
     logger.debug("number_theory_oracle_rows entry")
@@ -295,6 +354,7 @@ def number_theory_oracle_rows() -> tuple[NumberTheoryOracleRow, ...]:
         padic_domain_oracle(),
         fermat_phase_oracle(),
         break_locus_gcd_oracle(),
+        resonance_arithmetic_oracle(),
     )
     logger.debug("number_theory_oracle_rows exit rows=%d", len(result))
     return result

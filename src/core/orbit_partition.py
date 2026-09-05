@@ -38,6 +38,8 @@ from .native_runtime import Mode, NativeObstruction, Nod
 
 logger = logging.getLogger(__name__)
 
+SHADOW_LICENSED: tuple[str, ...] = ()
+
 
 @dataclass(frozen=True)
 class DivisorRow:

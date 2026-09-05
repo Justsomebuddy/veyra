@@ -51,7 +51,7 @@ For the first ordered repetition relation:
 - `ab` is resonance-prime.
 - `abab` is not, because `ab` resonates inside it.
 
-This is not final. Richer resonance relations may include cyclic resonance, phase obstruction, or schema-compatible weave decomposition.
+This is not final. Richer resonance relations may include cyclic resonance, phase obstruction, or schema-compatible weave decomposition. For the one-tact layer the resonance relation is now fixed natively: `resonance_arithmetic.resonates` (structural division is exact) with its resonance primes (`resonance_prime_witness`), formally `THM_RA_005`/`009` in `VeyraResonanceArithmetic.lean` (docs/189).
 
 ## 6. First insight
 

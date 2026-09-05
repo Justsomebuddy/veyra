@@ -89,6 +89,7 @@ about 3 s):
 | `padic-domain` | `THM_PD_001` coordinate law and `Zp` valuation additivity on seeded random cells for `p ∈ {2,3,5,7,11}`; base-6 counter-cell `2·3 ≡ 0 (mod 6)` | 879 |
 | `fermat-phase` | N2 orbit lengths = Sage multiplicative orders, Lagrange, `primitive_root(p)` generator; composite periods 4, 6, 9, 561 fail exactly at the exhibited unit (`power_mod`) | 10 |
 | `break-locus-gcd` | gcd-form locus from Sage projection exponents = `locus_formula` on 615 exhaustive words of five shapes plus the witness `w*` (`e_ab, e_ac, e_bc = 2, 3, 1`) | 616 |
+| `resonance-arithmetic` (2026-09-06) | native shared echo/closure = Sage gcd/lcm on 1..16; phase congruence = `Mod` equality for moduli 1..7; `phase_power` = `power_mod` for primes ≤ 11; resonance primes = `is_prime` on 0..16; escapes of (2,3), (2,3,5) factor as Sage predicts | 2540 |
 
 The oracle is `EXECUTABLE_EVIDENCE`: agreement on finite bounds promotes
 nothing; the general statements are the Lean theorems above. It runs in

@@ -142,6 +142,20 @@ declaration in the PΩ2/N-family consumes `VeyraPrimeWitness.no_proper_divisor`
 | `THM_RT_002_comm_iff_common_root` | `theorem` | `FORMALLY_PROVED` | same-module definitions only | `proofs/lean/VeyraPrimitiveRoot.lean:113` |
 | `THM_RT_004_primitive_root_unique` | `theorem` | `FORMALLY_PROVED` | `THM_RT_002_comm_iff_common_root` | `proofs/lean/VeyraPrimitiveRoot.lean:162` |
 | `THM_RT_003_primitive_root_exists` | `theorem` | `FORMALLY_PROVED` | same-module definitions only | `proofs/lean/VeyraPrimitiveRoot.lean:284` |
+| `THM_RA_001_one_tact_shadow_bijective` | `theorem` | `FORMALLY_PROVED` | same-module definitions only | `proofs/lean/VeyraResonanceArithmetic.lean:70` |
+| `THM_RA_002_stitch_shadow` | `theorem` | `FORMALLY_PROVED` | same-module definitions only | `proofs/lean/VeyraResonanceArithmetic.lean:75` |
+| `THM_RA_003_weave_shadow` | `theorem` | `FORMALLY_PROVED` | same-module definitions only | `proofs/lean/VeyraResonanceArithmetic.lean:79` |
+| `THM_RA_004_weave_laws` | `theorem` | `FORMALLY_PROVED` | `THM_RA_003_weave_shadow` (via `toNat_injective`) | `proofs/lean/VeyraResonanceArithmetic.lean:113` |
+| `THM_RA_005_resonance_order` | `theorem` | `FORMALLY_PROVED` | `THM_RA_003_weave_shadow`; imports `VeyraNativeArithmetic` (`resonates`) | `proofs/lean/VeyraResonanceArithmetic.lean:145` |
+| `THM_RA_006_structural_division` | `theorem` | `FORMALLY_PROVED` | `THM_RA_002_stitch_shadow`, `THM_RA_003_weave_shadow` | `proofs/lean/VeyraResonanceArithmetic.lean:197` |
+| `THM_RA_007_phase_congruence_characterization` | `theorem` | `FORMALLY_PROVED` | `THM_RA_006_structural_division` | `proofs/lean/VeyraResonanceArithmetic.lean:221` |
+| `THM_RA_008_phase_congruence_laws` | `theorem` | `FORMALLY_PROVED` | `THM_RA_002_stitch_shadow`, `THM_RA_003_weave_shadow` | `proofs/lean/VeyraResonanceArithmetic.lean:260` |
+| `THM_RA_009_resonance_prime_iff` | `theorem` | `FORMALLY_PROVED` | `THM_RA_005_resonance_order`; imports `VeyraNecklaceOrbit` (`Necklace.IsPrime`) | `proofs/lean/VeyraResonanceArithmetic.lean:278` |
+| `THM_RA_010_fermat_phase` | `theorem` | `FORMALLY_PROVED` | `THM_RA_009_resonance_prime_iff`, `THM_NO_008_fermat_mod` | `proofs/lean/VeyraResonanceArithmetic.lean:305` |
+| `THM_RA_011_escape_residual` | `theorem` | `FORMALLY_PROVED` | `THM_RA_002_stitch_shadow`, `THM_RA_003_weave_shadow` | `proofs/lean/VeyraResonanceArithmetic.lean:340` |
+| `THM_RA_012_euclid_escape` | `theorem` | `FORMALLY_PROVED` | `THM_RA_011_escape_residual`, `THM_RA_009_resonance_prime_iff` (via `leastFactor_prime`) | `proofs/lean/VeyraResonanceArithmetic.lean:424` |
+| `THM_RA_013_shared_echo` | `theorem` | `FORMALLY_PROVED` | `THM_RA_005_resonance_order` | `proofs/lean/VeyraResonanceArithmetic.lean:447` |
+| `THM_RA_014_shared_closure` | `theorem` | `FORMALLY_PROVED` | `THM_RA_005_resonance_order` | `proofs/lean/VeyraResonanceArithmetic.lean:456` |
 | `THM_P3N4_PREMISE_001_same_integer_coordinates` | `theorem` | `FORMALLY_PROVED + PUBLICLY_VALIDATED` | imports `VeyraPadicLocalRealization` | `proofs/lean/VeyraPadicAllDepthEquality.lean:6` |
 | `THM_POMEGA2_001_prime_lower_bound` | `theorem` | `FORMALLY_PROVED + PUBLICLY_VALIDATED` | imports `Std.Tactic`, `Init.GrindInstances.Ring.Fin` | `proofs/lean/VeyraPadicCompletion.lean:178` |
 | `THM_POMEGA2_002_stage_modulus_divisibility` | `theorem` | `FORMALLY_PROVED + PUBLICLY_VALIDATED` | imports `Std.Tactic`, `Init.GrindInstances.Ring.Fin` | `proofs/lean/VeyraPadicCompletion.lean:180` |

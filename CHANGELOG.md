@@ -1,6 +1,30 @@
 # Changelog
 
 ## [Unreleased] — Changed
+- Resonance arithmetic (2026-09-06): the docs/02 vocabulary is now executable
+  and formal. New `src/core/resonance_arithmetic.py` decides divisibility
+  (`resonates`), phase congruence (`phase_residual`/`phase_congruent`),
+  indecomposable rhythms (`resonance_prime_witness`), strongest shared echo and
+  smallest shared closure (`shared_echo`/`shared_closure`), native modular
+  powers and orbits (`phase_power`/`phase_orbit_length`), Fermat and Euclid
+  witnesses — all through `structural_divide`/`stitch`/`weave` on intrinsic
+  recurrences, with host integers entering only through the declared
+  `unary`/`length` transport. The N2 Fermat rows and the N8 prime-length gate
+  now use these native decisions (host `pow`/`is_prime_int` remain only as
+  declared shadows and an above-limit fallback that says so). A permanent AST
+  guard (`tests/test_resonance_decision_paths.py`) rejects `%`, `//`, `**`,
+  `pow`, `gcd`, `divmod`, `is_prime_int` on decision paths of every
+  number-theory lane outside each module's declared `SHADOW_LICENSED` list.
+  New stable Lean source `VeyraResonanceArithmetic.lean` (57th; imports
+  `VeyraNativeArithmetic` and `VeyraNecklaceOrbit`, `THM_RA_001`–`014`): the
+  one-tact length observer is a bijective stitch/weave homomorphism onto `Nat`;
+  weave laws; resonance is the divisibility order; structural division with
+  uniqueness; phase congruence characterized and shown compatible with stitch
+  and weave; resonance primes = primes; Fermat (`rpow k p ≡_p k`) and Euclid
+  (a resonance prime outside any finite list) in the vocabulary; gcd/lcm
+  universal properties. Certificate `resonance_arithmetic_ra` (suite 110→111),
+  Sage oracle lane `resonance-arithmetic` (8 lanes, 11,254 checks, 0
+  mismatches), docs 02/11/106/107/188/189, registry DEF-757–760.
 - Renewed the content-bound R9→R13 trust chain (2026-09-05), which had been
   drifting locally since 2026-08-15/27 (`r9-generated-lean-source-drift` →
   `layer-theorem-bridge-rejected`, visible only where the pinned Lean

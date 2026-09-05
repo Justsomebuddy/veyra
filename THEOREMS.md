@@ -76,6 +76,13 @@ complete registry; no local history is required.
   over host `Nat`/`List`, and promote no native claim, W-001, or THM-001–003.
   The formal-evidence index now also annotates which earlier `FORMALLY_PROVED`
   rows are definitional in content (`rfl`, projections, `decide` fixtures).
+- DEF-757–760 / THM-RA-001–014 (2026-09-06) state the docs/02 vocabulary
+  (resonance, phase congruence, indecomposable rhythm, shared echo/closure,
+  Fermat, Euclid) as definitions and `FORMALLY_PROVED` theorems on the native
+  `Recurrence`, with the one-tact length observer proved to be a bijective
+  stitch/weave homomorphism onto `Nat`; executable counterpart and AST guard in
+  `src/core/resonance_arithmetic.py`. Not `PUBLICLY_VALIDATED`; no native
+  quantifier; W-001/THM-001–003 unchanged (they concern the AX-007 `Mode`).
 - DEF-717–723 records declared adaptive research lines and the exact
   independent-null retry inflation witness. Its Python/Sage arithmetic is
   executable counterpressure, not a registered theorem, verified adaptive

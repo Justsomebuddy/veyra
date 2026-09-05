@@ -35,6 +35,8 @@ from .native_runtime import Mode, NativeObstruction, Nod, nod, rez
 
 logger = logging.getLogger(__name__)
 
+SHADOW_LICENSED: tuple[str, ...] = ()
+
 BOUNDARY = (
     "ledger-relative productive proof-family license; no completed carrier; "
     "no unconditional universal; generator adoption is a doctrine act; "

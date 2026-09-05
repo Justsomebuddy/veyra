@@ -389,6 +389,15 @@
       "declarations": []
     },
     {
+      "path": "proofs/lean/VeyraResonanceArithmetic.lean",
+      "sha256": "3b6b1ba57419d18e41f84bdb338f3d73abb32a82f3def81077f130f06a7ab687",
+      "imports": [
+        "VeyraNativeArithmetic",
+        "VeyraNecklaceOrbit"
+      ],
+      "declarations": []
+    },
+    {
       "path": "proofs/lean/VeyraStatistics.lean",
       "sha256": "4e39dea022ec7b268e1a6bb52bda34acc0a7b40d02d730a73570cf60bba006f0",
       "imports": [],
@@ -1065,8 +1074,8 @@
     ]
   },
   "source_roots": {
-    "base": "745a40e4ae3e527877167373eb04fb465b48293ab27e30e054c1ea47bb2f0588",
+    "base": "f52f82c798e9f161191f7cefd4bd47ef5b38f79826bc3eb57412618be894563e",
     "research": "caf7d1c2e0e7e8333132300a0ebe5099e35b4fb70d47033fcc8bf033f4c9f597"
   },
-  "proof_root": "07187fd33a9f1f07c72945f35b2cbaaec4777d3bd2046e265d3973035bb0688a"
+  "proof_root": "1a8d31e2c17d17d6eb0d54d2688fd99ed382debe4f3f2e26bd62ace6003794b8"
 }

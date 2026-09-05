@@ -3,7 +3,7 @@ import pytest
 from veyra_sage import number_theory_oracle as module
 from veyra_sage.all import NumberTheoryOracleRow, VeyraNumberTheoryOracleLab, number_theory_oracle_rows, number_theory_oracle_summary
 
-EXPECTED_LANES = ("fermat-lyndon", "gauss-mobius", "primitive-root", "commutation", "padic-domain", "fermat-phase", "break-locus-gcd")
+EXPECTED_LANES = ("fermat-lyndon", "gauss-mobius", "primitive-root", "commutation", "padic-domain", "fermat-phase", "break-locus-gcd", "resonance-arithmetic")
 
 
 def test_oracle_fails_closed_without_sage(monkeypatch):
@@ -39,6 +39,7 @@ def test_real_sage_oracle_lanes_all_witnessed():
     assert checked["commutation"] == 63 * 63
     assert checked["break-locus-gcd"] == 90 + 20 + 15 + 70 + 420 + 1
     assert checked["fermat-phase"] == 6 + 4
+    assert checked["resonance-arithmetic"] == 16 * 16 + 7 * 17 * 17 + sum(5 * (p - 1) for p in (2, 3, 5, 7, 11)) + 17 + 2
 
 
 def test_real_sage_break_locus_gcd_form_matches_witness():

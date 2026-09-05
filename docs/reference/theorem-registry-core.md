@@ -53,7 +53,11 @@ Part of the public [Theorem and Definition Registry](../../THEOREMS.md).
 > Mode of AX-001–007, whose Core-0 axioms have no Lean formalization, no
 > isomorphism claim is established. The registry status of record is
 > `CONJECTURE` for the native claim; the 0.3.0 rows are historical and
-> refer to the shadow model only.
+> refer to the shadow model only. Since 2026-09-06 the Lean `Recurrence`
+> version of the statement is a stable theorem: `THM_RA_001`–`003`
+> (`VeyraResonanceArithmetic.lean`) prove that the one-tact length observer is
+> a bijection carrying stitch to `+` and weave to `×`; this concerns the R9
+> image type, not the AX-007 `Mode`, so the rows above stay as they are.
 
 ## Conjectures
 
