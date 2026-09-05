@@ -15,6 +15,9 @@ from .break_locus import (
     refutation_witness,
 )
 from .certify_types import Certificate
+from .observer_lattice import CommutationDoctrine, doctrine, primitivity_row
+
+BFS_CAP = 20000
 
 logger = logging.getLogger(__name__)
 
@@ -49,6 +52,20 @@ def certify_break_locus_formula_tr2c() -> Certificate:
         and achieved_floor_check(word, alphabet, 2).attained
         and achieved_floor_check(word, alphabet, 3).attained
     )
+    # Direct BFS confirmation at 18 letters (no projection lemma): the trace
+    # class is enumerated under every proper sub-doctrine with an explicit
+    # cap of BFS_CAP; the word must be imprimitive exactly at the two formula
+    # doctrines {ab,bc} and {ac,bc} and primitive at the other five.
+    bfs_rows = {}
+    for pairs in ((), (("a", "b"),), (("a", "c"),), (("b", "c"),), (("a", "b"), ("a", "c")), (("a", "b"), ("b", "c")), (("a", "c"), ("b", "c"))):
+        node = doctrine("bfs", alphabet, pairs)
+        row = primitivity_row(node, word, cap=BFS_CAP) if isinstance(node, CommutationDoctrine) else None
+        bfs_rows[pairs] = row
+    bfs_ok = all(row is not None and row.status == "witnessed" for row in bfs_rows.values()) and all(
+        (row is not None) and (row.primitive == (pairs not in ((("a", "b"), ("b", "c")), (("a", "c"), ("b", "c")))))
+        for pairs, row in bfs_rows.items()
+    )
+    witness_ok = witness_ok and bfs_ok
     agreement_ok = True
     agreement_total = 0
     for shape_alphabet, counts, checked in (

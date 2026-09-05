@@ -1,6 +1,6 @@
 # Lean proof inventory
 
-This directory contains 53 Lean source modules. The table is exhaustive over the repository `.lean` sources. Four additional PΩ1 bridge declarations (`THM_POMEGA1_012`–`015`) are intentionally **not** repository files: they are generated deterministically at check time and digest-pinned (see “Generated bridge declarations” below). Status refers to the public claim supported by the source, not merely to the presence of compilable declarations. Exact released declaration locations and dependencies are listed in `../../THEOREMS.md`.
+This directory contains 56 Lean source modules. The table is exhaustive over the repository `.lean` sources. Four additional PΩ1 bridge declarations (`THM_POMEGA1_012`–`015`) are intentionally **not** repository files: they are generated deterministically at check time and digest-pinned (see “Generated bridge declarations” below). Status refers to the public claim supported by the source, not merely to the presence of compilable declarations. Exact released declaration locations and dependencies are listed in `../../THEOREMS.md`.
 
 The separate [`experimental/research_lean/`](../../experimental/research_lean/)
 candidate is not part of the stable module inventory. Its nine files and 86 declarations are
@@ -35,6 +35,7 @@ manifest-bound and freshly checked by `make research-lean`, but retain
 | `VeyraNativeArithmetic.lean` | native recurrence arithmetic | `FORMALLY_PROVED` | `THM_R3_001_stitch_associative`, `THM_R3_002_single_pulse_resonance` |
 | `VeyraNativeSemantics.lean` | native constructor semantics | `FORMALLY_PROVED` | `THM_R4_001_empty_breath_blocks`, `THM_R4_002_closed_tact_is_mode`, `THM_R4_003_open_tact_blocks`, `THM_R4_004_two_tact_cycle_is_mode`, `THM_R4_005_kind_echoes_closed_modes`, `THM_R4_006_boundary_mismatch_blocks`, `THM_R4_007_anchored_silence_is_mode` |
 | `VeyraNecklaceCongruence.lean` | exact finite necklace-congruence cards (N8): rotation orbits, prime-length dichotomy, Fermat partition counts, Gauss primitive counts, composite counterpressure | `FORMALLY_PROVED` | `THM_N8_001_rotation_composition_len3`, `THM_N8_002_orbit_dichotomy_p3_k2`, `THM_N8_003_orbit_dichotomy_p5_k2`, `THM_N8_004_fermat_count_p3_k2`, `THM_N8_005_fermat_count_p5_k2`, `THM_N8_006_gauss_primitive_count_n4_k2`, `THM_N8_007_composite_dichotomy_counterexample` |
+| `VeyraNecklaceOrbit.lean` | general necklace theorems, Mathlib-free: rotation group law, gcd-closed shift stabilizer, prime-length orbit dichotomy for every prime and any alphabet, distinct rotations, orbit-partition counting law, Fermat `k^p = k + p·q` / `p ∣ k^p − k` / `k^p % p = k % p` for all primes and bases, divisibility content of the N8 Fermat-count cards recovered; Gauss divisibility `n ∣ #aperiodic(k, n)` at every positive length and aperiodic ⇔ primitive (imports `VeyraPrimitiveRoot`) | `FORMALLY_PROVED` | `THM_NO_001_rot_rot`, `THM_NO_002_fix_gcd`, `THM_NO_003_prime_dichotomy`, `THM_NO_004_rotations_distinct`, `THM_NO_005_partition_dvd`, `THM_NO_006_fermat_decomposition`, `THM_NO_007_fermat_dvd`, `THM_NO_008_fermat_mod`, `THM_NO_009_n8_instances`, `THM_NO_010_gauss_aperiodic_dvd`, `THM_NO_011_aperiodic_iff_primitive` |
 | `VeyraObserverCore.lean` | typed observer calculus | `FORMAL_CONSTRUCTION` | none |
 | `VeyraObserverDescent.lean` | conditional observer-descent partition spine | `FORMALLY_PROVED` | `THM_R16_001_residual_chain_partition`, `THM_R16_002_residual_synergy_disjoint`, `THM_R16_003_zero_synergy_chain_rule` |
 | `VeyraObserverLattice.lean` | TR-1 transfer spine: reachability-closure monotonicity (real induction), omega witness transport, primitivity stability, replay fixture | `FORMALLY_PROVED` | `THM_TR1_001_reaches_monotone`, `THM_TR1_002_witness_transport`, `THM_TR1_003_primitivity_stability`, `THM_TR1_004_replay_fixture` |
@@ -49,6 +50,7 @@ manifest-bound and freshly checked by `make research-lean`, but retain
 | `VeyraOrbitPartition.lean` | DI-2 candidate shadows: divisor dichotomy, partition congruence, alphabet-power monotonicity (real induction), conditional delta decomposition, exact p=3/k=2 fixture | `FORMALLY_PROVED` | `THM_DI2_001_divisor_dichotomy`, `THM_DI2_002_partition_congruence`, `THM_DI2_003_pow_succ_mono`, `THM_DI2_004_delta_decomposition`, `THM_DI2_005_fixture_p3_k2` |
 | `VeyraPadicAllDepthEquality.lean` | N4 all-projection scoped equality | `FORMALLY_PROVED + PUBLICLY_VALIDATED` | `THM_P3N4_PREMISE_001_same_integer_coordinates` |
 | `VeyraPadicCompletion.lean` | PΩ2 prime-power compatible-family completion | `FORMALLY_PROVED + PUBLICLY_VALIDATED` | `THM_POMEGA2_001_prime_lower_bound`, `THM_POMEGA2_002_stage_modulus_divisibility`, `THM_POMEGA2_003_reduction_well_formed_congruence`, `THM_POMEGA2_004_reduction_identity`, `THM_POMEGA2_005_reduction_composition`, `THM_POMEGA2_006_carrier_presentation_compatible`, `THM_POMEGA2_007_universal_realization`, `THM_POMEGA2_008_coordinate_agreement`, `THM_POMEGA2_009_joint_separation`, `THM_POMEGA2_010_relative_uniqueness`, `THM_POMEGA2_011_zero_family_nonvacuity`, `THM_POMEGA2_012_one_family_formation`, `THM_POMEGA2_013_addition_closure`, `THM_POMEGA2_014_negation_additive_inverse`, `THM_POMEGA2_015_multiplication_closure`, `THM_POMEGA2_016_full_commutative_ring`, `THM_POMEGA2_017_ppcp_introduction` |
+| `VeyraPadicDomain.lean` | first primality-consuming PΩ2 theorem: coordinate integral-domain law of `ZpVeyra(p)` (product of families nonzero at depths `n`, `m` is nonzero at depth `n+m`; valuation split plus Euclid's lemma from `no_proper_divisor`), constructive depth form, and the classical no-zero-divisors corollary (uses `Classical.choice`, printed) | `FORMALLY_PROVED` | `THM_PD_001_product_nonzero_at_sum_depth`, `THM_PD_002_nonzero_product_depth`, `THM_PD_003_no_zero_divisors` |
 | `VeyraPadicFamilyIntroduction.lean` | N1 integer residue family | `FORMALLY_PROVED` | `THM_P3N1_001_integer_residue_total`, `THM_P3N1_002_integer_residue_reduction`, `THM_P3N1_003_integer_family_introduction` |
 | `VeyraPadicLocalRealization.lean` | N3 local carrier realization | `FORMALLY_PROVED + PUBLICLY_VALIDATED` | `THM_P3N3_001_realize_integer_family`, `THM_P3N3_002_realized_integer_family_coordinate`, `THM_P3N4_001_scoped_joint_separation` |
 | `VeyraPrimePowerInformation.lean` | N6-W late-witness construction | `INTERNAL_RESEARCH_CANDIDATE` | `THM_P3N6W_001_exact_shape`, `THM_P3N6W_002_prefix`, `THM_P3N6W_003_later`, `THM_P3N6W_004_uniform` |
@@ -57,6 +59,7 @@ manifest-bound and freshly checked by `make research-lean`, but retain
 | `VeyraPrimePowerProductiveBridgePressure.lean` | countermodel pressure for generic productive bridges | `FORMALLY_PROVED` | `THM_P3A1B_PRESSURE_001_total`, `THM_P3A1B_PRESSURE_002_coherent` |
 | `VeyraPrimePowerReductionNetwork.lean` | N2 prime-power reduction coherence | `FORMALLY_PROVED` | `THM_P3N2_001_reduction_identity`, `THM_P3N2_002_reduction_composition`, `THM_P3N2_003_reduction_witness_independent`, `THM_P3N2_004_path_equality`, `THM_P3N2_005_rho_square`, `THM_P3N2_006_separator_coarse`, `THM_P3N2_007_separator_fine` |
 | `VeyraPrimePowerUnbounded.lean` | N6 finite-prefix invisibility and natural-power injection | `INTERNAL_RESEARCH_CANDIDATE` | `THM_P3N6_001_prefix_indistinguishable`, `THM_P3N6_002_next_depth_distinguishes`, `THM_P3N6_003_power_carrier_injective`, `THM_P3N6_004_power_carrier_eqc_injective`, `THM_P3N6_005_carrier_equality_adapter` |
+| `VeyraPrimitiveRoot.lean` | primitive roots of words, Mathlib-free: powers of a common root commute, Lyndon–Schützenberger commutation theorem (`u ++ v = v ++ u ↔` common root), constructive existence of a primitive root, uniqueness of the primitive root and exponent | `FORMALLY_PROVED` | `THM_RT_001_pow_comm_of_root`, `THM_RT_002_comm_iff_common_root`, `THM_RT_003_primitive_root_exists`, `THM_RT_004_primitive_root_unique` |
 | `VeyraProbability.lean` | fixed finite probability cards | `FORMALLY_PROVED` | `THM_P001_probability_complement_counts`, `THM_P002_probability_union_counts`, `THM_P003_probability_independence_counts` |
 | `VeyraProductivityCounterpressure.lean` | finite-to-universal countermodels | `FORMALLY_PROVED` | `THM_D2_LEAN_001_finite_strict_descent`, `THM_D2_LEAN_002_no_infinite_nat_descent`, `THM_D2_LEAN_003a_self_mem`, `THM_D2_LEAN_003b_succ_subset`, `THM_D2_LEAN_003c_diagonal_absence` |
 | `VeyraProjectionPower.lean` | TR-2 forcing engine: projection append-homomorphism, projection of a power is a power (Lemma A core), power addition and divisor laws (Lemma B core) | `FORMALLY_PROVED` | `THM_TR2_002_pick_append`, `THM_TR2_003_projection_of_power`, `THM_TR2_004_pow_add`, `THM_TR2_005_pow_mul` |
@@ -82,7 +85,7 @@ deterministically from `src/core/stream_completion_alphabet.py` (template
 module) and checked by `src/core/stream_completion_formal.py`, which pins the
 generated bytes, rejects `sorry`/`admit`, requires the exact ordered symbol set
 and exactly fifteen `#print axioms` rows, and pins the elan/Lean binary before
-compiling. `scripts/check_lean_sources.py` validates the 53 repository sources
+compiling. `scripts/check_lean_sources.py` validates the 56 repository sources
 only and does not re-check the four generated declarations; the generator gate
 above is their only compilation path, and any claim citing them must cite that
 gate, not this inventory.
@@ -110,14 +113,14 @@ gate, not this inventory.
 ## Whole-source compilation
 
 Install `elan` and the exact reviewed toolchain, then compile the complete
-53-source local import graph from the repository root:
+56-source local import graph from the repository root:
 
 ```bash
 elan toolchain install leanprover/lean4:v4.30.0-rc2
 python scripts/check_lean_sources.py --jobs 8
 ```
 
-The harness checks the exact Lean version, validates the 53-file inventory,
+The harness checks the exact Lean version, validates the 56-file inventory,
 builds dependency layers, and writes temporary `.olean` files only under the
 ignored `data/tmp/` tree. Independent modules in each layer compile in parallel.
 

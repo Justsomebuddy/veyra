@@ -35,8 +35,13 @@ exponents dividing `gcd` of the letter multiplicities.
 If exactly one prime q divides the gcd — true of **all seven** scanned
 shapes — then every delta contains `F_q(w)`, so:
 
-> **Principality ⇔ Achievability:** `B(w) = {F_q(w)}` iff some candidate
+> **Forced locus ⇔ Achievability:** `B(w) = {F_q(w)}` iff some candidate
 > attains the floor; and any locus element whatsoever contains `F_q(w)`.
+> (Correction: an earlier draft labelled this "Principality ⇔
+> Achievability". Achievability implies principality in the single-prime
+> case, but principality alone does not force the locus to equal the
+> floor, so the equivalence is with the forced-locus law, not with
+> principality.)
 
 Derived from Lemmas A/B plus ⊆-minimality; recorded per the external-draft
 precedent (registry-core W-001): prose-derived from `THM-TR2-002/003/005`,
@@ -56,8 +61,8 @@ Exhaustive sweeps re-ran the seven shapes under the law
 
 So on every scanned word the locus **is** the closed-form floor — no
 candidate enumeration needed — and Achievability held universally in
-range. `THM-TR2-001` (single-prime slice) is thereby equivalent, on
-scanned territory and conjecturally beyond, to:
+range. `THM-TR2-001` (single-prime slice) is thereby implied, on
+scanned territory and conjecturally beyond, by:
 
 > **Achievability Conjecture.** For prime q, some exponent-q candidate
 > attains `Δ = F_q(w)`.

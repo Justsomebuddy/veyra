@@ -3,18 +3,23 @@
 DI-2 is the second candidate inference rule of the DI family. For a length
 whose primality is witnessed natively — every candidate divisor length leaves
 a residual under `structural_divide` — the rotation partition of the words at
-that length is classified structurally: the orbit size of a word is
-length/period, the period is read off the cut-free `primitive_root`, and the
+that length is classified structurally: the cyclic period of a word is the
+least shift `d` whose unary length divides the word length exactly under
+`structural_divide` AND whose rotation echoes the word (`_native_period`;
+no host `%`/`//` and no `primitive_root` on the decision path), and the
 dichotomy "period is 1 or the full length" is licensed BY the divisor
-witness, never by counting rotations. The congruence conclusion is a native
-reconstruction: `weave(p̄, full_count)` must breath-equal the nonconstant
-tally — divisibility is woven, not remainder-checked; `%` appears nowhere in
-a decision path. Composed with DI-1 over the alphabet depth (letters are
-minted from the intrinsic index; each step classifies only the
-rotation-closed delta of words using the new letter), this subsumes the N8
-Fermat instances as ONE licensed family statement. Loop counters and word
-enumeration are docs/06 §3 shadow bookkeeping; every acceptance is a native
-breath equality or division proof. Statuses are `witnessed`/`blocked`/
+witness. The congruence conclusion is a native reconstruction:
+`weave(p̄, full_count)` must breath-equal the nonconstant tally. Boundary
+(docs/06 §3 shadow license, stated rather than hidden): the tally is the
+ENUMERATED orbit total — every rotation of every class is counted by the
+cut-free `cycle_echo` orbit — so the woven equality is a cross-check between
+the structural period classification and host enumeration, and word
+enumeration/loop counters are host bookkeeping. Composed with DI-1 over the
+alphabet depth (letters are minted from the intrinsic index; each step
+classifies only the rotation-closed delta of words using the new letter),
+this re-derives the N8 Fermat cells for the witnessed prime lengths it is
+run on (lengths 3 and 5 in the certificate; N8's p=2,7 rows stay N8-only) as
+one licensed family statement each. Statuses are `witnessed`/`blocked`/
 `licensed`, never `proved`. See docs/181_orbit_partition_di2.md.
 """
 
@@ -27,7 +32,7 @@ import logging
 from .doctrinal_induction import PropertyContract, mode_shape
 from .intrinsic_arithmetic import one, stitch, successor, weave, zero
 from .intrinsic_arithmetic_division import structural_divide
-from .modes import Mode as WordMode, primitive_root
+from .modes import Mode as WordMode
 from .native_number import cycle_echo
 from .native_runtime import Mode, NativeObstruction, Nod
 
@@ -81,7 +86,7 @@ def _intrinsic(anchor: Nod, count: int) -> Mode | NativeObstruction:
 
 def _letters(depth: int) -> tuple[str, ...]:
     logger.debug("di2._letters entry depth=%d", depth)
-    result = tuple("t%d" % (index + 1) for index in range(depth))
+    result = tuple(f"t{index + 1}" for index in range(depth))
     logger.debug("di2._letters exit count=%d", len(result))
     return result
 
@@ -120,6 +125,30 @@ def prime_length_witness(anchor: Nod, length: int) -> PrimeLengthWitness:
     return result
 
 
+def _native_period(anchor: Nod, p_mode: Mode, word: tuple[str, ...]) -> Mode | NativeObstruction:
+    """Return the cyclic period of `word` as a unary mode, decided structurally.
+
+    The period is the least shift `d >= 1` such that (i) the unary length `d̄`
+    divides `p̄` exactly under `structural_divide` and (ii) the rotation by `d`
+    echoes the word. No host `%`/`//` and no `primitive_root` are consulted;
+    the rotation echo is tuple equality under the docs/06 §3 shadow license.
+    """
+    logger.debug("di2._native_period entry length=%d", len(word))
+    length = len(word)
+    for shift in range(1, length):
+        d_mode = _intrinsic(anchor, shift)
+        if isinstance(d_mode, NativeObstruction):
+            logger.error("di2._native_period blocked %r", d_mode)
+            return d_mode
+        if structural_divide(p_mode, d_mode).status != "exact":
+            continue
+        if word[shift:] + word[:shift] == word:
+            logger.debug("di2._native_period exit period=%d", shift)
+            return d_mode
+    logger.debug("di2._native_period exit period=full")
+    return p_mode
+
+
 def _classify(
     anchor: Nod,
     p_mode: Mode,
@@ -136,16 +165,21 @@ def _classify(
     fix = 0
     full_count_mode: Mode | NativeObstruction = zero(anchor)
     tally: Mode | NativeObstruction = zero(anchor)
+    unit = one(anchor)
     for echo, representative in classes.items():
-        root, _exponent = primitive_root(WordMode(representative))
-        period = root.length
-        if period == 1 and len(set(representative)) == 1:
-            fix += 1
-            continue
-        per_mode = _intrinsic(anchor, period)
+        per_mode = _native_period(anchor, p_mode, representative)
         if isinstance(per_mode, NativeObstruction):
             logger.error("di2._classify blocked %r", per_mode)
             return per_mode
+        if per_mode.breath == unit.breath:
+            if len(set(representative)) != 1:
+                result = NativeObstruction(
+                    "di2-partition", "period-one-nonconstant", ("".join(representative),)
+                )
+                logger.error("di2._classify period-one nonconstant rep=%s", "".join(representative))
+                return result
+            fix += 1
+            continue
         proof = structural_divide(p_mode, per_mode)
         if proof.status != "exact" or per_mode.breath != p_mode.breath:
             result = NativeObstruction(
@@ -206,10 +240,10 @@ def partition_evidence(anchor: Nod, length: int, depth: int) -> Di2Evidence:
 def _evidence_shape(evidence: object, rename: dict[str, str]) -> str:
     logger.debug("di2._evidence_shape entry")
     if not isinstance(evidence, Di2Evidence):
-        result = "nondi2[%s]" % type(evidence).__name__
+        result = f"nondi2[{type(evidence).__name__}]"
         logger.debug("di2._evidence_shape exit result=%s", result)
         return result
-    result = "di2[%d;%s;%s;%s;%s;%s]" % (
+    result = "di2[{};{};{};{};{};{}]".format(
         evidence.depth, evidence.status, evidence.congruent,
         mode_shape(evidence.fix_mode, rename), mode_shape(evidence.full_mode, rename),
         mode_shape(evidence.tally_mode, rename),
@@ -362,10 +396,10 @@ def orbit_partition_checklist() -> tuple[str, ...]:
     logger.debug("di2.checklist entry")
     result = (
         "primality is witnessed natively: every candidate divisor leaves a structural residual",
-        "the orbit dichotomy is derived from period plus the divisor witness, never by counting rotations",
-        "the congruence is a native reconstruction: weave(length, full-orbits) breath-equals the nonconstant tally",
+        "the cyclic period is decided by structural division plus rotation echo; no host % or primitive_root on the decision path",
+        "the congruence is a native reconstruction: weave(length, full-orbits) breath-equals the enumerated nonconstant tally (declared host bookkeeping)",
         "the family step classifies only the rotation-closed delta; the validator recomputes independently",
-        "composed with DI-1 this subsumes the N8 Fermat instances as one licensed family; statuses never say proved",
+        "composed with DI-1 this re-derives the N8 Fermat cells at the witnessed lengths it is run on; statuses never say proved",
     )
     logger.debug("di2.checklist exit count=%d", len(result))
     return result

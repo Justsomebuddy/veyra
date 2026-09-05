@@ -105,5 +105,22 @@ def test_cross_tie_with_n8_full_orbit_counts():
 def test_checklist_present():
     checklist = orbit_partition_checklist()
     assert len(checklist) == 5
-    assert any("never by counting rotations" in item for item in checklist)
+    assert any("no host % or primitive_root" in item for item in checklist)
     assert any("weave" in item for item in checklist)
+
+
+def test_partition_period_is_decided_without_host_modulo_or_primitive_root(monkeypatch):
+    from src.core import modes, orbit_partition as module
+
+    def boom(mode):
+        raise AssertionError("primitive_root must not be consulted by DI-2")
+
+    monkeypatch.setattr(modes, "primitive_root", boom)
+    assert not hasattr(module, "primitive_root")
+    evidence = partition_evidence(_anchor(), 5, 2)
+    assert evidence.status == "witnessed"
+    assert len(evidence.tally_mode.breath.tacts) == 2 ** 5 - 2
+    assert len(evidence.full_mode.breath.tacts) == (2 ** 5 - 2) // 5
+    composite = partition_evidence(_anchor(), 4, 2)
+    assert composite.status == "blocked"
+    assert composite.obstruction == "dichotomy-failure"

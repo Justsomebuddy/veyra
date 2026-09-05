@@ -41,6 +41,7 @@ from veyra_sage.all import (  # noqa: E402
     essence_lab_summary,
     proof_discipline_lab_summary,
     number_theory_lab_summary,
+    number_theory_oracle_summary,
     category_like_lab_summary,
     topology_echo_lab_summary,
     likelihood_geometry_lab_summary,
@@ -105,6 +106,13 @@ def main(argv: list[str] | None = None) -> int:
     shifted = parent("baba")
     whole = parent("abac")
     print(f"sage_available={SAGE_AVAILABLE} parent={parent}")
+    # Independent real-Sage number-theory oracle runs first so that its verdict is
+    # printed even if a later facade stage fails closed on a capability gate.
+    oracle = number_theory_oracle_summary()
+    print(
+        f"number_theory_oracle status={oracle['status']} lanes={oracle['lanes']} checked={oracle['checked']} mismatches={oracle['mismatches']}"
+    )
+    oracle_ok = oracle["status"] == "witnessed" if args.require_sage else oracle["status"] in ("witnessed", "unavailable")
 
     stage(2, 4, "Checking Veyra methods")
     ratios = VeyraRatios("τ")
@@ -229,6 +237,7 @@ def main(argv: list[str] | None = None) -> int:
         and intrinsic_observer_echo["presentation_only"] is True
         and intrinsic_observer_echo["evidence_accepted"] is False
     )
+    ok = ok and oracle_ok
     print(f"summary={summary}")
     print(f"[done] errors={0 if ok else 1}")
     logger.debug("main exit ok=%s", ok)

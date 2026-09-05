@@ -119,3 +119,17 @@ def test_checklist_present():
     assert len(checklist) == 5
     assert any("anchor-renaming echo" in item for item in checklist)
     assert any("nothing here is proved" in item for item in checklist)
+
+
+def test_late_name_peek_is_rejected_because_uniformity_replays_to_probe_depth():
+    from src.core.doctrinal_induction import late_name_peeking_contract
+
+    shallow = uniformity_witness(DOCTRINE, late_name_peeking_contract(3))
+    assert shallow.status == "witnessed"  # a depth-2 replay cannot see the leak
+    deep = uniformity_witness(DOCTRINE, late_name_peeking_contract(3), depth=3)
+    assert deep.status == "blocked"
+    assert deep.obstruction == "nonuniform-step"
+    license_row = license_all_depth(DOCTRINE, late_name_peeking_contract(3), _anchor(), tuple(range(1, 13)))
+    assert license_row.status == "blocked"
+    assert license_row.obstruction == "nonuniform-step"
+    assert license_row.uniformity is not None and not license_row.uniformity.echoed

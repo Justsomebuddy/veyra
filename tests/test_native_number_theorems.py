@@ -75,3 +75,21 @@ def test_native_fermat_phase_rows_include_blocked_composite_obstructions():
     assert all(row.status == "derived" for row in rows)
     assert [row.period for row in blocked] == [1, 4, 6]
     assert all(row.status == "blocked" for row in blocked)
+
+
+def test_composite_period_rows_exhibit_an_actual_fermat_failure():
+    for period, unit, residue in ((4, 2, 0), (6, 2, 2), (9, 2, 4), (561, 3, 375)):
+        row = native_fermat_phase_row(period)
+        assert row.status == "blocked"
+        assert row.unit_lengths == tuple(range(1, period))
+        assert row.residues[unit - 1] == residue
+        assert f"fails at unit {unit} (residue {residue})" in row.boundary
+    assert native_fermat_phase_row(1).boundary == "requires a native closed Mode with period at least 2"
+
+
+def test_prime_period_rows_carry_lagrange_and_cyclicity_pressure():
+    for period in (2, 3, 5, 7, 11, 13):
+        row = native_fermat_phase_row(period)
+        assert row.status == "derived"
+        assert all((period - 1) % length == 0 for length in row.orbit_lengths)
+        assert (period - 1) in row.orbit_lengths

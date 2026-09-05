@@ -10,6 +10,7 @@ from .doctrinal_induction import (
     depth_bomb_contract,
     divides_family_contract,
     doctrinal_induction_checklist,
+    late_name_peeking_contract,
     license_all_depth,
     name_peeking_contract,
 )
@@ -50,7 +51,11 @@ def certify_doctrinal_induction_di1() -> Certificate:
         and positive.max_depth == 12
     )
     peek = license_all_depth(_DOCTRINE, name_peeking_contract(), anchor, probes)
-    peek_ok = peek.status == "blocked" and peek.obstruction == "nonuniform-step"
+    late = license_all_depth(_DOCTRINE, late_name_peeking_contract(7), anchor, probes)
+    peek_ok = (
+        peek.status == "blocked" and peek.obstruction == "nonuniform-step"
+        and late.status == "blocked" and late.obstruction == "nonuniform-step"
+    )
     bomb = license_all_depth(
         _DOCTRINE, depth_bomb_contract(_block(3), 5), anchor, probes
     )
@@ -59,7 +64,8 @@ def certify_doctrinal_induction_di1() -> Certificate:
     passed = positive_ok and peek_ok and bomb_ok and checklist_ok
     detail = (
         "divides-family licensed to depth 12 for blocks 3 and 5 with anchor-"
-        "renaming uniformity; name-peeking step rejected as nonuniform; depth "
+        "renaming uniformity replayed to the deepest probe; name-peeking step and "
+        "a depth-7 late-peeking step both rejected as nonuniform; depth "
         "bomb blocked at exactly 5; ledger-relative license only, no completed "
         "carrier, no promotion"
     )

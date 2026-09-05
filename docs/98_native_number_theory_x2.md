@@ -48,5 +48,6 @@ Expected X2 signals:
 
 - `native_number_theory_x2` certificate passes;
 - `native_fermat_phase_n2` certificate passes;
-- `number_theory_lab_summary()` reports `factor_hits=2`, `blocked=1`, `fermat_derived=4`, `fermat_units=13`;
-- generated notebook artifact count becomes 38.
+- `number_theory_lab_summary()` reports `factor_hits=2`, `blocked=1`, `fermat_derived=4`, `fermat_units=21` (13 units of the four prime rows plus the 3+5 units that the blocked composite rows 4 and 6 now carry with their failing residues; period 1 has none);
+- generated notebook artifact count becomes 38;
+- since 2026-09-04 the real-Sage oracle `number_theory_oracle_summary()` (7 lanes: Lyndon/Möbius counts, primitive roots, commutation, `Zp` valuations, multiplicative orders, TR-2 gcd form) reports `witnessed` with 0 mismatches; see `docs/188_general_number_theory_lean.md`.

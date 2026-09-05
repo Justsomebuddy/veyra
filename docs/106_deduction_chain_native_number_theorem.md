@@ -31,7 +31,7 @@ Current rows:
 | `DC-004` | classical-benchmark | derived | eight active benchmark rows + scoped verdict rules |
 | `DC-005` | geometry-theorems | derived | `THM-G001` + native Breath lengths |
 
-The important invariant is that `all_derived=True` means every active boundary row has an executable derivation, not that Veyra gained every mathematical capability. Current proof rows verify all five boundaries.
+The important invariant is that `all_derived=True` means every active boundary row has an executable derivation, not that Veyra gained every mathematical capability. Current proof rows verify all five boundaries. For `DC-003` "derived" is precisely: integers are transported into native Mode/Breath objects, read back through the length observer, and the arithmetic (product-plus-one remainders, `pow`-mod phase returns) is host computation on those integers (README "Host-carried computation"); it is a consistency anchor, not a native derivation of number theory.
 
 ## Executable proof rows
 
@@ -61,7 +61,7 @@ This is the arithmetic core of the Euclid-style escape: for a listed factor `n`,
 - unbounded native Fermat theorem beyond finite prime-period rows;
 - quadratic-reciprocity analogue.
 
-N2 adds `native_fermat_phase_row(p)`: it builds a native closed period Mode, derives every unit `1..p-1` from native unit Breath lengths, checks `u^(p-1) mod p = 1` for every unit, and requires multiplicative orbit coverage of all nonzero residues. Canonical rows derive periods `2,3,5,7` and block invalid/composite periods `1,4,6`. This is stronger than a single fixture, but remains finite and observer-indexed.
+N2 adds `native_fermat_phase_row(p)`: it builds a native closed period Mode, derives every unit `1..p-1` from native unit Breath lengths, checks `u^(p-1) mod p = 1` for every unit (host `pow`-mod), and for prime periods requires every multiplicative orbit length to divide `p-1` and some orbit to have length `p-1` (the earlier "coverage of all nonzero residues" condition is automatically true and no longer counts). Canonical rows derive periods `2,3,5,7`; the obstruction rows `1,4,6` are blocked on an exhibited Fermat failure, not pre-filtered by primality. This is stronger than a single fixture, but remains finite and observer-indexed.
 
 ## Benchmark verdict row
 
@@ -76,6 +76,6 @@ This promotes `DC-005` only for finite right-corner Breath-length rows. It does 
 ## Next work
 
 - Convert the finite Mode-length derivation into intrinsic `Mode`/`Breath` divisibility and resonance-prime theorems.
-- Extend N2 beyond canonical prime periods or move it into a checked proof bridge before claiming an unbounded Fermat theorem.
+- Extend N2 beyond canonical prime periods or move it into a checked proof bridge before claiming an unbounded Fermat theorem. (Done 2026-09-03 on the proof side: `THM_NO_007`/`008` in `proofs/lean/VeyraNecklaceOrbit.lean` prove `p ∣ k^p − k` and `k^p % p = k % p` for all primes `p` and all `k` by orbit counting; the N2 rows remain finite executable pressure.)
 - Convert finite `THM-G001` right-corner rows into a reusable native geometry theorem, not only Pythagorean triples.
 - Add proof-language exports for more than echo reflexivity and product-plus-one modularity.

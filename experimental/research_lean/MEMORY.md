@@ -2,7 +2,7 @@
 
 Version: **0.2.0**. Status: **`INTERNAL_RESEARCH_CANDIDATE`**.
 
-- `manifest.json` is canonical: exactly 53 stable dependencies, nine research
+- `manifest.json` is canonical: exactly 56 stable dependencies, nine research
   sources, 86 declarations, 40 literal headline claim rows, 86 axiom-closure
   rows, and domain-separated aggregate roots.
 - `scripts/check_research_lean.py` always uses a fresh temporary snapshot and
@@ -18,7 +18,7 @@ Version: **0.2.0**. Status: **`INTERNAL_RESEARCH_CANDIDATE`**.
 
 ## Session Notes (2026-08-28)
 
-- Rebased the singleton-tact path-word bridge onto the 53-source stable Lean
+- Rebased the singleton-tact path-word bridge onto the 56-source stable Lean
   inventory after the TR-1/TR-2 merge and regenerated all checker counts and
   aggregate evidence roots from the checker contract.
 - The source remains 21 declarations / 7 headlines; 11 axiom rows are empty and

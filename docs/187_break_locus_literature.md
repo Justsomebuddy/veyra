@@ -39,15 +39,43 @@ place with a visible note.
 | **L3b** — Fine–Wilf for traces | **ACTIVE, RECENT.** Lohrey–Stober–Weiß (arXiv:2201.06543; DLT 2022; *ToCS* 2024) prove a Fine–Wilf-style theorem for connected primitive traces as machinery for the power word problem; Halava–Harju–Kärki, *RAIRO-ITA* 43(2):209–220 (2009) is adjacent. Any future TR work here must position against both — **not virgin territory**. |
 | **L3c** — realizability from prescribed pairwise projections | **NOT FOUND.** Uniqueness (injectivity of Π) is classical; a characterization of *which* projection tuples are jointly realizable was not found. This is exactly the lane's open question (docs 184/186). |
 
+## The formula in standard terms (added 2026-09-03)
+
+Write `e_p` for the exponent of the primitive root of the projection of
+`w` onto the dependent pair `p` (unique by Lyndon–Schützenberger: two
+words commute iff they are powers of one word; formalized Mathlib-free in
+`proofs/lean/VeyraPrimitiveRoot.lean`, `THM_RT_002`/`THM_RT_004`). Then
+`proj_p(w)` is a literal `k`-th power iff `k ∣ e_p`, so
+`F_q(w) = {p : q ∤ e_p}` and the Break-Locus Formula says exactly:
+
+> `[w]_I` is a proper power in `M(Σ,I)` iff
+> `gcd({m_x : x ∈ Σ} ∪ {e_p : p ∉ I}) ≥ 2`,
+
+i.e. the exponent of a trace is the gcd of the letter counts and of the
+dependent-pair projection exponents. This is Duboc's Proposition 1.7 (L1)
+plus one line of up-set bookkeeping; `B(w)` = minimal antichain of the
+`F_q` over primes `q` dividing the count gcd is then immediate. The
+refutation witness `w* = aaccabbbaccaaccbbb` is the smallest-shape word
+with two primes in the count gcd and crossed floors (`e_ab = 2`,
+`e_ac = 3`, `e_bc = 1`). The 2026-08-27 sweeps that "answered otherwise"
+could not have found a counterexample: every scanned shape had a
+single-prime count gcd, for which principality is forced.
+
+**Consequence for wording.** `THM-TR2-008`, `THM-TR2-009`, the singleton
+criterion and the witness remain correct and machine-checked, but they
+are corollaries of L1, not candidate discoveries; the word "discovery"
+was removed from doc 183 accordingly.
+
 ## Effect on this lane's claims
 
 1. The Lean cores `THM_TR2_002`–`007` formalize **classical** facts. They
    keep their `FORMALLY_PROVED` rung as artifacts; they carry **no**
    novelty claim.
 2. `THM-TR2-008` (Break-Locus Formula), `THM-TR2-009` (Tightness), the
-   refutation witness, and the singleton criterion remain the lane's
-   candidate contributions — **built on Duboc's classical theorem**, which
-   must be cited as the engine wherever the formula is stated.
+   refutation witness, and the singleton criterion are **corollaries of
+   Duboc's classical theorem** in its gcd form (section above), which
+   must be cited as the engine wherever the formula is stated; they are
+   the lane's bookkeeping contributions, not new theorems.
 3. Before any external submission, three checks remain mandatory:
    zbMATH/MathSciNet searches; full text of Choffrut ("Combinatorics in
    Trace Monoids I") and Duchamp–Krob (ibid. II) in *The Book of Traces*

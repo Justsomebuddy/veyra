@@ -287,6 +287,10 @@ No metaphysical claim is accepted as mathematics until it becomes a definition, 
 - `docs/178_trusted_git_executable.md` — private fixed-path Git admission,
   process/environment isolation, compatibility semantics, and explicit
   residual trust for the two maintained repository-script consumers.
+- `docs/188_general_number_theory_lean.md` — general, Mathlib-free Lean
+  theorems replacing fixture cards: Fermat by orbit counting for all primes
+  and bases, Lyndon–Schützenberger and unique primitive roots, and the first
+  primality-consuming PΩ2 theorem (`ZpVeyra(p)` has no zero divisors).
 - `vam/docs/042_native_observer_synthesis_v4.md` — append-only finite
   representation/observer search, truthful namespace/seccomp/cgroup custody,
   state-free signed replay, and an abstract Lean boundary; not general

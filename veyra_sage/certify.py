@@ -190,7 +190,7 @@ def sage_certificate_suite() -> dict[str, object]:
     discipline_passed = discipline_summary == {"rules": 7, "steps": 28, "blocked_rules": 3, "domains": 7, "domain_certs": 7, "models": 10, "exports": 19} and discipline_notebook_summary == {"cells": 5, "markdown": 2, "code": 3} and len(discipline.stable_export_rows()) == 19
     number_summary = number_theory_lab_summary()
     number_notebook_summary = number_notebook.summary()
-    number_passed = number_summary == {"divisibility": 2, "blocked": 1, "prime_rows": 3, "rank_rows": 3, "factor_hits": 2, "fermat_rows": 7, "fermat_derived": 4, "fermat_units": 13, "checklist": 4} and number_notebook_summary == {"cells": 5, "markdown": 2, "code": 3} and len(number.rank_factor_rows()) == 3 and len(number.fermat_rows()) == 7
+    number_passed = number_summary == {"divisibility": 2, "blocked": 1, "prime_rows": 3, "rank_rows": 3, "factor_hits": 2, "fermat_rows": 7, "fermat_derived": 4, "fermat_units": 21, "checklist": 4} and number_notebook_summary == {"cells": 5, "markdown": 2, "code": 3} and len(number.rank_factor_rows()) == 3 and len(number.fermat_rows()) == 7
     category_summary = category_like_lab_summary()
     category_notebook_summary = category_notebook.summary()
     category_passed = category_summary == {"objects": 4, "morphisms": 4, "closed": 4, "invariants": 2, "broken": 1, "universal": 3, "blocked": 1, "checklist": 4} and category_notebook_summary == {"cells": 5, "markdown": 2, "code": 3} and category.universal_rows()[-1]["status"] == "blocked"

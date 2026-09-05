@@ -81,6 +81,7 @@ PORTABLE_TESTS = (
     "tests/test_veyra_sage_api_index.py",
     "tests/test_veyra_sage_notebooks.py",
     "tests/test_veyra_sage_notebook_artifacts.py",
+    "tests/test_veyra_sage_number_theory_oracle.py",
 )
 
 

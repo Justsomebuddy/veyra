@@ -21,6 +21,7 @@ Do not deep-import non-public implementation helpers when writing notebooks or e
 | T2 | modes/balances/ratios/polynomials | algebraic parent/element experiments |
 | T3 | language/geometry/essence/proof-discipline/calculus/trig/linear/stat/number/category/topology/likelihood seed labs | fast-moving kernel research wrappers |
 | T4 | refutations/search/card examples/artifacts | negative-pressure and generated notebook tooling |
+| T5 | observer-patch-gluing/adaptive-research-line/number-theory-oracle | real-Sage independent oracles; fail closed without Sage, promote nothing |
 
 ## Public symbols
 
@@ -75,6 +76,10 @@ The table is intentionally machine-readable: tests parse the first column and co
 | `AdaptiveRetryOracleRow` | adaptive-research-line | class | `veyra_sage.adaptive_research_line` |
 | `VeyraAdaptiveResearchLineLab` | adaptive-research-line | class | `veyra_sage.adaptive_research_line` |
 | `adaptive_retry_oracle` | adaptive-research-line | function | `veyra_sage.adaptive_research_line` |
+| `NumberTheoryOracleRow` | number-theory-oracle | class | `veyra_sage.number_theory_oracle` |
+| `VeyraNumberTheoryOracleLab` | number-theory-oracle | class | `veyra_sage.number_theory_oracle` |
+| `number_theory_oracle_rows` | number-theory-oracle | function | `veyra_sage.number_theory_oracle` |
+| `number_theory_oracle_summary` | number-theory-oracle | function | `veyra_sage.number_theory_oracle` |
 | `SAGE_AVAILABLE` | runtime | constant | `veyra_sage.all` |
 | `VeyraBalanceElement` | arithmetic-balances | class | `veyra_sage.balances` |
 | `VeyraBalanceParent` | arithmetic-balances | class | `veyra_sage.balances` |
@@ -130,7 +135,7 @@ The table is intentionally machine-readable: tests parse the first column and co
 
 ## API count
 
-- Public symbols: 99
+- Public symbols: 103
 - Governing tests: `tests/test_veyra_sage_api_index.py`
 - Boundary document: `docs/69_package_boundary.md`
 

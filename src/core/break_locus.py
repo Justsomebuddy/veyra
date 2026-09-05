@@ -382,9 +382,8 @@ def forcing_report(word: tuple[str, ...], alphabet: tuple[str, ...]) -> ForcingR
         return result
     primes = prime_valid_exponents(word, letters)
     forced = tuple((q, forced_pairs(word, letters, q)) for q in primes)
-    floors = {q: set(pairs) for q, pairs in forced}
     lemma_a = all(
-        floors.get(_smallest_prime_factor(row.exponent), set()) <= set(row.delta)
+        set(forced_pairs(word, letters, row.exponent)) <= set(row.delta)
         for row in locus.candidates
     )
     single = len(primes) == 1
@@ -400,18 +399,6 @@ def forcing_report(word: tuple[str, ...], alphabet: tuple[str, ...]) -> ForcingR
         logger.error("locus.forcing_report LEMMA-A VIOLATION word=%s", text)
     logger.debug("locus.forcing_report exit single=%s law=%r", single, law)
     return result
-
-
-def _smallest_prime_factor(value: int) -> int:
-    logger.debug("locus._smallest_prime_factor entry value=%d", value)
-    factor = 2
-    while factor * factor <= value:
-        if value % factor == 0:
-            logger.debug("locus._smallest_prime_factor exit result=%d", factor)
-            return factor
-        factor += 1
-    logger.debug("locus._smallest_prime_factor exit result=%d", value)
-    return value
 
 
 def forced_law_sweep(alphabet: tuple[str, ...], counts: tuple[int, ...], word_cap: int = DEFAULT_SWEEP_CAP) -> LawSweepReport:

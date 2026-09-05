@@ -59,7 +59,16 @@ floors are computed from an existing word. Executable agreement:
    The word was *constructed from the formula* (crossed floor types with
    the `bc` pair left free, so no position cycle can arise), machine
    verified: floors, minimal antichain, Lemma-A respect, and attainment
-   at both exponents. Direct BFS confirmation at 18 letters exceeds the
+   at both exponents. Direct BFS confirmation at 18 letters is now also
+   performed (it was first recorded as "exceeds the declared class caps";
+   that was wrong — the default cap is 1500 while the relevant classes have
+   18,564 members, and the enumeration takes well under a second):
+   `certify_break_locus_formula_tr2c` enumerates the trace class of `w*`
+   under all seven proper sub-doctrines with an explicit cap of 20,000
+   (class sizes 1/10/350/10/18,564/18,564/18,564) and finds `w*`
+   imprimitive exactly at `{ab,bc}` and `{ac,bc}`, primitive at the other
+   five, i.e. `B(w*)` by projection-free BFS. Historical text follows; the
+   phrase "exceeds the
    declared class caps and is honestly not performed: the refutation
    rests on the formula — every ingredient Lean-checked except the prose
    assembly and the classical projection lemma, which was cross-checked

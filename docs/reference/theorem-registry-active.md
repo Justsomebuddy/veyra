@@ -331,8 +331,11 @@ decided through class members via the cut-free primitive root, with the
 power exhibit recorded (737); edge transfer rows whose break carries the
 Ω exhibit verified to live outside the fine class, with the abstract
 monotone spine `THM-TR1-001`–`004` `FORMALLY_PROVED` in
-`VeyraObserverLattice.lean` — coarse-primitive implies fine-primitive
-(738); and the fragility spectrum with its exact first-break edge — the
+`VeyraObserverLattice.lean` — the Lean statements are about an arbitrary
+relation and predicate (reflexive-transitive closure is monotone in the
+relation); "coarse-primitive implies fine-primitive" is their prose
+reading in the trace-monoid model, not a formalized statement about
+words or doctrines (738); and the fragility spectrum with its exact first-break edge — the
 flagship `aabbcc` cell breaks exactly on the `bc` edge with exhibit
 `abcabc = (abc)²` (739). Classical trace theory is credited; the lane is
 `INTERNAL_RESEARCH_CANDIDATE`, rows are `EXECUTABLE_EVIDENCE`, and TR-2
@@ -365,8 +368,9 @@ homomorphism and the projection of a power is a power (`FORMALLY_PROVED`,
 real induction, `VeyraProjectionPower.lean`) (744); prime reduction via
 `THM-TR2-004/005` — power addition and divisor laws, so minimal deltas
 live at prime exponents and floors are divisibility-monotone
-(`FORMALLY_PROVED`) (745); the single-prime reduction *Principality ⇔
-Achievability* — prose-derived from 744/745 plus minimality (external-
+(`FORMALLY_PROVED`) (745); the single-prime reduction *Forced locus ⇔
+Achievability* (an earlier wording said "Principality ⇔ Achievability";
+principality is only implied, not equivalent) — prose-derived from 744/745 plus minimality (external-
 draft precedent W-001; native formalization `OPEN`) — together with the
 **Forced-Locus Law**: `B(w) == {F_q(w)}` on all 6285 exhaustively scanned
 single-prime words, zero Lemma-A violations, zero law mismatches, pinned
@@ -394,8 +398,10 @@ scanned words, zero mismatches (749); and the resolution of
 6285/6285 principality), and the **general form is REFUTED** by the
 explicit witness `w* = aaccabbbaccaaccbbb` with `F₂ = {ac,bc}`,
 `F₃ = {ab,bc}`, `B(w*) = {{ab,bc},{ac,bc}}` — machine-verified through
-the formula; direct BFS at 18 letters exceeds the declared caps and is
-honestly not performed, the classical projection lemma having been
+the formula AND by direct projection-free BFS at 18 letters (certificate
+`break_locus_formula_tr2c`, explicit cap 20,000; the largest classes have
+18,564 members — an earlier wording claimed the BFS "exceeds the declared
+caps", which was wrong), the classical projection lemma having also been
 cross-checked on six full small lattices (doc 183). Corollary: `|B(w)|`
 is at most the number of distinct primes dividing the gcd. See doc 185.
 
@@ -412,6 +418,38 @@ hidden type constraint at the smallest shapes. General type-matrix
 realizability remains `OPEN` (narrowed by the star theorem and the
 exhaustive small-shape spectra). See doc 186.
 
+## DEF-754–756 / THM-NO-001–009 / THM-RT-001–004 / THM-PD-001–003 — General number theory in the stable Lean graph (2026-09-03)
+
+`DEF-754` (cyclic read and rotation, `Veyra.Necklace.read`/`rot`, with the
+shift stabilizer `Fix`), `DEF-755` (primitive word and literal power,
+`Veyra.Root.Primitive`/`pow`), and `DEF-756` (coordinate valuation split
+of a `ZpVeyra` family, `exists_valuation`/`split_valuation`) are the
+definitions behind three new stable sources. Theorem cards, all
+`FORMALLY_PROVED`, Mathlib-free, quantifying over host `Nat`/`List`:
+**THM-NO-001–009** (`VeyraNecklaceOrbit.lean`) — rotation group law,
+gcd-closed stabilizer, prime-length orbit dichotomy for every prime and any
+alphabet, pairwise-distinct rotations, the orbit-partition counting law, and
+Fermat `k^p = k + p·q` / `p ∣ k^p − k` / `k^p % p = k % p` for all primes
+`p` and all `k`, with the divisibility content of the N8 Fermat-count cards
+(`THM_N8_004/005`, plus `p = 7`) recovered as instances — not the Gauss
+`n = 4` card or the composite counterexample; **THM-NO-010** Gauss
+divisibility `n ∣ #aperiodic(k, n)` for every positive `n` and **THM-NO-011**
+aperiodic ⇔ primitive (added 2026-09-05; the file now imports
+`VeyraPrimitiveRoot`);
+**THM-RT-001–004** (`VeyraPrimitiveRoot.lean`) — powers of a common root
+commute, the Lyndon–Schützenberger commutation theorem, constructive
+existence of a primitive root, and uniqueness of root and exponent;
+**THM-PD-001–003** (`VeyraPadicDomain.lean`) — the coordinate
+integral-domain law of `ZpVeyra(p)` (families nonzero at depths `n`, `m`
+multiply to a family nonzero at depth `n + m`), its constructive depth form,
+and the classical no-zero-divisors corollary (`Classical.choice` printed in
+its closure). `THM-PD-001` is the first theorem in the PΩ2/N family whose
+proof consumes `VeyraPrimeWitness.no_proper_divisor`. Non-claims: no public
+alias, certificate, or bundle entry (not `PUBLICLY_VALIDATED`); no native
+quantifier or completed-infinity claim; no promotion of W-001/THM-001–003;
+the Gauss congruence at composite length and Z_p valuation/units/Hensel
+remain `OPEN`. See doc 188.
+
 **Literature positioning (doc 187, binding on the whole TR-2 lane):** the
 fixed-relation characterization behind `THM-TR2-002..007` is **classical
 — Duboc 1986, Prop. 1.7** (with the projection lemma from Duboc
@@ -422,7 +460,13 @@ their evidence rungs as formalizations and carry **no novelty claim**.
 The lane's candidate contributions are only the lattice-parametric
 layer — `B(w)`, the prime-floor formula `THM-TR2-008`, tightness
 `THM-TR2-009`, the singleton criterion and the refutation witness — for
-which no precedent was found in searched sources (closest structural
+which no precedent was found in searched sources; in standard
+combinatorics-on-words terms the formula is the gcd form of Duboc's
+projection characterization (the exponent of a trace equals the gcd of
+the letter counts and of the exponents of its dependent-pair projections,
+each projection having a unique primitive root by Lyndon–Schützenberger),
+so it is a corollary of L1 with up-set bookkeeping, not an independent
+result (doc 187) (closest structural
 neighbour: Earnshaw–Sobociński 2023 on the poset `Ind_Σ`, unrelated to
 powers). Mandatory pre-submission checks (zbMATH/MathSciNet; full text of
 Choffrut and Duchamp–Krob in *The Book of Traces*; forward citations of

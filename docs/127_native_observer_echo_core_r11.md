@@ -194,6 +194,11 @@ snapshot = 1bc6a303307e093d350bcd48428da48ea5d7daeeb7d075862c9c94051d8091f9
 binding  = 79039a32670ea305a70129e80d6299eae0f2428393f2f28018b74ccbdbc8701f
 ```
 
+Renewed 2026-09-05 (content-bound re-pin after the reviewed 2026-08-15/27
+edits to `proof_core_codec.py`, `native_runtime.py`, `intrinsic_arithmetic.py`):
+R11 binding `24100cdd889f3abb435fe2654967d2d6b86bc80ae268ae4ef29d47f7b95e12e2`;
+the R9/R10 bindings it chains from are listed in the module log of that renewal.
+
 This R11 certificate does **not** renew or widen the R8 promotion contract.
 The readiness taxonomy remains exactly `1/4/25/5`, and
 `proof_complete=False`.

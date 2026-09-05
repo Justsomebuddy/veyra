@@ -223,7 +223,13 @@ Final reviewed bindings:
 - theorem artifact: `89605a48cd32c0722bcd45b3ac59975adddcdb809d768afd241ff91668376e1d`;
 - guarded snapshot/report: `b2fba8b0f511dc700f53dbb9483147f5e99bdcea26848208425a631b0f2b1d72`
   / `b9951c8eae61a10486ece42f897ed9c406e7de3fde7b3a7b72bc77309ec65180`;
+- **renewed 2026-09-05** (content-bound chain re-pinned after the reviewed
+  2026-08-15/27 edits to `proof_core_codec.py` (formatting only),
+  `native_runtime.py` (docstrings) and `intrinsic_arithmetic.py` (status
+  token): phase artifact `a6622f425e5a7073d7686b6c4c21aa35a59a146712252b59498103b46715f49a`; executable evidence `f58eec79122a7110febdfda15e313cf2510a9e575ce64f9e4e6183049de68201`; theorem artifact
+  `f1847d8a85d1b298fc4caa97e486abe8f4d5c51fe0fabdbbd3ebd414624f10fe`; guarded snapshot/report `da2ee6fc3b9ebcf49c5d5e6f0e16d1f936922ffe3adc613424233be5ed28ad1f` / `db5b22a282d2118be0fd08d25e9c12e8f4aa8530ecff9c284cd2f21dbf9af79c`;
 - new R8 contract: `0c71003a9114faad3e5fb497993030fa86155d3ef2aa155405cbd3050a2ea09e`;
+- new R8 contract (renewed 2026-09-05, follows the renewed theorem artifact): `0f2d10bf1bb44910e2c55164e0d7cb2eaa84f150b4af8d537ec332dd6110596c`;
 - direct executable-handler pin: `ee12d603d86b0a1387bcba3e9c6a76fbba983940908e5ec07a0b5d856a9d5673`;
 - preserved old R7 contract: `484534000ee59a28d0d131b777dcc775d56d24b82c70797954ba82c8570a8eba`.
 

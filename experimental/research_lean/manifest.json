@@ -125,6 +125,14 @@
       "declarations": []
     },
     {
+      "path": "proofs/lean/VeyraNecklaceOrbit.lean",
+      "sha256": "ed4e7f6e974bfe156ee8e6bcab97a4ab53fa6899c70e2ba99adafb32ae93ad61",
+      "imports": [
+        "VeyraPrimitiveRoot"
+      ],
+      "declarations": []
+    },
+    {
       "path": "proofs/lean/VeyraObserverCore.lean",
       "sha256": "fef5db4a94f40b7ba478c5e9d28c5680f736672d5caaea5ac97a823d3e2359d2",
       "imports": [
@@ -221,6 +229,14 @@
       "declarations": []
     },
     {
+      "path": "proofs/lean/VeyraPadicDomain.lean",
+      "sha256": "52104ea86ed63da080aae79f6cd3f03b366f8c0239351cc22e79fbd4d9fcf659",
+      "imports": [
+        "VeyraPadicCompletion"
+      ],
+      "declarations": []
+    },
+    {
       "path": "proofs/lean/VeyraPadicFamilyIntroduction.lean",
       "sha256": "b8540c65b555bd8407d558b3a16cc7cd25ab27ca636083451162f1a8a5490b48",
       "imports": [
@@ -285,6 +301,12 @@
       "declarations": []
     },
     {
+      "path": "proofs/lean/VeyraPrimitiveRoot.lean",
+      "sha256": "b70f75584e5b5bbbc6059debfe83cd003f1b59dcc5a748724f042b4efa10b243",
+      "imports": [],
+      "declarations": []
+    },
+    {
       "path": "proofs/lean/VeyraProbability.lean",
       "sha256": "b41611ae5d42575211526fd3e9c7fa97b97eb9ab6c47e9b3f2b2dbc8b5f03542",
       "imports": [],
@@ -306,7 +328,7 @@
     },
     {
       "path": "proofs/lean/VeyraProofElaboration.lean",
-      "sha256": "52269d4c9839b7178200e0a8e86acd4df6348302e457745eb86e58439feb265f",
+      "sha256": "d7c23b7b7c9a8a2e4c47436631fdb3818debf734f0e7f0ea5d4adffad5fcc34b",
       "imports": [
         "VeyraElaborationSemantics"
       ],
@@ -322,7 +344,7 @@
     },
     {
       "path": "proofs/lean/VeyraProofModeTransport.lean",
-      "sha256": "d9ac930c119f3126a858bf286bee32f4d5b9a3ac3fe8cb297316d9cc10dbcc26",
+      "sha256": "3d9af0918dcffa3730193c36c5bbc705bc28c507b28291c7f9ef0d21c32335a2",
       "imports": [
         "VeyraProofResonance",
         "VeyraRecurrenceModeBridge"
@@ -1043,8 +1065,8 @@
     ]
   },
   "source_roots": {
-    "base": "4c0722a4fda5cd164cc5bb71acbc87d18b5e85014fb28d46dc017cc0b841628b",
+    "base": "745a40e4ae3e527877167373eb04fb465b48293ab27e30e054c1ea47bb2f0588",
     "research": "caf7d1c2e0e7e8333132300a0ebe5099e35b4fb70d47033fcc8bf033f4c9f597"
   },
-  "proof_root": "dc991bf17da44eb4691ebd236cd9f40a4024caec589735aa16be378baccce509"
+  "proof_root": "07187fd33a9f1f07c72945f35b2cbaaec4777d3bd2046e265d3973035bb0688a"
 }

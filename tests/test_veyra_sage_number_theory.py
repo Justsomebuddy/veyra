@@ -2,7 +2,7 @@ from veyra_sage.all import VeyraNumberTheoryLab, build_number_theory_notebook, n
 
 
 def test_number_theory_lab_summary_closes_x2():
-    assert number_theory_lab_summary() == {"divisibility": 2, "blocked": 1, "prime_rows": 3, "rank_rows": 3, "factor_hits": 2, "fermat_rows": 7, "fermat_derived": 4, "fermat_units": 13, "checklist": 4}
+    assert number_theory_lab_summary() == {"divisibility": 2, "blocked": 1, "prime_rows": 3, "rank_rows": 3, "factor_hits": 2, "fermat_rows": 7, "fermat_derived": 4, "fermat_units": 21, "checklist": 4}
 
 
 def test_number_theory_lab_rows_are_json_ready():

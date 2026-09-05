@@ -21,7 +21,7 @@ logger = logging.getLogger(__name__)
 SCHEMA = "veyra.intrinsic-observer-echo-evidence.r13.2.v1"
 EVIDENCE_ID = "veyra.r13.intrinsic-observer-echo.executable.v1"
 EVIDENCE_DOMAIN = "veyra-r13-intrinsic-observer-echo-evidence-v1"
-EXPECTED_EVIDENCE_DIGEST = "2e56772d2834a059a55536d7d0c6e042dc5b34ba7116c09eed4f49b80c5e5efb"
+EXPECTED_EVIDENCE_DIGEST = "f58eec79122a7110febdfda15e313cf2510a9e575ce64f9e4e6183049de68201"
 BOUNDARY = (
     "three finite executable rows only: source replay authorizes unit-weave equality, "
     "Python evaluates echo(observer,r,r), tail/silence remains two-sided blocked, and "

@@ -9,6 +9,24 @@ or imported-module dependencies, and its source location. A dependency entry of
 “same-module definitions only” means that the declaration invokes no other
 `THM_*` declaration and imports no local Veyra module.
 
+**Definitional-content annotation (2026-09-03 audit).** `FORMALLY_PROVED`
+records only that Lean checks the exact type. The following declarations are
+definitional in content — `rfl`, a projection of a hypothesis or record
+field, or an instantiation of their own hypothesis — and carry no
+mathematical content beyond their definitions: `THM_POMEGA2_003/006/007/
+008/012/013/015`, `THM_P3N1_001/003`, `THM_P3N3_001/002` (byte-identical
+types; `002` re-proves `001`), `THM_P3N4_001`, `THM_P3N4_PREMISE_001`,
+`THM_P3N2_003/005`, `THM_P3N6_004/005`, `THM_P3N6W_001–004`,
+`THM_D3_LEAN_001–011`, `THM_DI1_001` (the host recursor itself, pinned
+deliberately), `THM_DI1_002/003`, `THM_DI2_001` (`hp per h`),
+`THM_DI2_005`, `THM_TR1_002/004`, `THM_TR2_007`, `THM_N8_001–007`
+(`decide` on literal fixtures). Their rows are kept unchanged for
+digest/alias stability; readers must not weigh them as theorems. In
+particular `THM_POMEGA2_007_universal_realization` is `⟨f, fun _ => rfl⟩`
+because `ZpVeyra` is an `abbrev` of `VeyraCompatibleFamily`, and no
+declaration in the PΩ2/N-family consumes `VeyraPrimeWitness.no_proper_divisor`
+(the first one that does is `VeyraPadicDomain.lean`).
+
 | Formal ID | Lean kind | Publication status | Direct theorem/module dependencies | Proof location |
 |---|---|---|---|---|
 | `THM_A001_polynomial_identity_coeffs` | `theorem` | `FORMALLY_PROVED` | same-module definitions only | `proofs/lean/VeyraAlgebra.lean:7` |
@@ -17,21 +35,21 @@ or imported-module dependencies, and its source location. A dependency entry of
 | `THM_A004_sampled_continuity_double_0_five_points` | `theorem` | `FORMALLY_PROVED` | same-module definitions only | `proofs/lean/VeyraAlgebra.lean:27` |
 | `THM_A005_square_symmetric_drift_3_steps_1_2_3` | `theorem` | `FORMALLY_PROVED` | same-module definitions only | `proofs/lean/VeyraAlgebra.lean:35` |
 | `THM_A006_identity_midpoint_area_4_4_8` | `theorem` | `FORMALLY_PROVED` | same-module definitions only | `proofs/lean/VeyraAlgebra.lean:44` |
-| `THM_D3_LEAN_001_coordinate_total` | `theorem` | `FORMALLY_PROVED` | same-module definitions only | `proofs/lean/VeyraAllDepthFamily.lean:30` |
-| `THM_D3_LEAN_002_coordinate_member` | `theorem` | `FORMALLY_PROVED` | same-module definitions only | `proofs/lean/VeyraAllDepthFamily.lean:35` |
-| `THM_D3_LEAN_003_restriction_compatible` | `theorem` | `FORMALLY_PROVED` | same-module definitions only | `proofs/lean/VeyraAllDepthFamily.lean:40` |
-| `THM_D3_LEAN_004_relation_reflexive` | `theorem` | `FORMALLY_PROVED` | same-module definitions only | `proofs/lean/VeyraAllDepthFamily.lean:47` |
-| `THM_D3_LEAN_005_relation_symmetric` | `theorem` | `FORMALLY_PROVED` | same-module definitions only | `proofs/lean/VeyraAllDepthFamily.lean:52` |
-| `THM_D3_LEAN_006_relation_transitive` | `theorem` | `FORMALLY_PROVED` | same-module definitions only | `proofs/lean/VeyraAllDepthFamily.lean:57` |
-| `THM_D3_LEAN_007_restriction_identity` | `theorem` | `FORMALLY_PROVED` | same-module definitions only | `proofs/lean/VeyraAllDepthFamily.lean:63` |
-| `THM_D3_LEAN_008_restriction_composition` | `theorem` | `FORMALLY_PROVED` | same-module definitions only | `proofs/lean/VeyraAllDepthFamily.lean:69` |
-| `THM_D3_LEAN_009_restriction_congruence` | `theorem` | `FORMALLY_PROVED` | same-module definitions only | `proofs/lean/VeyraAllDepthFamily.lean:75` |
-| `THM_D3_LEAN_010_family_equivalence` | `theorem` | `FORMALLY_PROVED` | same-module definitions only | `proofs/lean/VeyraAllDepthFamily.lean:81` |
-| `THM_D3_LEAN_011_constructor_deterministic` | `theorem` | `FORMALLY_PROVED` | same-module definitions only | `proofs/lean/VeyraAllDepthFamily.lean:95` |
-| `THM_I1_001_prefix_tower_recovers_stream` | `theorem` | `FORMALLY_PROVED` | same-module definitions only | `proofs/lean/VeyraCoherentTowers.lean:22` |
-| `THM_I1_002_prefix_observers_determine_stream` | `theorem` | `FORMALLY_PROVED` | `THM_I1_001_prefix_tower_recovers_stream` | `proofs/lean/VeyraCoherentTowers.lean:34` |
-| `THM_I1_003_prefix_conflict_blocks_global_stream` | `theorem` | `FORMALLY_PROVED` | same-module definitions only | `proofs/lean/VeyraCoherentTowers.lean:54` |
-| `THM_I1_004_modular_addition_preserves_refinement` | `theorem` | `FORMALLY_PROVED` | same-module definitions only | `proofs/lean/VeyraCoherentTowers.lean:67` |
+| `THM_D3_LEAN_001_coordinate_total` | `theorem` | `FORMALLY_PROVED` | same-module definitions only | `proofs/lean/VeyraAllDepthFamily.lean:31` |
+| `THM_D3_LEAN_002_coordinate_member` | `theorem` | `FORMALLY_PROVED` | same-module definitions only | `proofs/lean/VeyraAllDepthFamily.lean:36` |
+| `THM_D3_LEAN_003_restriction_compatible` | `theorem` | `FORMALLY_PROVED` | same-module definitions only | `proofs/lean/VeyraAllDepthFamily.lean:41` |
+| `THM_D3_LEAN_004_relation_reflexive` | `theorem` | `FORMALLY_PROVED` | same-module definitions only | `proofs/lean/VeyraAllDepthFamily.lean:48` |
+| `THM_D3_LEAN_005_relation_symmetric` | `theorem` | `FORMALLY_PROVED` | same-module definitions only | `proofs/lean/VeyraAllDepthFamily.lean:53` |
+| `THM_D3_LEAN_006_relation_transitive` | `theorem` | `FORMALLY_PROVED` | same-module definitions only | `proofs/lean/VeyraAllDepthFamily.lean:58` |
+| `THM_D3_LEAN_007_restriction_identity` | `theorem` | `FORMALLY_PROVED` | same-module definitions only | `proofs/lean/VeyraAllDepthFamily.lean:64` |
+| `THM_D3_LEAN_008_restriction_composition` | `theorem` | `FORMALLY_PROVED` | same-module definitions only | `proofs/lean/VeyraAllDepthFamily.lean:70` |
+| `THM_D3_LEAN_009_restriction_congruence` | `theorem` | `FORMALLY_PROVED` | same-module definitions only | `proofs/lean/VeyraAllDepthFamily.lean:76` |
+| `THM_D3_LEAN_010_family_equivalence` | `theorem` | `FORMALLY_PROVED` | same-module definitions only | `proofs/lean/VeyraAllDepthFamily.lean:82` |
+| `THM_D3_LEAN_011_constructor_deterministic` | `theorem` | `FORMALLY_PROVED` | same-module definitions only | `proofs/lean/VeyraAllDepthFamily.lean:96` |
+| `THM_I1_001_prefix_tower_recovers_stream` | `theorem` | `FORMALLY_PROVED` | same-module definitions only | `proofs/lean/VeyraCoherentTowers.lean:23` |
+| `THM_I1_002_prefix_observers_determine_stream` | `theorem` | `FORMALLY_PROVED` | `THM_I1_001_prefix_tower_recovers_stream` | `proofs/lean/VeyraCoherentTowers.lean:35` |
+| `THM_I1_003_prefix_conflict_blocks_global_stream` | `theorem` | `FORMALLY_PROVED` | same-module definitions only | `proofs/lean/VeyraCoherentTowers.lean:55` |
+| `THM_I1_004_modular_addition_preserves_refinement` | `theorem` | `FORMALLY_PROVED` | same-module definitions only | `proofs/lean/VeyraCoherentTowers.lean:68` |
 | `THM_B001_binomial_symmetry_6_2` | `theorem` | `FORMALLY_PROVED` | same-module definitions only | `proofs/lean/VeyraCombinatorics.lean:11` |
 | `THM_C001_cyclic_period` | `theorem` | `FORMALLY_PROVED` | same-module definitions only | `proofs/lean/VeyraCyclic.lean:5` |
 | `THM_C002_chord_symmetry_12_0_3_9` | `theorem` | `FORMALLY_PROVED` | same-module definitions only | `proofs/lean/VeyraCyclic.lean:13` |
@@ -89,6 +107,17 @@ or imported-module dependencies, and its source location. A dependency entry of
 | `THM_N8_005_fermat_count_p5_k2` | `theorem` | `FORMALLY_PROVED` | same-module definitions only | `proofs/lean/VeyraNecklaceCongruence.lean:50` |
 | `THM_N8_006_gauss_primitive_count_n4_k2` | `theorem` | `FORMALLY_PROVED` | same-module definitions only | `proofs/lean/VeyraNecklaceCongruence.lean:56` |
 | `THM_N8_007_composite_dichotomy_counterexample` | `theorem` | `FORMALLY_PROVED` | same-module definitions only | `proofs/lean/VeyraNecklaceCongruence.lean:63` |
+| `THM_NO_001_rot_rot` | `theorem` | `FORMALLY_PROVED` | same-module definitions only | `proofs/lean/VeyraNecklaceOrbit.lean:86` |
+| `THM_NO_002_fix_gcd` | `theorem` | `FORMALLY_PROVED` | same-module definitions only | `proofs/lean/VeyraNecklaceOrbit.lean:134` |
+| `THM_NO_003_prime_dichotomy` | `theorem` | `FORMALLY_PROVED` | `THM_NO_002_fix_gcd` | `proofs/lean/VeyraNecklaceOrbit.lean:177` |
+| `THM_NO_004_rotations_distinct` | `theorem` | `FORMALLY_PROVED` | `THM_NO_001_rot_rot`, `THM_NO_003_prime_dichotomy` | `proofs/lean/VeyraNecklaceOrbit.lean:230` |
+| `THM_NO_005_partition_dvd` | `theorem` | `FORMALLY_PROVED` | same-module definitions only | `proofs/lean/VeyraNecklaceOrbit.lean:383` |
+| `THM_NO_006_fermat_decomposition` | `theorem` | `FORMALLY_PROVED` | `THM_NO_005_partition_dvd`, `THM_NO_004_rotations_distinct` (via `nodup_orbitList`), `THM_NO_001_rot_rot` (via `orbitList_same`) | `proofs/lean/VeyraNecklaceOrbit.lean:523` |
+| `THM_NO_007_fermat_dvd` | `theorem` | `FORMALLY_PROVED` | `THM_NO_006_fermat_decomposition` | `proofs/lean/VeyraNecklaceOrbit.lean:586` |
+| `THM_NO_008_fermat_mod` | `theorem` | `FORMALLY_PROVED` | `THM_NO_006_fermat_decomposition` | `proofs/lean/VeyraNecklaceOrbit.lean:592` |
+| `THM_NO_009_n8_instances` | `theorem` | `FORMALLY_PROVED` | `THM_NO_007_fermat_dvd` | `proofs/lean/VeyraNecklaceOrbit.lean:607` |
+| `THM_NO_010_gauss_aperiodic_dvd` | `theorem` | `FORMALLY_PROVED` | `THM_NO_005_partition_dvd`, `THM_NO_001_rot_rot` (via `rot_eq_rot_imp_fix`/`aperiodic_rot`/`orbitList_same`) | `proofs/lean/VeyraNecklaceOrbit.lean:683` |
+| `THM_NO_011_aperiodic_iff_primitive` | `theorem` | `FORMALLY_PROVED` | `THM_NO_002_fix_gcd`; imports `VeyraPrimitiveRoot` (`Root.pow`, `Root.Primitive`, `Root.length_pow`) | `proofs/lean/VeyraNecklaceOrbit.lean:812` |
 | `THM_DI1_001_family_from_base_and_step` | `theorem` | `FORMALLY_PROVED` | same-module definitions only | `proofs/lean/VeyraDoctrinalInduction.lean:13` |
 | `THM_DI1_002_replay_zero` | `theorem` | `FORMALLY_PROVED` | same-module definitions only | `proofs/lean/VeyraDoctrinalInduction.lean:21` |
 | `THM_DI1_003_replay_succ` | `theorem` | `FORMALLY_PROVED` | same-module definitions only | `proofs/lean/VeyraDoctrinalInduction.lean:25` |
@@ -109,24 +138,31 @@ or imported-module dependencies, and its source location. A dependency entry of
 | `THM_TR2_005_pow_mul` | `theorem` | `FORMALLY_PROVED` | `THM_TR2_004_pow_add` | `proofs/lean/VeyraProjectionPower.lean:44` |
 | `THM_TR2_006_first_block` | `theorem` | `FORMALLY_PROVED` | same-module definitions only | `proofs/lean/VeyraProjectionPower.lean:57` |
 | `THM_TR2_007_power_first_block` | `theorem` | `FORMALLY_PROVED` | `THM_TR2_006_first_block` | `proofs/lean/VeyraProjectionPower.lean:69` |
+| `THM_RT_001_pow_comm_of_root` | `theorem` | `FORMALLY_PROVED` | same-module definitions only | `proofs/lean/VeyraPrimitiveRoot.lean:63` |
+| `THM_RT_002_comm_iff_common_root` | `theorem` | `FORMALLY_PROVED` | same-module definitions only | `proofs/lean/VeyraPrimitiveRoot.lean:113` |
+| `THM_RT_004_primitive_root_unique` | `theorem` | `FORMALLY_PROVED` | `THM_RT_002_comm_iff_common_root` | `proofs/lean/VeyraPrimitiveRoot.lean:162` |
+| `THM_RT_003_primitive_root_exists` | `theorem` | `FORMALLY_PROVED` | same-module definitions only | `proofs/lean/VeyraPrimitiveRoot.lean:284` |
 | `THM_P3N4_PREMISE_001_same_integer_coordinates` | `theorem` | `FORMALLY_PROVED + PUBLICLY_VALIDATED` | imports `VeyraPadicLocalRealization` | `proofs/lean/VeyraPadicAllDepthEquality.lean:6` |
-| `THM_POMEGA2_001_prime_lower_bound` | `theorem` | `FORMALLY_PROVED + PUBLICLY_VALIDATED` | imports `Std.Tactic`, `Init.GrindInstances.Ring.Fin` | `proofs/lean/VeyraPadicCompletion.lean:177` |
-| `THM_POMEGA2_002_stage_modulus_divisibility` | `theorem` | `FORMALLY_PROVED + PUBLICLY_VALIDATED` | imports `Std.Tactic`, `Init.GrindInstances.Ring.Fin` | `proofs/lean/VeyraPadicCompletion.lean:179` |
-| `THM_POMEGA2_003_reduction_well_formed_congruence` | `theorem` | `FORMALLY_PROVED + PUBLICLY_VALIDATED` | imports `Std.Tactic`, `Init.GrindInstances.Ring.Fin` | `proofs/lean/VeyraPadicCompletion.lean:184` |
-| `THM_POMEGA2_004_reduction_identity` | `theorem` | `FORMALLY_PROVED + PUBLICLY_VALIDATED` | imports `Std.Tactic`, `Init.GrindInstances.Ring.Fin` | `proofs/lean/VeyraPadicCompletion.lean:190` |
-| `THM_POMEGA2_005_reduction_composition` | `theorem` | `FORMALLY_PROVED + PUBLICLY_VALIDATED` | `THM_POMEGA2_002_stage_modulus_divisibility` | `proofs/lean/VeyraPadicCompletion.lean:195` |
-| `THM_POMEGA2_006_carrier_presentation_compatible` | `theorem` | `FORMALLY_PROVED + PUBLICLY_VALIDATED` | imports `Std.Tactic`, `Init.GrindInstances.Ring.Fin` | `proofs/lean/VeyraPadicCompletion.lean:202` |
-| `THM_POMEGA2_007_universal_realization` | `theorem` | `FORMALLY_PROVED + PUBLICLY_VALIDATED` | imports `Std.Tactic`, `Init.GrindInstances.Ring.Fin` | `proofs/lean/VeyraPadicCompletion.lean:206` |
-| `THM_POMEGA2_008_coordinate_agreement` | `theorem` | `FORMALLY_PROVED + PUBLICLY_VALIDATED` | imports `Std.Tactic`, `Init.GrindInstances.Ring.Fin` | `proofs/lean/VeyraPadicCompletion.lean:210` |
-| `THM_POMEGA2_009_joint_separation` | `theorem` | `FORMALLY_PROVED + PUBLICLY_VALIDATED` | imports `Std.Tactic`, `Init.GrindInstances.Ring.Fin` | `proofs/lean/VeyraPadicCompletion.lean:214` |
-| `THM_POMEGA2_010_relative_uniqueness` | `theorem` | `FORMALLY_PROVED + PUBLICLY_VALIDATED` | `THM_POMEGA2_009_joint_separation` | `proofs/lean/VeyraPadicCompletion.lean:219` |
-| `THM_POMEGA2_011_zero_family_nonvacuity` | `theorem` | `FORMALLY_PROVED + PUBLICLY_VALIDATED` | imports `Std.Tactic`, `Init.GrindInstances.Ring.Fin` | `proofs/lean/VeyraPadicCompletion.lean:225` |
-| `THM_POMEGA2_012_one_family_formation` | `theorem` | `FORMALLY_PROVED + PUBLICLY_VALIDATED` | imports `Std.Tactic`, `Init.GrindInstances.Ring.Fin` | `proofs/lean/VeyraPadicCompletion.lean:228` |
-| `THM_POMEGA2_013_addition_closure` | `theorem` | `FORMALLY_PROVED + PUBLICLY_VALIDATED` | imports `Std.Tactic`, `Init.GrindInstances.Ring.Fin` | `proofs/lean/VeyraPadicCompletion.lean:232` |
-| `THM_POMEGA2_014_negation_additive_inverse` | `theorem` | `FORMALLY_PROVED + PUBLICLY_VALIDATED` | `THM_POMEGA2_009_joint_separation` | `proofs/lean/VeyraPadicCompletion.lean:237` |
-| `THM_POMEGA2_015_multiplication_closure` | `theorem` | `FORMALLY_PROVED + PUBLICLY_VALIDATED` | imports `Std.Tactic`, `Init.GrindInstances.Ring.Fin` | `proofs/lean/VeyraPadicCompletion.lean:244` |
-| `THM_POMEGA2_016_full_commutative_ring` | `theorem` | `FORMALLY_PROVED + PUBLICLY_VALIDATED` | `THM_POMEGA2_009_joint_separation` | `proofs/lean/VeyraPadicCompletion.lean:249` |
-| `THM_POMEGA2_017_ppcp_introduction` | `theorem` | `FORMALLY_PROVED + PUBLICLY_VALIDATED` | `THM_POMEGA2_001_prime_lower_bound`, `THM_POMEGA2_002_stage_modulus_divisibility`, `THM_POMEGA2_003_reduction_well_formed_congruence`, `THM_POMEGA2_004_reduction_identity`, `THM_POMEGA2_005_reduction_composition`, `THM_POMEGA2_006_carrier_presentation_compatible`, `THM_POMEGA2_007_universal_realization`, `THM_POMEGA2_008_coordinate_agreement`, `THM_POMEGA2_009_joint_separation`, `THM_POMEGA2_010_relative_uniqueness`, `THM_POMEGA2_011_zero_family_nonvacuity`, `THM_POMEGA2_012_one_family_formation`, `THM_POMEGA2_013_addition_closure`, `THM_POMEGA2_014_negation_additive_inverse`, `THM_POMEGA2_015_multiplication_closure`, `THM_POMEGA2_016_full_commutative_ring` | `proofs/lean/VeyraPadicCompletion.lean:261` |
+| `THM_POMEGA2_001_prime_lower_bound` | `theorem` | `FORMALLY_PROVED + PUBLICLY_VALIDATED` | imports `Std.Tactic`, `Init.GrindInstances.Ring.Fin` | `proofs/lean/VeyraPadicCompletion.lean:178` |
+| `THM_POMEGA2_002_stage_modulus_divisibility` | `theorem` | `FORMALLY_PROVED + PUBLICLY_VALIDATED` | imports `Std.Tactic`, `Init.GrindInstances.Ring.Fin` | `proofs/lean/VeyraPadicCompletion.lean:180` |
+| `THM_POMEGA2_003_reduction_well_formed_congruence` | `theorem` | `FORMALLY_PROVED + PUBLICLY_VALIDATED` | imports `Std.Tactic`, `Init.GrindInstances.Ring.Fin` | `proofs/lean/VeyraPadicCompletion.lean:185` |
+| `THM_POMEGA2_004_reduction_identity` | `theorem` | `FORMALLY_PROVED + PUBLICLY_VALIDATED` | imports `Std.Tactic`, `Init.GrindInstances.Ring.Fin` | `proofs/lean/VeyraPadicCompletion.lean:191` |
+| `THM_POMEGA2_005_reduction_composition` | `theorem` | `FORMALLY_PROVED + PUBLICLY_VALIDATED` | `THM_POMEGA2_002_stage_modulus_divisibility` | `proofs/lean/VeyraPadicCompletion.lean:196` |
+| `THM_POMEGA2_006_carrier_presentation_compatible` | `theorem` | `FORMALLY_PROVED + PUBLICLY_VALIDATED` | imports `Std.Tactic`, `Init.GrindInstances.Ring.Fin` | `proofs/lean/VeyraPadicCompletion.lean:203` |
+| `THM_POMEGA2_007_universal_realization` | `theorem` | `FORMALLY_PROVED + PUBLICLY_VALIDATED` | imports `Std.Tactic`, `Init.GrindInstances.Ring.Fin` | `proofs/lean/VeyraPadicCompletion.lean:207` |
+| `THM_POMEGA2_008_coordinate_agreement` | `theorem` | `FORMALLY_PROVED + PUBLICLY_VALIDATED` | imports `Std.Tactic`, `Init.GrindInstances.Ring.Fin` | `proofs/lean/VeyraPadicCompletion.lean:211` |
+| `THM_POMEGA2_009_joint_separation` | `theorem` | `FORMALLY_PROVED + PUBLICLY_VALIDATED` | imports `Std.Tactic`, `Init.GrindInstances.Ring.Fin` | `proofs/lean/VeyraPadicCompletion.lean:215` |
+| `THM_POMEGA2_010_relative_uniqueness` | `theorem` | `FORMALLY_PROVED + PUBLICLY_VALIDATED` | `THM_POMEGA2_009_joint_separation` | `proofs/lean/VeyraPadicCompletion.lean:220` |
+| `THM_POMEGA2_011_zero_family_nonvacuity` | `theorem` | `FORMALLY_PROVED + PUBLICLY_VALIDATED` | imports `Std.Tactic`, `Init.GrindInstances.Ring.Fin` | `proofs/lean/VeyraPadicCompletion.lean:226` |
+| `THM_POMEGA2_012_one_family_formation` | `theorem` | `FORMALLY_PROVED + PUBLICLY_VALIDATED` | imports `Std.Tactic`, `Init.GrindInstances.Ring.Fin` | `proofs/lean/VeyraPadicCompletion.lean:229` |
+| `THM_POMEGA2_013_addition_closure` | `theorem` | `FORMALLY_PROVED + PUBLICLY_VALIDATED` | imports `Std.Tactic`, `Init.GrindInstances.Ring.Fin` | `proofs/lean/VeyraPadicCompletion.lean:233` |
+| `THM_POMEGA2_014_negation_additive_inverse` | `theorem` | `FORMALLY_PROVED + PUBLICLY_VALIDATED` | `THM_POMEGA2_009_joint_separation` | `proofs/lean/VeyraPadicCompletion.lean:238` |
+| `THM_POMEGA2_015_multiplication_closure` | `theorem` | `FORMALLY_PROVED + PUBLICLY_VALIDATED` | imports `Std.Tactic`, `Init.GrindInstances.Ring.Fin` | `proofs/lean/VeyraPadicCompletion.lean:245` |
+| `THM_POMEGA2_016_full_commutative_ring` | `theorem` | `FORMALLY_PROVED + PUBLICLY_VALIDATED` | `THM_POMEGA2_009_joint_separation` | `proofs/lean/VeyraPadicCompletion.lean:250` |
+| `THM_POMEGA2_017_ppcp_introduction` | `theorem` | `FORMALLY_PROVED + PUBLICLY_VALIDATED` | `THM_POMEGA2_001_prime_lower_bound`, `THM_POMEGA2_002_stage_modulus_divisibility`, `THM_POMEGA2_003_reduction_well_formed_congruence`, `THM_POMEGA2_004_reduction_identity`, `THM_POMEGA2_005_reduction_composition`, `THM_POMEGA2_006_carrier_presentation_compatible`, `THM_POMEGA2_007_universal_realization`, `THM_POMEGA2_008_coordinate_agreement`, `THM_POMEGA2_009_joint_separation`, `THM_POMEGA2_010_relative_uniqueness`, `THM_POMEGA2_011_zero_family_nonvacuity`, `THM_POMEGA2_012_one_family_formation`, `THM_POMEGA2_013_addition_closure`, `THM_POMEGA2_014_negation_additive_inverse`, `THM_POMEGA2_015_multiplication_closure`, `THM_POMEGA2_016_full_commutative_ring` | `proofs/lean/VeyraPadicCompletion.lean:262` |
+| `THM_PD_001_product_nonzero_at_sum_depth` | `theorem` | `FORMALLY_PROVED` | imports `VeyraPadicCompletion` | `proofs/lean/VeyraPadicDomain.lean:102` |
+| `THM_PD_002_nonzero_product_depth` | `theorem` | `FORMALLY_PROVED` | `THM_PD_001_product_nonzero_at_sum_depth` | `proofs/lean/VeyraPadicDomain.lean:139` |
+| `THM_PD_003_no_zero_divisors` | `theorem` | `FORMALLY_PROVED` | `THM_PD_001_product_nonzero_at_sum_depth`, `THM_POMEGA2_009_joint_separation` (classical: `Classical.choice` in its closure) | `proofs/lean/VeyraPadicDomain.lean:150` |
 | `THM_P3N1_001_integer_residue_total` | `theorem` | `FORMALLY_PROVED` | imports `VeyraPadicCompletion` | `proofs/lean/VeyraPadicFamilyIntroduction.lean:13` |
 | `THM_P3N1_002_integer_residue_reduction` | `theorem` | `FORMALLY_PROVED` | imports `VeyraPadicCompletion` | `proofs/lean/VeyraPadicFamilyIntroduction.lean:21` |
 | `THM_P3N1_003_integer_family_introduction` | `theorem` | `FORMALLY_PROVED` | imports `VeyraPadicCompletion` | `proofs/lean/VeyraPadicFamilyIntroduction.lean:52` |
@@ -148,8 +184,8 @@ or imported-module dependencies, and its source location. A dependency entry of
 | `THM_P3A1B_PRESSURE_002_coherent` | `theorem` | `FORMALLY_PROVED` | `THM_P3A1B_003_process_coherent` | `proofs/lean/VeyraPrimePowerProductiveBridgePressure.lean:19` |
 | `THM_P3N2_001_reduction_identity` | `theorem` | `FORMALLY_PROVED` | `THM_POMEGA2_004_reduction_identity` | `proofs/lean/VeyraPrimePowerReductionNetwork.lean:45` |
 | `THM_P3N2_002_reduction_composition` | `theorem` | `FORMALLY_PROVED` | `THM_POMEGA2_005_reduction_composition` | `proofs/lean/VeyraPrimePowerReductionNetwork.lean:52` |
-| `THM_P3N2_003_reduction_witness_independent` | `theorem` | `FORMALLY_PROVED` | `THM_P3N2_001_reduction_identity`, `THM_P3N2_002_reduction_composition` | `proofs/lean/VeyraPrimePowerReductionNetwork.lean:61` |
-| `THM_P3N2_004_path_equality` | `theorem` | `FORMALLY_PROVED` | `THM_P3N2_003_reduction_witness_independent` | `proofs/lean/VeyraPrimePowerReductionNetwork.lean:97` |
+| `THM_P3N2_003_reduction_witness_independent` | `theorem` | `FORMALLY_PROVED` | same-module definitions only (proof is `funext`/`Fin.ext`/`rfl`; row corrected 2026-09-03) | `proofs/lean/VeyraPrimePowerReductionNetwork.lean:61` |
+| `THM_P3N2_004_path_equality` | `theorem` | `FORMALLY_PROVED` | `THM_P3N2_003_reduction_witness_independent`, `THM_P3N2_001_reduction_identity`, `THM_P3N2_002_reduction_composition` (via `veyraReductionPathMap_canonical`; row corrected 2026-09-03) | `proofs/lean/VeyraPrimePowerReductionNetwork.lean:97` |
 | `THM_P3N2_005_rho_square` | `theorem` | `FORMALLY_PROVED` | imports `VeyraPadicFamilyIntroduction` | `proofs/lean/VeyraPrimePowerReductionNetwork.lean:112` |
 | `THM_P3N2_006_separator_coarse` | `theorem` | `FORMALLY_PROVED` | imports `VeyraPadicFamilyIntroduction` | `proofs/lean/VeyraPrimePowerReductionNetwork.lean:119` |
 | `THM_P3N2_007_separator_fine` | `theorem` | `FORMALLY_PROVED` | imports `VeyraPadicFamilyIntroduction` | `proofs/lean/VeyraPrimePowerReductionNetwork.lean:127` |

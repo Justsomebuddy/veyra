@@ -65,6 +65,17 @@ complete registry; no local history is required.
   quotient-conflict classification. Its exhaustive `n≤3`/Sage evidence and two
   digest-bound Lean helpers do not add registered theorem cards or imply a
   general sheaf/descent, novelty, nonexpressibility, or superiority result.
+- DEF-754–756 / THM-NO-001–011 / THM-RT-001–004 / THM-PD-001–003 (2026-09-03/05)
+  are `FORMALLY_PROVED` general theorems in the stable Lean graph — Fermat by
+  orbit counting for all primes and bases, the Gauss divisibility
+  `n ∣ #aperiodic(k, n)` at every positive length with aperiodic ⇔ primitive,
+  Lyndon–Schützenberger and unique primitive roots, and the coordinate
+  integral-domain law of `ZpVeyra(p)`,
+  the first theorem consuming `VeyraPrimeWitness.no_proper_divisor`. They are
+  not `PUBLICLY_VALIDATED` (no aliases, certificate, or bundle entry), quantify
+  over host `Nat`/`List`, and promote no native claim, W-001, or THM-001–003.
+  The formal-evidence index now also annotates which earlier `FORMALLY_PROVED`
+  rows are definitional in content (`rfl`, projections, `decide` fixtures).
 - DEF-717–723 records declared adaptive research lines and the exact
   independent-null retry inflation witness. Its Python/Sage arithmetic is
   executable counterpressure, not a registered theorem, verified adaptive

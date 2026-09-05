@@ -124,3 +124,22 @@ def test_hostile_single_letter_alphabet():
     fermat = fermat_orbit_witness(("a",), 3)
     assert fermat.status == "witnessed"
     assert fermat.full_orbit_count == 0
+
+
+def test_mobius_shadow_never_decides_the_gauss_status(monkeypatch):
+    from src.core import necklace_congruence as module
+
+    original = module._mobius_primitive_shadow
+    monkeypatch.setattr(module, "_mobius_primitive_shadow", lambda length, k: original(length, k) + 1)
+    witness = gauss_congruence_witness("ab", 4)
+    assert witness.status == "witnessed"
+    assert witness.obstruction == "none"
+    assert not witness.shadow_match
+    assert witness.mobius_shadow == witness.primitive_count + 1
+
+
+def test_dichotomy_totals_are_partition_sums():
+    witness = orbit_dichotomy_witness("abc", 5)
+    assert witness.total_words == 3 ** 5
+    assert witness.constant_count == 3
+    assert witness.nonconstant_count == 3 ** 5 - 3

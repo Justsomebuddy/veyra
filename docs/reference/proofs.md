@@ -15,13 +15,21 @@ an explicit non-claim boundary.
 
 ## Experimental research candidate
 
-`experimental/research_lean/` is separate from the stable 53-source inventory.
+`experimental/research_lean/` is separate from the stable 56-source inventory.
 Its manifest binds nine sources, 86 declarations (40 headlines), imports,
 digests, exact Lean `4.30.0-rc2` commit, and every printed axiom closure.
 `make research-lean` verifies a fresh temporary snapshot. It does not promote
 stable IDs: THM-001–003 remain conjectures and W-001 remains unpromoted. The
 one-tact bridge covers only the explicit singleton-generated path-word
-realization and exact R9 image; number theory remains classical local `Nat`/`Int`.
+realization and exact R9 image; its number theory is classical local `Nat`/`Int`.
+- Stable general number theory (2026-09-03, `FORMALLY_PROVED`, not
+  `PUBLICLY_VALIDATED`): `VeyraNecklaceOrbit.lean` (Fermat by orbit counting
+  for all primes/bases and the Gauss divisibility `n ∣ #aperiodic(k, n)` at
+  every positive length with aperiodic ⇔ primitive, `THM_NO_001`–`011`), `VeyraPrimitiveRoot.lean`
+  (Lyndon–Schützenberger, unique primitive root, `THM_RT_001`–`004`),
+  `VeyraPadicDomain.lean` (`ZpVeyra(p)` has no zero divisors; first
+  primality-consuming PΩ2 theorem, `THM_PD_001`–`003`, the last classical).
+  See `docs/188_general_number_theory_lean.md`.
 - `VeyraObserverSynthesisReplay.lean` is an `INTERNAL_RESEARCH_CANDIDATE`
   abstract slice: it proves functional replay determinism/sound acceptance,
   pointwise target preservation under an explicitly supplied bijective

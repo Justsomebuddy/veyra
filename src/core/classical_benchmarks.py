@@ -79,7 +79,7 @@ def _native_number_card() -> ClassicalBenchmarkCard:
     logger.debug("_native_number_card entry")
     summary = intrinsic_arithmetic_summary()
     status = "benchmarked" if summary["status"] == "witnessed" and summary["division"] and summary["escape"] else "blocked"
-    result = ClassicalBenchmarkCard("BM-F005", "euclid-product-plus-one", "Euclid proves no finite prime list exhausts primes", "product-plus-one divisibility contradiction", "native recurrence stitch/weave/division derives a product-successor escape proof", "intrinsic_arithmetic / VeyraNativeArithmetic.lean", "weaker", "finite structural supplied-factor escape is weaker than the general prime-infinitude theorem", status)
+    result = ClassicalBenchmarkCard("BM-F005", "euclid-product-plus-one", "Euclid proves no finite prime list exhausts primes", "product-plus-one divisibility contradiction", "native recurrence stitch/weave/division derives a product-successor escape proof", "intrinsic_arithmetic_division (structural escape witnesses) / VeyraEcho.lean THM_F002_euclid_escape_mod", "weaker", "finite structural supplied-factor escape is weaker than the general prime-infinitude theorem", status)
     logger.debug("_native_number_card exit result=%r", result)
     return result
 

@@ -28,10 +28,16 @@ from the same kind of basis, and nothing more.
 
 The classical side condition "the step does not depend on n" becomes an
 executable echo criterion: the whole derivation is replayed at two fresh
-anchors and the receipt digests must agree after anchor renaming — the proof
-must be about the **form** of the recurrence, not its name. A step that
-smuggles the anchor name into its evidence is rejected as `nonuniform-step`
-(adversarial control shipped in the certificate). Shift-uniformity across
+anchors **to the deepest probed depth** and the receipt digests must agree
+after anchor renaming — the proof must be about the **form** of the
+recurrence, not its name. A step that smuggles the anchor name into its
+evidence is rejected as `nonuniform-step` (adversarial control shipped in
+the certificate). Correction 2026-09-03: until then the replay stopped at
+depth 2, so a step that leaked the anchor name only from depth 3 on was
+licensed to depth 12; the replay now runs to `max(probes)` and a second
+shipped control (`late_name_peeking_contract`, leak from depth 7) must be
+rejected. Validity of the chain is checked before uniformity, so a depth
+bomb still reports its exact depth. Shift-uniformity across
 depths (a second, translation-flavored criterion) is a recorded **OPEN**
 refinement, not implemented.
 

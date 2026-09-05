@@ -10,7 +10,10 @@ P1-D2 finite-to-universal countermodels remain binding, and adopting the
 generator is a doctrine act (gap-audit non-claim 8 applies to any object
 reading). Uniformity is checked natively: the step derivation must be
 echo-invariant under anchor renaming — an executable "the proof is about
-the form of the recurrence, not its name". Shift-uniformity across depths
+the form of the recurrence, not its name" — replayed at two fresh anchors
+to the DEEPEST PROBED depth (a depth-2 replay would let a step that peeks
+at the anchor name only from depth 3 on pass; `late_name_peeking_contract`
+is the shipped control). Shift-uniformity across depths
 is a recorded OPEN refinement. Statuses are `licensed`/`blocked`, never
 `proved`. Tuple slicing/length below is chain bookkeeping under the
 docs/06 §3 shadow license; every mathematical acceptance goes through the
@@ -297,17 +300,20 @@ def license_all_depth(
         result = AllDepthLicense(doctrine, contract.property_id, False, None, (), 0, "blocked", "empty-or-invalid-probe-depths")
         logger.error("di1.license_all_depth blocked %r", result)
         return result
-    uniformity = uniformity_witness(doctrine, contract_factory)
-    if uniformity.status != "witnessed":
-        result = AllDepthLicense(doctrine, contract.property_id, False, uniformity, (), 0, "blocked", uniformity.obstruction)
-        logger.error("di1.license_all_depth blocked %r", result)
-        return result
     chain = _chain(doctrine, contract, working_anchor, probes[-1], {})
     if isinstance(chain, tuple) and chain and isinstance(chain[0], str):
         reason, depth = str(chain[0]), int(chain[1])
         rows = (ProbeRow(depth, False, "", reason),)
-        result = AllDepthLicense(doctrine, contract.property_id, depth > 1, uniformity, rows, depth, "blocked", "%s:%d" % (reason, depth))
+        result = AllDepthLicense(doctrine, contract.property_id, depth > 1, None, rows, depth, "blocked", "%s:%d" % (reason, depth))
         logger.error("di1.license_all_depth blocked %r", result.obstruction)
+        return result
+    # Uniformity is replayed at two fresh anchors to the DEEPEST probed depth:
+    # a shallower replay would let a step that leaks the anchor name only
+    # from some later depth on pass (`late_name_peeking_contract`).
+    uniformity = uniformity_witness(doctrine, contract_factory, probes[-1])
+    if uniformity.status != "witnessed":
+        result = AllDepthLicense(doctrine, contract.property_id, True, uniformity, (), 0, "blocked", uniformity.obstruction)
+        logger.error("di1.license_all_depth blocked %r", result)
         return result
     by_depth = {receipt.depth: receipt for receipt in chain}
     rows = tuple(ProbeRow(depth, True, by_depth[depth].digest, "none") for depth in probes)
@@ -441,6 +447,44 @@ def name_peeking_contract() -> Callable[[Nod], PropertyContract | NativeObstruct
         return result
 
     logger.debug("di1.name_peeking_contract exit")
+    return factory
+
+
+def late_name_peeking_contract(peek_depth: int) -> Callable[[Nod], PropertyContract | NativeObstruction]:
+    """Adversarial control: evidence smuggles the anchor name only from `peek_depth` on.
+
+    A uniformity replay shallower than `peek_depth` cannot see the leak; the
+    license must therefore replay uniformity to the deepest probed depth.
+    """
+    logger.debug("di1.late_name_peeking_contract entry peek_depth=%d", peek_depth)
+
+    def factory(anchor: Nod) -> PropertyContract:
+        logger.debug("di1.late_peek.factory entry")
+        from .intrinsic_arithmetic import zero
+
+        def shape(evidence: object, rename: dict[str, str]) -> str:
+            logger.debug("di1.late_peek.shape entry")
+            return "peek[%s]" % evidence
+
+        def transform(a: Nod, previous: Mode, current: Mode, prior: object) -> object:
+            logger.debug("di1.late_peek.transform entry")
+            depth = int(str(prior).rsplit("@", 1)[1]) + 1
+            tag = a.residue.name if depth >= peek_depth else "form"
+            return "tag:%s@%d" % (tag, depth)
+
+        result = PropertyContract(
+            "di1.late-name-peeking-control.v1",
+            lambda a: zero(a),
+            lambda previous: successor(previous),
+            lambda a, subject: "tag:form@1",
+            transform,
+            lambda a, subject, evidence: True,
+            shape,
+        )
+        logger.debug("di1.late_peek.factory exit")
+        return result
+
+    logger.debug("di1.late_name_peeking_contract exit")
     return factory
 
 

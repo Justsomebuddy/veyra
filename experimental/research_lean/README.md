@@ -1,7 +1,7 @@
 # Research Lean candidate
 
 Status: **`INTERNAL_RESEARCH_CANDIDATE`**. This directory is deliberately
-outside the 53-source stable Lean inventory and is not part of `make verify`.
+outside the 56-source stable Lean inventory and is not part of `make verify`.
 
 The canonical `manifest.json` binds nine research sources, their imports and
 SHA-256 digests, 86 declarations (40 headline declarations and 46 helpers), the
@@ -34,7 +34,7 @@ The candidate lane also rejects command-level declaration metaprogramming
 injected axiom cannot sit outside the exact 86-row audit.
 
 Run `make research-lean` for a fresh isolated verification. The checker copies
-the exact 53 stable and nine research sources into a temporary tree, compiles
+the exact 56 stable and nine research sources into a temporary tree, compiles
 a new `.olean` graph, generates all 86 `#check` and `#print axioms` commands,
 and rehashes the originals after execution. It has no persistent cache.
 
@@ -46,15 +46,15 @@ and rehashes the originals after execution. It has no persistent cache.
 literal claim/scope/registry rows, and all 86 ordered axiom closures. The root
 does not hash itself or claim binary reproducibility.
 
-The rebased candidate manifest binds the current 53-source stable inventory
+The rebased candidate manifest binds the current 56-source stable inventory
 and nine research sources at base root
-`4c0722a4fda5cd164cc5bb71acbc87d18b5e85014fb28d46dc017cc0b841628b`,
+`745a40e4ae3e527877167373eb04fb465b48293ab27e30e054c1ea47bb2f0588`,
 research root
 `caf7d1c2e0e7e8333132300a0ebe5099e35b4fb70d47033fcc8bf033f4c9f597`,
 and proof root
-`dc991bf17da44eb4691ebd236cd9f40a4024caec589735aa16be378baccce509`.
+`07187fd33a9f1f07c72945f35b2cbaaec4777d3bd2046e265d3973035bb0688a`.
 The complete manifest SHA-256 is
-`dd3d0343bd26c16a0177ebf58b8dec82753ce118c708aadb5ff96dbdcde1bba2`.
+`97c24cccb206e36acae36271b9a3be68c094d3ba49c2873b28b81169a31c20e7`.
 
 The trusted computing base remains the selected Lean compiler/kernel and its
 reported primitive axioms, local Elan or hosted archive delivery, the Python

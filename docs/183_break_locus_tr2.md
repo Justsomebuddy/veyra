@@ -34,13 +34,16 @@ doc 187; an earlier draft of this file mis-attributed it to Cori–Perrin)
 — **credited and counterpressured rather than assumed**:
 the certificate compares Δ-predictions with BFS trace-class truth on every
 doctrine of six full Boolean lattices, with zero mismatches and zero
-refusals.
+refusals. Honest weight of that check: three of the six words (`aabc`,
+`abc`, `aabbc`) have letter-count gcd 1 and can never break at any
+doctrine, so the non-vacuous counterpressure is the 2+2+8 doctrines of
+`aabb`, `abab` and `aabbcc`.
 
 Hand-verified cells: `B(aabb) = {{ab}}` (an atom); `B(aabbcc)` is the top
 doctrine — reaching `abcabc = (abc)²` requires flipping the relative order
 of **every** letter pair; `B(abab) = {∅}`.
 
-## The discovery: Principality Conjecture (`THM-TR2-001`, `CONJECTURE`)
+## The question: Principality Conjecture (`THM-TR2-001`, `CONJECTURE` at the time; see doc 185 for its resolution)
 
 The lane was built to hunt for a *non-principal* locus — two incomparable
 minimal breaking doctrines. The exhaustive sweeps answered otherwise:

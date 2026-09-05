@@ -175,12 +175,25 @@ def native_euclid_mode_rows() -> tuple[NativeEuclidModeRow, ...]:
     return result
 
 def native_fermat_phase_row(period: int) -> NativeFermatPhaseRow:
-    """Derive a finite Fermat phase row from a native period Mode and unit Breaths."""
+    """Derive a finite Fermat phase row from a native period Mode and unit Breaths.
+
+    Host-carried boundary (README "Host-carried computation"): the period and
+    unit integers are transported into native Mode/Breath objects and read
+    back through the length observer; the phase-return residues are host
+    ``pow(u, p-1, p)``. ``derived`` therefore means "checked by host modular
+    arithmetic on natively observed lengths", never a native derivation.
+    Pressure for prime periods is threefold and none of it is vacuous:
+    every unit returns to phase 1; every multiplicative orbit length divides
+    ``p-1`` (a Lagrange instance); some orbit has length exactly ``p-1``
+    (a cyclicity instance). Composite periods are not pre-filtered: their
+    rows are computed and blocked on the first unit whose phase return fails,
+    so the obstruction rows exhibit an actual Fermat failure.
+    """
     logger.debug("native_fermat_phase_row entry period=%d", period)
     clean = int(period)
     period_mode = _period_mode(clean)
-    if not isinstance(period_mode, Mode) or not is_prime_int(clean):
-        result = NativeFermatPhaseRow("THM-F003", clean, 0, (), (), (), (), "blocked", "requires native Mode with integer-prime length observer")
+    if not isinstance(period_mode, Mode):
+        result = NativeFermatPhaseRow("THM-F003", clean, 0, (), (), (), (), "blocked", "requires a native closed Mode with period at least 2")
         logger.debug("native_fermat_phase_row exit blocked result=%r", result)
         return result
     mode_length = int(observe_native(period_mode, "length"))
@@ -192,10 +205,19 @@ def native_fermat_phase_row(period: int) -> NativeFermatPhaseRow:
     units = tuple(int(observe_native(item, "length")) for item in unit_breaths if isinstance(item, Breath))
     residues = tuple(pow(unit, mode_length - 1, mode_length) for unit in units)
     orbits = tuple(_multiplicative_orbit(unit, mode_length) for unit in units)
+    orbit_lengths = tuple(len(orbit) for orbit in orbits)
     coverage = tuple(sorted({item for orbit in orbits for item in orbit}))
-    status = "derived" if residues == tuple(1 for _ in units) and coverage == units else "blocked"
-    boundary = "finite prime-period Fermat row from native observers; not unbounded native Fermat or reciprocity"
-    result = NativeFermatPhaseRow("THM-F003", clean, mode_length, units, residues, tuple(len(orbit) for orbit in orbits), coverage, status, boundary)
+    failing = next(((unit, residue) for unit, residue in zip(units, residues, strict=True) if residue != 1), None)
+    if failing is not None:
+        boundary = f"composite or invalid period: Fermat phase return fails at unit {failing[0]} (residue {failing[1]}); prime-ness is the host-int is_prime_int={is_prime_int(clean)}"
+        result = NativeFermatPhaseRow("THM-F003", clean, mode_length, units, residues, orbit_lengths, coverage, "blocked", boundary)
+        logger.debug("native_fermat_phase_row exit fermat-blocked result=%r", result)
+        return result
+    lagrange = all(length > 0 and (mode_length - 1) % length == 0 for length in orbit_lengths)
+    cyclic = (mode_length - 1) in orbit_lengths
+    status = "derived" if is_prime_int(clean) and coverage == units and lagrange and cyclic else "blocked"
+    boundary = "finite prime-period Fermat row from native observers (host pow-mod on observed lengths; orbit lengths divide p-1; a generator exists); not unbounded native Fermat or reciprocity"
+    result = NativeFermatPhaseRow("THM-F003", clean, mode_length, units, residues, orbit_lengths, coverage, status, boundary)
     logger.debug("native_fermat_phase_row exit result=%r", result)
     return result
 

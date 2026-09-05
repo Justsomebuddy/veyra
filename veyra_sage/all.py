@@ -10,6 +10,7 @@ from .geometry_cards import VeyraGeometryTheoremLab, build_geometry_theorem_card
 from .modes import SAGE_AVAILABLE, VeyraModeElement, VeyraModeParent, VeyraModes
 from .notebooks import VeyraDomainNotebookSpec, VeyraNotebook, VeyraNotebookCell, available_notebook_domains, build_all_domain_notebooks, build_domain_theorem_notebook, build_school_proof_notebook, domain_notebook_spec
 from .number_theory import VeyraNumberTheoryLab, build_number_theory_notebook, number_theory_lab_summary
+from .number_theory_oracle import NumberTheoryOracleRow, VeyraNumberTheoryOracleLab, number_theory_oracle_rows, number_theory_oracle_summary
 from .notebook_artifacts import VeyraNotebookArtifact, current_notebook_artifacts, notebook_artifact_summary, write_current_notebook_artifacts
 from .polynomials import VeyraPolynomialElement, VeyraPolynomialParent, VeyraPolynomials
 from .proof_discipline import VeyraProofDisciplineLab, build_proof_discipline_notebook, proof_discipline_lab_summary
@@ -46,6 +47,7 @@ __all__ = [
     "VeyraIntrinsicObserverEchoLab", "VeyraIntrinsicVamLab", "VeyraObserverSynthesisV2Lab",
     "G4ExhaustiveRow", "VeyraObserverPatchGluingLab", "exhaustive_g4_row",
     "AdaptiveRetryOracleRow", "VeyraAdaptiveResearchLineLab", "adaptive_retry_oracle",
+    "NumberTheoryOracleRow", "VeyraNumberTheoryOracleLab", "number_theory_oracle_rows", "number_theory_oracle_summary",
     "SAGE_AVAILABLE",
     "VeyraBalanceElement",
     "VeyraBalanceParent",

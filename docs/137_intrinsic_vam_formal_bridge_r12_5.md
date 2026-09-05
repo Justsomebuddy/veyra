@@ -78,6 +78,14 @@ Current checked identifiers:
 | R12.5 effect | `c9685e9cff5d201e86043aa0ba707aa5c98a42f502e5a9265fa0926b7f42560e` |
 | R12.5 snapshot | `4f8d887ea3cd4366cbfa26a2447f6738edf51b7997a11619f5d40edb2b1bff6e` |
 | R12.5 report binding | `201d8ae00224556c45a3a795c58aca025204bcdd8354e08ad05926f16c2ae802` |
+| R11 binding (renewed 2026-09-05) | `24100cdd889f3abb435fe2654967d2d6b86bc80ae268ae4ef29d47f7b95e12e2` |
+| R12.5 snapshot (renewed 2026-09-05) | `218427fabdc77aa7878951f46317d07d18f61cec620ae21107336e6130eef8d7` |
+| R12.5 report binding (renewed 2026-09-05) | `86c2abd30b6c6388632190f79be29bb22cf619aa047baa2d7d5b647044c23b0b` |
+
+The 2026-09-05 rows are the content-bound re-pin after the reviewed
+2026-08-15/27 edits to `proof_core_codec.py` (formatting only),
+`native_runtime.py` (docstrings) and `intrinsic_arithmetic.py` (status
+token); the earlier rows are the historical values at this document's date.
 
 Local manifest/effect/snapshot shapes are rejected before inherited R11 work.
 Source bytes are captured from immutable canonical origin rows, compiled in a

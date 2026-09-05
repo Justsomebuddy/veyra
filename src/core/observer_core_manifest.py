@@ -28,12 +28,12 @@ _EXPECTED_R11_TCB_DIGEST_ROWS = (
     ("proof_types", "871dad8b0e62c4abcc8b439ad603abe29b3d2ae028afab7f145ff4f3fdc1c821"),
     ("proof_substitution", "3b70ee2c5745b6a8791283babe743d124e70bab1364da6d4a994ecc05903a879"),
     ("proof_kernel", "396303a63c4415f31ea48ab5010644f8c8fb345b767c3e0e044bf28212750b2d"),
-    ("proof_codec", "2adefdc8d198e62ba0a3285d992b8f4a24e7d5e072a8adcdd825d40ccefb1cad"),
+    ("proof_codec", "c1335fdc96530912ac463119fd78d8bc21faf48e40d0f46b3e947381fdd7daf6"),
     ("proof_artifact_decode", "849d2a8034dd6d4523977d1b9c89b4e379a810c4cab1e89d7da2d656cffdd4c6"),
     ("proof_artifact", "7df70edbb114f5e7d1c94f15a5428c0d1105905460e41719dc30cd4d65ac1e0c"),
     ("toolchain_runtime", "63db421d5e91caf2f2437f28d626989ff4eb5efc283897986e6bb29d86881a0f"),
     ("runtime_guard", "56374cee0557bfe2590f231a9f8df7759a204cdba75cacfdb3b5b572ee874422"),
-    ("r10_manifest", "99045f664f1bed3ce2bff184d0568a1ffb9fc63e2cd17b869d2ea52909f236a0"),
+    ("r10_manifest", "4b9bcdd7f356a2cac09c29d3293b5c3a3a89f2702084c6edeacf62f4a9c1b016"),
     ("r10_bridge", "3ffd654f81cfd6e09a2a640c09ef6bd4a1d15faf9f894659369e818681cf3e35"),
     ("lean_arithmetic", "e85fa215ae8cba4901620f452efd008efb4787f3373154814d897d66a45373f3"),
     ("lean_semantics", "dc5ddc3b9a3f16c6c5fbbb988b737b806115122d8d2a3f705654e0ee63200a8b"),
@@ -43,7 +43,7 @@ _EXPECTED_R11_TCB_DIGEST_ROWS = (
     ("lean_transport", "493e4662e295b526d5bb76b9ca528b834265142e91e0446e98af2b3b102fb16f"),
     ("lean_observer_core", "fef5db4a94f40b7ba478c5e9d28c5680f736672d5caaea5ac97a823d3e2359d2"),
     ("lean_observer_proof", "7ef4905cc7923ee0c5d057abbada8c3f6b97c8e181b7d73fba0ad7c21653c1d2"),
-    ("lean_export", "36d6d2499a7e4e025b5450f970577157afda8c87aba51bb378391c001e1ebcce"),
+    ("lean_export", "fd656a9b0e545e6d3fb5d3fb14b2c86858a7cb581b126f4eac98fce9ef2173d0"),
 )
 EXPECTED_R11_TCB_DIGESTS = MappingProxyType(dict(_EXPECTED_R11_TCB_DIGEST_ROWS))
 MANIFEST_BOUNDARY = (
