@@ -30,6 +30,12 @@ consulted is the length observer. Host integers enter through the declared
 transport `unary` and leave through `length` (docs/06 §3), both listed in
 `SHADOW_LICENSED`.
 
+Before divisor enumeration, `resonance_prime_witness` admits the candidate by
+native stitch with the zero recurrence on the supplied anchor. Foreign tacts
+or an anchor mismatch return `blocked`, including at length two where there
+are no proper candidate divisors. Lengths below two retain `length-too-short`;
+valid witness rows and formal claim levels are unchanged.
+
 | docs/02 phrase | Definition (native) | Function |
 |---|---|---|
 | `a ▹ b`, resonance | `structural_divide(b, a)` is exact | `resonates` |

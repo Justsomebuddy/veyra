@@ -85,6 +85,7 @@ PORTABLE_TESTS = (
     "tests/test_project_hygiene_attribution.py",
     "tests/test_observer_site.py",
     "tests/test_observer_arithmetic.py",
+    "tests/test_resonance_arithmetic.py",
 )
 
 
