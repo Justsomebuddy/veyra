@@ -188,12 +188,17 @@ def shared_closure(left: Mode, right: Mode) -> Mode:
 
 
 def resonance_prime_witness(anchor: Nod, candidate: Mode) -> ResonancePrimeWitness:
-    """Witness natively that only the unit pulse and the rhythm itself resonate inside it."""
+    """Witness primality only for an intrinsic recurrence on the supplied anchor."""
     logger.debug("resonance_arithmetic.resonance_prime_witness entry")
     size = length(candidate)
     if size < 2:
         result = ResonancePrimeWitness(size, (), False, "blocked", "length-too-short")
         logger.error("resonance_arithmetic.resonance_prime_witness blocked %r", result)
+        return result
+    admitted = stitch(zero(anchor), candidate)
+    if isinstance(admitted, NativeObstruction):
+        result = ResonancePrimeWitness(size, (), False, "blocked", admitted.reason)
+        logger.error("resonance_arithmetic.resonance_prime_witness blocked reason=%s", admitted.reason)
         return result
     rows: list[tuple[int, str]] = []
     divisor = unary(anchor, 2)

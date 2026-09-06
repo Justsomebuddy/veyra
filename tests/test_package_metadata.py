@@ -213,6 +213,14 @@ def test_portable_verification_includes_observer_realization_behavior():
     logger.debug("test portable observer realization coverage exit")
 
 
+def test_portable_verification_includes_resonance_arithmetic_behavior():
+    """Hosted CI must retain native primality input-boundary regressions."""
+    logger.debug("test portable resonance arithmetic coverage entry")
+    portable_pytest = next(step for step in portable_steps() if step.name == "Portable pytest")
+    assert "tests/test_resonance_arithmetic.py" in portable_pytest.command
+    logger.debug("test portable resonance arithmetic coverage exit")
+
+
 def test_portable_verification_includes_closed_worker_resource_limits():
     """Hosted Linux and macOS must exercise the exact resource-limit boundary."""
     logger.debug("test portable closed worker resource limit coverage entry")

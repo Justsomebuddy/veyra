@@ -2,6 +2,7 @@ from math import gcd, lcm
 
 import pytest
 
+from src.core.native_runtime import Mode, breath, mode, nod, rez, tact
 from src.core.resonance_arithmetic import (
     SHADOW_LICENSED,
     default_anchor,
@@ -69,6 +70,31 @@ def test_resonance_primes_are_the_primes():
     composite = resonance_prime_witness(ANCHOR, _u(9))
     assert composite.obstruction == "composite-rhythm"
     assert composite.divisor_rows[-1] == (3, "exact")
+
+
+@pytest.mark.parametrize("count", (2, 3, 4))
+@pytest.mark.parametrize("outside_domain", ("foreign-recurrence", "anchor-mismatch"))
+def test_resonance_prime_witness_rejects_nonintrinsic_or_foreign_anchor(count, outside_domain):
+    if outside_domain == "anchor-mismatch":
+        other_anchor = nod(rez("other-origin"), "other-origin")
+        candidate = unary(other_anchor, count)
+    else:
+        candidate = mode(breath(*(tact(ANCHOR, ANCHOR, "foreign-tact") for _ in range(count))))
+    assert isinstance(candidate, Mode)
+    witness = resonance_prime_witness(ANCHOR, candidate)
+    assert witness.status == "blocked"
+    assert not witness.prime
+    assert witness.obstruction == outside_domain
+    assert witness.divisor_rows == ()
+
+
+def test_resonance_prime_witness_accepts_equal_anchor_values():
+    equal_anchor = nod(rez(ANCHOR.residue.name), ANCHOR.mark)
+    witness = resonance_prime_witness(ANCHOR, unary(equal_anchor, 2))
+    assert witness.status == "witnessed"
+    assert witness.prime
+    assert witness.divisor_rows == ()
+    assert witness.obstruction == "none"
 
 
 def test_fermat_phase_witness_prime_and_composite_periods():
