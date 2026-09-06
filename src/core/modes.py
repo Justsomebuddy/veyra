@@ -155,7 +155,8 @@ def echo_key(mode: Mode, tests: Iterable[Observer]) -> tuple[object, ...]:
 def echo_equivalent(left: Mode, right: Mode, tests: Iterable[Observer]) -> bool:
     """Return True iff left and right are echo-equivalent under tests."""
     logger.debug("echo_equivalent entry left=%s right=%s", left.word, right.word)
-    result = echo_key(left, tests) == echo_key(right, tests)
+    observers = tuple(tests)
+    result = echo_key(left, observers) == echo_key(right, observers)
     logger.debug("echo_equivalent exit result=%s", result)
     return result
 

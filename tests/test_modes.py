@@ -1,3 +1,5 @@
+import pytest
+
 from src.core.modes import (
     TEST_FAMILIES,
     Mode,
@@ -31,6 +33,29 @@ def test_echo_test_families_split_identity():
     assert not echo_equivalent(ab, aa, TEST_FAMILIES["bag"])
     assert not echo_equivalent(ab, ba, TEST_FAMILIES["ordered"])
     assert echo_equivalent(ab, ba, TEST_FAMILIES["cycle"])
+
+
+@pytest.mark.parametrize("container", ("tuple", "list", "iterator", "generator"))
+@pytest.mark.parametrize(
+    ("left", "right", "family", "expected"),
+    (
+        ("ab", "ab", "ordered", True),
+        ("ab", "ba", "bag", True),
+        ("ab", "aa", "bag", False),
+        ("ab", "ba", "ordered", False),
+        ("ab", "a", "length", False),
+        ("ab", "a", "empty", True),
+    ),
+)
+def test_echo_equivalent_accepts_single_pass_observer_families(container, left, right, family, expected):
+    observers = () if family == "empty" else TEST_FAMILIES[family]
+    if container == "list":
+        observers = list(observers)
+    elif container == "iterator":
+        observers = iter(observers)
+    elif container == "generator":
+        observers = (observer for observer in observers)
+    assert echo_equivalent(Mode.from_word(left), Mode.from_word(right), observers) is expected
 
 
 def test_cyclic_observer_canonicalizes_rotation():

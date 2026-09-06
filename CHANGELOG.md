@@ -1,6 +1,9 @@
 # Changelog
 
 ## [Unreleased] — Changed
+- Echo equivalence now consumes observer iterables once, preserving the
+  declared `Iterable` API for generators and iterators as well as reusable
+  tuples/lists. Regression cases cover equal, distinct and empty families.
 - Variable arithmetic (2026-09-06): step 2 of the observer-site program. New
   stable Lean source `VeyraVariableArithmetic.lean` (59th; imports
   `VeyraObserverSite` and `VeyraNecklaceOrbit`, `THM_VA_001`–`014`, no
