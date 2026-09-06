@@ -26,6 +26,15 @@ class Step:
 
 PORTABLE_TESTS = (
     "tests/test_balance_ratio.py",
+    "tests/test_break_locus.py",
+    "tests/test_break_locus_formula.py",
+    "tests/test_doctrinal_induction.py",
+    "tests/test_locus_tightness.py",
+    "tests/test_necklace_congruence.py",
+    "tests/test_observer_lattice.py",
+    "tests/test_orbit_partition.py",
+    "tests/test_projection_forcing.py",
+    "tests/test_resonance_decision_paths.py",
     "tests/test_modes.py",
     "tests/test_core_language.py",
     "tests/test_core_native_semantics.py",

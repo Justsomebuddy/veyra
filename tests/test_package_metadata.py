@@ -205,6 +205,25 @@ def test_portable_verification_steps_are_time_bounded():
     logger.debug("test portable timeouts exit count=%d", len(planned))
 
 
+def test_portable_verification_includes_new_number_theory_regressions():
+    """Keep the portable number-theory tests and their decision-path guard admitted."""
+    logger.debug("test portable number theory coverage entry")
+    portable_pytest = next(step for step in portable_steps() if step.name == "Portable pytest")
+    required = {
+        "tests/test_break_locus.py",
+        "tests/test_break_locus_formula.py",
+        "tests/test_doctrinal_induction.py",
+        "tests/test_locus_tightness.py",
+        "tests/test_necklace_congruence.py",
+        "tests/test_observer_lattice.py",
+        "tests/test_orbit_partition.py",
+        "tests/test_projection_forcing.py",
+        "tests/test_resonance_decision_paths.py",
+    }
+    assert required <= set(portable_pytest.command)
+    logger.debug("test portable number theory coverage exit count=%d", len(required))
+
+
 def test_portable_verification_includes_observer_realization_behavior():
     """The portable matrix must exercise the context-relative R16 behavior."""
     logger.debug("test portable observer realization coverage entry")
