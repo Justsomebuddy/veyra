@@ -23,6 +23,8 @@ LANES = (
     "src.core.orbit_partition",
     "src.core.native_number_theorems",
     "src.core.doctrinal_induction",
+    "src.core.observer_site",
+    "src.core.observer_arithmetic",
 )
 FORBIDDEN_OPERATORS = (ast.Mod, ast.FloorDiv, ast.Pow)
 FORBIDDEN_CALLS = ("pow", "divmod", "gcd", "lcm", "is_prime_int", "isqrt")

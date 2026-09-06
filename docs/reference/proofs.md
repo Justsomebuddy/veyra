@@ -15,7 +15,7 @@ an explicit non-claim boundary.
 
 ## Experimental research candidate
 
-`experimental/research_lean/` is separate from the stable 57-source inventory.
+`experimental/research_lean/` is separate from the stable 59-source inventory.
 Its manifest binds nine sources, 86 declarations (40 headlines), imports,
 digests, exact Lean `4.30.0-rc2` commit, and every printed axiom closure.
 `make research-lean` verifies a fresh temporary snapshot. It does not promote
@@ -34,6 +34,19 @@ realization and exact R9 image; its number theory is classical local `Nat`/`Int`
   `VeyraResonanceArithmetic.lean` states divisibility, phase congruence,
   resonance primes, gcd/lcm, Fermat and Euclid in the docs/02 vocabulary on the
   native `Recurrence` (`THM_RA_001`–`014`); see `docs/189_resonance_arithmetic.md`.
+- Observer site (2026-09-06, `FORMALLY_PROVED`, not `PUBLICLY_VALIDATED`):
+  `VeyraObserverSite.lean` proves that distinctions persist and echo retracts
+  under refinement, that excluded middle for equality fails at incomplete
+  stages and holds at complete ones, that typed silence breaks cotransitivity
+  and transitivity of internal equality, and that stage-primitivity is
+  monotone (`THM_OS_001`–`019`); see `docs/190_observer_site_internal_logic.md`.
+- Variable arithmetic (2026-09-06, `FORMALLY_PROVED`, not `PUBLICLY_VALIDATED`):
+  `VeyraVariableArithmetic.lean` proves that stitch and weave act on the
+  fibres of the presheaf of modes where echo is a congruence and commute with
+  restriction, that the natural numbers are the length fibre, that
+  commutativity and left distributivity are stage properties, that closed
+  modes have no native stitch, and that AX-005 fails for canonical-cut
+  stitching (`THM_VA_001`–`014`); see `docs/191_variable_arithmetic.md`.
 - `VeyraObserverSynthesisReplay.lean` is an `INTERNAL_RESEARCH_CANDIDATE`
   abstract slice: it proves functional replay determinism/sound acceptance,
   pointwise target preservation under an explicitly supplied bijective

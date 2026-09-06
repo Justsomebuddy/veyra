@@ -1,7 +1,7 @@
 # Research Lean candidate
 
 Status: **`INTERNAL_RESEARCH_CANDIDATE`**. This directory is deliberately
-outside the 57-source stable Lean inventory and is not part of `make verify`.
+outside the 59-source stable Lean inventory and is not part of `make verify`.
 
 The canonical `manifest.json` binds nine research sources, their imports and
 SHA-256 digests, 86 declarations (40 headline declarations and 46 helpers), the
@@ -34,7 +34,7 @@ The candidate lane also rejects command-level declaration metaprogramming
 injected axiom cannot sit outside the exact 86-row audit.
 
 Run `make research-lean` for a fresh isolated verification. The checker copies
-the exact 57 stable and nine research sources into a temporary tree, compiles
+the exact 59 stable and nine research sources into a temporary tree, compiles
 a new `.olean` graph, generates all 86 `#check` and `#print axioms` commands,
 and rehashes the originals after execution. It has no persistent cache.
 
@@ -46,13 +46,13 @@ and rehashes the originals after execution. It has no persistent cache.
 literal claim/scope/registry rows, and all 86 ordered axiom closures. The root
 does not hash itself or claim binary reproducibility.
 
-The rebased candidate manifest binds the current 57-source stable inventory
+The rebased candidate manifest binds the current 59-source stable inventory
 and nine research sources at base root
-`f52f82c798e9f161191f7cefd4bd47ef5b38f79826bc3eb57412618be894563e`,
+`38c90eb03d0c2502386bbae699ed561015720b26c0c861a8167b511926689052`,
 research root
 `caf7d1c2e0e7e8333132300a0ebe5099e35b4fb70d47033fcc8bf033f4c9f597`,
 and proof root
-`1a8d31e2c17d17d6eb0d54d2688fd99ed382debe4f3f2e26bd62ace6003794b8`.
+`4b93d54a0543dbce6c40d60183e1623484ff3555f75ec4ae8708bd30c5f08ee5`.
 The complete manifest SHA-256 is
 `d815a6e86e10a40b788ae238ba64105ea00b30fba66b6fa064855c0d387e2154`.
 

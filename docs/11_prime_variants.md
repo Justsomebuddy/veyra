@@ -51,7 +51,7 @@ For the first ordered repetition relation:
 - `ab` is resonance-prime.
 - `abab` is not, because `ab` resonates inside it.
 
-This is not final. Richer resonance relations may include cyclic resonance, phase obstruction, or schema-compatible weave decomposition. For the one-tact layer the resonance relation is now fixed natively: `resonance_arithmetic.resonates` (structural division is exact) with its resonance primes (`resonance_prime_witness`), formally `THM_RA_005`/`009` in `VeyraResonanceArithmetic.lean` (docs/189).
+This is not final. Richer resonance relations may include cyclic resonance, phase obstruction, or schema-compatible weave decomposition. For the one-tact layer the resonance relation is `resonance_arithmetic.resonates` with its resonance primes (`THM_RA_005`/`009`, docs/189).
 
 ## 6. First insight
 
@@ -75,3 +75,4 @@ Expected first divergence table:
 | `ab` | no | yes | yes | yes |
 | `abab` | no | no | no | no |
 | `aba` | no | yes | yes | yes |
+Ordered and cyclic primitivity are the values of one stage-relative primitivity at `{word}` and `{cycle}`, monotone under refinement; the numeric-prime column is a different notion (`THM_OS_011`–`016`, docs/190).

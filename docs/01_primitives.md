@@ -74,6 +74,7 @@ the operational source of truth is `reference/axioms.md`.
 **AX-004 — Stitch.** If breath `x` ends where breath `y` starts, there is a stitched breath `x ⊙ y`.
 
 **AX-005 — Echo associativity.** `(x ⊙ y) ⊙ z` and `x ⊙ (y ⊙ z)` are echo-equivalent when both are defined.
+Scope: literal for open breaths (`THM_VA_010`); false for closed modes stitched through a canonical cut, which carry no native stitch (`THM_VA_005`/`011`, docs/191).
 
 **AX-006 — Closure.** A breath whose end echoes its start can be closed into a mode.
 

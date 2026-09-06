@@ -499,3 +499,64 @@ neighbour: Earnshaw–Sobociński 2023 on the poset `Ind_Σ`, unrelated to
 powers). Mandatory pre-submission checks (zbMATH/MathSciNet; full text of
 Choffrut and Duchamp–Krob in *The Book of Traces*; forward citations of
 Lohrey–Stober–Weiß 2022–2024) are **unperformed**.
+
+## DEF-761–764 / THM-OS-001–019 — The observer site: apartness, silence and stage-relative equality (2026-09-06)
+
+`DEF-761` (apartness at a stage: some admitted partial observer ready on both
+presentations with different values; echo: every admitted observer ready with
+equal values; silent: neither), `DEF-762` (internal equality relative to a
+site: never apart within the site), `DEF-763` (forcing of `x = y ∨ x # y` at a
+stage, and the sieve-valued truth value of a stage predicate) and `DEF-764`
+(primitivity at a stage: not echoed to any literal proper power) make the
+third inversion of `docs/00` executable and formal on finite sites of partial
+observers. Theorem cards, all `FORMALLY_PROVED` in `VeyraObserverSite.lean`
+(Mathlib-free, no classical choice): **THM-OS-001/002** distinctions persist
+and echo retracts under refinement; **THM-OS-003/004** the three statuses are
+exhaustive and exclusive, total observers leave no silence; **THM-OS-005/006**
+apartness is irreflexive, symmetric and (for total observers) cotransitive;
+**THM-OS-007/018** one silent observer breaks cotransitivity and transitivity
+of internal equality (finite countermodel); **THM-OS-019** total observers make
+internal equality an equivalence; **THM-OS-008** internal equality is stable;
+**THM-OS-009** excluded middle for equality fails at an incomplete stage
+(`ab`/`ba` at `{length}` of `{length, word}`, finite countermodel);
+**THM-OS-010** a complete finite stage decides; **THM-OS-013/014** the truth
+value of apartness is an up-closed sieve while echo's is not (echo is not an
+internal proposition, it is "not yet apart"); **THM-OS-017** stage echo is a
+partial equivalence relation with domain the readable presentations;
+**THM-OS-011/012/015/016** stage-primitivity is monotone under refinement,
+genuinely stage-dependent (`aba`), literal primitivity at `{word}` and
+unit-only at `{length}`. Executable counterpart `src/core/observer_site.py`
+with certificate `observer_site_os` (`EXECUTABLE_EVIDENCE`). Non-claims: finite
+host-carried sites only; no statement about physical observers, observer
+formation or translation, the P1/R16 doctrines beyond the instance reading of
+`THM_TR1_003`, or topos theory; not `PUBLICLY_VALIDATED`. See doc 190.
+
+## DEF-765–768 / THM-VA-001–014 — Arithmetic as a variable object over the observer site (2026-09-06)
+
+`DEF-765` (fibre `Quot (Echo T)` of the presheaf of modes at a stage and
+restriction along refinement), `DEF-766` (descent: echo at a stage is a
+congruence for an operation, which then acts on the fibre), `DEF-767` (stitch
+`x ++ y`, weave `y^{|x|}`, cyclic echo, canonical lexicographic cut and
+cut-stitch on binary words) and `DEF-768` (resonance at a stage: echoed to a
+power) relativize the docs/02 operations to stages. Theorem cards, all
+`FORMALLY_PROVED` in `VeyraVariableArithmetic.lean` (Mathlib-free, no
+classical choice): **THM-VA-001** arithmetic commutes with restriction;
+**THM-VA-002/004** stitch and weave descend to the length, word and bag
+stages; **THM-VA-003** the natural numbers are the length fibre with stitch as
+`+` and weave as `×`; **THM-VA-005/006** stitch does not respect cyclic echo
+while weave does (closed modes have no native stitch); **THM-VA-007–010**
+commutativity of stitch is a bag-stage law retracted at the word stage,
+commutativity of weave holds only at the length stage, left distributivity
+holds at the bag stage and fails at the word stage, right distributivity and
+associativity are literal; **THM-VA-011** AX-005 fails for stitching closed
+modes through canonical cuts (finite countermodel `a, b, ab`);
+**THM-VA-012** bag-stage primitivity is coprimality of letter counts;
+**THM-VA-013/014** resonance retracts under refinement and is divisibility of
+lengths at the length stage. Executable counterpart
+`src/core/observer_arithmetic.py` (declared shadow `parikh_shadow_primitive`)
+with certificate `observer_arithmetic_va` (`EXECUTABLE_EVIDENCE`). AX-005
+keeps its seed-axiom row for open stitching; its failure is recorded for
+canonical-cut stitching of closed modes. Non-claims: host-carried finite
+families; nothing about the AX-007 `Mode`, W-001, physical observers or topos
+theory; the all-cuts stitch of closed modes is `OPEN`; not
+`PUBLICLY_VALIDATED`. See doc 191.

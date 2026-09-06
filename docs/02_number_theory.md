@@ -35,12 +35,14 @@ Multiplication is **weaving**: replace each tact of one mode by a full copy of a
 `a ⊗ b := b-fold weave of a`
 
 Human shadow: `τ^m ⊗ τ^n = τ^(mn)`.
+On words both operations act on the fibres of the observer site where echo is a congruence, commute with restriction, and make the natural numbers the length fibre; their laws are stage properties (`THM_VA_001`–`010`, docs/191).
 
 ## 4. Divisibility
 
 A mode `a` **resonates inside** mode `b`, written `a ▹ b`, if `b` can be echo-built by stitching copies of `a` without leftover phase.
 
 Human shadow: `a` divides `b`.
+At a stage, resonance is being echoed to a power; it retracts under refinement and is divisibility of lengths at the length stage (`THM_VA_013`/`014`, docs/191).
 
 ## 5. Prime analogue
 
@@ -56,17 +58,11 @@ Modes `x` and `y` are **phase-congruent modulo** mode `m`, written:
 
 `x ≡_m y`
 
-if their difference of emitted tacts leaves the same phase obstruction after maximal `m`-resonance extraction.
+if the residuals of the structural division of `x` and of `y` by `m` coincide: both are `m`-weaves stitched with one common residual shorter than `m` (`THM_RA_006`/`007`, docs/189).
 
 Human shadow: `x mod m = y mod m`.
 
-Native definition (2026-09-06, docs/189): `x ≡_m y` iff the residuals of the
-structural division of `x` and of `y` by `m` coincide, i.e. both are `m`-weaves
-stitched with one common residual shorter than `m` (`THM_RA_007`); it is an
-equivalence compatible with stitch and weave (`THM_RA_008`) and is executable as
-`resonance_arithmetic.phase_congruent` with no host `%` on the decision path.
-"Difference" and "maximal extraction" of the older wording are thereby
-replaced by structural division and its uniqueness (`THM_RA_006`).
+Phase congruence is an equivalence compatible with stitch and weave (`THM_RA_008`) and is executable as `resonance_arithmetic.phase_congruent` with no host `%` on the decision path.
 
 ## 7. First non-human shift
 
@@ -80,6 +76,6 @@ This makes number theory look closer to physics:
 - gcd = strongest shared echo (`shared_echo`; `THM_RA_013`),
 - lcm = smallest shared closure (`shared_closure`; `THM_RA_014`).
 
-Each item is now a native definition with an executable witness and a
-machine-checked theorem stated in this vocabulary (docs/189); Fermat and
-Euclid appear in the same vocabulary as `THM_RA_010` and `THM_RA_012`.
+Each item is a native definition with an executable witness and a
+machine-checked theorem (docs/189); Fermat and Euclid appear in the same
+vocabulary as `THM_RA_010` and `THM_RA_012`.

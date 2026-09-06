@@ -28,6 +28,12 @@ vocabulary is:
 - **mode** — a closed breath, interpreted as recurrence returning to its
   boundary.
 
+On finite observer sites these refusals have exact forms: distinction persists
+and echo retracts, excluded middle for equality fails at incomplete stages, and
+the natural numbers are the length fibre of the presheaf of modes
+([`docs/190`](docs/190_observer_site_internal_logic.md),
+[`docs/191`](docs/191_variable_arithmetic.md)).
+
 Arithmetic first appears through conservative finite shadows of closed modes.
 These shadows provide a consistency anchor; they do not establish that all
 mathematics reduces to Veyra.

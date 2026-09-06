@@ -121,6 +121,7 @@ D = (observer programs, domains, response kinds, resolutions,
 2. domain refinement: the fine observer is defined wherever the coarse observer is defined.
 
 Information refinement without domain refinement is not strong refinement.
+On a finite site of partial observers ordered by admission, distinction persists, echo retracts, and typed silence is a third pair status (`THM_OS_001`–`008`, docs/190).
 
 ### 5.2 Observer translation
 

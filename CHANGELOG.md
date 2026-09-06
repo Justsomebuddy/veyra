@@ -1,6 +1,49 @@
 # Changelog
 
 ## [Unreleased] — Changed
+- Variable arithmetic (2026-09-06): step 2 of the observer-site program. New
+  stable Lean source `VeyraVariableArithmetic.lean` (59th; imports
+  `VeyraObserverSite` and `VeyraNecklaceOrbit`, `THM_VA_001`–`014`, no
+  classical choice): the fibre of the presheaf of modes at a stage is the
+  `Quot` by echo with restriction along refinement; stitch and weave act on a
+  fibre exactly where echo is a congruence and then commute with restriction;
+  the natural numbers are the length fibre (stitch `+`, weave `×`); descent
+  holds at the length, bag and word stages while stitch does not respect
+  cyclic echo (closed modes have no native stitch) and weave does;
+  commutativity of stitch is a bag-stage law retracted at the word stage,
+  commutativity of weave survives only at the length stage, left
+  distributivity holds at the bag stage and fails at the word stage, right
+  distributivity and associativity are literal; AX-005 fails for stitching
+  closed modes through canonical cuts (countermodel `a`, `b`, `ab`);
+  bag-stage primitivity is coprimality of letter counts; resonance retracts
+  under refinement and is divisibility at the length stage. Executable twin
+  `src/core/observer_arithmetic.py` (descent/law tables with witnesses,
+  restriction squares, length fibre, canonical-cut failures, Parikh
+  cross-check as a declared shadow) with certificate `observer_arithmetic_va`
+  (suite 112→113), `tests/test_observer_arithmetic.py` in the portable lane,
+  both observer-site modules added to the host-arithmetic AST guard; docs 191
+  with pointers from 01/02/190, registry DEF-765–768, research manifest
+  rebased to the 59-source inventory.
+- Observer site (2026-09-06): the third inversion made formal and executable.
+  New stable Lean source `VeyraObserverSite.lean` (58th; imports
+  `VeyraPrimitiveRoot`, `THM_OS_001`–`019`, no classical choice): on finite
+  sites of partial observers, distinctions persist and echo retracts under
+  refinement; the pair status is three-valued (echo/apart/silent); apartness
+  is irreflexive, symmetric and cotransitive for total observers, while one
+  silent observer breaks cotransitivity and the transitivity of internal
+  equality (finite countermodel); excluded middle for equality fails at an
+  incomplete stage (`ab`/`ba` at `{length}`) and holds at the complete
+  stage; apartness truth values are up-closed sieves while echo's are not
+  (echo is "not yet apart", not an internal proposition); stage echo is a
+  partial equivalence relation on readable presentations; stage-primitivity
+  is monotone under refinement, literal primitivity at `{word}`, unit-only at
+  `{length}`, and `aba` is composite at `{length}` but primitive at `{word}`.
+  Executable twin `src/core/observer_site.py` (standard site
+  length/bag/cycle/word, bounded partial reader, lattice law reports,
+  undecided pairs, echo classes with restriction, primitivity tables) with
+  certificate `observer_site_os` (suite 111→112) and `tests/test_observer_site.py`
+  in the portable lane; docs 190 with pointers from 00/06/11/149, registry
+  DEF-761–764, research manifest rebased to the 58-source inventory.
 - Attribution-free tree as a maintained invariant: `make hygiene` gains a fifth
   stage that scans every tracked text file and every tracked path for
   assistant-attribution tokens (assembled in the checker, never spelled), and

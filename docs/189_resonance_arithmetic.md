@@ -90,6 +90,6 @@ Axiom closures are `propext`/`Quot.sound` at most; no classical choice.
 
 ```bash
 PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 python -m pytest -q tests/test_resonance_arithmetic.py tests/test_resonance_decision_paths.py
-python scripts/check_lean_sources.py --jobs 8        # 57/57
+python scripts/check_lean_sources.py --jobs 8        # 59/59
 sage -python scripts/sage_smoke.py --require-sage    # oracle lane resonance-arithmetic witnessed
 ```

@@ -156,6 +156,39 @@ declaration in the PΩ2/N-family consumes `VeyraPrimeWitness.no_proper_divisor`
 | `THM_RA_012_euclid_escape` | `theorem` | `FORMALLY_PROVED` | `THM_RA_011_escape_residual`, `THM_RA_009_resonance_prime_iff` (via `leastFactor_prime`) | `proofs/lean/VeyraResonanceArithmetic.lean:424` |
 | `THM_RA_013_shared_echo` | `theorem` | `FORMALLY_PROVED` | `THM_RA_005_resonance_order` | `proofs/lean/VeyraResonanceArithmetic.lean:447` |
 | `THM_RA_014_shared_closure` | `theorem` | `FORMALLY_PROVED` | `THM_RA_005_resonance_order` | `proofs/lean/VeyraResonanceArithmetic.lean:456` |
+| `THM_OS_001_apart_persists` | `theorem` | `FORMALLY_PROVED` | same-module definitions only | `proofs/lean/VeyraObserverSite.lean:79` |
+| `THM_OS_002_echo_retracts` | `theorem` | `FORMALLY_PROVED` | same-module definitions only | `proofs/lean/VeyraObserverSite.lean:85` |
+| `THM_OS_003_status_trichotomy` | `theorem` | `FORMALLY_PROVED` | `not_echo_and_apart`; Boolean decision instances `apartB_iff`/`echoB_iff` | `proofs/lean/VeyraObserverSite.lean:219` |
+| `THM_OS_004_total_no_silence` | `theorem` | `FORMALLY_PROVED` | same-module definitions only | `proofs/lean/VeyraObserverSite.lean:231` |
+| `THM_OS_005_apart_irrefl_symm` | `theorem` | `FORMALLY_PROVED` | same-module definitions only | `proofs/lean/VeyraObserverSite.lean:98` |
+| `THM_OS_006_cotransitive_of_total` | `theorem` | `FORMALLY_PROVED` | same-module definitions only | `proofs/lean/VeyraObserverSite.lean:243` |
+| `THM_OS_007_silence_breaks_cotransitivity` | `theorem` | `FORMALLY_PROVED` | `apartB_iff`; finite countermodel (`decide`) | `proofs/lean/VeyraObserverSite.lean:267` |
+| `THM_OS_008_intEq_stable` | `theorem` | `FORMALLY_PROVED` | `THM_OS_001_apart_persists` | `proofs/lean/VeyraObserverSite.lean:107` |
+| `THM_OS_009_excluded_middle_fails` | `theorem` | `FORMALLY_PROVED` | `apartB_iff`, `echoB_iff`, `not_decided_of_split`; finite countermodel (`decide`) | `proofs/lean/VeyraObserverSite.lean:296` |
+| `THM_OS_010_complete_stage_decides` | `theorem` | `FORMALLY_PROVED` | Boolean decision instance `apartB_iff` | `proofs/lean/VeyraObserverSite.lean:255` |
+| `THM_OS_011_prime_monotone` | `theorem` | `FORMALLY_PROVED` | `THM_OS_002_echo_retracts`; imports `VeyraPrimitiveRoot` (`Root.pow`) | `proofs/lean/VeyraObserverSite.lean:332` |
+| `THM_OS_012_prime_depends_on_stage` | `theorem` | `FORMALLY_PROVED` | `THM_OS_015_word_stage_prime_iff_primitive`, `THM_OS_016_length_stage_prime_iff_unit`, `aba_not_literal_power` | `proofs/lean/VeyraObserverSite.lean:423` |
+| `THM_OS_013_apart_sieve_upclosed` | `theorem` | `FORMALLY_PROVED` | `THM_OS_001_apart_persists` | `proofs/lean/VeyraObserverSite.lean:144` |
+| `THM_OS_014_echo_not_kripke` | `theorem` | `FORMALLY_PROVED` | `THM_OS_009_excluded_middle_fails`, `not_echo_and_apart` | `proofs/lean/VeyraObserverSite.lean:312` |
+| `THM_OS_015_word_stage_prime_iff_primitive` | `theorem` | `FORMALLY_PROVED` | `echoes_wordObs_iff`; imports `VeyraPrimitiveRoot` (`Root.Primitive`, `Root.pow_nil`) | `proofs/lean/VeyraObserverSite.lean:355` |
+| `THM_OS_016_length_stage_prime_iff_unit` | `theorem` | `FORMALLY_PROVED` | `echoes_lengthObs_iff`; imports `VeyraPrimitiveRoot` (`Root.length_pow`) | `proofs/lean/VeyraObserverSite.lean:381` |
+| `THM_OS_017_echo_is_per` | `theorem` | `FORMALLY_PROVED` | same-module definitions only | `proofs/lean/VeyraObserverSite.lean:121` |
+| `THM_OS_018_silence_breaks_intEq_trans` | `theorem` | `FORMALLY_PROVED` | `THM_OS_007_silence_breaks_cotransitivity` | `proofs/lean/VeyraObserverSite.lean:274` |
+| `THM_OS_019_intEq_equivalence_of_total` | `theorem` | `FORMALLY_PROVED` | `THM_OS_005_apart_irrefl_symm`, `THM_OS_006_cotransitive_of_total` | `proofs/lean/VeyraObserverSite.lean:280` |
+| `THM_VA_001_restriction_homomorphism` | `theorem` | `FORMALLY_PROVED` | `THM_OS_002_echo_retracts` (via `restrict`); imports `VeyraObserverSite` | `proofs/lean/VeyraVariableArithmetic.lean:89` |
+| `THM_VA_002_descends_length_word` | `theorem` | `FORMALLY_PROVED` | `echoes_wordObs_iff`; imports `VeyraObserverSite`, `VeyraPrimitiveRoot` (`Root.length_pow`) | `proofs/lean/VeyraVariableArithmetic.lean:128` |
+| `THM_VA_003_nat_is_length_fibre` | `theorem` | `FORMALLY_PROVED` | `THM_VA_002_descends_length_word` | `proofs/lean/VeyraVariableArithmetic.lean:154` |
+| `THM_VA_004_descends_bag` | `theorem` | `FORMALLY_PROVED` | `count_pow`, `count_false_add_count_true` | `proofs/lean/VeyraVariableArithmetic.lean:217` |
+| `THM_VA_005_stitch_breaks_cyclic` | `theorem` | `FORMALLY_PROVED` | `cycB_iff`; imports `VeyraNecklaceOrbit` (`rot`); finite countermodel (`decide`) | `proofs/lean/VeyraVariableArithmetic.lean:248` |
+| `THM_VA_006_weave_respects_cyclic` | `theorem` | `FORMALLY_PROVED` | `rot_pow`; imports `VeyraNecklaceOrbit` (`ext_read`, `read_rot`, `read_pow`) | `proofs/lean/VeyraVariableArithmetic.lean:273` |
+| `THM_VA_007_stitch_comm_stage` | `theorem` | `FORMALLY_PROVED` | `echo_bagObs_iff`, `echo_wordObs_iff`; `decide` countermodel | `proofs/lean/VeyraVariableArithmetic.lean:279` |
+| `THM_VA_008_weave_comm_stage` | `theorem` | `FORMALLY_PROVED` | `echo_lenObs_iff`, `echo_bagObs_iff`, `length_weave`; `decide` countermodel | `proofs/lean/VeyraVariableArithmetic.lean:287` |
+| `THM_VA_009_distributivity_stage` | `theorem` | `FORMALLY_PROVED` | `count_pow`, `echo_bagObs_iff`, `echo_wordObs_iff`; imports `VeyraPrimitiveRoot` (`Root.pow_add`); `decide` countermodel | `proofs/lean/VeyraVariableArithmetic.lean:296` |
+| `THM_VA_010_open_associativity` | `theorem` | `FORMALLY_PROVED` | imports `VeyraPrimitiveRoot` (`Root.pow_pow`); stitch case is `List.append_assoc` (definitional in content) | `proofs/lean/VeyraVariableArithmetic.lean:307` |
+| `THM_VA_011_canonical_cut_not_associative` | `theorem` | `FORMALLY_PROVED` | `cycB_iff`; finite countermodel (`decide`) | `proofs/lean/VeyraVariableArithmetic.lean:334` |
+| `THM_VA_012_bag_prime_iff_coprime` | `theorem` | `FORMALLY_PROVED` | `echo_bagObs_iff`, `count_pow`, `count_false_add_count_true`; `PrimeAt` of `VeyraObserverSite` | `proofs/lean/VeyraVariableArithmetic.lean:342` |
+| `THM_VA_013_resonance_retracts` | `theorem` | `FORMALLY_PROVED` | `THM_OS_002_echo_retracts` | `proofs/lean/VeyraVariableArithmetic.lean:392` |
+| `THM_VA_014_length_resonance_is_divisibility` | `theorem` | `FORMALLY_PROVED` | `echo_lenObs_iff`; imports `VeyraPrimitiveRoot` (`Root.length_pow`) | `proofs/lean/VeyraVariableArithmetic.lean:398` |
 | `THM_P3N4_PREMISE_001_same_integer_coordinates` | `theorem` | `FORMALLY_PROVED + PUBLICLY_VALIDATED` | imports `VeyraPadicLocalRealization` | `proofs/lean/VeyraPadicAllDepthEquality.lean:6` |
 | `THM_POMEGA2_001_prime_lower_bound` | `theorem` | `FORMALLY_PROVED + PUBLICLY_VALIDATED` | imports `Std.Tactic`, `Init.GrindInstances.Ring.Fin` | `proofs/lean/VeyraPadicCompletion.lean:178` |
 | `THM_POMEGA2_002_stage_modulus_divisibility` | `theorem` | `FORMALLY_PROVED + PUBLICLY_VALIDATED` | imports `Std.Tactic`, `Init.GrindInstances.Ring.Fin` | `proofs/lean/VeyraPadicCompletion.lean:180` |

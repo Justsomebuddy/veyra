@@ -83,6 +83,24 @@ complete registry; no local history is required.
   stitch/weave homomorphism onto `Nat`; executable counterpart and AST guard in
   `src/core/resonance_arithmetic.py`. Not `PUBLICLY_VALIDATED`; no native
   quantifier; W-001/THM-001–003 unchanged (they concern the AX-007 `Mode`).
+- DEF-761–764 / THM-OS-001–019 (2026-09-06) formalize the observer site:
+  apartness is the persistent primitive, echo its retractable negation,
+  internal equality "never apart within the site"; excluded middle for
+  equality fails at incomplete stages, typed silence breaks cotransitivity
+  and transitivity of internal equality, and stage-primitivity is monotone
+  under refinement — all `FORMALLY_PROVED` in `VeyraObserverSite.lean` with
+  the executable twin `src/core/observer_site.py`. Finite host-carried sites
+  only; not `PUBLICLY_VALIDATED`; no physical or topos-theoretic claim.
+- DEF-765–768 / THM-VA-001–014 (2026-09-06) make arithmetic a variable
+  object over the observer site: stitch and weave act on the fibres of the
+  presheaf of modes where echo is a congruence and commute with restriction;
+  the natural numbers are the length fibre; commutativity and left
+  distributivity are stage properties; closed modes have no native stitch and
+  AX-005 fails for canonical-cut stitching (finite countermodel); bag-stage
+  primitivity is coprimality of letter counts. `FORMALLY_PROVED` in
+  `VeyraVariableArithmetic.lean` with the executable twin
+  `src/core/observer_arithmetic.py`. Not `PUBLICLY_VALIDATED`; AX-005 keeps
+  its seed row for open stitching.
 - DEF-717–723 records declared adaptive research lines and the exact
   independent-null retry inflation witness. Its Python/Sage arithmetic is
   executable counterpressure, not a registered theorem, verified adaptive

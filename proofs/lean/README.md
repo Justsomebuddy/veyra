@@ -1,6 +1,6 @@
 # Lean proof inventory
 
-This directory contains 57 Lean source modules. The table is exhaustive over the repository `.lean` sources. Four additional PΩ1 bridge declarations (`THM_POMEGA1_012`–`015`) are intentionally **not** repository files: they are generated deterministically at check time and digest-pinned (see “Generated bridge declarations” below). Status refers to the public claim supported by the source, not merely to the presence of compilable declarations. Exact released declaration locations and dependencies are listed in `../../THEOREMS.md`.
+This directory contains 59 Lean source modules. The table is exhaustive over the repository `.lean` sources. Four additional PΩ1 bridge declarations (`THM_POMEGA1_012`–`015`) are intentionally **not** repository files: they are generated deterministically at check time and digest-pinned (see “Generated bridge declarations” below). Status refers to the public claim supported by the source, not merely to the presence of compilable declarations. Exact released declaration locations and dependencies are listed in `../../THEOREMS.md`.
 
 The separate [`experimental/research_lean/`](../../experimental/research_lean/)
 candidate is not part of the stable module inventory. Its nine files and 86 declarations are
@@ -41,6 +41,7 @@ manifest-bound and freshly checked by `make research-lean`, but retain
 | `VeyraObserverLattice.lean` | TR-1 transfer spine: reachability-closure monotonicity (real induction), omega witness transport, primitivity stability, replay fixture | `FORMALLY_PROVED` | `THM_TR1_001_reaches_monotone`, `THM_TR1_002_witness_transport`, `THM_TR1_003_primitivity_stability`, `THM_TR1_004_replay_fixture` |
 | `VeyraObserverPatchAtlas.lean` | finite patch atlas/gluing criterion plus two nonpromoted uniqueness helpers | `FORMALLY_PROVED` | `THM_G4_001_exact_gluing_exists_iff_no_local_contradiction`, `THM_G4_002_triangle_singleton_overlaps_pass`, `THM_G4_003_triangle_exact_gluing_impossible` |
 | `VeyraObserverProof.lean` | proof-grade observer laws | `FORMALLY_PROVED` | `THM_R11_001_ready_echo_characterization`, `THM_R11_002_ready_domain_reflexivity`, `THM_R11_003_r7_equality_implies_ready_echo`, `THM_R11_004_tail_silence_obstruction`, `THM_R11_005_both_side_echo_domain_obstruction`, `THM_R11_006_crest_noncollapse_witness` |
+| `VeyraObserverSite.lean` | the observer site: partial observers, stages ordered by refinement, apartness as the persistent primitive, echo as its retractable negation, internal equality as "never apart within the site"; three-valued pair status, total observers leave no silence, apartness irreflexive/symmetric and cotransitive for total observers while one silent observer breaks cotransitivity and transitivity of internal equality, excluded middle for equality fails at an incomplete stage and holds at the complete one, apartness truth values are up-closed sieves while echo's are not, stage echo is a partial equivalence relation, stage-primitivity is monotone and stage-dependent; imports `VeyraPrimitiveRoot` | `FORMALLY_PROVED` | `THM_OS_001_apart_persists`, `THM_OS_002_echo_retracts`, `THM_OS_003_status_trichotomy`, `THM_OS_004_total_no_silence`, `THM_OS_005_apart_irrefl_symm`, `THM_OS_006_cotransitive_of_total`, `THM_OS_007_silence_breaks_cotransitivity`, `THM_OS_008_intEq_stable`, `THM_OS_009_excluded_middle_fails`, `THM_OS_010_complete_stage_decides`, `THM_OS_011_prime_monotone`, `THM_OS_012_prime_depends_on_stage`, `THM_OS_013_apart_sieve_upclosed`, `THM_OS_014_echo_not_kripke`, `THM_OS_015_word_stage_prime_iff_primitive`, `THM_OS_016_length_stage_prime_iff_unit`, `THM_OS_017_echo_is_per`, `THM_OS_018_silence_breaks_intEq_trans`, `THM_OS_019_intEq_equivalence_of_total` |
 | `VeyraObserverSynthesis.lean` | observer-class closure and separation laws | `FORMALLY_PROVED` | `THM_R6_001_factor_blind`, `THM_R6_002_extension_separates` |
 | `VeyraObserverSynthesisReplay.lean` | abstract deterministic replay, bijective task relabeling, and finite-catalog exhaustion boundary | `INTERNAL_RESEARCH_CANDIDATE` | none; abstract helpers only, with no concrete Rust theorem or public theorem-card registration |
 | `VeyraObserverSynthesisV3.lean` | abstract canonical rebuild acceptance, explicit bijective task transport, and optimized/reference equivalence consequences | `INTERNAL_RESEARCH_CANDIDATE` | none; does not formalize Rust, cryptography, custody, concrete catalogs, or benchmark outcomes |
@@ -75,6 +76,7 @@ manifest-bound and freshly checked by `make research-lean`, but retain
 | `VeyraStatistics.lean` | fixed finite statistics cards | `FORMALLY_PROVED` | `THM_S001_mean_balance_1_3_5`, `THM_S002_variance_shift_1_3_5_plus_10` |
 | `VeyraStreamCompletion.lean` | PΩ1 stream completion relative to an explicit ledger | `FORMALLY_PROVED + PUBLICLY_VALIDATED` | `THM_POMEGA1_001_truncation_identity`, `THM_POMEGA1_002_truncation_composition`, `THM_POMEGA1_003_rho_formation_congruence`, `THM_POMEGA1_004_stream_restriction_compatible`, `THM_POMEGA1_005_diagonal_realization_depth`, `THM_POMEGA1_006_universal_realization`, `THM_POMEGA1_007_coordinate_agreement`, `THM_POMEGA1_008_joint_separation`, `THM_POMEGA1_009_relative_uniqueness`, `THM_POMEGA1_010_nonvacuity_inhabitance`, `THM_POMEGA1_011_scp_introduction` |
 | `VeyraTransportCoherence.lean` | P3-C2 typed-setoid transport coherence | `FORMALLY_PROVED` | `THM_P3C2_001_ranked_local_to_generated_transport`, `THM_P3C2_002_natop_reduction_identity`, `THM_P3C2_003_natop_reduction_composition` |
+| `VeyraVariableArithmetic.lean` | arithmetic as a variable object over the observer site: fibres of the presheaf of modes as `Quot` by stage echo with restriction along refinement, descent of stitch/weave to congruence stages and commutation with restriction, the natural numbers as the length fibre (stitch = `+`, weave = `×`), descent to the bag stage, stitch does not respect cyclic echo while weave does, commutativity/left distributivity as stage properties with countermodels, literal associativity, AX-005 refuted for canonical-cut stitching of closed modes, bag-stage primitivity = coprime letter counts, resonance retracts under refinement and is divisibility at the length stage; imports `VeyraObserverSite`, `VeyraNecklaceOrbit` | `FORMALLY_PROVED` | `THM_VA_001_restriction_homomorphism`, `THM_VA_002_descends_length_word`, `THM_VA_003_nat_is_length_fibre`, `THM_VA_004_descends_bag`, `THM_VA_005_stitch_breaks_cyclic`, `THM_VA_006_weave_respects_cyclic`, `THM_VA_007_stitch_comm_stage`, `THM_VA_008_weave_comm_stage`, `THM_VA_009_distributivity_stage`, `THM_VA_010_open_associativity`, `THM_VA_011_canonical_cut_not_associative`, `THM_VA_012_bag_prime_iff_coprime`, `THM_VA_013_resonance_retracts`, `THM_VA_014_length_resonance_is_divisibility` |
 
 ## Generated bridge declarations (not repository sources)
 
@@ -86,7 +88,7 @@ deterministically from `src/core/stream_completion_alphabet.py` (template
 module) and checked by `src/core/stream_completion_formal.py`, which pins the
 generated bytes, rejects `sorry`/`admit`, requires the exact ordered symbol set
 and exactly fifteen `#print axioms` rows, and pins the elan/Lean binary before
-compiling. `scripts/check_lean_sources.py` validates the 57 repository sources
+compiling. `scripts/check_lean_sources.py` validates the 59 repository sources
 only and does not re-check the four generated declarations; the generator gate
 above is their only compilation path, and any claim citing them must cite that
 gate, not this inventory.
@@ -114,14 +116,14 @@ gate, not this inventory.
 ## Whole-source compilation
 
 Install `elan` and the exact reviewed toolchain, then compile the complete
-57-source local import graph from the repository root:
+59-source local import graph from the repository root:
 
 ```bash
 elan toolchain install leanprover/lean4:v4.30.0-rc2
 python scripts/check_lean_sources.py --jobs 8
 ```
 
-The harness checks the exact Lean version, validates the 57-file inventory,
+The harness checks the exact Lean version, validates the 59-file inventory,
 builds dependency layers, and writes temporary `.olean` files only under the
 ignored `data/tmp/` tree. Independent modules in each layer compile in parallel.
 

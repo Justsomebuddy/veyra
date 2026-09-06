@@ -70,6 +70,8 @@ from .certify_necklace_congruence import certify_necklace_congruence_n8
 from .certify_doctrinal_induction import certify_doctrinal_induction_di1
 from .certify_orbit_partition import certify_orbit_partition_di2
 from .certify_resonance_arithmetic import certify_resonance_arithmetic_ra
+from .certify_observer_site import certify_observer_site_os
+from .certify_observer_arithmetic import certify_observer_arithmetic_va
 from .certify_observer_lattice import certify_observer_lattice_tr1
 from .certify_break_locus import certify_break_locus_tr2
 from .certify_projection_forcing import certify_projection_forcing_tr2b
@@ -102,7 +104,7 @@ def certificate_suite() -> list[Certificate]:
     """Run core Veyra workability certificates."""
     logger.debug("certificate_suite entry")
     certs = [certify_echo(), certify_resonance(), certify_native_resonance_number(), certify_native_number_theory(),
-        certify_native_number_theorem_n1(), certify_native_fermat_phase_n2(), certify_necklace_congruence_n8(), certify_doctrinal_induction_di1(), certify_orbit_partition_di2(), certify_resonance_arithmetic_ra(), certify_observer_lattice_tr1(), certify_break_locus_tr2(), certify_projection_forcing_tr2b(), certify_break_locus_formula_tr2c(), certify_locus_tightness_tr2d(), certify_topology_echo_x4(), certify_observer_patch_atlas_g4(), certify_observer_infinity_i1(), certify_positive_ontology_p0(), certify_observer_morphism_p1a(), certify_observer_relations_p1a2(), certify_finite_construction_p1b(), certify_confluence_p1c1(), certify_confluence_aggregate_p1c2(), certify_translated_confluence_p1c3(), certify_productivity_p1d1(), certify_productivity_counterpressure(), *certify_d3_pomega_p2s_bundle(), certify_observer_genesis_p1e1(),
+        certify_native_number_theorem_n1(), certify_native_fermat_phase_n2(), certify_necklace_congruence_n8(), certify_doctrinal_induction_di1(), certify_orbit_partition_di2(), certify_resonance_arithmetic_ra(), certify_observer_site_os(), certify_observer_arithmetic_va(), certify_observer_lattice_tr1(), certify_break_locus_tr2(), certify_projection_forcing_tr2b(), certify_break_locus_formula_tr2c(), certify_locus_tightness_tr2d(), certify_topology_echo_x4(), certify_observer_patch_atlas_g4(), certify_observer_infinity_i1(), certify_positive_ontology_p0(), certify_observer_morphism_p1a(), certify_observer_relations_p1a2(), certify_finite_construction_p1b(), certify_confluence_p1c1(), certify_confluence_aggregate_p1c2(), certify_translated_confluence_p1c3(), certify_productivity_p1d1(), certify_productivity_counterpressure(), *certify_d3_pomega_p2s_bundle(), certify_observer_genesis_p1e1(),
         certify_geometry_visual_regression_x6(), certify_formal_export_prep_x7(), certify_formal_export_completion_x8(),
         certify_quantum_veyra_q1(), certify_quantum_stabilizer_q2(), certify_quantum_topology_q4(),
         certify_quantum_qec_echo_q5(), certify_quantum_gate_identity_q6(),

@@ -8,13 +8,13 @@ logger = logging.getLogger(__name__)
 
 
 def test_whole_source_lean_graph_is_complete_and_acyclic():
-    """All 57 public Lean sources occur exactly once in dependency order."""
+    """All 59 public Lean sources occur exactly once in dependency order."""
     logger.debug("test_whole_source_lean_graph entry")
     graph = source_graph()
     layers = topological_layers(graph)
     flattened = tuple(source for layer in layers for source in layer)
-    assert len(graph) == 57
-    assert len(flattened) == 57
+    assert len(graph) == 59
+    assert len(flattened) == 59
     assert set(flattened) == set(graph)
     positions = {source: index for index, source in enumerate(flattened)}
     assert all(

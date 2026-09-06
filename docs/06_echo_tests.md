@@ -43,6 +43,7 @@ If every observer has ordinary equality in its response type, then `≈_T` is an
 3. Transitive: if `x ≈_T y` and `y ≈_T z`, then `x ≈_T z`.
 
 Status: theorem in the external model, not an internal metaphysical claim.
+With partial observers echo is a partial equivalence on the readable presentations, and one silent observer breaks the cotransitivity that transitivity of internal equality needs (`THM_OS_007`, `THM_OS_017`–`019`, docs/190).
 
 ## 5. Refinement
 
@@ -57,6 +58,7 @@ but not conversely.
 This captures a key Veyra principle:
 
 > identity can become more detailed when the universe admits stronger tests.
+Formally, distinction persists and echo retracts under refinement, so at an incomplete stage neither `x = y` nor `x # y` need be forced (`THM_OS_001`/`002`/`009`, docs/190).
 
 ## 6. First test families for modes
 

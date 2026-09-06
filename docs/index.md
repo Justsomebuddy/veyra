@@ -295,6 +295,15 @@ No metaphysical claim is accepted as mathematics until it becomes a definition, 
   and formal on the native recurrence: resonance, phase congruence,
   indecomposable rhythms, shared echo/closure, Fermat and Euclid, with an AST
   guard keeping host arithmetic off every number-theory decision path.
+- `docs/190_observer_site_internal_logic.md` — the observer site: apartness
+  as the persistent primitive, echo as its retractable negation, failure of
+  excluded middle for equality at incomplete stages, silence breaking
+  cotransitivity, and primitivity as a monotone function on the stage
+  lattice, formal and executable.
+- `docs/191_variable_arithmetic.md` — arithmetic as a variable object: stitch
+  and weave on the fibres of the presheaf of modes, the natural numbers as the
+  length fibre, laws as stage properties, no native stitch on closed modes and
+  AX-005 refuted for canonical-cut stitching.
 - `vam/docs/042_native_observer_synthesis_v4.md` — append-only finite
   representation/observer search, truthful namespace/seccomp/cgroup custody,
   state-free signed replay, and an abstract Lean boundary; not general

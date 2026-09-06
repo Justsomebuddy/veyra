@@ -168,6 +168,14 @@
       "declarations": []
     },
     {
+      "path": "proofs/lean/VeyraObserverSite.lean",
+      "sha256": "2f231f92b9b01a6db78f7755f1b976f97bd8c43a210cae866510de1c6ea20912",
+      "imports": [
+        "VeyraPrimitiveRoot"
+      ],
+      "declarations": []
+    },
+    {
       "path": "proofs/lean/VeyraObserverSynthesis.lean",
       "sha256": "750c8d12221b98bf6b9842ca83fe7e36f2e9e78f22cb342942e5b39e350cbaac",
       "imports": [],
@@ -414,6 +422,15 @@
       "sha256": "4804c5637e89530a4a00ec6ad905c20d0a93c2b63fb941f1cffc70d7a3c7e395",
       "imports": [
         "Std.Tactic"
+      ],
+      "declarations": []
+    },
+    {
+      "path": "proofs/lean/VeyraVariableArithmetic.lean",
+      "sha256": "fde185a0558bdb4271bc2d4df53a6f2ec7c4270571beeb7b7fbf75fac5fafc0b",
+      "imports": [
+        "VeyraObserverSite",
+        "VeyraNecklaceOrbit"
       ],
       "declarations": []
     }
@@ -1074,8 +1091,8 @@
     ]
   },
   "source_roots": {
-    "base": "f52f82c798e9f161191f7cefd4bd47ef5b38f79826bc3eb57412618be894563e",
+    "base": "38c90eb03d0c2502386bbae699ed561015720b26c0c861a8167b511926689052",
     "research": "caf7d1c2e0e7e8333132300a0ebe5099e35b4fb70d47033fcc8bf033f4c9f597"
   },
-  "proof_root": "1a8d31e2c17d17d6eb0d54d2688fd99ed382debe4f3f2e26bd62ace6003794b8"
+  "proof_root": "4b93d54a0543dbce6c40d60183e1623484ff3555f75ec4ae8708bd30c5f08ee5"
 }

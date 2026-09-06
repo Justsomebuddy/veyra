@@ -23,7 +23,7 @@ def certs():
 
 def test_certificate_suite_all_passes_current_core(certs):
     summary = certificate_summary(certs)
-    assert summary["total"] == 111
+    assert summary["total"] == 113
     assert summary["failed"] == []
     assert summary["passed"] == summary["total"]
 
@@ -168,6 +168,8 @@ def test_certificate_items_name_veyra_methods(certs):
     assert "Euclid-style" in methods["native_number_theorem_n1"]
     assert "Fermat phase" in methods["native_fermat_phase_n2"]
     assert "phase congruence" in methods["resonance_arithmetic_ra"]
+    assert "excluded middle" in methods["observer_site_os"]
+    assert "AX-005" in methods["observer_arithmetic_va"]
     assert "deformation-invariant" in methods["topology_echo_x4"]
     assert "finite observer-patch exact gluing" in methods["observer_patch_atlas_g4"]
     assert "classical p-adic residue shadows" in methods["observer_infinity_i1"]
