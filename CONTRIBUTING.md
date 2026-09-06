@@ -135,6 +135,19 @@ reproducibility contract.
 - Update `CHANGELOG.md` for user-visible behavior or public mathematical
   status changes.
 
+### Attribution
+
+The repository, its documentation, its commit history and its file names carry
+no references to AI assistants and no automated-authorship attribution, and
+this is a maintained invariant, not an accident: `make hygiene` scans every
+tracked text file and every tracked path for assistant-attribution tokens and
+fails on the first hit (`scripts/project_hygiene.py`, stage 5), and
+`tests/test_project_hygiene_attribution.py` checks the same invariant in the
+test lane. Do not add attribution trailers, assistant names or tool banners to
+commits, pull-request bodies, comments, docstrings or documentation. Local
+working notes that must not be published are kept outside version control
+through `.git/info/exclude`.
+
 ## Testing
 
 Run the narrowest relevant checks while developing. Before requesting review,

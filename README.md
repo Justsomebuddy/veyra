@@ -273,7 +273,10 @@ The conceptual boundary is documented in
 ## Contributing
 
 See [`CONTRIBUTING.md`](CONTRIBUTING.md) for setup, claim discipline, test
-expectations, and review requirements. Please use
+expectations, and review requirements. The repository, its documentation,
+commit history and file names carry no references to AI assistants or
+automated-authorship attribution; `make hygiene` enforces this on every
+tracked text file and path (see "Attribution" in `CONTRIBUTING.md`). Please use
 [`SECURITY.md`](SECURITY.md) for vulnerability reports and
 [`CODE_OF_CONDUCT.md`](CODE_OF_CONDUCT.md) for community expectations.
 

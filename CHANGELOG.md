@@ -1,6 +1,12 @@
 # Changelog
 
 ## [Unreleased] — Changed
+- Attribution-free tree as a maintained invariant: `make hygiene` gains a fifth
+  stage that scans every tracked text file and every tracked path for
+  assistant-attribution tokens (assembled in the checker, never spelled), and
+  `tests/test_project_hygiene_attribution.py` checks the invariant and the
+  detector in the test lane; documented in `CONTRIBUTING.md` ("Attribution")
+  and the README.
 - Resonance arithmetic (2026-09-06): the docs/02 vocabulary is now executable
   and formal. New `src/core/resonance_arithmetic.py` decides divisibility
   (`resonates`), phase congruence (`phase_residual`/`phase_congruent`),

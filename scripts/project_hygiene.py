@@ -193,6 +193,46 @@ def line_violations(files: tuple[Path, ...], jobs: int) -> tuple[tuple[Path, int
     return result
 
 
+def _attribution_tokens() -> tuple[str, ...]:
+    """Return the lowercase assistant-attribution tokens, assembled so that the checker never spells them."""
+    logger.debug("project_hygiene._attribution_tokens entry")
+    result = (
+        "".join(("cl", "au", "de")),
+        "".join(("anthr", "opic")),
+        "-".join(("co", "authored", "by")),
+        "".join(("chat", "gpt")),
+        "".join(("open", "ai")),
+    )
+    logger.debug("project_hygiene._attribution_tokens exit count=%d", len(result))
+    return result
+
+
+def attribution_violations(files: tuple[Path, ...], names: tuple[str, ...] = ()) -> tuple[str, ...]:
+    """Report every tracked text line or repository path carrying an assistant-attribution token."""
+    logger.debug("project_hygiene.attribution_violations entry files=%d names=%d", len(files), len(names))
+    tokens = _attribution_tokens()
+    found: list[str] = []
+    for name in names:
+        lowered = name.lower()
+        if any(token in lowered for token in tokens):
+            found.append(f"repository path carries an assistant-attribution token: {name}")
+    for path in files:
+        try:
+            text = path.read_text(encoding="utf-8", errors="replace")
+        except OSError:
+            logger.error("project_hygiene.attribution_violations unreadable path=%s", path)
+            found.append(f"unreadable during attribution scan: {path.as_posix()}")
+            continue
+        label = path.relative_to(ROOT).as_posix() if path.is_relative_to(ROOT) else path.as_posix()
+        for number, line in enumerate(text.splitlines(), 1):
+            lowered = line.lower()
+            if any(token in lowered for token in tokens):
+                found.append(f"assistant-attribution token in {label}:{number}")
+    result = tuple(found)
+    logger.debug("project_hygiene.attribution_violations exit count=%d", len(result))
+    return result
+
+
 def cache_ignore_check() -> tuple[str, ...]:
     """Verify representative generated-cache paths remain ignored by Git."""
     logger.debug("project_hygiene.cache_ignore_check entry")
@@ -209,22 +249,26 @@ def run(argv: list[str]) -> int:
     if not 1 <= args.jobs <= 32:
         raise SystemExit("--jobs must be between 1 and 32")
     started = time.perf_counter()
-    print("[1/4] Enumerating stable and experimental text files", flush=True)
+    print("[1/5] Enumerating stable and experimental text files", flush=True)
     files = tracked_text_files()
-    print("[2/4] Validating path-bound line-limit exceptions", flush=True)
+    print("[2/5] Validating path-bound line-limit exceptions", flush=True)
     exception_errors = line_limit_exception_errors(files)
-    print(f"[3/4] Checking {len(files)} line-count limits", flush=True)
+    print(f"[3/5] Checking {len(files)} line-count limits", flush=True)
     violations = line_violations(files, args.jobs)
-    print("[4/4] Checking generated-cache ignore rules", flush=True)
+    print("[4/5] Checking generated-cache ignore rules", flush=True)
     missing = cache_ignore_check()
+    print("[5/5] Checking the attribution-free tree (tracked text and every tracked path)", flush=True)
+    attribution = attribution_violations(files, tuple(os.fsdecode(raw) for raw in git_inventory(ROOT)))
     for error in exception_errors:
         print(f"[fail] {error}", file=sys.stderr)
     for path, count, limit in violations:
         print(f"[fail] {path.as_posix()}: {count} > {limit}", file=sys.stderr)
     for probe in missing:
         print(f"[fail] cache path is not ignored: {probe}", file=sys.stderr)
+    for finding in attribution:
+        print(f"[fail] {finding}", file=sys.stderr)
     elapsed = time.perf_counter() - started
-    errors = len(exception_errors) + len(violations) + len(missing)
+    errors = len(exception_errors) + len(violations) + len(missing) + len(attribution)
     print(
         f"[done] processed={len(files)} errors={errors} elapsed={elapsed:.2f}s "
         f"speed={len(files) / elapsed if elapsed else 0:.2f} file/s",
