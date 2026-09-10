@@ -98,7 +98,7 @@ def _clean_env(lean_paths: tuple[Path, ...] = ()) -> dict[str, str]:
 
 
 def toolchain_identity(command: list[str]) -> str:
-    """Verify the pinned version and bind binary/runtime filesystem identity."""
+    """Bind exact Lean content/runtime without host-local filesystem metadata."""
     logger.debug("observer_core_bridge_io.toolchain_identity entry")
     try:
         proc = guarded_lean_run(
@@ -114,9 +114,9 @@ def toolchain_identity(command: list[str]) -> str:
         raise ValueError("r11-pinned-lean-version-mismatch")
     metadata = Path(command[0]).stat()
     result = (
-        f"{version}|path={command[0]}|sha256={EXPECTED_LEAN_BINARY_SHA256}|"
-        f"{_runtime_identity()}|inode={metadata.st_ino}|size={metadata.st_size}|"
-        f"mtime={metadata.st_mtime_ns}"
+        f"{version}|toolchain={LEAN_TOOLCHAIN}|binary={Path(command[0]).name}|"
+        f"sha256={EXPECTED_LEAN_BINARY_SHA256}|{_runtime_identity()}|"
+        f"size={metadata.st_size}"
     )
     logger.debug("observer_core_bridge_io.toolchain_identity exit result=%s", result)
     return result

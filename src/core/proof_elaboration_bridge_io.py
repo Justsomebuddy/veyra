@@ -87,7 +87,7 @@ def _clean_env(lean_paths: tuple[Path, ...] = ()) -> dict[str, str]:
 
 
 def toolchain_identity(command: list[str]) -> str:
-    """Verify the exact Lean version and bind the elan executable identity."""
+    """Bind exact Lean content/runtime without host-local filesystem metadata."""
     logger.debug("proof_elaboration_bridge_io.toolchain_identity entry")
     try:
         proc = guarded_lean_run(
@@ -105,8 +105,8 @@ def toolchain_identity(command: list[str]) -> str:
     stat = Path(command[0]).stat()
     runtime = _runtime_identity()
     result = (
-        f"{version}|path={command[0]}|sha256={EXPECTED_LEAN_BINARY_SHA256}|"
-        f"{runtime}|inode={stat.st_ino}|size={stat.st_size}|mtime={stat.st_mtime_ns}"
+        f"{version}|toolchain={LEAN_TOOLCHAIN}|binary={Path(command[0]).name}|"
+        f"sha256={EXPECTED_LEAN_BINARY_SHA256}|{runtime}|size={stat.st_size}"
     )
     logger.debug("proof_elaboration_bridge_io.toolchain_identity exit result=%s", result)
     return result

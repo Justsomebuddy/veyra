@@ -22,7 +22,7 @@ EXPECTED_R10_TCB_DIGESTS = MappingProxyType({
     "elaboration_artifact": "effd184593de04603767b111741138105670bff6dd90a7eb62ce0c76a1f04766",
     "lean_renderer": "b9ed623f2386ae62778ca230eef68e8a3f21e7c8c50ba353411fb4da96bc2ce3",
     "bridge_snapshot": "1228c271ea5acee1ee13221d14ed24f5954ea0508e587fe2f4b6b568d3465b0d",
-    "bridge_io": "c8f6ba31b201ddb9b4414bd26e1829f8fe5ade7e93d9bed34452a5e0dc298359",
+    "bridge_io": "24c05a130536fd931fc75f1559901826dd4198faff29680bc131e11c10996b69",
     "toolchain_runtime": "63db421d5e91caf2f2437f28d626989ff4eb5efc283897986e6bb29d86881a0f",
     "runtime_guard": "56374cee0557bfe2590f231a9f8df7759a204cdba75cacfdb3b5b572ee874422",
     "reviewed_objects": "fa6ebffbc0f5f781aca5cc5b82933ef66fc49427c3d7fdda96c94ea72001b690",
@@ -45,7 +45,7 @@ EXPECTED_R10_TCB_DIGESTS = MappingProxyType({
     "lean_transport": "493e4662e295b526d5bb76b9ca528b834265142e91e0446e98af2b3b102fb16f",
     "lean_r9_export": "3d9af0918dcffa3730193c36c5bbc705bc28c507b28291c7f9ef0d21c32335a2",
     "lean_elaboration": "ed24ec58377ef44b804444d5b330955c5f3601942d1740e5f23503f0ea121da5",
-    "lean_export": "d7c23b7b7c9a8a2e4c47436631fdb3818debf734f0e7f0ea5d4adffad5fcc34b",
+    "lean_export": "3805eb0c16e7f3520acfb1cdfa2ba2bbe7c9db5bc4f07d9320172fdce75d6249",
 })
 MANIFEST_BOUNDARY = (
     "reviewed surface/R7/R9/Lean elaboration sources and deterministic intermediate "

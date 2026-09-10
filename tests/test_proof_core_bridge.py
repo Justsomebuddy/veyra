@@ -133,6 +133,55 @@ def test_pinned_version_match_is_exact(monkeypatch, version):
         bridge_module._toolchain_identity(["/not-inspected-on-mismatch"])
 
 
+def test_lean_command_executes_resolved_content_pinned_binary(tmp_path, monkeypatch):
+    lean = tmp_path / "lean"
+    lean.write_bytes(b"reviewed-lean-binary")
+    monkeypatch.setattr(bridge_module, "EXPECTED_LEAN_BINARY_SHA256", bridge_module._sha(lean.read_bytes()))
+    monkeypatch.setattr(bridge_module.shutil, "which", lambda _: "/runner/elan")
+    monkeypatch.setattr(
+        bridge_module.subprocess, "run",
+        lambda command, **_kwargs: SimpleNamespace(
+            returncode=0, stdout=str(lean) + "\n", stderr=""
+        ) if command == ["/runner/elan", "which", "lean"] else (_ for _ in ()).throw(AssertionError(command)),
+    )
+    command = bridge_module._lean_command()
+    assert command == [str(lean), "-DwarningAsError=true"]
+    assert command[0] != "/runner/elan"
+
+
+def test_lean_command_rejects_unreviewed_compiler_content(tmp_path, monkeypatch):
+    lean = tmp_path / "lean"
+    lean.write_bytes(b"attacker-compiler")
+    monkeypatch.setattr(bridge_module.shutil, "which", lambda _: "/runner/elan")
+    monkeypatch.setattr(
+        bridge_module.subprocess, "run",
+        lambda command, **_kwargs: SimpleNamespace(
+            returncode=0, stdout=str(lean) + "\n", stderr=""
+        ) if command == ["/runner/elan", "which", "lean"] else (_ for _ in ()).throw(AssertionError(command)),
+    )
+    assert bridge_module._lean_command() == []
+
+
+def test_toolchain_identity_is_content_bound_not_filesystem_metadata(tmp_path, monkeypatch):
+    lean = tmp_path / "lean"
+    lean.write_bytes(b"reviewed-lean-binary")
+    monkeypatch.setattr(bridge_module, "EXPECTED_LEAN_BINARY_SHA256", bridge_module._sha(lean.read_bytes()))
+    version = "Lean (version 4.30.0-rc2, x86_64-test, commit deadbeef, Release)"
+    monkeypatch.setattr(
+        bridge_module.subprocess, "run",
+        lambda command, **_kwargs: SimpleNamespace(returncode=0, stdout=version, stderr="")
+        if command[-1] == "--version" else (_ for _ in ()).throw(AssertionError(command)),
+    )
+    command = [str(lean), "-DwarningAsError=true"]
+    first = bridge_module._toolchain_identity(command)
+    lean.touch()
+    second = bridge_module._toolchain_identity(command)
+    assert first == second
+    assert f"sha256={bridge_module.EXPECTED_LEAN_BINARY_SHA256}" in first
+    assert "binary=lean" in first
+    assert "path=" not in first and "inode=" not in first and "mtime=" not in first
+
+
 def test_compile_uses_captured_snapshot_after_original_source_mutation(tmp_path, monkeypatch):
     lean_dir = tmp_path / "mutable-originals"
     lean_dir.mkdir()

@@ -7,7 +7,7 @@ EXPECTED_R9_TCB_DIGESTS = MappingProxyType({
     "python_laws": "e82e1c6a65c9752d1052390c9d5b74ab23d0d9b4ef29c210d10d824cbdfbd97f",
     "python_renderer": "d4615be8de0831046a75fda537c58ac3c63665c9d09db6ff11927befb39df74f",
     "python_snapshot": "f627b42f46c2578741ec8bfccd5620b7e4b12adf76cfd8db7a6ad3a35da7eaef",
-    "python_bridge": "1793fa5b78fb28f19a2b8ca9f1c6dfed77fe4d181f2f3acae84f385b182b8671",
+    "python_bridge": "0036a41d6695f832b21198e12fa9ec40b36272fd9a3273068a6c61e1e1ffa4b3",
     "native_runtime": "d584211a25f9df54455e7614bcf19807aeccb37905e8cd99272494a8e787f96d",
     "intrinsic_arithmetic": "86653afab132b51ee9e50a4396a464c335cbe2a92b1d5d7b35c450ebfd4ce3b2",
     "proof_core_types": "871dad8b0e62c4abcc8b439ad603abe29b3d2ae028afab7f145ff4f3fdc1c821",

@@ -22,6 +22,7 @@ from .proof_core_bridge import (
     ProofCoreBridgeReport, proof_core_bridge_report, verify_proof_core_bridge_report,
 )
 from .proof_core_codec import canonical_json
+from .proof_core_manifest import EXPECTED_LEAN_BINARY_SHA256
 from .proof_core_resonance import intrinsic_resonance_theorem
 
 from .paths import PROJECT_ROOT
@@ -104,9 +105,22 @@ def _read_sources(paths: Mapping[str, Path]) -> dict[str, bytes]:
 def _lean_command() -> list[str]:
     logger.debug("intrinsic_mode_bridge._lean_command entry")
     elan = shutil.which("elan")
-    result = [elan, "run", LEAN_TOOLCHAIN, "lean", "-DwarningAsError=true"] if elan else []
-    if not result:
+    if not elan:
         logger.error("intrinsic_mode_bridge pinned elan unavailable")
+        return []
+    resolved = subprocess.run(
+        [elan, "which", "lean"], cwd=PROJECT_ROOT,
+        text=True, capture_output=True, check=False,
+    )
+    lean_path = Path(resolved.stdout.strip()) if resolved.returncode == 0 else Path()
+    try:
+        lean_bytes = lean_path.read_bytes() if lean_path.is_file() else b""
+    except OSError:
+        lean_bytes = b""
+    if not lean_bytes or _sha(lean_bytes) != EXPECTED_LEAN_BINARY_SHA256:
+        logger.error("intrinsic_mode_bridge pinned Lean content unavailable")
+        return []
+    result = [str(lean_path), "-DwarningAsError=true"]
     logger.debug("intrinsic_mode_bridge._lean_command exit result=%r", result)
     return result
 
@@ -119,8 +133,17 @@ def _toolchain_identity(command: list[str]) -> str:
     if proc.returncode or match is None or match.group(1) != LEAN_VERSION:
         logger.error("intrinsic_mode_bridge toolchain mismatch version=%r", version)
         raise ValueError("r9-pinned-lean-version-mismatch")
-    stat = Path(command[0]).stat()
-    result = f"{version}|path={command[0]}|inode={stat.st_ino}|size={stat.st_size}|mtime={stat.st_mtime_ns}"
+    lean_path = Path(command[0])
+    try:
+        lean_bytes = lean_path.read_bytes()
+    except OSError as exc:
+        raise ValueError("r9-pinned-lean-binary-unavailable") from exc
+    if _sha(lean_bytes) != EXPECTED_LEAN_BINARY_SHA256:
+        raise ValueError("r9-pinned-lean-binary-digest-mismatch")
+    result = (
+        f"{version}|toolchain={LEAN_TOOLCHAIN}|binary=lean|"
+        f"sha256={EXPECTED_LEAN_BINARY_SHA256}|size={len(lean_bytes)}"
+    )
     logger.debug("intrinsic_mode_bridge._toolchain_identity exit result=%s", result)
     return result
 
