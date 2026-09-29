@@ -2,7 +2,7 @@ from math import gcd, lcm
 
 import pytest
 
-from src.core.native_runtime import Mode, breath, mode, nod, rez, tact
+from src.core.native_runtime import Mode, NativeObserver, breath, mode, nod, rez, tact
 from src.core.resonance_arithmetic import (
     SHADOW_LICENSED,
     default_anchor,
@@ -85,6 +85,29 @@ def test_resonance_prime_witness_rejects_nonintrinsic_or_foreign_anchor(count, o
     assert witness.status == "blocked"
     assert not witness.prime
     assert witness.obstruction == outside_domain
+    assert witness.divisor_rows == ()
+
+
+@pytest.mark.parametrize("count", (2, 3, 4))
+@pytest.mark.parametrize("outside_domain", ("open-recurrence", "mixed-tacts"))
+def test_resonance_prime_witness_rejects_open_or_mixed_carriers_before_division(count, outside_domain):
+    intrinsic_tacts = _u(count).breath.tacts
+    if outside_domain == "open-recurrence":
+        other_anchor = nod(ANCHOR.residue, "other-boundary")
+        source = breath(*intrinsic_tacts[:-1], tact(ANCHOR, other_anchor, intrinsic_tacts[-1].mark))
+        coarse_observer = NativeObserver("coarse-boundary", lambda _: "shared-boundary")
+        candidate = mode(source, coarse_observer)
+        expected_obstruction = "open-recurrence"
+    else:
+        source = breath(*intrinsic_tacts[:-1], tact(ANCHOR, ANCHOR, "foreign-tact"))
+        candidate = mode(source)
+        expected_obstruction = "foreign-recurrence"
+    assert isinstance(candidate, Mode)
+    witness = resonance_prime_witness(ANCHOR, candidate)
+    assert witness.length == count
+    assert witness.status == "blocked"
+    assert not witness.prime
+    assert witness.obstruction == expected_obstruction
     assert witness.divisor_rows == ()
 
 
