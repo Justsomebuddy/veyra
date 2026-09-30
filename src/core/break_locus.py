@@ -25,6 +25,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from itertools import combinations, permutations
 import logging
+from math import comb
 
 from .observer_lattice import (
     CommutationDoctrine,
@@ -38,6 +39,51 @@ DEFAULT_SWEEP_CAP = 20000
 DEFAULT_CLASS_CAP = 1500
 
 Pair = tuple[str, str]
+
+
+def _shape_counts(letters: tuple[str, ...], counts: tuple[int, ...]) -> tuple[tuple[str, int], ...]:
+    """Merge a shape into sorted distinct letters with nonnegative counts (the pool's multiset)."""
+    merged: dict[str, int] = {}
+    for letter, count in zip(letters, counts):
+        merged[letter] = merged.get(letter, 0) + max(count, 0)
+    return tuple(sorted(merged.items()))
+
+
+def _shape_word_count(letters: tuple[str, ...], counts: tuple[int, ...]) -> int:
+    """Count the distinct words of a shape (a multinomial) without enumerating permutations."""
+    total = 0
+    result = 1
+    for _, count in _shape_counts(letters, counts):
+        total += count
+        result *= comb(total, count)
+    return result
+
+
+def _shape_words(letters: tuple[str, ...], counts: tuple[int, ...]) -> list[tuple[str, ...]]:
+    """Return the distinct words of a shape in lexicographic order, one visit per word."""
+    logger.debug("locus._shape_words entry letters=%r counts=%r", letters, counts)
+    shape = _shape_counts(letters, counts)
+    alphabet = tuple(letter for letter, _ in shape)
+    remaining = [count for _, count in shape]
+    length = sum(remaining)
+    word: list[str] = []
+    result: list[tuple[str, ...]] = []
+
+    def extend() -> None:
+        if len(word) == length:
+            result.append(tuple(word))
+            return
+        for index, letter in enumerate(alphabet):
+            if remaining[index]:
+                remaining[index] -= 1
+                word.append(letter)
+                extend()
+                word.pop()
+                remaining[index] += 1
+
+    extend()
+    logger.debug("locus._shape_words exit words=%d", len(result))
+    return result
 
 
 @dataclass(frozen=True)
@@ -252,14 +298,12 @@ def nonprincipal_sweep(alphabet: tuple[str, ...], counts: tuple[int, ...], word_
         result = SweepReport(shape_id, 0, 0, 0, 0, (), 0, "blocked", "invalid-shape")
         logger.error("locus.nonprincipal_sweep blocked invalid-shape")
         return result
-    pool: list[str] = []
-    for letter, count in zip(letters, counts):
-        pool.extend([letter] * count)
-    words = set(permutations(pool))
-    if len(words) > word_cap:
+    size = _shape_word_count(letters, counts)
+    if size > word_cap:
         result = SweepReport(shape_id, 0, 0, 0, 0, (), 0, "refused", "sweep-size-refusal")
-        logger.error("locus.nonprincipal_sweep refused size=%d", len(words))
+        logger.error("locus.nonprincipal_sweep refused size=%d", size)
         return result
+    words = _shape_words(letters, counts)
     literal = absolute = principal_count = 0
     nonprincipal: list[str] = []
     max_size = 0
@@ -406,14 +450,11 @@ def forced_law_sweep(alphabet: tuple[str, ...], counts: tuple[int, ...], word_ca
     logger.debug("locus.forced_law_sweep entry counts=%r", counts)
     letters = tuple(sorted(alphabet))
     shape_id = "-".join("%s%d" % (letter, count) for letter, count in zip(letters, counts))
-    pool: list[str] = []
-    for letter, count in zip(letters, counts):
-        pool.extend([letter] * count)
-    words = set(permutations(pool))
-    if len(letters) != len(counts) or len(words) > word_cap:
+    if len(letters) != len(counts) or _shape_word_count(letters, counts) > word_cap:
         result = LawSweepReport(shape_id, 0, (), (), "refused", "sweep-size-refusal")
         logger.error("locus.forced_law_sweep refused")
         return result
+    words = _shape_words(letters, counts)
     violations: list[str] = []
     mismatches: list[str] = []
     checked = 0
@@ -578,14 +619,11 @@ def formula_agreement_sweep(alphabet: tuple[str, ...], counts: tuple[int, ...], 
     logger.debug("locus.formula_agreement_sweep entry counts=%r", counts)
     letters = tuple(sorted(alphabet))
     shape_id = "-".join("%s%d" % (letter, count) for letter, count in zip(letters, counts))
-    pool: list[str] = []
-    for letter, count in zip(letters, counts):
-        pool.extend([letter] * count)
-    words = set(permutations(pool))
-    if len(letters) != len(counts) or len(words) > word_cap:
+    if len(letters) != len(counts) or _shape_word_count(letters, counts) > word_cap:
         result = FormulaAgreementReport(shape_id, 0, (), (), "refused", "sweep-size-refusal")
         logger.error("locus.formula_agreement_sweep refused")
         return result
+    words = _shape_words(letters, counts)
     mismatches: list[str] = []
     unachieved: list[str] = []
     for word in sorted(words):
@@ -726,14 +764,11 @@ def type_spectrum_sweep(alphabet: tuple[str, ...], counts: tuple[int, ...], prim
     logger.debug("locus.type_spectrum_sweep entry counts=%r prime=%d", counts, prime)
     letters = tuple(sorted(alphabet))
     shape_id = "-".join("%s%d" % (letter, count) for letter, count in zip(letters, counts))
-    pool: list[str] = []
-    for letter, count in zip(letters, counts):
-        pool.extend([letter] * count)
-    words = set(permutations(pool))
-    if len(letters) != len(counts) or len(words) > word_cap:
+    if len(letters) != len(counts) or _shape_word_count(letters, counts) > word_cap:
         result = TypeSpectrumReport(shape_id, prime, 0, (), "refused", "sweep-size-refusal")
         logger.error("locus.type_spectrum_sweep refused")
         return result
+    words = _shape_words(letters, counts)
     realized: set[tuple[bool, ...]] = set()
     for word in sorted(words):
         vector = tuple(

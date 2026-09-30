@@ -124,3 +124,34 @@ def test_checklist_present():
     assert len(checklist) == 5
     assert any("cross-checked, not assumed" in item for item in checklist)
     assert any("refuse, never truncate" in item for item in checklist)
+
+
+def test_shape_words_match_the_distinct_permutations_without_enumerating_them():
+    """Count-first shape enumeration reproduces the sorted distinct permutations exactly."""
+    from itertools import permutations
+
+    from src.core.break_locus import _shape_word_count, _shape_words
+
+    shapes = (
+        (("a",), (3,)),
+        (("a", "b"), (2, 2)),
+        (("a", "b", "c"), (1, 2, 1)),
+        (("c", "a", "b"), (2, 0, 1)),
+        (("a", "a", "b"), (1, 1, 1)),
+        (("a", "b"), (2, -1)),
+        (("a", "b", "c"), (0, 0, 0)),
+    )
+    for letters, counts in shapes:
+        pool = [letter for letter, count in zip(letters, counts) for _ in range(max(count, 0))]
+        expected = sorted(set(permutations(pool)))
+        assert _shape_words(letters, counts) == expected
+        assert _shape_word_count(letters, counts) == len(expected)
+
+
+def test_oversized_shape_is_refused_before_enumeration():
+    """A shape whose distinct-word count exceeds the cap is refused from its multinomial alone."""
+    from src.core.break_locus import _shape_word_count
+
+    report = nonprincipal_sweep(("a", "b", "c"), (8, 8, 8), word_cap=20000)
+    assert _shape_word_count(("a", "b", "c"), (8, 8, 8)) == 9465511770
+    assert (report.status, report.obstruction) == ("refused", "sweep-size-refusal")

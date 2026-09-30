@@ -1,5 +1,21 @@
 # Core module log
 
+### [0.3.3] Break-locus shape sweeps without factorial enumeration
+- **Type:** Performance / Resource bound
+- **Files:** `break_locus.py`, `tests/test_break_locus.py`, changelog
+- **What:** The four shape sweeps count distinct words by their multinomial
+  before enumerating and then generate each distinct word once in
+  lexicographic order (`_shape_words`), instead of building
+  `set(permutations(pool))` and only then checking `word_cap`.
+- **Why:** The size refusal was not a resource bound: a refused 12-letter shape
+  still materialized all `12!` permutations, and admitted shapes paid `n!`
+  for far fewer distinct words (`test_break_locus.py` 16.6 s → 1.6 s,
+  `test_locus_tightness.py` 15.4 s → 0.5 s).
+- **Module version:** 0.3.2 → 0.3.3
+- **Boundary:** Words, their order, report fields and refusal reasons are
+  unchanged; regressions compare the new enumeration with the sorted distinct
+  permutations on small shapes (duplicate, zero and negative counts included).
+
 ### [0.3.2] Closed-worker inherited resource ceilings
 - **Type:** Correctness / Security / Portability
 - **Files:** `observer_discovery_v3/worker/runtime.py`, focused resource-limit

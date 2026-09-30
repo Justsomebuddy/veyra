@@ -1,6 +1,6 @@
 # Core module memory
 
-Version: **0.3.2**. Scope: the stable Python engine and its executable
+Version: **0.3.3**. Scope: the stable Python engine and its executable
 certificate surfaces.
 
 ## Contracts
