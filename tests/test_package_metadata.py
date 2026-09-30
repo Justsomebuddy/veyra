@@ -114,7 +114,7 @@ def test_security_reviewed_python_pins_match_declared_floors():
         )
     }
     assert {key: ci_rows[key] for key in ("pip", "setuptools", "pytest")} == {
-        "pip": "26.1.2",
+        "pip": "26.2.1",
         "setuptools": "83.0.0",
         "pytest": "9.0.3",
     }
@@ -190,7 +190,7 @@ def test_conda_direct_ranges_match_python_metadata():
         "wheel>=0.45,<0.47",
         "ipykernel>=6,<7",
         "jupyterlab>=4,<5",
-        "pip>=26.1.2,<27",
+        "pip>=26.2.1,<27",
     ):
         assert f"  - {requirement}" in environment
     logger.debug("test conda ranges exit")

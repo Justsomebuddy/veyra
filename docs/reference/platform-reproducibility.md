@@ -133,7 +133,7 @@ portable lane intentionally excludes content-bound certificate renewal,
 Sage-native checks, and Linux process hardening rather than reporting them as
 cross-platform passes.
 
-The current security-reviewed portable Python tool lane records pip 26.1.2,
+The current security-reviewed portable Python tool lane records pip 26.2.1,
 setuptools 83.0.0, and pytest 9.0.3. The latest complete Linux proof lane also
 records CPython 3.11.14, SageMath 10.7, `elan` 4.2.1, Lean 4.30.0-rc2, and
 Rust 1.95.0. These tool versions do not convert the direct Python constraint

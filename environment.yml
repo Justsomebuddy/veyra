@@ -12,4 +12,4 @@ dependencies:
   - wheel>=0.45,<0.47
   - ipykernel>=6,<7
   - jupyterlab>=4,<5
-  - pip>=26.1.2,<27
+  - pip>=26.2.1,<27

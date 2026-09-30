@@ -11,7 +11,7 @@ this page explains why each dependency exists.
 | CPython `>=3.11,<3.12` | `pyproject.toml` | portable installed Python APIs | CI selects 3.11.14 on Linux and 3.11.9 on macOS/Windows because those patches are available on the selected runner labels |
 | CPython `==3.11.14` | hardened-lane capability | content-bound certificate renewal and complete Linux verification | reviewed certificate identities bind 3.11.14 code-object bytes |
 | Python standard library | source imports | `src`, `vam`, and fallback `veyra_sage` | no third-party mandatory runtime package |
-| `pip>=26.1.2,<27` | conda/bootstrap profile | installation tooling | exact hosted pin is 26.1.2; the reviewed floor closes archive, self-check/import, and entry-point path handling advisories |
+| `pip>=26.2.1,<27` | conda/bootstrap profile | installation tooling | exact hosted pin is 26.2.1; the reviewed floor closes archive, self-check/import, entry-point path handling, and doubly-encoded package-URL advisories |
 | `setuptools>=83,<84` | build-system | wheel/sdist build | backend is `setuptools.build_meta`; the security-reviewed direct version is 83.0.0 |
 | `wheel>=0.45,<0.47` | build-system | wheel build | tested direct version is recorded separately |
 | `build>=1.2,<2` | `dev` extra | offline PEP 517 package smoke | invoked as `python -m build --no-isolation` |
@@ -86,7 +86,7 @@ repository toolchain file records the same component set.
 | `cargo`, `rustc`, `rustfmt` | native VAM gate through the selected rustup toolchain |
 | `sage` | real-Sage smoke/doctest lane |
 
-The security-reviewed portable tool lane uses pip 26.1.2 on CPython 3.11,
+The security-reviewed portable tool lane uses pip 26.2.1 on CPython 3.11,
 while the latest complete Linux lane also records SageMath 10.7 and `elan`
 4.2.1. These are environment inputs rather than mandatory PyPI runtime
 dependencies. A portable run does not retroactively reproduce the complete

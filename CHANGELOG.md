@@ -1,6 +1,11 @@
 # Changelog
 
 ## [Unreleased] — Changed
+- Raised the security-reviewed pip pin and conda/bootstrap floor from 26.1.2 to
+  26.2.1 across the exact hosted manifest, the conda profile, documentation,
+  and contract tests. This closes GHSA-qwm4-qh6w-59xr (CVE-2026-13346,
+  doubly-encoded package URLs from indexes; first patched in 26.2); exact lists
+  remain reviewed inputs rather than hash/platform-byte locks.
 - Native primality input validation: `resonance_prime_witness` validates the
   intrinsic carrier and supplied anchor through native stitch before the
   divisor loop, blocking foreign tacts and anchor mismatches even at length
