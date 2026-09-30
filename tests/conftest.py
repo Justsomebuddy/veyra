@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import logging
 from pathlib import Path
+import re
 
 import pytest
 
@@ -135,9 +136,14 @@ NATIVE_RUST_TESTS = frozenset(
 
 LINUX_HARDENING_TESTS = frozenset(
     {
+        "test_observer_synthesis_v2_pipeline.py",
+        "test_observer_synthesis_v2_receipt_worker.py",
         "test_observer_synthesis_v2_receipt_worker_hardening.py",
+        "test_observer_synthesis_v2_receipt_worker_trust.py",
+        "test_observer_synthesis_v2_trial_worker.py",
         "test_observer_synthesis_v2_trial_worker_hardening.py",
         "test_observer_synthesis_v2_worker.py",
+        "test_observer_synthesis_v2_worker_hardening.py",
     }
 )
 
@@ -158,6 +164,28 @@ def capability_markers_for(path: Path) -> tuple[str, ...]:
     result = tuple(dict.fromkeys(markers))
     logger.debug("capability_markers_for exit markers=%r", result)
     return result
+
+
+_EXCLUSION_FILTER = re.compile(r"not \w+(?: and not \w+)*")
+
+
+def pytest_ignore_collect(collection_path: Path, config: pytest.Config) -> bool | None:
+    """Do not import a classified module whose capability the ``-m`` filter already deselects.
+
+    Deselection happens after import, so a module with host-specific top-level
+    imports (``fcntl``, ``pwd``) would otherwise break collection on hosts that
+    the filter excludes anyway. Only plain ``not a and not b`` filters are read;
+    anything else keeps normal collection and deselection.
+    """
+    markers = capability_markers_for(collection_path)
+    expression = (config.getoption("markexpr", default="") or "").strip()
+    if not markers or not _EXCLUSION_FILTER.fullmatch(expression):
+        return None
+    excluded = set(re.findall(r"not (\w+)", expression))
+    if excluded.isdisjoint(markers):
+        return None
+    logger.debug("pytest_ignore_collect excluded path=%s markers=%r", collection_path.name, markers)
+    return True
 
 
 def pytest_collection_modifyitems(items: list[pytest.Item]) -> None:

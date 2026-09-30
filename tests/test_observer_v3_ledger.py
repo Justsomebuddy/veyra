@@ -198,6 +198,7 @@ def test_concurrent_claim_allows_exactly_one_process_cooperator(tmp_path: Path) 
     assert read_one_shot(directory, reservation().reservation_id).state is OneShotLedgerState.CLAIMED
 
 
+@pytest.mark.requires_symlinks
 def test_insecure_directory_symlink_state_and_malformed_state_fail(tmp_path: Path) -> None:
     insecure = tmp_path / "insecure"
     insecure.mkdir(mode=0o755)
