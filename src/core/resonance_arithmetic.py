@@ -188,7 +188,10 @@ def shared_closure(left: Mode, right: Mode) -> Mode:
 
 
 def resonance_prime_witness(anchor: Nod, candidate: Mode) -> ResonancePrimeWitness:
-    """Witness primality only for an intrinsic recurrence on the supplied anchor."""
+    """Witness natively that only the unit pulse and the rhythm itself resonate inside it.
+
+    Primality is witnessed only for an intrinsic recurrence on the supplied anchor.
+    """
     logger.debug("resonance_arithmetic.resonance_prime_witness entry")
     size = length(candidate)
     if size < 2:

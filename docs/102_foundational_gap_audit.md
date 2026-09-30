@@ -1,7 +1,7 @@
 # Foundational Gap Audit — no self-deception gate
 
 **Date:** 2026-07-15 (original authorship, pre-publication)
-**Amended:** 2026-08-14 (`394ed4b`, `b98d2a1`); 2026-08-27 (append-only amendment log added — see below)
+**Amended:** 2026-08-14 (`394ed4b`, `b98d2a1`); 2026-08-27 (append-only amendment log added — see below); 2026-09-06 (`3d71176`, logged retroactively as A4)
 **Status:** critical audit; blocks grand claims until repaired.  
 **Source:** direct project critique after Sprint X5.  
 **Scope:** axioms, theorem language, formal proof, native runtime, number theory, and classical comparison.
@@ -130,3 +130,16 @@ that provenance.
   non-claim rows 7–8 (scoped negative existence; adoption-conditioned
   objecthood). From this amendment on, every edit to this file must append a
   row here in the same change; a silent edit violates the gate itself.
+- **A4 — 2026-09-06 (`3d71176`, PR #99).** The number-theory row of the gap
+  table was rewritten and the F3 section gained the "Renewed 2026-09-05"
+  paragraph recording the R9→R13 re-pinning. That change did not append a row
+  here as A3 requires; this entry records it retroactively (2026-09-30) and
+  names the omission as a violation of this log's own rule. Superseded
+  number-theory wording: "finite rows plus Euclid-style product-plus-one and N2
+  prime-period Fermat phase rows derive from native Mode/Breath length
+  observers; a separate research candidate checks classical local `Nat`
+  prime/Fermat results, while the stable Lean bridge covers `THM-F002` only".
+  The replacement states that those rows are host arithmetic transported
+  through the length observers (round trip, not derivation) and adds the
+  general orbit-counting Fermat and Lyndon–Schützenberger/unique-primitive-root
+  theorems to the stable-graph coverage; no non-claim row changed.

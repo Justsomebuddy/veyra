@@ -4,8 +4,12 @@
 - Native primality input validation: `resonance_prime_witness` validates the
   intrinsic carrier and supplied anchor through native stitch before the
   divisor loop, blocking foreign tacts and anchor mismatches even at length
-  two. Valid witness rows, short-input failures and formal claims are
-  unchanged; regression coverage is admitted to the portable lane.
+  two. Rejected inputs (foreign tacts, anchor mismatch, or an open recurrence
+  closed only by a coarse observer) now carry that specific reason with empty
+  divisor rows at every length, where lengths three and above previously
+  reported the generic `blocked` with one `(2, "blocked")` row. Valid witness
+  rows, short-input failures and formal claims are unchanged; regression
+  coverage is admitted to the portable lane.
 - Echo equivalence now consumes observer iterables once, preserving the
   declared `Iterable` API for generators and iterators as well as reusable
   tuples/lists. Regression cases cover equal, distinct and empty families.

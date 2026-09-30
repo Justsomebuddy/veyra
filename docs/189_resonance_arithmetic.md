@@ -33,8 +33,12 @@ transport `unary` and leave through `length` (docs/06 §3), both listed in
 Before divisor enumeration, `resonance_prime_witness` admits the candidate by
 native stitch with the zero recurrence on the supplied anchor. Foreign tacts
 or an anchor mismatch return `blocked`, including at length two where there
-are no proper candidate divisors. Lengths below two retain `length-too-short`;
-valid witness rows and formal claim levels are unchanged.
+are no proper candidate divisors, and so does an open recurrence that only a
+coarse observer closes. Such inputs now carry the specific reason
+(`foreign-recurrence`, `anchor-mismatch`, `open-recurrence`) with empty divisor
+rows at every length, where lengths three and above previously reported the
+generic `blocked` with one `(2, "blocked")` row. Lengths below two retain
+`length-too-short`; valid witness rows and formal claim levels are unchanged.
 
 | docs/02 phrase | Definition (native) | Function |
 |---|---|---|
