@@ -193,7 +193,6 @@ def test_n6_capability_and_materializer_are_not_module_attributes() -> None:
     logger.debug("test_n6_capability_and_materializer_are_not_module_attributes exit")
 
 
-@pytest.mark.requires_linux_hardening
 def test_n6_source_transaction_closes_every_fd_on_nested_rejection(monkeypatch) -> None:
     """The sole dispatcher closes all pinned sources on a semantic rejection."""
     logger.debug("test_n6_source_open_rejects_symlink_ancestors_and_detects_fd_drift entry")

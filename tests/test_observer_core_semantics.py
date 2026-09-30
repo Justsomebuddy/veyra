@@ -264,7 +264,6 @@ def test_support_obstruction_containers_and_paths_are_resource_bounded():
     assert support_closure((ObserverRuleId.EMBED_R7,), ()) and support_closure((), (ObserverLawId.CREST_PULSE_ECHO,))
 
 
-@pytest.mark.requires_symlinks
 def test_exact_source_reader_rejects_symlink_fifo_hardlink_and_path_race(
     tmp_path, monkeypatch: pytest.MonkeyPatch,
 ):

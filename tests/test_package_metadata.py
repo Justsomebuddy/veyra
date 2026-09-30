@@ -282,6 +282,12 @@ def test_every_public_test_module_runs_portably_or_names_a_capability():
         | CAPABILITIES.LINUX_HARDENING_TESTS
     )
     assert classified <= {module.name for module in modules}
+    by_name = {module.name: module for module in modules}
+    for key, markers in CAPABILITIES.TEST_CAPABILITIES.items():
+        module_name, function = key.split("::", 1)
+        assert module_name in by_name and module_name not in classified
+        assert f"\ndef {function}(" in by_name[module_name].read_text(encoding="utf-8")
+        assert set(markers) <= set(PORTABLE_MARKER_EXCLUSIONS)
     assert not CAPABILITIES.PINNED_LEAN_TESTS & CAPABILITIES.THEOREM_TOOLCHAIN_TESTS
     for module in modules:
         markers = set(CAPABILITIES.capability_markers_for(module))

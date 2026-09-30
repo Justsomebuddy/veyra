@@ -148,6 +148,21 @@ LINUX_HARDENING_TESTS = frozenset(
 )
 
 
+#: Single tests that need a capability their module otherwise does not. Keyed by
+#: ``module::function`` so that content-bound test files keep their exact bytes.
+TEST_CAPABILITIES = {
+    "test_observer_core_semantics.py::test_exact_source_reader_rejects_symlink_fifo_hardlink_and_path_race": (
+        "requires_symlinks",
+    ),
+    "test_observer_v3_ledger.py::test_insecure_directory_symlink_state_and_malformed_state_fail": (
+        "requires_symlinks",
+    ),
+    "test_prime_power_unbounded_p3n6_sources.py::test_n6_source_transaction_closes_every_fd_on_nested_rejection": (
+        "requires_linux_hardening",
+    ),
+}
+
+
 def capability_markers_for(path: Path) -> tuple[str, ...]:
     """Return explicit external capability markers for one test module."""
     logger.debug("capability_markers_for entry path=%s", path)
@@ -193,7 +208,9 @@ def pytest_collection_modifyitems(items: list[pytest.Item]) -> None:
     logger.debug("pytest_collection_modifyitems entry items=%d", len(items))
     marked = 0
     for item in items:
-        for marker in capability_markers_for(Path(str(item.path))):
+        path = Path(str(item.path))
+        test_key = f"{path.name}::{getattr(item, 'originalname', item.name)}"
+        for marker in (*capability_markers_for(path), *TEST_CAPABILITIES.get(test_key, ())):
             item.add_marker(getattr(pytest.mark, marker))
             marked += 1
     logger.debug("pytest_collection_modifyitems exit marker_applications=%d", marked)
