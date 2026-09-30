@@ -44,6 +44,74 @@ PINNED_LEAN_TESTS = frozenset(
     }
 )
 
+#: Modules whose assertions need the theorem-proof toolchain capability: Linux
+#: x86_64, CPython 3.11.14, the direct pinned Lean 4.30.0-rc2 and the R9 elan
+#: route. Elsewhere their subjects fail closed with typed blocked reports, so the
+#: portable lane deselects them; the complete Linux lane runs every one.
+THEOREM_TOOLCHAIN_TESTS = frozenset(
+    {
+        "test_all_depth_family_p1d3.py",
+        "test_all_depth_family_p1d3_adversarial.py",
+        "test_all_depth_family_p1d3_counterexamples.py",
+        "test_axiom_kernel.py",
+        "test_benchmark_derivations.py",
+        "test_certify.py",
+        "test_certify_padic_local_realization.py",
+        "test_certify_prime_power_observer_actualization.py",
+        "test_certify_prime_power_reduction_network.py",
+        "test_certify_vam_optimizer.py",
+        "test_classical_benchmarks.py",
+        "test_comparative_bridge_ledger.py",
+        "test_comparative_ledgers_certificate.py",
+        "test_deduction_chain.py",
+        "test_essence_core.py",
+        "test_formal_export_binomial_symmetry.py",
+        "test_formal_export_completion.py",
+        "test_formal_export_geometry_wave.py",
+        "test_formal_export_prep.py",
+        "test_formal_export_probability_independence.py",
+        "test_formal_export_probability_union.py",
+        "test_formal_export_remaining_completion.py",
+        "test_formal_export_variance_shift.py",
+        "test_generated_confluence_p3c1.py",
+        "test_generated_confluence_p3c1_adversarial.py",
+        "test_intrinsic_observer_echo_evidence.py",
+        "test_intrinsic_observer_echo_source.py",
+        "test_intrinsic_observer_echo_theorem.py",
+        "test_layer_derivations.py",
+        "test_layer_theorem_contract_executable_binding.py",
+        "test_layer_theorem_contracts.py",
+        "test_native_number_theorems.py",
+        "test_observer_synthesis_parity.py",
+        "test_padic_completion_pomega2.py",
+        "test_padic_completion_pomega2_adversarial.py",
+        "test_padic_family_introduction_p3n1.py",
+        "test_padic_family_introduction_p3n1_adversarial.py",
+        "test_padic_local_realization_p3n3n4.py",
+        "test_padic_local_realization_p3n3n4_adversarial.py",
+        "test_prime_power_information_witness_n6w.py",
+        "test_prime_power_observer_actualization_p3n0_history_rows.py",
+        "test_prime_power_observer_actualization_p3n0_public_hostile.py",
+        "test_prime_power_observer_actualization_p3n0_result_hostile.py",
+        "test_prime_power_productive_bridge_p3a1b_adversarial.py",
+        "test_prime_power_reduction_network_p3n2.py",
+        "test_prime_power_reduction_network_p3n2_adversarial.py",
+        "test_prime_power_unbounded_p3n6_hardening.py",
+        "test_prime_power_unbounded_p3n6_positive.py",
+        "test_productivity_counterpressure_p1d2.py",
+        "test_productivity_counterpressure_p1d2_adversarial.py",
+        "test_proof_elaboration_artifact.py",
+        "test_stream_completion_pomega1.py",
+        "test_structural_separation_ledger.py",
+        "test_theorem_language.py",
+        "test_transport_coherence_p3c2.py",
+        "test_vam_optimizer_formal_bridge.py",
+        "test_vam_optimizer_proofs.py",
+        "test_veyra_magic.py",
+        "test_veyra_sage.py",
+    }
+)
+
 NATIVE_RUST_TESTS = frozenset(
     {
         "test_vam_benchmark_publication.py",
@@ -81,6 +149,8 @@ def capability_markers_for(path: Path) -> tuple[str, ...]:
     markers: list[str] = []
     if name in PINNED_LEAN_TESTS:
         markers.extend(("requires_posix_file_locks", "requires_linux_hardening", "requires_pinned_lean"))
+    if name in THEOREM_TOOLCHAIN_TESTS:
+        markers.append("requires_pinned_lean")
     if name in NATIVE_RUST_TESTS:
         markers.append("requires_native_rust")
     if name in LINUX_HARDENING_TESTS:

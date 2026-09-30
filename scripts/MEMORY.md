@@ -1,6 +1,6 @@
 # Scripts module memory
 
-Version: **0.2.1**. Scope: maintained command-line verifiers, generators,
+Version: **0.3.0**. Scope: maintained command-line verifiers, generators,
 portable checks, and bounded research explorers.
 
 ## Contracts
@@ -12,6 +12,10 @@ portable checks, and bounded research explorers.
   inventories with bounded parallelism. The research checker must keep its
   fresh-snapshot, exact-manifest, source-rehash, and no-persistent-cache
   boundaries.
+- `verify_portable.py` collects the whole public `tests/` tree and deselects
+  exactly the declared `requires_*` markers. Never reintroduce a file
+  allowlist: a module leaves the portable lane only through the central
+  classification in `tests/conftest.py`, which the metadata tests pin.
 - Explorer CLIs are public research tools. Preserve argument/help behavior and
   exit status when applying mechanical changes.
 - Scripts print explicit stages and final error counts. Functional changes add

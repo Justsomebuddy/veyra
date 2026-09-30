@@ -1,5 +1,23 @@
 # Scripts module log
 
+### [0.3.0] Whole-tree portable collection
+- **Type:** Verification / CI coverage
+- **Files:** `scripts/verify_portable.py`, `tests/conftest.py`,
+  `tests/test_package_metadata.py`, `tests/test_trusted_git.py`,
+  `.github/workflows/portable.yml`, `docs/reference/platform-reproducibility.md`,
+  `scripts/MEMORY.md`, `scripts/MODULE_LOG.md`, `CHANGELOG.md`
+- **What:** Replaced the 70-entry `PORTABLE_TESTS` allowlist with collection of
+  the whole `tests/` tree (ignoring the local-only `tests/uncommitted/`) and a
+  marker filter built from `PORTABLE_MARKER_EXCLUSIONS`; classified the 59
+  theorem-toolchain modules centrally; pinned whole-tree collection, the exact
+  marker set and the classification in metadata tests; raised the stage bound
+  to 2400 s and the hosted Python job to 45 minutes.
+- **Why:** Hosted CI ran 70 of 421 test files (60 before #100/#101); new files (including the
+  number-theory regressions admitted by #100/#101) stayed out by omission.
+- **Module version:** 0.2.1 → 0.3.0
+- **Boundary:** The complete Linux lane still runs every test unfiltered; no
+  test is skipped dynamically and no capability requirement changed.
+
 ### [0.2.1] Canonical late-directory sdist admission
 - **Type:** Bug fix / portability
 - **Files:** `scripts/package_smoke.py`, `scripts/verify_portable.py`,

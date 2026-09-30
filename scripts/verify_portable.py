@@ -24,78 +24,30 @@ class Step:
     timeout_seconds: int
 
 
-PORTABLE_TESTS = (
-    "tests/test_balance_ratio.py",
-    "tests/test_break_locus.py",
-    "tests/test_break_locus_formula.py",
-    "tests/test_doctrinal_induction.py",
-    "tests/test_locus_tightness.py",
-    "tests/test_necklace_congruence.py",
-    "tests/test_observer_lattice.py",
-    "tests/test_orbit_partition.py",
-    "tests/test_projection_forcing.py",
-    "tests/test_resonance_decision_paths.py",
-    "tests/test_modes.py",
-    "tests/test_core_language.py",
-    "tests/test_core_native_semantics.py",
-    "tests/test_certificate_result_invariants.py",
-    "tests/test_core_assertion_invariants.py",
-    "tests/test_observer_realization.py",
-    "tests/test_claim_composition.py",
-    "tests/test_claim_composition_adversarial.py",
-    "tests/test_claim_composition_export.py",
-    "tests/test_claim_composition_p2.py",
-    "tests/test_claim_composition_properties.py",
-    "tests/test_claim_composition_replay.py",
-    "tests/test_observer_provenance.py",
-    "tests/test_observer_discovery_v3_ingestion.py",
-    "tests/test_observer_discovery_v3_ingestion_adversarial.py",
-    "tests/test_observer_discovery_v3_missing_data.py",
-    "tests/test_observer_discovery_v3_missing_data_adversarial.py",
-    "tests/test_observer_discovery_v3_missing_data_codec.py",
-    "tests/test_observer_discovery_v3_worker_limits.py",
-    "tests/test_p1a_realization_transport_v2.py",
-    "tests/test_p1a_realization_transport_v2_adversarial.py",
-    "tests/test_p1a_realization_transport_v2_compat.py",
-    "tests/test_p1a_realization_transport_v2_limits.py",
-    "tests/test_p2_claim_admission_registry_v2.py",
-    "tests/test_p2_claim_admission_v2.py",
-    "tests/test_p2_claim_admission_v2_adversarial.py",
-    "tests/test_prime_power_observer_genesis_p3og.py",
-    "tests/test_prime_power_observer_genesis_p3og_adversarial.py",
-    "tests/test_prime_power_observer_genesis_p3og_lifecycle.py",
-    "tests/test_prime_power_observer_genesis_p3og_lifecycle_adversarial.py",
-    "tests/test_prime_power_observer_genesis_p3og_formation_pressure.py",
-    "tests/test_prime_power_observer_genesis_p3og_formation_pressure_adversarial.py",
-    "tests/test_observer_synthesis_python_rust_vector.py",
-    "tests/test_finite_builder_package_compat.py",
-    "tests/test_finite_builder_types_package_compat.py",
-    "tests/test_platform_imports.py",
-    "tests/test_project_paths.py",
-    "tests/test_trusted_git.py",
-    "tests/test_package_smoke_archive.py",
-    "tests/test_package_metadata.py",
-    "tests/test_check_lean_sources.py",
-    "tests/test_check_research_lean.py",
-    "tests/test_vam_reference.py",
-    "tests/test_vam_assertion_invariants.py",
-    "tests/test_vam_highlevel.py",
-    "tests/test_vam_highlevel_v1.py",
-    "tests/test_veyra_sage.py::test_veyra_modes_parent_constructs_elements",
-    "tests/test_veyra_sage.py::test_veyra_mode_resonance_methods",
-    "tests/test_veyra_sage.py::test_veyra_balance_parent_signed_arithmetic",
-    "tests/test_veyra_sage.py::test_veyra_ratio_parent_arithmetic_and_raw_forms",
-    "tests/test_veyra_sage.py::test_veyra_polynomial_parent_algebra_and_derivative",
-    "tests/test_veyra_sage.py::test_veyra_sage_examples_doctest",
-    "tests/test_veyra_sage_api_index.py",
-    "tests/test_veyra_sage_notebooks.py",
-    "tests/test_veyra_sage_notebook_artifacts.py",
-    "tests/test_veyra_sage_number_theory_oracle.py",
-    "tests/test_project_hygiene_attribution.py",
-    "tests/test_observer_site.py",
-    "tests/test_observer_arithmetic.py",
-    "tests/test_resonance_arithmetic.py",
+#: The hosted portable lane collects the whole public test tree. A module is kept
+#: out only through a declared capability marker (attached centrally by
+#: ``tests/conftest.py``), so a new test file cannot be left out by omission.
+PORTABLE_TEST_ROOT = "tests"
+#: Local-only archive of unpublished work; never part of the public suite.
+LOCAL_ONLY_TEST_DIRS = ("tests/uncommitted",)
+#: Every external capability marker declared in ``pyproject.toml``.
+PORTABLE_MARKER_EXCLUSIONS = (
+    "requires_posix_file_locks",
+    "requires_symlinks",
+    "requires_linux_hardening",
+    "requires_lean_candidate",
+    "requires_pinned_lean",
+    "requires_real_sage",
+    "requires_native_rust",
 )
+
+
+def portable_marker_expression() -> str:
+    """Return the pytest marker filter that deselects every external capability."""
+    logger.debug("verify_portable.portable_marker_expression entry")
+    result = " and ".join(f"not {marker}" for marker in PORTABLE_MARKER_EXCLUSIONS)
+    logger.debug("verify_portable.portable_marker_expression exit markers=%d", len(PORTABLE_MARKER_EXCLUSIONS))
+    return result
 
 
 def steps() -> tuple[Step, ...]:
@@ -118,10 +70,11 @@ def steps() -> tuple[Step, ...]:
                 "-p",
                 "no:cacheprovider",
                 "-m",
-                "not requires_posix_file_locks and not requires_symlinks and not requires_linux_hardening and not requires_lean_candidate and not requires_pinned_lean and not requires_real_sage and not requires_native_rust",
-                *PORTABLE_TESTS,
+                portable_marker_expression(),
+                *(f"--ignore={directory}" for directory in LOCAL_ONLY_TEST_DIRS),
+                PORTABLE_TEST_ROOT,
             ),
-            900,
+            2400,
         ),
         Step("Package build/install smoke", (python, "scripts/package_smoke.py"), 900),
         Step("Repository hygiene", (python, "scripts/project_hygiene.py"), 300),

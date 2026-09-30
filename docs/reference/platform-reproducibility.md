@@ -21,9 +21,12 @@ missing `inotify`, file locks, process limits, a pinned Lean runtime, real Sage,
 or native Rust fail explicitly instead of being emulated or converted into a
 pass. `tests/conftest.py` classifies actual Lean, Rust, and worker-hardening test
 modules; prerequisite sentinels cover the real lock, Sage, and selected-toolchain
-probes. The portable runner uses a reviewed allowlist and explicitly deselects
-all capability markers as defense in depth rather than dynamically skipping
-failures. The unfiltered complete lane still runs every test.
+probes. The portable runner collects the whole public test tree and deselects
+exactly the declared capability markers rather than dynamically skipping
+failures; `tests/conftest.py` is the only place that classifies a module out of
+the portable lane (pinned Lean, theorem-proof toolchain, native Rust, worker
+hardening), so a new test module runs in hosted CI unless it names a
+capability. The unfiltered complete lane still runs every test.
 
 The workflow in `.github/workflows/portable.yml` is the executable OS matrix.
 [GitHub Actions run `31362980690`](https://github.com/Justsomebuddy/veyra/actions/runs/31362980690)

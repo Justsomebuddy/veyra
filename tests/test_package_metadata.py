@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import logging
 from pathlib import Path
+import importlib.util
 import re
 import tomllib
 from types import MappingProxyType
@@ -12,6 +13,12 @@ import pytest
 from setuptools import find_packages
 
 import scripts.project_hygiene as hygiene
+from scripts.verify_portable import (
+    LOCAL_ONLY_TEST_DIRS,
+    PORTABLE_MARKER_EXCLUSIONS,
+    PORTABLE_TEST_ROOT,
+    portable_marker_expression,
+)
 from scripts.verify_portable import steps as portable_steps
 from scripts.project_hygiene import (
     HARD_LINE_LIMIT,
@@ -25,6 +32,37 @@ from scripts.project_hygiene import (
 
 logger = logging.getLogger(__name__)
 ROOT = Path(__file__).resolve().parents[1]
+
+
+def _load_capability_classification():
+    """Load the central capability classification from ``tests/conftest.py``."""
+    spec = importlib.util.spec_from_file_location("_veyra_test_capabilities", ROOT / "tests" / "conftest.py")
+    assert spec is not None and spec.loader is not None
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+CAPABILITIES = _load_capability_classification()
+
+
+def _portable_pytest_step():
+    """Return the hosted portable pytest stage."""
+    return next(step for step in portable_steps() if step.name == "Portable pytest")
+
+
+def _runs_portably(path: str) -> bool:
+    """True when the hosted portable lane collects ``path`` and no capability marker excludes it."""
+    command = _portable_pytest_step().command
+    module = ROOT / path
+    excluded = set(CAPABILITIES.capability_markers_for(module)) & set(PORTABLE_MARKER_EXCLUSIONS)
+    return (
+        PORTABLE_TEST_ROOT in command
+        and path.startswith(f"{PORTABLE_TEST_ROOT}/")
+        and not any(path.startswith(f"{directory}/") for directory in LOCAL_ONLY_TEST_DIRS)
+        and module.is_file()
+        and not excluded
+    )
 
 
 def test_python_support_is_bounded_to_the_reviewed_minor_line():
@@ -201,14 +239,61 @@ def test_portable_verification_steps_are_time_bounded():
     logger.debug("test portable timeouts entry")
     planned = portable_steps()
     assert planned
-    assert all(0 < step.timeout_seconds <= 900 for step in planned)
+    assert all(0 < step.timeout_seconds <= 2400 for step in planned)
     logger.debug("test portable timeouts exit count=%d", len(planned))
+
+
+def test_portable_lane_collects_the_whole_public_test_tree():
+    """No allowlist: the hosted lane collects every public module under ``tests``."""
+    logger.debug("test portable whole-tree collection entry")
+    command = _portable_pytest_step().command
+    assert command[-1] == PORTABLE_TEST_ROOT
+    assert not [argument for argument in command if argument.startswith("tests/") and argument.endswith(".py")]
+    assert [argument for argument in command if argument.startswith("--ignore=")] == [
+        f"--ignore={directory}" for directory in LOCAL_ONLY_TEST_DIRS
+    ]
+    assert command[command.index("-m", command.index("pytest")) + 1] == portable_marker_expression()
+    logger.debug("test portable whole-tree collection exit")
+
+
+def test_portable_exclusions_are_exactly_the_declared_capability_markers():
+    """The lane deselects every declared capability marker and nothing else."""
+    logger.debug("test portable marker exclusions entry")
+    metadata = tomllib.loads((ROOT / "pyproject.toml").read_text(encoding="utf-8"))
+    declared = {row.split(":", 1)[0].strip() for row in metadata["tool"]["pytest"]["ini_options"]["markers"]}
+    assert set(PORTABLE_MARKER_EXCLUSIONS) == declared
+    assert all(marker.startswith("requires_") for marker in declared)
+    assert len(PORTABLE_MARKER_EXCLUSIONS) == len(set(PORTABLE_MARKER_EXCLUSIONS))
+    logger.debug("test portable marker exclusions exit count=%d", len(declared))
+
+
+def test_every_public_test_module_runs_portably_or_names_a_capability():
+    """A module is outside the hosted lane only through the central capability classification."""
+    logger.debug("test portable module classification entry")
+    modules = sorted(
+        path
+        for path in (ROOT / PORTABLE_TEST_ROOT).rglob("test_*.py")
+        if not any(path.relative_to(ROOT).as_posix().startswith(f"{directory}/") for directory in LOCAL_ONLY_TEST_DIRS)
+    )
+    classified = (
+        CAPABILITIES.PINNED_LEAN_TESTS
+        | CAPABILITIES.THEOREM_TOOLCHAIN_TESTS
+        | CAPABILITIES.NATIVE_RUST_TESTS
+        | CAPABILITIES.LINUX_HARDENING_TESTS
+    )
+    assert classified <= {module.name for module in modules}
+    assert not CAPABILITIES.PINNED_LEAN_TESTS & CAPABILITIES.THEOREM_TOOLCHAIN_TESTS
+    for module in modules:
+        markers = set(CAPABILITIES.capability_markers_for(module))
+        assert markers <= set(PORTABLE_MARKER_EXCLUSIONS)
+        assert bool(markers) == (module.name in classified)
+        assert _runs_portably(module.relative_to(ROOT).as_posix()) == (not markers)
+    logger.debug("test portable module classification exit modules=%d", len(modules))
 
 
 def test_portable_verification_includes_new_number_theory_regressions():
     """Keep the portable number-theory tests and their decision-path guard admitted."""
     logger.debug("test portable number theory coverage entry")
-    portable_pytest = next(step for step in portable_steps() if step.name == "Portable pytest")
     required = {
         "tests/test_break_locus.py",
         "tests/test_break_locus_formula.py",
@@ -220,63 +305,56 @@ def test_portable_verification_includes_new_number_theory_regressions():
         "tests/test_projection_forcing.py",
         "tests/test_resonance_decision_paths.py",
     }
-    assert required <= set(portable_pytest.command)
+    assert all(_runs_portably(path) for path in required)
     logger.debug("test portable number theory coverage exit count=%d", len(required))
 
 
 def test_portable_verification_includes_observer_realization_behavior():
     """The portable matrix must exercise the context-relative R16 behavior."""
     logger.debug("test portable observer realization coverage entry")
-    portable_pytest = next(step for step in portable_steps() if step.name == "Portable pytest")
-    assert "tests/test_observer_realization.py" in portable_pytest.command
+    assert _runs_portably("tests/test_observer_realization.py")
     logger.debug("test portable observer realization coverage exit")
 
 
 def test_portable_verification_includes_resonance_arithmetic_behavior():
     """Hosted CI must retain native primality input-boundary regressions."""
     logger.debug("test portable resonance arithmetic coverage entry")
-    portable_pytest = next(step for step in portable_steps() if step.name == "Portable pytest")
-    assert "tests/test_resonance_arithmetic.py" in portable_pytest.command
+    assert _runs_portably("tests/test_resonance_arithmetic.py")
     logger.debug("test portable resonance arithmetic coverage exit")
 
 
 def test_portable_verification_includes_closed_worker_resource_limits():
     """Hosted Linux and macOS must exercise the exact resource-limit boundary."""
     logger.debug("test portable closed worker resource limit coverage entry")
-    portable_pytest = next(step for step in portable_steps() if step.name == "Portable pytest")
-    assert "tests/test_observer_discovery_v3_worker_limits.py" in portable_pytest.command
+    assert _runs_portably("tests/test_observer_discovery_v3_worker_limits.py")
     logger.debug("test portable closed worker resource limit coverage exit")
 
 
 def test_portable_verification_includes_certificate_result_invariants():
     """Hosted optimized and hostile-result checks must stay in the portable lane."""
     logger.debug("test portable certificate result invariant coverage entry")
-    portable_pytest = next(step for step in portable_steps() if step.name == "Portable pytest")
-    assert "tests/test_certificate_result_invariants.py" in portable_pytest.command
+    assert _runs_portably("tests/test_certificate_result_invariants.py")
     logger.debug("test portable certificate result invariant coverage exit")
 
 
 def test_portable_verification_includes_core_assertion_invariants():
     """Hosted optimized, hostile, cleanup, and privacy checks must stay portable."""
     logger.debug("test portable core assertion invariant coverage entry")
-    portable_pytest = next(step for step in portable_steps() if step.name == "Portable pytest")
-    assert "tests/test_core_assertion_invariants.py" in portable_pytest.command
+    assert _runs_portably("tests/test_core_assertion_invariants.py")
     logger.debug("test portable core assertion invariant coverage exit")
 
 
 def test_portable_verification_includes_vam_assertion_invariants():
     """Hosted optimized and hostile VAM checks must stay in the portable lane."""
     logger.debug("test portable VAM assertion invariant coverage entry")
-    portable_pytest = next(step for step in portable_steps() if step.name == "Portable pytest")
-    assert "tests/test_vam_assertion_invariants.py" in portable_pytest.command
+    assert _runs_portably("tests/test_vam_assertion_invariants.py")
     logger.debug("test portable VAM assertion invariant coverage exit")
 
 
 def test_portable_verification_includes_trusted_git_boundary():
     """Hosted CI must exercise fixed executable admission on every supported OS."""
     logger.debug("test portable trusted Git coverage entry")
-    portable_pytest = next(step for step in portable_steps() if step.name == "Portable pytest")
-    assert "tests/test_trusted_git.py" in portable_pytest.command
+    assert _runs_portably("tests/test_trusted_git.py")
     helper = (ROOT / "scripts/_trusted_git.py").read_text(encoding="utf-8")
     assert '__all__ = ("git_check_ignore", "git_inventory")' in helper
     logger.debug("test portable trusted Git coverage exit")
@@ -285,25 +363,26 @@ def test_portable_verification_includes_trusted_git_boundary():
 def test_portable_verification_includes_sdist_archive_boundary():
     """Hosted CI must retain adversarial source-archive extraction coverage."""
     logger.debug("test portable sdist archive coverage entry")
-    portable_pytest = next(step for step in portable_steps() if step.name == "Portable pytest")
-    assert "tests/test_package_smoke_archive.py" in portable_pytest.command
+    assert _runs_portably("tests/test_package_smoke_archive.py")
     logger.debug("test portable sdist archive coverage exit")
 
 
 def test_portable_verification_includes_claim_composition_behavior():
     """Hosted CI must exercise composition semantics, export replay, and authentication."""
     logger.debug("test portable claim composition coverage entry")
-    portable_pytest = next(step for step in portable_steps() if step.name == "Portable pytest")
-    assert {
-        "tests/test_claim_composition.py",
-        "tests/test_claim_composition_adversarial.py",
-        "tests/test_claim_composition_export.py",
-        "tests/test_claim_composition_p2.py",
-        "tests/test_claim_composition_properties.py",
-        "tests/test_claim_composition_replay.py",
-        "tests/test_observer_provenance.py",
-        "tests/test_observer_synthesis_python_rust_vector.py",
-    } <= set(portable_pytest.command)
+    assert all(
+        _runs_portably(path)
+        for path in (
+            "tests/test_claim_composition.py",
+            "tests/test_claim_composition_adversarial.py",
+            "tests/test_claim_composition_export.py",
+            "tests/test_claim_composition_p2.py",
+            "tests/test_claim_composition_properties.py",
+            "tests/test_claim_composition_replay.py",
+            "tests/test_observer_provenance.py",
+            "tests/test_observer_synthesis_python_rust_vector.py",
+        )
+    )
     package_smoke = (ROOT / "scripts/package_smoke.py").read_text(encoding="utf-8")
     assert "import src.core.claim_composition" in package_smoke
     assert "import src.core.observer_provenance" in package_smoke
@@ -313,11 +392,13 @@ def test_portable_verification_includes_claim_composition_behavior():
 def test_portable_verification_includes_observer_v3_ingestion_behavior():
     """Hosted CI and installed-wheel smoke must exercise the strict v3 adapter."""
     logger.debug("test portable observer v3 ingestion coverage entry")
-    portable_pytest = next(step for step in portable_steps() if step.name == "Portable pytest")
-    assert {
-        "tests/test_observer_discovery_v3_ingestion.py",
-        "tests/test_observer_discovery_v3_ingestion_adversarial.py",
-    } <= set(portable_pytest.command)
+    assert all(
+        _runs_portably(path)
+        for path in (
+            "tests/test_observer_discovery_v3_ingestion.py",
+            "tests/test_observer_discovery_v3_ingestion_adversarial.py",
+        )
+    )
     package_smoke = (ROOT / "scripts/package_smoke.py").read_text(encoding="utf-8")
     assert "import src.core.observer_discovery_v3.ingestion" in package_smoke
     logger.debug("test portable observer v3 ingestion coverage exit")
@@ -326,12 +407,14 @@ def test_portable_verification_includes_observer_v3_ingestion_behavior():
 def test_portable_verification_includes_observer_v3_missing_data_behavior():
     """Hosted CI and installed-wheel smoke must cover the RFC 172 sibling."""
     logger.debug("test portable observer v3 missing-data coverage entry")
-    portable_pytest = next(step for step in portable_steps() if step.name == "Portable pytest")
-    assert {
-        "tests/test_observer_discovery_v3_missing_data.py",
-        "tests/test_observer_discovery_v3_missing_data_adversarial.py",
-        "tests/test_observer_discovery_v3_missing_data_codec.py",
-    } <= set(portable_pytest.command)
+    assert all(
+        _runs_portably(path)
+        for path in (
+            "tests/test_observer_discovery_v3_missing_data.py",
+            "tests/test_observer_discovery_v3_missing_data_adversarial.py",
+            "tests/test_observer_discovery_v3_missing_data_codec.py",
+        )
+    )
     package_smoke = (ROOT / "scripts/package_smoke.py").read_text(encoding="utf-8")
     assert "import src.core.observer_discovery_v3.missing_data" in package_smoke
     logger.debug("test portable observer v3 missing-data coverage exit")
@@ -340,13 +423,15 @@ def test_portable_verification_includes_observer_v3_missing_data_behavior():
 def test_portable_verification_includes_p1a_transport_v2_behavior():
     """Hosted CI and wheel smoke must cover the all-status sibling contract."""
     logger.debug("test portable P1-A transport v2 coverage entry")
-    portable_pytest = next(step for step in portable_steps() if step.name == "Portable pytest")
-    assert {
-        "tests/test_p1a_realization_transport_v2.py",
-        "tests/test_p1a_realization_transport_v2_adversarial.py",
-        "tests/test_p1a_realization_transport_v2_compat.py",
-        "tests/test_p1a_realization_transport_v2_limits.py",
-    } <= set(portable_pytest.command)
+    assert all(
+        _runs_portably(path)
+        for path in (
+            "tests/test_p1a_realization_transport_v2.py",
+            "tests/test_p1a_realization_transport_v2_adversarial.py",
+            "tests/test_p1a_realization_transport_v2_compat.py",
+            "tests/test_p1a_realization_transport_v2_limits.py",
+        )
+    )
     package_smoke = (ROOT / "scripts/package_smoke.py").read_text(encoding="utf-8")
     assert "import src.core.p1a_realization_transport_v2" in package_smoke
     logger.debug("test portable P1-A transport v2 coverage exit")
@@ -355,12 +440,14 @@ def test_portable_verification_includes_p1a_transport_v2_behavior():
 def test_portable_verification_includes_p2_claim_admission_v2_behavior():
     """Hosted CI and wheel smoke must cover registry and producer behavior."""
     logger.debug("test portable P2 claim-admission v2 coverage entry")
-    portable_pytest = next(step for step in portable_steps() if step.name == "Portable pytest")
-    assert {
-        "tests/test_p2_claim_admission_registry_v2.py",
-        "tests/test_p2_claim_admission_v2.py",
-        "tests/test_p2_claim_admission_v2_adversarial.py",
-    } <= set(portable_pytest.command)
+    assert all(
+        _runs_portably(path)
+        for path in (
+            "tests/test_p2_claim_admission_registry_v2.py",
+            "tests/test_p2_claim_admission_v2.py",
+            "tests/test_p2_claim_admission_v2_adversarial.py",
+        )
+    )
     package_smoke = (ROOT / "scripts/package_smoke.py").read_text(encoding="utf-8")
     assert "import src.core.p2_claim_admission_v2" in package_smoke
     assert "LicensedCompositionPresentation" in package_smoke
@@ -372,11 +459,13 @@ def test_portable_verification_includes_p2_claim_admission_v2_behavior():
 def test_portable_verification_includes_p3og_formation_pressure_behavior():
     """Hosted CI and wheel smoke must cover the non-root P3-OG bridge."""
     logger.debug("test portable P3-OG formation-pressure coverage entry")
-    portable_pytest = next(step for step in portable_steps() if step.name == "Portable pytest")
-    assert {
-        "tests/test_prime_power_observer_genesis_p3og_formation_pressure.py",
-        "tests/test_prime_power_observer_genesis_p3og_formation_pressure_adversarial.py",
-    } <= set(portable_pytest.command)
+    assert all(
+        _runs_portably(path)
+        for path in (
+            "tests/test_prime_power_observer_genesis_p3og_formation_pressure.py",
+            "tests/test_prime_power_observer_genesis_p3og_formation_pressure_adversarial.py",
+        )
+    )
     package_smoke = (ROOT / "scripts/package_smoke.py").read_text(encoding="utf-8")
     assert "import src.core.prime_power_observer_genesis_p3og_formation_pressure" in package_smoke
     logger.debug("test portable P3-OG formation-pressure coverage exit")
@@ -392,6 +481,7 @@ def test_hosted_matrix_is_fixed_bounded_and_immutable():
         "os: macos-14",
         "os: windows-2022",
         'python: "3.11.9"',
+        "timeout-minutes: 45",
         "timeout-minutes: 30",
         "timeout-minutes: 20",
         'RUSTUP_TOOLCHAIN: "1.95.0"',
@@ -426,12 +516,11 @@ def test_research_lean_is_sdist_only_and_portably_policy_tested():
     logger.debug("test research Lean packaging boundary entry")
     manifest = (ROOT / "MANIFEST.in").read_text(encoding="utf-8")
     package_smoke = (ROOT / "scripts/package_smoke.py").read_text(encoding="utf-8")
-    portable = next(step for step in portable_steps() if step.name == "Portable pytest")
     assert "recursive-include experimental *.md *.py *.ini *.lean *.json" in manifest
     assert "lean-toolchain" in manifest
     assert '"experimental/research_lean/"' in package_smoke
     assert '"experimental/"' in package_smoke
-    assert "tests/test_check_research_lean.py" in portable.command
+    assert _runs_portably("tests/test_check_research_lean.py")
     logger.debug("test research Lean packaging boundary exit")
 
 

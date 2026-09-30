@@ -433,7 +433,9 @@ def test_private_surface_and_package_metadata_are_pinned() -> None:
     manifest = (ROOT / "MANIFEST.in").read_text(encoding="utf-8")
     assert "recursive-include scripts *.py" in manifest
     portable = (ROOT / "scripts/verify_portable.py").read_text(encoding="utf-8")
-    assert '"tests/test_trusted_git.py"' in portable
+    capabilities = (ROOT / "tests/conftest.py").read_text(encoding="utf-8")
+    assert 'PORTABLE_TEST_ROOT = "tests"' in portable
+    assert '"test_trusted_git.py"' not in capabilities
     package_text = (ROOT / "scripts/package_smoke.py").read_text(encoding="utf-8")
     hygiene_text = (ROOT / "scripts/project_hygiene.py").read_text(encoding="utf-8")
     assert "from ._trusted_git import git_inventory" in package_text

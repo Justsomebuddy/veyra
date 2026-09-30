@@ -1,6 +1,21 @@
 # Changelog
 
 ## [Unreleased] — Changed
+- Hosted portable coverage is now an invariant instead of an allowlist: the
+  portable pytest stage collects the whole public `tests/` tree and deselects
+  exactly the capability markers declared in `pyproject.toml`, and
+  `tests/conftest.py` is the only place that classifies a module out of the
+  portable lane. The 59 modules whose assertions need the theorem-proof
+  toolchain (Linux x86_64, CPython 3.11.14, direct pinned Lean and the R9 elan
+  route) are classified there explicitly; about 260 previously unadmitted
+  modules now run on Linux, macOS and Windows. Metadata tests pin the
+  whole-tree collection, the exact marker set and the classification, so a new
+  test file can no longer be left out by omission. The portable pytest stage
+  bound is 2400 s and the Python job bound 45 minutes.
+- Break-locus shape sweeps count distinct words by their multinomial before
+  enumerating and then generate each distinct word once, instead of
+  materializing all `n!` permutations; oversized shapes are refused without
+  enumeration. Words, their order, reports and refusals are unchanged.
 - Raised the security-reviewed pip pin and conda/bootstrap floor from 26.1.2 to
   26.2.1 across the exact hosted manifest, the conda profile, documentation,
   and contract tests. This closes GHSA-qwm4-qh6w-59xr (CVE-2026-13346,
