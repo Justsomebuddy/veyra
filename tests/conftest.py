@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import logging
+import os
 from pathlib import Path
 import re
 
@@ -148,6 +149,30 @@ LINUX_HARDENING_TESTS = frozenset(
 )
 
 
+#: Modules that need POSIX host primitives (fcntl file locks, ``O_DIRECTORY``
+#: descriptors, POSIX process isolation for closed workers). They run in the
+#: portable lane on POSIX hosts and are classified out only where the host lacks
+#: those primitives; the complete Linux lane runs them everywhere it runs.
+POSIX_HOST_TESTS = frozenset(
+    {
+        "test_observer_discovery_v3_closed_worker.py",
+        "test_observer_discovery_v3_governed_evaluation.py",
+        "test_observer_discovery_v3_observer_transport.py",
+        "test_observer_v3_ledger.py",
+        "test_observer_v3_lineage.py",
+        "test_observer_v3_replay.py",
+        "test_prime_power_information_witness_n6w_hostile.py",
+        "test_prime_power_unbounded_p3n6_fifth_repair.py",
+        "test_prime_power_unbounded_p3n6_sources.py",
+    }
+)
+
+
+def host_is_posix() -> bool:
+    """True on hosts that provide the POSIX primitives of ``POSIX_HOST_TESTS``."""
+    return os.name == "posix"
+
+
 #: Single tests that need a capability their module otherwise does not. Keyed by
 #: ``module::function`` so that content-bound test files keep their exact bytes.
 TEST_CAPABILITIES = {
@@ -174,6 +199,8 @@ def capability_markers_for(path: Path) -> tuple[str, ...]:
         markers.append("requires_pinned_lean")
     if name in NATIVE_RUST_TESTS:
         markers.append("requires_native_rust")
+    if name in POSIX_HOST_TESTS and not host_is_posix():
+        markers.append("requires_posix_host")
     if name in LINUX_HARDENING_TESTS:
         markers.append("requires_linux_hardening")
     result = tuple(dict.fromkeys(markers))

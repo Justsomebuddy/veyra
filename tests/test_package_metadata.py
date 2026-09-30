@@ -281,7 +281,8 @@ def test_every_public_test_module_runs_portably_or_names_a_capability():
         | CAPABILITIES.NATIVE_RUST_TESTS
         | CAPABILITIES.LINUX_HARDENING_TESTS
     )
-    assert classified <= {module.name for module in modules}
+    assert (classified | CAPABILITIES.POSIX_HOST_TESTS) <= {module.name for module in modules}
+    assert not classified & CAPABILITIES.POSIX_HOST_TESTS
     by_name = {module.name: module for module in modules}
     for key, markers in CAPABILITIES.TEST_CAPABILITIES.items():
         module_name, function = key.split("::", 1)
@@ -289,10 +290,11 @@ def test_every_public_test_module_runs_portably_or_names_a_capability():
         assert f"\ndef {function}(" in by_name[module_name].read_text(encoding="utf-8")
         assert set(markers) <= set(PORTABLE_MARKER_EXCLUSIONS)
     assert not CAPABILITIES.PINNED_LEAN_TESTS & CAPABILITIES.THEOREM_TOOLCHAIN_TESTS
+    classified_here = classified | (set() if CAPABILITIES.host_is_posix() else CAPABILITIES.POSIX_HOST_TESTS)
     for module in modules:
         markers = set(CAPABILITIES.capability_markers_for(module))
         assert markers <= set(PORTABLE_MARKER_EXCLUSIONS)
-        assert bool(markers) == (module.name in classified)
+        assert bool(markers) == (module.name in classified_here)
         assert _runs_portably(module.relative_to(ROOT).as_posix()) == (not markers)
     logger.debug("test portable module classification exit modules=%d", len(modules))
 

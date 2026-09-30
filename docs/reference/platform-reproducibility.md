@@ -25,8 +25,9 @@ probes. The portable runner collects the whole public test tree and deselects
 exactly the declared capability markers rather than dynamically skipping
 failures; `tests/conftest.py` is the only place that classifies a module out of
 the portable lane (pinned Lean, theorem-proof toolchain, native Rust, worker
-hardening), so a new test module runs in hosted CI unless it names a
-capability. The unfiltered complete lane still runs every test.
+hardening on every host; POSIX host primitives only on hosts that lack them),
+so a new test module runs in hosted CI unless it names a capability. The
+unfiltered complete lane still runs every test.
 
 The workflow in `.github/workflows/portable.yml` is the executable OS matrix.
 [GitHub Actions run `31362980690`](https://github.com/Justsomebuddy/veyra/actions/runs/31362980690)

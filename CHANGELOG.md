@@ -4,11 +4,15 @@
 - Hosted portable coverage is now an invariant instead of an allowlist: the
   portable pytest stage collects the whole public `tests/` tree and deselects
   exactly the capability markers declared in `pyproject.toml`, and
-  `tests/conftest.py` is the only place that classifies a module out of the
-  portable lane. The 59 modules whose assertions need the theorem-proof
-  toolchain (Linux x86_64, CPython 3.11.14, direct pinned Lean and the R9 elan
-  route) are classified there explicitly; about 260 previously unadmitted
-  modules now run on Linux, macOS and Windows. Metadata tests pin the
+  `tests/conftest.py` is the only place that classifies a module (or a single
+  test) out of the portable lane. The 59 modules whose assertions need the
+  theorem-proof toolchain (Linux x86_64, CPython 3.11.14, direct pinned Lean and
+  the R9 elan route) and the observer-synthesis v2 worker family (Linux process
+  hardening) are classified on every host; nine modules that need POSIX host
+  primitives (fcntl locks, directory descriptors, POSIX process isolation) are
+  classified out only on hosts without them (new marker `requires_posix_host`),
+  and classified modules are not even imported when the filter deselects them.
+  About 250 previously unadmitted modules now run in hosted CI. Metadata tests pin the
   whole-tree collection, the exact marker set and the classification, so a new
   test file can no longer be left out by omission. The portable pytest stage
   bound is 2400 s and the Python job bound 45 minutes.

@@ -9,9 +9,12 @@
 - **What:** Replaced the 70-entry `PORTABLE_TESTS` allowlist with collection of
   the whole `tests/` tree (ignoring the local-only `tests/uncommitted/`) and a
   marker filter built from `PORTABLE_MARKER_EXCLUSIONS`; classified the 59
-  theorem-toolchain modules centrally; pinned whole-tree collection, the exact
-  marker set and the classification in metadata tests; raised the stage bound
-  to 2400 s and the hosted Python job to 45 minutes.
+  theorem-toolchain modules and the observer-synthesis v2 worker family on
+  every host, nine POSIX-primitive modules only on non-POSIX hosts (new marker
+  `requires_posix_host`) and three single tests by `module::function`; skipped
+  importing classified modules that the filter deselects; pinned whole-tree
+  collection, the exact marker set and the classification in metadata tests;
+  raised the stage bound to 2400 s and the hosted Python job to 45 minutes.
 - **Why:** Hosted CI ran 70 of 421 test files (60 before #100/#101); new files (including the
   number-theory regressions admitted by #100/#101) stayed out by omission.
 - **Module version:** 0.2.1 → 0.3.0

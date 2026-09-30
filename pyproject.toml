@@ -62,6 +62,7 @@ markers = [
   "requires_pinned_lean: test executes the content-attested Linux x86_64 Lean runtime lane",
   "requires_real_sage: imports and executes through a real SageMath interpreter",
   "requires_native_rust: executes through the selected Rust 1.95 toolchain",
+  "requires_posix_host: needs POSIX host primitives (fcntl locks, directory descriptors, POSIX process isolation)",
 ]
 
 [tool.ruff]

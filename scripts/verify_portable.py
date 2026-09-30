@@ -39,6 +39,7 @@ PORTABLE_MARKER_EXCLUSIONS = (
     "requires_pinned_lean",
     "requires_real_sage",
     "requires_native_rust",
+    "requires_posix_host",
 )
 
 
