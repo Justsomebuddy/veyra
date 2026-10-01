@@ -284,6 +284,33 @@ def test_preexisting_import_and_loader_shadow_surfaces_are_closed(tmp_path: Path
     assert any(path.name == "glibc-hwcaps" for path in absences)
     assert {row[0] for row in EXPECTED_LEAN_OBJECTS.values()} <= {path.name for path in absences}
 
+def test_r11_toolchain_identity_excludes_host_local_metadata(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    lean = tmp_path / "lean"
+    lean.write_bytes(b"x" * 9024)
+    version = "Lean (version 4.30.0-rc2, x86_64-test, commit deadbeef, Release)"
+    monkeypatch.setattr(
+        bridge_io,
+        "guarded_lean_run",
+        lambda *_args, **_kwargs: SimpleNamespace(
+            returncode=0, stdout=version, stderr="",
+        ),
+    )
+    monkeypatch.setattr(
+        bridge_io,
+        "_runtime_identity",
+        lambda: "merkle=abc|files=2365|bytes=522231408",
+    )
+    first = bridge_io.toolchain_identity([str(lean)])
+    os.utime(lean, None)
+    second = bridge_io.toolchain_identity([str(lean)])
+    assert first == second
+    assert "toolchain=leanprover/lean4:v4.30.0-rc2" in first
+    assert "sha256=" in first and "binary=lean" in first
+    assert "path=" not in first and "inode=" not in first and "mtime=" not in first
+
+
 def test_toolchain_timeout_fails_closed(monkeypatch: pytest.MonkeyPatch) -> None:
     def timeout(*_args: object, **_kwargs: object) -> object:
         raise subprocess.TimeoutExpired("lean", 30)

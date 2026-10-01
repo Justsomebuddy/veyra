@@ -21,7 +21,7 @@ _EXPECTED_R11_TCB_DIGEST_ROWS = (
     ("bridge_snapshot", "abac4da2d2cec1106e971d9906bd4c80913af86eda879fc733841b573b1a8004"),
     ("reviewed_objects", "c99cd15044abfd2f92aa10c9f99ec6e1a1a1a15dfcb17f0bd630d2f58a3dc65a"),
     ("bridge_report", "bb2d6b7c410520f9b66646c3d5cdeb8281962fd646610a9faf3fb50c711a67a8"),
-    ("bridge_io", "03f6ada647e81ad183e753c2cf9c0862a2b778c389bb34a6af4133a50cbab148"),
+    ("bridge_io", "e00c3271e64befcc0e983790bad456eb39098f5520c13ade5aa2c11e7c8e1bf5"),
     ("bridge", "3033ba354caef4f0b1d7ce543d37c523843b10a97e05252d9cded5f3453accec"),
     ("certificate", "b452080a19856f9390ada15a69521c71423bbae2af78a01a7984deeec77baec0"),
     ("certificate_types", "0de598ad82781801d31788c9b56b41be624de1608350862b903f2ff4f405b258"),
@@ -33,7 +33,7 @@ _EXPECTED_R11_TCB_DIGEST_ROWS = (
     ("proof_artifact", "7df70edbb114f5e7d1c94f15a5428c0d1105905460e41719dc30cd4d65ac1e0c"),
     ("toolchain_runtime", "63db421d5e91caf2f2437f28d626989ff4eb5efc283897986e6bb29d86881a0f"),
     ("runtime_guard", "56374cee0557bfe2590f231a9f8df7759a204cdba75cacfdb3b5b572ee874422"),
-    ("r10_manifest", "4b9bcdd7f356a2cac09c29d3293b5c3a3a89f2702084c6edeacf62f4a9c1b016"),
+    ("r10_manifest", "f3fc6155108849814a98692c7c6eb0d7b242794aa941aa9c3b2e12121027a8c3"),
     ("r10_bridge", "3ffd654f81cfd6e09a2a640c09ef6bd4a1d15faf9f894659369e818681cf3e35"),
     ("lean_arithmetic", "e85fa215ae8cba4901620f452efd008efb4787f3373154814d897d66a45373f3"),
     ("lean_semantics", "dc5ddc3b9a3f16c6c5fbbb988b737b806115122d8d2a3f705654e0ee63200a8b"),
@@ -43,7 +43,7 @@ _EXPECTED_R11_TCB_DIGEST_ROWS = (
     ("lean_transport", "493e4662e295b526d5bb76b9ca528b834265142e91e0446e98af2b3b102fb16f"),
     ("lean_observer_core", "fef5db4a94f40b7ba478c5e9d28c5680f736672d5caaea5ac97a823d3e2359d2"),
     ("lean_observer_proof", "7ef4905cc7923ee0c5d057abbada8c3f6b97c8e181b7d73fba0ad7c21653c1d2"),
-    ("lean_export", "fd656a9b0e545e6d3fb5d3fb14b2c86858a7cb581b126f4eac98fce9ef2173d0"),
+    ("lean_export", "e51d55b0a8944eacc918c79ab629c957a48bae5e4a36e3256195eed0dc8a615b"),
 )
 EXPECTED_R11_TCB_DIGESTS = MappingProxyType(dict(_EXPECTED_R11_TCB_DIGEST_ROWS))
 MANIFEST_BOUNDARY = (

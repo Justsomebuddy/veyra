@@ -336,7 +336,7 @@
     },
     {
       "path": "proofs/lean/VeyraProofElaboration.lean",
-      "sha256": "d7c23b7b7c9a8a2e4c47436631fdb3818debf734f0e7f0ea5d4adffad5fcc34b",
+      "sha256": "3805eb0c16e7f3520acfb1cdfa2ba2bbe7c9db5bc4f07d9320172fdce75d6249",
       "imports": [
         "VeyraElaborationSemantics"
       ],
@@ -1091,8 +1091,8 @@
     ]
   },
   "source_roots": {
-    "base": "38c90eb03d0c2502386bbae699ed561015720b26c0c861a8167b511926689052",
+    "base": "a1a116067b65485c3bee3c6da5022bc75b6803d6ab59fca6f1362787d1071467",
     "research": "caf7d1c2e0e7e8333132300a0ebe5099e35b4fb70d47033fcc8bf033f4c9f597"
   },
-  "proof_root": "4b93d54a0543dbce6c40d60183e1623484ff3555f75ec4ae8708bd30c5f08ee5"
+  "proof_root": "3140292ac531e4c1f3590dfe554fbb2686b6a7ead69a114214fd8a5a4541aee4"
 }
