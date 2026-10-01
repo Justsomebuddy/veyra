@@ -35,6 +35,7 @@ mathematical theorem or a claim about physical reality.
 - [Observer synthesis v2 R14](../140_observer_synthesis_v2_r14.md)
 - [Native observer synthesis v4](../../vam/docs/042_native_observer_synthesis_v4.md)
 - [Native observer synthesis v5](../../vam/docs/043_native_observer_synthesis_v5.md)
+- [Discovery-v5 Slice-1 independent checking RFC](../../vam/docs/044_discovery_v5_slice1_independent_checking_rfc.md)
 - [Certified observer-discovery MVP](../157_certified_observer_discovery_mvp.md)
 - [Observer-discovery ontology, phase II](../158_observer_discovery_ontology_phase_ii.md)
 - [Fixed-observer confirmation](../159_fixed_observer_confirmation.md)

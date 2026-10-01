@@ -295,6 +295,10 @@ No metaphysical claim is accepted as mathematics until it becomes a definition, 
   scientific calibration, proof-carrying branch-and-bound, fail-closed closed-
   rootfs/cgroup custody, threshold replay, and conditional Lean laws; not
   empirical discovery, universal completeness, attestation, or Rust proof.
+- `vam/docs/044_discovery_v5_slice1_independent_checking_rfc.md` — proposed
+  documentation-only contract for a future out-of-tree, independently checked
+  discovery-v5 Slice-1 container; not a production-search, VOR5, provenance,
+  authentication, or general-correctness claim.
 - `docs/161_p1_r16_realization_contract.md` — finite context-bound replay of P1
   programs into a derived R16 join completion; structured blockage is retained,
   but no canonical map, functoriality, quotient transport, or theorem follows.

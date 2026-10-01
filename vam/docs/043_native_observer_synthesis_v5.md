@@ -159,6 +159,7 @@ wave unless separately requested.
 ## Optional Slice-1 independent checking
 
 [`044_discovery_v5_slice1_independent_checking_rfc.md`](044_discovery_v5_slice1_independent_checking_rfc.md)
-defines a documentation-only, out-of-tree raw request/result checking contract.
-It does not alter discovery-v5 search, codecs, native verification, VOR5, or any
-existing claim boundary.
+proposes a documentation-only, out-of-tree raw request/result checking
+contract. If accepted, it fixes only that future Slice-1 contract; it does not
+alter discovery-v5 search, codecs, native verification, VOR5, or any existing
+claim boundary.
