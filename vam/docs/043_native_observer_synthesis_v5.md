@@ -155,3 +155,11 @@ pinned Lean source/inventory with axiom reports; focused Python documentation
 and metadata tests; portable CI; hygiene, line-count, public-content, and diff
 checks. The multi-hour aggregate `make verify` is intentionally outside this
 wave unless separately requested.
+
+## Optional Slice-1 independent checking
+
+[`044_discovery_v5_slice1_independent_checking_rfc.md`](044_discovery_v5_slice1_independent_checking_rfc.md)
+proposes a documentation-only, out-of-tree raw request/result checking
+contract. If accepted, it fixes only that future Slice-1 contract; it does not
+alter discovery-v5 search, codecs, native verification, VOR5, or any existing
+claim boundary.
