@@ -32,7 +32,7 @@ def _block(width: int):
 
 
 def certify_doctrinal_induction_di1() -> Certificate:
-    """Certify the DI-1 license pipeline with both adversarial controls."""
+    """Certify the DI-1 license pipeline with adversarial controls."""
     logger.debug("certify_doctrinal_induction_di1 entry")
     anchor = nod(rez("di1-cert"), "di1-cert")
     probes = tuple(range(1, 13))
@@ -60,13 +60,26 @@ def certify_doctrinal_induction_di1() -> Certificate:
         _DOCTRINE, depth_bomb_contract(_block(3), 5), anchor, probes
     )
     bomb_ok = bomb.status == "blocked" and bomb.obstruction == "step-invalid-at-depth:5"
+
+    def switched_family(candidate_anchor):
+        logger.debug("certify_di1.switched_family entry")
+        width = 3 if candidate_anchor == anchor else 5
+        return divides_family_contract(_block(width))(candidate_anchor)
+
+    switched = license_all_depth(_DOCTRINE, switched_family, anchor, probes)
+    binding_ok = (
+        switched.status == "blocked"
+        and switched.obstruction == "working-chain-nonuniform"
+        and switched.uniformity is not None and switched.uniformity.echoed
+    )
     checklist_ok = len(doctrinal_induction_checklist()) == 5
-    passed = positive_ok and peek_ok and bomb_ok and checklist_ok
+    passed = positive_ok and peek_ok and bomb_ok and binding_ok and checklist_ok
     detail = (
         "divides-family licensed to depth 12 for blocks 3 and 5 with anchor-"
         "renaming uniformity replayed to the deepest probe; name-peeking step and "
         "a depth-7 late-peeking step both rejected as nonuniform; depth "
-        "bomb blocked at exactly 5; ledger-relative license only, no completed "
+        "bomb blocked at exactly 5; a different working family rejected despite "
+        "agreement of the fresh replays; ledger-relative license only, no completed "
         "carrier, no promotion"
     )
     result = Certificate(

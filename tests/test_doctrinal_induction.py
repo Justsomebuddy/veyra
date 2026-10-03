@@ -1,7 +1,15 @@
+from collections import Counter
+from dataclasses import asdict, replace
+from hashlib import sha256
+import json
+
+import pytest
+
 from src.core.doctrinal_induction import (
     BOUNDARY,
     AllDepthLicense,
     InductionDoctrine,
+    PropertyContract,
     depth_bomb_contract,
     divides_family_contract,
     doctrinal_induction_checklist,
@@ -9,7 +17,7 @@ from src.core.doctrinal_induction import (
     name_peeking_contract,
     uniformity_witness,
 )
-from src.core.intrinsic_arithmetic import one, successor
+from src.core.intrinsic_arithmetic import one, successor, zero
 from src.core.native_runtime import nod, rez
 
 DOCTRINE = InductionDoctrine("di1.demo.v1", "stitch-one-block")
@@ -133,3 +141,128 @@ def test_late_name_peek_is_rejected_because_uniformity_replays_to_probe_depth():
     assert license_row.status == "blocked"
     assert license_row.obstruction == "nonuniform-step"
     assert license_row.uniformity is not None and not license_row.uniformity.echoed
+
+
+def test_working_property_must_match_the_fresh_uniformity_property():
+    working = _anchor()
+    inner_factory = divides_family_contract(_block(2))
+
+    def factory(anchor):
+        inner = inner_factory(anchor)
+        return replace(
+            inner,
+            property_id="working-property" if anchor == working else "different-property",
+        )
+
+    # Agreement of the two fresh replays does not license another property.
+    assert uniformity_witness(DOCTRINE, factory, depth=3).status == "witnessed"
+    license_row = license_all_depth(DOCTRINE, factory, working, (1, 3))
+    assert license_row.status == "blocked"
+    assert license_row.obstruction == "working-chain-nonuniform"
+
+
+def test_matching_property_id_does_not_hide_a_different_working_family():
+    working = _anchor()
+    working_factory = divides_family_contract(_block(3))
+    fresh_factory = divides_family_contract(_block(2))
+
+    def factory(anchor):
+        return (working_factory if anchor == working else fresh_factory)(anchor)
+
+    license_row = license_all_depth(DOCTRINE, factory, working, (3,))
+    assert license_row.status == "blocked"
+    assert license_row.obstruction == "working-chain-nonuniform"
+    assert license_row.property_id == "di1.divides-family.v1"
+    assert license_row.base_valid
+    assert license_row.uniformity is not None and license_row.uniformity.echoed
+    assert license_row.probes == ()
+
+
+@pytest.mark.parametrize("different_middle", (False, True))
+def test_mutable_evidence_is_bound_at_each_depth_before_it_is_overwritten(different_middle):
+    working = _anchor()
+
+    def factory(anchor):
+        evidence = {"depth": 1, "tag": "uniform"}
+
+        def transform(a, previous, current, prior):
+            assert prior is evidence
+            prior["depth"] += 1
+            prior["tag"] = (
+                "working-only"
+                if different_middle and anchor == working and prior["depth"] == 2
+                else "uniform"
+            )
+            return prior
+
+        return PropertyContract(
+            "mutable-evidence-family",
+            zero,
+            successor,
+            lambda a, subject: evidence,
+            transform,
+            lambda a, subject, proof: proof["depth"] == len(subject.breath.tacts) + 1,
+            lambda proof, rename: f"mutable[{proof['depth']};{proof['tag']}]",
+        )
+
+    # At depth 3 all current evidence is identical again. The chain must retain
+    # an earlier difference, including when depth 2 is not a requested probe.
+    license_row = license_all_depth(DOCTRINE, factory, working, (1, 3))
+    assert license_row.status == ("blocked" if different_middle else "licensed")
+    assert license_row.obstruction == ("working-chain-nonuniform" if different_middle else "none")
+
+
+@pytest.mark.parametrize("probes", ((1,), (3,), (1, 3), (3, 1, 3), ()))
+def test_binding_does_not_repeat_working_execution_callbacks(probes):
+    working = nod(rez("separate-residue"), "separate-mark")
+    calls = Counter()
+    inner_factory = divides_family_contract(_block(2))
+
+    def factory(anchor):
+        calls[(anchor, "factory")] += 1
+        assert calls[(anchor, "factory")] == 1
+        inner = inner_factory(anchor)
+
+        def counted(method):
+            def invoke(*args):
+                calls[(anchor, method)] += 1
+                return getattr(inner, method)(*args)
+            return invoke
+
+        return replace(inner, **{
+            method: counted(method)
+            for method in ("subject_base", "subject_step", "establish_base", "transform_step", "validate")
+        })
+
+    license_row = license_all_depth(DOCTRINE, factory, working, probes)
+    assert calls[(working, "factory")] == 1
+    depth = max(probes, default=0)
+    for method in ("subject_base", "establish_base"):
+        assert calls[(working, method)] == bool(probes)
+    for method in ("subject_step", "transform_step"):
+        assert calls[(working, method)] == max(0, depth - 1)
+    assert calls[(working, "validate")] == depth
+    assert sum(count for (anchor, method), count in calls.items() if method == "factory") == (3 if probes else 1)
+    assert license_row.status == ("licensed" if probes else "blocked")
+    assert license_row.obstruction == ("none" if probes else "empty-or-invalid-probe-depths")
+
+
+@pytest.mark.parametrize("family,width,probes,expected_digest", (
+    ("divides", 3, (1, 2, 3, 5), "e11e13b55a092a5453a4241c38fc014ef747fe2f394f138bd553d17187fc0b60"),
+    ("divides", 5, (1, 2, 3, 5), "bb3816060a7351734eac2bebe98fbb14abda7057ab5ff2b8ea58a0ca12296953"),
+    ("fermat", 3, (1, 2, 3), "52f5efffbf80ff37c52edfc5efb8826f5b1a9b097d7fa88ab66355b21ef01fc0"),
+    ("fermat", 5, (1, 2, 3), "aca574a8a0aca447613eb6d3580c2d80a1093a8ddf1d432f3d71b99ec266695f"),
+))
+def test_working_binding_preserves_complete_valid_license_dtos(family, width, probes, expected_digest):
+    from src.core.orbit_partition import fermat_family_contract
+
+    factory = divides_family_contract(_block(width)) if family == "divides" else fermat_family_contract(width)
+    license_row = license_all_depth(
+        InductionDoctrine("binding-baseline.v1", "basis"),
+        factory,
+        nod(rez("binding-work-residue"), "binding-work-mark"),
+        probes,
+    )
+    assert license_row.status == "licensed"
+    encoded = json.dumps(asdict(license_row), sort_keys=True, separators=(",", ":")).encode()
+    assert sha256(encoded).hexdigest() == expected_digest
