@@ -38,7 +38,11 @@ class ObserverSiteError(ValueError):
 
 @dataclass(frozen=True)
 class Observer:
-    """One partial observer: ``read`` answers a hashable value or ``SILENT``."""
+    """One partial observer: ``read`` answers a hashable value or ``SILENT``.
+
+    ``length_respecting`` is the caller's declaration that echo implies equal
+    lengths, not a property inferred or proved by the finite replay.
+    """
 
     name: str
     read: Callable[[Word], object]
@@ -93,9 +97,8 @@ def pair_status(stage: Stage, x: Word, y: Word) -> PairStatus:
 
 
 def refines(coarse: Stage, fine: Stage) -> bool:
-    """``coarse`` is refined by ``fine``: every admitted observer stays admitted."""
-    names = {observer.name for observer in fine}
-    return all(observer.name in names for observer in coarse)
+    """Every admitted observer object stays admitted; names do not establish identity."""
+    return all(any(observer is candidate for candidate in fine) for observer in coarse)
 
 
 def internal_equal(site: Stage, x: Word, y: Word) -> bool:
@@ -108,6 +111,16 @@ def forces_decided(site: Stage, stage: Stage, x: Word, y: Word) -> bool:
     return internal_equal(site, x, y) or apart(stage, x, y)
 
 
+def _validate_observer_names(stage: Stage) -> None:
+    """Keep the existing stage-label syntax unambiguous, including its empty stage."""
+    if any(
+        type(observer.name) is not str or not observer.name or any(char in observer.name for char in "{},")
+        for observer in stage
+    ):
+        logger.error("observer name rejected")
+        raise ObserverSiteError("site-observer-name")
+
+
 def validate_site(site: Stage) -> None:
     """Reject sites that are not small tuples of distinctly named observers."""
     if type(site) is not tuple or not site or len(site) > MAX_SITE_OBSERVERS:
@@ -116,6 +129,7 @@ def validate_site(site: Stage) -> None:
     if any(type(observer) is not Observer for observer in site):
         logger.error("validate_site member rejected")
         raise ObserverSiteError("site-member")
+    _validate_observer_names(site)
     if len({observer.name for observer in site}) != len(site):
         logger.error("validate_site duplicate name rejected")
         raise ObserverSiteError("site-duplicate-name")
@@ -144,6 +158,7 @@ def substages(site: Stage) -> tuple[Stage, ...]:
 
 def stage_name(stage: Stage) -> str:
     """Canonical display name of a stage."""
+    _validate_observer_names(stage)
     return "{" + ",".join(observer.name for observer in stage) + "}"
 
 
@@ -271,20 +286,42 @@ def restriction(coarse: Stage, fine: Stage, presentations: Sequence[Word]) -> tu
     return tuple(rows)
 
 
+def _power_alphabet(word: Word, alphabet: Sequence[str]) -> tuple[str, ...]:
+    """Validate the finite alphabet over which the power decision is made."""
+    try:
+        letters = tuple(alphabet)
+    except TypeError:
+        logger.error("power alphabet rejected")
+        raise ObserverSiteError("power-alphabet") from None
+    if (
+        not letters
+        or any(type(letter) is not str for letter in letters)
+        or len(set(letters)) != len(letters)
+        or any(letter not in letters for letter in word)
+    ):
+        logger.error("power alphabet rejected")
+        raise ObserverSiteError("power-alphabet")
+    return letters
+
+
 def power_at(stage: Stage, word: Word, alphabet: Sequence[str]) -> tuple[Word, int] | None:
     """A literal power ``u^k`` (``k ≥ 2``, ``u`` nonempty) echoed with ``word`` at the stage, if any.
 
-    The bounded search assumes every admitted observer respects length (its echo
-    implies equal length), which the standard observers declare; other observers
-    are refused rather than searched unsoundly.
+    Roots range over a nonempty, duplicate-free alphabet containing ``word``.
+    A nonempty stage must contain at least one observer declared to respect
+    length: its echo bounds every possible witness to the word's length.
+    Without that declaration the decision is refused. At the empty stage any
+    proper power is a witness, so no length bound is needed.
     """
-    if any(not observer.length_respecting for observer in stage):
-        logger.error("power_at observer refused")
-        raise ObserverSiteError("stage-observer-not-length-respecting")
     if not word or len(word) > MAX_POWER_LENGTH:
         logger.error("power_at word rejected")
         raise ObserverSiteError("power-word-length")
-    letters = tuple(alphabet)
+    letters = _power_alphabet(word, alphabet)
+    if not stage:
+        return (letters[0],), 2
+    if not any(observer.length_respecting for observer in stage):
+        logger.error("power_at observer refused")
+        raise ObserverSiteError("stage-observer-not-length-respecting")
     for root_length in range(1, len(word)):
         exponent = 2
         while exponent * root_length < len(word):
@@ -299,7 +336,10 @@ def power_at(stage: Stage, word: Word, alphabet: Sequence[str]) -> tuple[Word, i
 
 def primitive_at(stage: Stage, word: Word, alphabet: Sequence[str]) -> bool:
     """``word`` is primitive at the stage: nonempty and not echoed to a proper power (``THM_OS_011``–``016``)."""
-    return bool(word) and power_at(stage, word, alphabet) is None
+    if not word:
+        _power_alphabet(word, alphabet)
+        return False
+    return power_at(stage, word, alphabet) is None
 
 
 def prime_table(site: Stage, words: Sequence[Word], alphabet: Sequence[str]) -> dict[str, tuple[Word, ...]]:

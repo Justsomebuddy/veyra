@@ -59,7 +59,11 @@ OPERATIONS = {"stitch": stitch, "weave": weave}
 
 @dataclass(frozen=True)
 class DescentReport:
-    """Whether echo at a stage is a congruence for an operation on a word family (``THM_VA_002/004/005``)."""
+    """Finite replay of both one-argument clauses of Lean ``Descends``.
+
+    ``checked`` counts each ordered echo pair with every fixed presentation,
+    once for each argument. Violations retain the ``(x, x', y, y')`` format.
+    """
 
     stage: str
     operation: str
@@ -72,28 +76,37 @@ class DescentReport:
 
 
 def descends(stage: Stage, operation: str, presentations: Sequence[Word]) -> DescentReport:
-    """Check ``x ≈ x'`` and ``y ≈ y'`` imply ``op(x, y) ≈ op(x', y')`` on all echo pairs of the family."""
+    """Check that echo is preserved in either argument, including unreadable fixed operands.
+
+    These are the two clauses of Lean ``Descends`` on the supplied family,
+    not a general theorem about presentations outside it.
+    """
     op = OPERATIONS[operation]
     words = validate_presentations(presentations)
     classes = echo_classes(stage, words).classes
     checked = 0
     violations: list[tuple[Word, Word, Word, Word]] = []
-    for left_class in classes:
-        for right_class in classes:
-            for x in left_class:
-                for x_prime in left_class:
-                    for y in right_class:
-                        for y_prime in right_class:
-                            checked += 1
-                            if not echo(stage, op(x, y), op(x_prime, y_prime)):
-                                violations.append((x, x_prime, y, y_prime))
+    for fixed in words:
+        for group in classes:
+            for left in group:
+                for right in group:
+                    checked += 2
+                    if not echo(stage, op(fixed, left), op(fixed, right)):
+                        violations.append((fixed, fixed, left, right))
+                    if not echo(stage, op(left, fixed), op(right, fixed)):
+                        violations.append((left, right, fixed, fixed))
     report = DescentReport(stage_name(stage), operation, checked, tuple(violations))
     logger.debug("descends exit stage=%s op=%s passed=%s", report.stage, operation, report.passed)
     return report
 
 
 def fibre_action(stage: Stage, operation: str, presentations: Sequence[Word]) -> tuple[tuple[int, int, int], ...]:
-    """The operation on echo classes as index triples ``(i, j, k)``; refuses when it does not descend."""
+    """Act on the family's readable echo classes after the finite descent check.
+
+    Index triples ``(i, j, k)`` use ``k = -1`` for a result class outside the
+    supplied family. Unreadable presentations are not indexed here; this is
+    not an enumeration of the whole Lean ``Quot (Echo T)``.
+    """
     report = descends(stage, operation, presentations)
     if not report.passed:
         logger.error("fibre_action operation does not descend stage=%s op=%s", report.stage, operation)
@@ -277,9 +290,20 @@ def literal_laws_hold(presentations: Sequence[Word]) -> bool:
 
 
 def resonates_at(stage: Stage, factor: Word, carrier: Word) -> bool:
-    """``factor`` resonates inside ``carrier`` at the stage: the carrier is echoed to a power of the factor (``THM_VA_013/014``)."""
+    """Decide whether the carrier echoes a factor power (``THM_VA_013/014``).
+
+    The empty stage and empty factor are exact directly. Otherwise at least
+    one observer must be declared length-respecting, so a matching exponent
+    cannot exceed the carrier length. An unsupported search is refused, not
+    reported as a negative mathematical result.
+    """
+    if not stage:
+        return True
     if not factor:
         return echo(stage, carrier, ())
+    if not any(observer.length_respecting for observer in stage):
+        logger.error("resonates_at observer refused")
+        raise ObserverSiteError("stage-observer-not-length-respecting")
     return any(echo(stage, carrier, factor * exponent) for exponent in range(len(carrier) + 1))
 
 

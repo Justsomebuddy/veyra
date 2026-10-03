@@ -123,7 +123,7 @@ on the length fibre.
 ## 5. Executable counterpart
 
 `src/core/observer_arithmetic.py`: `stitch`/`weave`; `descends` (congruence
-check over all echo pairs of a family, with witnesses); `fibre_action` and
+check in each argument over a family, with witnesses); `fibre_action` and
 `restriction_commutes` (001); `nat_shadow` (003); `law_table` and
 `literal_laws_hold` (007–010) with first witnesses; `cyclic_echo`,
 `canonical_cut`, `cut_stitch`, `canonical_cut_associativity_failures` (011),
@@ -135,6 +135,44 @@ check over all echo pairs of a family, with witnesses); `fibre_action` and
 Certificate `observer_arithmetic_va` (suite 113) pins the law table, the
 cycle countermodel, four restriction squares, the length fibre `0..3`, the
 Parikh agreement on 126 words, the AX-005 countermodel and the resonance rows.
+
+`descends` replays both clauses of Lean `Descends`, rather than requiring
+both input pairs to echo simultaneously:
+
+```
+Echo(y, y') implies Echo(op(x, y), op(x, y')) for every fixed x;
+Echo(x, x') implies Echo(op(x, y), op(x', y)) for every fixed y.
+```
+
+The fixed argument ranges over every supplied presentation, including
+unreadable ones. For example, with `bounded_reader(0)` and the family
+`(ε, a)`, `ε` echoes itself but `a ++ ε` does not: stitch fails descent,
+although the only readable input class is `{ε}`. Weave still passes on
+this particular family. `DescentReport.checked` counts the two clauses
+separately: for a family of `N` words and readable echo classes `C`, the
+count is `2 * N * sum(len(C)**2)`. Each counterexample keeps the tuple
+`(x, x', y, y')`. A passing result concerns the supplied family only.
+
+The Python class-index tables enumerate **readable** presentations only.
+They are the readable part of the fibre, not an enumeration of the whole
+Lean `Quot (Echo T)`: that quotient also contains the unreadable singleton
+classes. `fibre_action` refuses a failed finite descent check and uses `-1`
+when the output has no representative in the supplied readable family.
+`restriction_commutes` checks the represented fine-stage outputs; a `-1`
+row is outside the checked restriction square. The standard four-stage law
+table is unchanged.
+
+`resonates_at` gives an exact Boolean answer directly for the empty stage
+(always true) or an empty factor (all its powers are `ε`). For a nonempty
+factor at a nonempty stage, at least one admitted observer must declare
+that echo implies equal lengths. Under this assumption any witness exponent
+is bounded by the carrier length. Stages without this declaration raise
+`ObserverSiteError("stage-observer-not-length-respecting")`; exhausting an
+unjustified search bound is not a negative resonance result. For example,
+an observer of length modulo three echoes `a` with `(aa)^2`, although the
+witness exponent exceeds `len(a)`. The declaration is trusted input, not a
+property established by the finite replay. The Lean existential definition
+of resonance remains valid for arbitrary observers and is unchanged.
 
 ## 6. Claims and non-claims
 
