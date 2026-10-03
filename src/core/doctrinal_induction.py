@@ -2,8 +2,8 @@
 
 Boundary: DI-1 is a RESEARCH CANDIDATE rule, not an adopted axiom. From a
 base witness, a step schema, and a declared generator (the AFIP-style
-totality basis), it licenses a ledger-relative all-depth *proof family*:
-every finite depth replays in exactly that many step applications, and the
+totality basis), it licenses a ledger-relative all-depth *proof family*.
+Runtime depth 1 is the base; depth d takes d - 1 step applications, and the
 step schema transforms the previous derivation instead of recomputing it.
 DI-1 never produces a completed carrier or an unconditional "for all"; the
 P1-D2 finite-to-universal countermodels remain binding, and adopting the
@@ -13,11 +13,14 @@ echo-invariant under anchor renaming — an executable "the proof is about
 the form of the recurrence, not its name" — replayed at two fresh anchors
 to the DEEPEST PROBED depth (a depth-2 replay would let a step that peeks
 at the anchor name only from depth 3 on pass; `late_name_peeking_contract`
-is the shipped control). Shift-uniformity across depths
+is the shipped control). The normalized working chain must match those
+replays as well. These are bounded comparisons of trusted contract
+serializations, not proofs that arbitrary callbacks implement one predicate.
+Shift-uniformity across depths
 is a recorded OPEN refinement. Statuses are `licensed`/`blocked`, never
 `proved`. Tuple slicing/length below is chain bookkeeping under the
-docs/06 §3 shadow license; every mathematical acceptance goes through the
-native weave/stitch reconstruction check. See
+docs/06 §3 shadow license; the shipped divides-family validator uses native
+weave/stitch reconstruction. Generic contracts supply their own validator. See
 docs/180_doctrinal_induction_di1.md.
 """
 
@@ -58,7 +61,11 @@ class InductionDoctrine:
 
 @dataclass(frozen=True)
 class PropertyContract:
-    """Property-specific callables consumed by the DI-1 core."""
+    """Trusted property callbacks; evidence_shape is deterministic and read-only.
+
+    The serializer may be called with both literal and renamed anchors at one
+    validated depth. It must not mutate the evidence or depend on call order.
+    """
 
     property_id: str
     subject_base: Callable[[Nod], Mode | NativeObstruction]
@@ -114,6 +121,14 @@ class AllDepthLicense:
     status: str
     obstruction: str
     boundary: str = BOUNDARY
+
+
+@dataclass
+class _WorkingChainEcho:
+    """Private normalized digest captured before mutable evidence advances."""
+
+    rename: dict[str, str]
+    digest: str = ""
 
 
 def _digest(parts: tuple[str, ...]) -> str:
@@ -186,6 +201,7 @@ def _receipt(
     evidence: object,
     previous: str,
     rename: dict[str, str],
+    working_echo: _WorkingChainEcho | None = None,
 ) -> ProofReceipt:
     logger.debug("di1._receipt entry depth=%d", depth)
     digest = _digest((
@@ -193,6 +209,13 @@ def _receipt(
         mode_shape(subject, rename), contract.evidence_shape(evidence, rename),
         previous,
     ))
+    if working_echo is not None:
+        working_echo.digest = _digest((
+            doctrine.doctrine_id, contract.property_id, str(depth),
+            mode_shape(subject, working_echo.rename),
+            contract.evidence_shape(evidence, working_echo.rename),
+            working_echo.digest,
+        ))
     result = ProofReceipt(doctrine.doctrine_id, depth, subject, evidence, digest)
     logger.debug("di1._receipt exit digest=%s", digest[:12])
     return result
@@ -204,6 +227,7 @@ def _chain(
     anchor: Nod,
     depth_limit: int,
     rename: dict[str, str],
+    working_echo: _WorkingChainEcho | None = None,
 ) -> tuple[ProofReceipt, ...] | tuple[str, int]:
     """Replay the family to a depth; return receipts or (obstruction, depth)."""
     logger.debug("di1._chain entry limit=%d", depth_limit)
@@ -219,7 +243,7 @@ def _chain(
     if verdict is not True:
         logger.error("di1._chain base invalid verdict=%r", verdict)
         return ("base-invalid", 1)
-    receipts = [_receipt(doctrine, contract, 1, subject, evidence, "", rename)]
+    receipts = [_receipt(doctrine, contract, 1, subject, evidence, "", rename, working_echo)]
     depth = 1
     while depth < depth_limit:
         depth += 1
@@ -237,7 +261,7 @@ def _chain(
             return ("step-invalid-at-depth", depth)
         subject = next_subject
         receipts.append(
-            _receipt(doctrine, contract, depth, subject, evidence, receipts[-1].digest, rename)
+            _receipt(doctrine, contract, depth, subject, evidence, receipts[-1].digest, rename, working_echo)
         )
     result = tuple(receipts)
     logger.debug("di1._chain exit receipts=%d", len(result))
@@ -302,7 +326,11 @@ def license_all_depth(
         result = AllDepthLicense(doctrine, contract.property_id, False, None, (), 0, "blocked", "empty-or-invalid-probe-depths")
         logger.error("di1.license_all_depth blocked %r", result)
         return result
-    chain = _chain(doctrine, contract, working_anchor, probes[-1], {})
+    working_echo = _WorkingChainEcho({
+        working_anchor.residue.name: _RENAMED,
+        working_anchor.mark: _RENAMED,
+    })
+    chain = _chain(doctrine, contract, working_anchor, probes[-1], {}, working_echo)
     if isinstance(chain, tuple) and chain and isinstance(chain[0], str):
         reason, depth = str(chain[0]), int(chain[1])
         rows = (ProbeRow(depth, False, "", reason),)
@@ -311,11 +339,19 @@ def license_all_depth(
         return result
     # Uniformity is replayed at two fresh anchors to the DEEPEST probed depth:
     # a shallower replay would let a step that leaks the anchor name only
-    # from some later depth on pass (`late_name_peeking_contract`).
+    # from some later depth on pass (`late_name_peeking_contract`). The working
+    # digest was normalized at each validated depth before evidence could mutate.
     uniformity = uniformity_witness(doctrine, contract_factory, probes[-1])
     if uniformity.status != "witnessed":
         result = AllDepthLicense(doctrine, contract.property_id, True, uniformity, (), 0, "blocked", uniformity.obstruction)
         logger.error("di1.license_all_depth blocked %r", result)
+        return result
+    if working_echo.digest != uniformity.left_digest:
+        result = AllDepthLicense(
+            doctrine, contract.property_id, True, uniformity, (), 0,
+            "blocked", "working-chain-nonuniform",
+        )
+        logger.error("di1.license_all_depth working chain differs from fresh replays")
         return result
     by_depth = {receipt.depth: receipt for receipt in chain}
     rows = tuple(ProbeRow(depth, True, by_depth[depth].digest, "none") for depth in probes)
@@ -530,8 +566,8 @@ def doctrinal_induction_checklist() -> tuple[str, ...]:
     """Return the DI-1 lane acceptance checklist."""
     logger.debug("di1.checklist entry")
     result = (
-        "the step schema transforms the previous derivation; validators re-check it natively",
-        "uniformity is anchor-renaming echo of receipt digests at two fresh anchors",
+        "the step schema transforms the previous derivation; trusted validators re-check each result",
+        "uniformity is anchor-renaming echo of receipt digests at two fresh anchors, bound to the working chain",
         "licenses are ledger-relative productive families; no completed carrier, no bare universal",
         "adversarial controls exist: a name-peeking step fails U1; a depth bomb blocks at its exact depth",
         "statuses are licensed/witnessed/blocked; nothing here is proved",

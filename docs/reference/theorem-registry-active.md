@@ -293,9 +293,10 @@ promotion, and no new status token. See doc 179.
 `DEF-727–730` define the DI-1 doctrinal-induction candidate: the doctrine /
 property-contract core with digest-chained receipts (727), the native
 uniformity witness — anchor-renaming echo of the derivation at two fresh
-anchors (728), the ledger-relative `AllDepthLicense` semantics — every depth
-replayable in exactly that many step applications, statuses
-`licensed`/`blocked` only (729), and the shipped adversarial controls — a
+anchors (728), the ledger-relative `AllDepthLicense` semantics — runtime depth
+`d` is the base plus `d - 1` step applications, with the working chain bound
+to the fresh uniformity witness and statuses `licensed`/`blocked` only (729),
+and the shipped adversarial controls — a
 name-peeking step must fail uniformity and a depth bomb must block at its
 exact depth (730). The rule itself is `INTERNAL_RESEARCH_CANDIDATE` and is
 AFIP's proof-side companion; license outcomes over the exact bounded probes

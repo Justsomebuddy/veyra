@@ -1,6 +1,13 @@
 # Changelog
 
 ## [Unreleased] — Changed
+- DI-1 licenses bind the normalized working receipt chain to the fresh-anchor
+  uniformity witness, rejecting property or family substitutions that used to
+  be licensed when only the fresh replays agreed. Evidence is captured at each
+  validated depth before later mutation, without replaying working execution
+  callbacks. Valid license DTOs and receipt digests are unchanged; callbacks
+  remain trusted and the result remains bounded executable evidence. Runtime
+  depth `d` is documented as the base plus `d - 1` step applications.
 - Hosted portable coverage is now an invariant instead of an allowlist: the
   portable pytest stage collects the whole public `tests/` tree and deselects
   exactly the capability markers declared in `pyproject.toml`, and
