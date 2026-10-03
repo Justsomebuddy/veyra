@@ -17,6 +17,7 @@ from .observer_site import (
     prime_monotonicity_violations,
     prime_table,
     primitive_at,
+    refines,
     restriction,
     site_law_report,
     standard_site,
@@ -61,11 +62,12 @@ def certify_observer_site_os() -> Certificate:
         restriction(coarse, fine, words) is not None
         for coarse in substages(site)
         for fine in substages(site)
-        if all(o.name in {p.name for p in fine} for o in coarse)
+        if refines(coarse, fine)
     )
     table = prime_table(site, nonempty, _ALPHABET)
     prime_ok = (
         prime_monotonicity_violations(site, nonempty, _ALPHABET) == 0
+        and table["{}"] == ()
         and not primitive_at((LENGTH,), _ABA, _ALPHABET)
         and primitive_at((WORD,), _ABA, _ALPHABET)
         and table["{length}"] == (("a",), ("b",))

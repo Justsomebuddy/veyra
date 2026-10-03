@@ -1,6 +1,17 @@
 # Changelog
 
 ## [Unreleased] — Changed
+- Observer-site finite decisions now preserve their stated domains: the empty
+  stage supplies a proper-power witness, malformed or incomplete alphabets
+  are refused, and resonance requires a declared length bound except in its
+  exact empty-stage/empty-factor cases. One length-respecting observer is
+  sufficient to bound a stage's power search. Descent checks both Lean
+  one-argument clauses, including unreadable fixed operands; its `checked`
+  count now counts those clauses separately. Refinement retains observer
+  objects, and ambiguous stage names are refused before they can overwrite
+  table rows. Regression tests cover the six boundary failures, and the site
+  certificate pins the empty-stage primitive row. Standard arithmetic law
+  tables, Lean sources and formal claim levels are unchanged.
 - Hosted portable coverage is now an invariant instead of an allowlist: the
   portable pytest stage collects the whole public `tests/` tree and deselects
   exactly the capability markers declared in `pyproject.toml`, and

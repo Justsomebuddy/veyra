@@ -137,7 +137,33 @@ observers, 256 presentations): `apart`/`echo`/`pair_status`, `internal_equal`,
 partial `bounded_reader(limit)`. `observer_site_checklist()` maps the 19
 cards to their replay. Certificate `observer_site_os` (suite 112) checks the
 laws on 16 stages and 225 pairs, the `ab`/`ba` split, the bounded-reader
-countermodel, restriction totality and the primitivity table.
+countermodel, restriction totality and the primitivity table, including the
+empty primitive row at the empty stage.
+
+The finite replay has the following admission boundaries:
+
+- Refinement retains the same `Observer` objects. Recreating an observer with
+  the same name, even with the same callable, does not admit that object to a
+  site. Names are display identifiers, not evidence that readings agree.
+- Site names are distinct, nonempty strings without `{`, `}` or `,`.
+  `validate_site` and `stage_name` reject ambiguous names before they can
+  merge different stages into one dictionary row. The standard stage keys
+  remain unchanged.
+- `power_at` and `primitive_at` decide over the supplied finite alphabet:
+  it must be nonempty, contain distinct strings, and contain every letter of
+  the input word. A malformed or incomplete alphabet is refused, not treated
+  as evidence of primitivity. Nonempty input words remain bounded by
+  `MAX_POWER_LENGTH`.
+- At the empty stage every pair echoes. Thus any nonempty word has a proper
+  power witness, including a one-letter word; no word is primitive there.
+  For a nonempty stage, at least one observer must declare
+  `length_respecting=True`. Its echo implies equal lengths, making the
+  finite search complete over the declared alphabet. Other observers may
+  be partial or need not respect length. The declaration is an assumption
+  supplied by the caller, not a property proved by sampling its callable.
+
+These checks repair the finite replay of the existing definitions. They do
+not change `PowerAt`, `PrimeAt`, the Lean sources, or any formal claim level.
 
 ## 6. Claims and non-claims
 
